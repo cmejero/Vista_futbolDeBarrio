@@ -1,0 +1,133 @@
+@charset "UTF-8";
+
+.cabeceraArriba {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.1vw;;
+	color: black;
+	background-color: #43a624;
+	text-align: center;
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+}
+.col-sm-1 img {
+  width: 155%; 
+  height: 155%; 
+  object-fit: contain; 
+}
+
+.col-sm-1 {
+  display: flex; /* Asegura que el contenido de la columna esté centrado */
+  justify-content: center;
+  align-items: center;
+
+}
+
+
+button.botonCabeceraContactar {
+	width: 100%;
+	font-size: 0.9vw;
+	border-radius: 15px;
+	background-color: #004000;
+	color: white;
+	border: 1px solid #d1d1d1;
+	text-decoration: none;
+}
+button.botonCabeceraContactar:hover{
+	background-color: #1c0101;
+	border: 1px solid #004000
+	
+}
+
+.cabeceraMedioTitulo {
+	font-family: 'Open Sans', sans-serif;
+	font-style: italic;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 3.6vw;
+	color: black;
+	background-color: white;
+	text-align: center;
+	font-weight: bold;
+}
+
+.cabeceraMedio {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.13vw;
+	color: #1d6212;
+	background-color: white;
+	text-align: center;
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.letraCabeceraMedio {
+	text-decoration: none;
+	color: #1d6212;
+}
+
+.letraCabeceraMedio:hover {
+	color: black;
+}
+
+button.botonRegistrarCabecera {
+	--bs-btn-padding-y: 1.5px;
+	--bs-btn-padding-x: 9px;
+	--bs-btn-font-size: 70%;
+	border-radius: 3px;
+	background-color: #99ff34;
+	color: black;
+	font-weight: bold;
+	border: 1px solid #000000;
+	font-size: 1.4vw;
+	transition: background-color 0.3s ease;
+}
+
+button.botonRegistrarCabecera:hover {
+	background-color: #d9ffb4;
+	color: black;
+}
+
+button.botonRegistrarCabecera:active {
+	background-color: #004000;
+	color: white;
+}
+
+.cabeceraAbajo {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.65vw;
+	color: white;
+	background-color: #004000;
+	text-align: center;
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+	
+}
+.cabeceraAbajoBusqueda{
+	display: flex;
+	align-items: center;
+	justify-content: right;
+	color: white;
+	background-color: #004000;
+	text-align: center;
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+	
+}
+
+.letraCabeceraAbajo {
+	text-decoration: none;
+	color: white;
+}
+
+.letraCabeceraAbajo:hover {
+	color: #d1d1d1;
+}
+
+
