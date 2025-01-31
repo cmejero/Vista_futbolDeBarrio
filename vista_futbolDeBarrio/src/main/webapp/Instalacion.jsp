@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -112,19 +114,25 @@
 									FUTBOL DE BARRIO <span
 										style="color: #c0c0c0; margin-left: 7px;"> /</span>
 								</div>
-								<div class="col-sm-2 col-md-2 cabeceraMedio">
-									<a href="Registrar.jsp">
-										<button type="button" class=" botonRegistrarCabecera">REGISTRARSE</button>
-									</a>
+								<div class="col-sm-3 col-md-3 cabeceraMedio">
+									<svg xmlns="http://www.w3.org/2000/svg" width="1.3vw"
+										height="1.3vw" fill="currentColor" style="margin-right: 0.7vw"
+										class="bi bi-search" viewBox="0 0 16 16">
+  <path
+											d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+</svg>
+									<div class="barra-busqueda ">
+										<input type="text" placeholder=""
+											style="width: 16vw; height: 1.65vw; border-radius: 50px; display: flex; justify-content: left; align-items: center; font-size: 1vw; margin-right: 0.7vw">
+									</div>
+
+
 								</div>
-								<div class="col-sm-2 col-md-2 cabeceraMedio"
+								<div class="col-sm-3 col-md-3 cabeceraMedio"
 									style="text-decoration: underline;">
-									<a href="InicioSesion.jsp" class="letraCabeceraMedio">INICIAR SESION</a>
+									<a href="" class="letraCabeceraMedio">BIENVENIDO: Los Corrales</a>
 								</div>
-								<div class="col-sm-2 col-md-2 cabeceraMedio"
-									style="text-decoration: underline;">
-									<a href="" class="letraCabeceraMedio">¿QUIENES SOMOS?</a>
-								</div>
+
 							</div>
 						</div>
 					</div>
@@ -141,7 +149,7 @@
 									<a href="" class="letraCabeceraAbajo" style="color: #d4af37;">INICIO</a>
 								</div>
 								<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-									<a href="" class="letraCabeceraAbajo">ALQUILERES</a>
+									<a href="" class="letraCabeceraAbajo">RESERVAS</a>
 								</div>
 								<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 									<a href="" class="letraCabeceraAbajo">EVENTOS</a>
@@ -150,31 +158,20 @@
 
 							</div>
 						</div>
-						<!-- columna medio = buscador -->
-						<div class="col-sm-2 col-md-2 cabeceraAbajoBusqueda g-0 p-0">
-							<svg xmlns="http://www.w3.org/2000/svg" width="1.3vw"
-								height="1.3vw" fill="currentColor" style="margin-right: 0.7vw"
-								class="bi bi-search" viewBox="0 0 16 16">
-  <path
-									d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-</svg>
-							<div class="barra-busqueda ">
-								<input type="text" placeholder=""
-									style="width: 14vw; height: 1.65vw; border-radius: 50px; display: flex; justify-content: left; align-items: center; font-size: 1vw; margin-right: 0.7vw">
-							</div>
-
-
-						</div>
+						
 						<!-- columna derecha -->
-						<div class="col-sm-5 col-md-5 ">
+						<div class="col-sm-7 col-md-7 ">
 
 							<div class="row">
 								<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
-								<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-									<a href="" class="letraCabeceraAbajo">MARCADORES</a>
+								<div class="col-sm-2 col-md-2 cabeceraAbajo ">
+									<a href="" class="letraCabeceraAbajo">FINANZAS</a>
 								</div>
 								<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-									<a href="" class="letraCabeceraAbajo">DESAFIOS</a>
+									<a href="" class="letraCabeceraAbajo">ESTADISTICAS</a>
+								</div>
+								<div class="col-sm-3 col-md-3 cabeceraAbajo ">
+									<a href="" class="letraCabeceraAbajo">NOTIFICACIONES</a>
 								</div>
 								<div class="col-sm-2 col-md-2 cabeceraAbajo">
 									<div class="dropdown">
@@ -205,7 +202,7 @@
 										</ul>
 									</div>
 								</div>
-								<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
+								
 							</div>
 						</div>
 					</div>

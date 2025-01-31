@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -114,12 +116,12 @@
 								</div>
 								<div class="col-sm-2 col-md-2 cabeceraMedio">
 									<a href="Registrar.jsp">
-										<button type="button" class=" botonRegistrarCabecera">REGISTRARSE</button>
+										<button type="button" class=" botonRegistrarCabecera"  >REGISTRARSE</button>
 									</a>
 								</div>
 								<div class="col-sm-2 col-md-2 cabeceraMedio"
-									style="text-decoration: underline;">
-									<a href="InicioSesion.jsp" class="letraCabeceraMedio">INICIAR SESION</a>
+									style="text-decoration: underline; color: #d4af37;">
+									<a href="" class="letraCabeceraMedio" style="color: #d4af37;">INICIAR SESION</a>
 								</div>
 								<div class="col-sm-2 col-md-2 cabeceraMedio"
 									style="text-decoration: underline;">
@@ -138,7 +140,7 @@
 							<div class="row  ">
 								<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 								<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-									<a href="" class="letraCabeceraAbajo" style="color: #d4af37;">INICIO</a>
+									<a href="Index.html" class="letraCabeceraAbajo">INICIO</a>
 								</div>
 								<div class="col-sm-4 col-md-4 cabeceraAbajo ">
 									<a href="" class="letraCabeceraAbajo">ALQUILERES</a>

@@ -1,5 +1,11 @@
 @charset "UTF-8";
 
+html, body {
+	height: 100%;
+	margin: 0;
+}
+
+/* CABECERA */
 .cabeceraArriba {
 	display: flex;
 	align-items: center;
@@ -11,19 +17,18 @@
 	font-weight: bold;
 	font-family: 'Open Sans', sans-serif;
 }
-.col-sm-1 img {
-  width: 155%; 
-  height: 155%; 
-  object-fit: contain; 
+
+.logo img {
+	width: 155%;
+	height: 155%;
+	object-fit: contain;
 }
 
-.col-sm-1 {
-  display: flex; /* Asegura que el contenido de la columna esté centrado */
-  justify-content: center;
-  align-items: center;
-
+.logo {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
-
 
 button.botonCabeceraContactar {
 	width: 100%;
@@ -34,10 +39,10 @@ button.botonCabeceraContactar {
 	border: 1px solid #d1d1d1;
 	text-decoration: none;
 }
-button.botonCabeceraContactar:hover{
+
+button.botonCabeceraContactar:hover {
 	background-color: #1c0101;
 	border: 1px solid #004000
-	
 }
 
 .cabeceraMedioTitulo {
@@ -107,9 +112,9 @@ button.botonRegistrarCabecera:active {
 	text-align: center;
 	font-weight: bold;
 	font-family: 'Open Sans', sans-serif;
-	
 }
-.cabeceraAbajoBusqueda{
+
+.cabeceraAbajoBusqueda {
 	display: flex;
 	align-items: center;
 	justify-content: right;
@@ -118,7 +123,6 @@ button.botonRegistrarCabecera:active {
 	text-align: center;
 	font-weight: bold;
 	font-family: 'Open Sans', sans-serif;
-	
 }
 
 .letraCabeceraAbajo {
@@ -130,4 +134,103 @@ button.botonRegistrarCabecera:active {
 	color: #d1d1d1;
 }
 
+/* FOOTER */
+.pieDePagina {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1.2vw;
+	background-color: #282828;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+}
 
+footer {
+	background-color: #282828;
+	color: white;
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1.2vw;
+	
+	width: 100%;
+	position: relative;
+	/* Permite que el footer fluya naturalmente después del contenido */
+	z-index: 5;
+	/* Asegura que el footer se quede por debajo del menú lateral y no se solape */
+}
+
+/* ADMINISTRADOR */
+.menuLateral {
+	padding: 7px;
+	font-size: 1.5vw;
+	font-family: 'Open Sans', sans-serif;
+	background-color: #43a624;
+	color: white;
+	position: fixed;
+	height: 100%;
+	
+}
+
+/*intentar pegar col-10 con algun comando a la derecha*/
+.contenido {
+	width: 100%;
+	height: 100%;
+	
+}
+
+
+
+/* REGISTRAR */
+.botonSeleccion {
+	font-size: 1.2vw;
+	font-family: 'Open Sans', sans-serif;
+	color: black;
+	font-weight: bold;
+	width: 100%;
+	display: block;
+	border: 1.5px solid black;
+	border-radius: 3px;
+	font-style: italic;
+}
+.botonSeleccion:active{
+	background-color:  #d4af37;
+}
+
+.botonSeleccion:hover {
+	transform: scale(1.2);
+}
+
+.registrarFormulario {
+	font-family: 'Open Sans', sans-serif;
+	margin-top: 20px;
+	width: 100%;
+	font-size: 1.2vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: black;
+	font-weight: bold;
+	font-style: italic;
+}
+
+.tablaFormulario {
+	width: 100%;
+	margin-bottom: 1rem;
+	color: black;
+	background-color: #142800;
+	
+	
+	
+}
+
+.tablaFormulario td, tr {
+	padding: 8px;
+	vertical-align: top;
+	border: 1.2px solid #eeeeee;
+	width: 50%;
+}
+
+
+.formularioLabel {
+	font-weight: bold;
+	font-size: 1.2vw;
+}
