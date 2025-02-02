@@ -65,7 +65,7 @@
 										<button type="button" class="botonCabeceraContactar">CONTACTAR</button>
 									</a>
 								</div>
-							<div class="col-sm-2 col-md-2 cabeceraArriba">
+								<div class="col-sm-2 col-md-2 cabeceraArriba">
 									<a href=""> <svg xmlns="http://www.w3.org/2000/svg"
 											width="1.4vw" height="1.2vw" fill="currentColor"
 											style="margin-right: 3px; color: white;" bi
@@ -223,61 +223,48 @@
 
 	<main style="background-color: rgba(223, 234, 213, 0.5);">
 		<!-- FILA BOTONES -->
-		<div class="container-fluid mt-5 pt-5">
+		<div class="container-fluid mt-3 pt-4">
 
 
-			<div class="row mt-1">
-				<div class="col-md-3 col-sm-3 ">
-					<div class="row">
-						<div class="col-md-10 col-sm-10  mx-auto ">
-							<button type="button" class=" botonSeleccion"
-								style="background-color: #f57979;">REGISTRARSE COMO
-								JUGADOR</button>
+			<div class="row ">
 
-						</div>
-					</div>
+
+
+				<div class="col-md-12 col-sm-12 columnaBotonRegistrar p-3" >
+
+					<button type="button" class=" botonSeleccion p-3"
+						style=" box-shadow: 3.5px 3.5px 0px red, 3.5px 3.5px 8px rgba(255, 0, 0, 0.5);">REGISTRARSE
+						COMO JUGADOR</button>
+
+					<button type="button" class=" botonSeleccion p-3"
+						style=" box-shadow: 3.5px 3.5px 0px blue, 3.5px 3.5px 8px rgba(0, 0, 255, 0.5);">REGISTRARSE
+						COMO CLUB</button>
+
+
+					<button type="button" class=" botonSeleccion p-3"
+						style=" box-shadow: 3.5px 3.5px 0px green, 3.5px 3.5px 8px rgba(0, 128, 0, 0.5);">REGISTRARSE
+						COMO INSTALACIÓN</button>
+
+					<button type="button" class=" botonSeleccion p-3"
+						style=" box-shadow: 3.5px 3.5px 0px yellow, 3.5px 3.5px 8px rgba(255, 255, 0, 0.5);">REGISTRARSE
+						COMO ARBITRO</button>
+
+
+
 				</div>
-				<div class="col-md-3 col-sm-3 ">
-					<div class="row">
-						<div class="col-md-10 col-sm-10 mx-auto ">
-							<button type="button" class=" botonSeleccion"
-								style="background-color: #79c8f5">REGISTRARSE COMO CLUB</button>
 
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-sm-3 ">
-					<div class="row">
-						<div class="col-md-10 col-sm-10  mx-auto ">
-							<button type="button" class=" botonSeleccion"
-								style="background-color: #92f579">REGISTRARSE COMO
-								INSTALACIÓN</button>
-
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 col-sm-3">
-					<div class="row">
-						<div class="col-md-10 col-sm-10 mx-auto ">
-							<button type="button" class=" botonSeleccion"
-								style="background-color: #f5f079">REGISTRARSE COMO
-								ARBITRO</button>
-
-						</div>
-					</div>
-				</div>
 
 			</div>
-
 		</div>
-		<div class="container-fluid ">
+
+		<div class="container-fluid  ">
 			<!-- FORMULARIO JUGADOR -->
-			<div class="row mt-5 mb-1">
+			<div class="row mt-5 mb-5">
 				<div class=" col-md-10 col-sm-10  mx-auto "
 					style="background-color: #dfead5; border-radius: 12px">
 					<h2 class=" text-center mt-4 mb-5"
-						style="font-size: 3.6vw; text-decoration: underline;">
-						<i>Formulario de Registro Usuario</i>
+						style="font-size: 3.5vw; text-decoration: underline;">
+						<i>Formulario de Registro: Usuario</i>
 					</h2>
 					<div class="registrarFormulario ">
 						<form action="#" method="POST">
@@ -285,49 +272,43 @@
 
 
 							<table class="tablaFormulario "
-								style="background-color: #d1d1d1; color: black;">
+								style="background-color: #d1d1d1; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.65);">
 
 								<tbody>
 									<tr>
 
-										<td
-											style="border-top: solid 1.2px #818181; border-left: solid 1.2px #818181;"><label
-											for="nombreCompletoUsuario" class="formularioLabel ">Nombre
-												Completo</label> <input type="text"
+										<td><label for="nombreCompletoUsuario"
+											class="formularioLabel ">Nombre Completo</label> <input
+											type="text"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="nombreCompletoUsuario"
 											name="nombreCompletoUsuario" required></td>
-										<td
-											style="border-top: solid 1.2px #818181; border-right: solid 1.2px #818181;"><label
-											for="fechaNacimientoUsuario" class="formularioLabel ">Fecha
-												de Nacimiento</label> <input type="date"
+										<td><label for="fechaNacimientoUsuario"
+											class="formularioLabel ">Fecha de Nacimiento</label> <input
+											type="date"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="fechaNacimientoUsuario"
 											name="fechaNacimientoUsuario" required></td>
 									</tr>
 									<tr>
-										<td style="border-left: solid 1.2px #818181;"><label
-											for="emailUsuario" class="formularioLabel ">Correo
+										<td><label for="emailUsuario" class="formularioLabel ">Correo
 												Electrónico</label> <input type="email"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="emailUsuario" name="emailUsuario"
 											required></td>
-										<td style="border-right: solid 1.2px #818181;"><label
-											for="telefonoUsuario" class="formularioLabel ">Teléfono</label>
+										<td><label for="telefonoUsuario" class="formularioLabel ">Teléfono</label>
 											<input type="tel"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="telefonoUsuario"
 											name="telefonoUsuario" required></td>
 									</tr>
 									<tr>
-										<td style="border-left: solid 1.2px #818181;"><label
-											for="passwordUsuario" class="formularioLabel ">Contraseña</label>
+										<td><label for="passwordUsuario" class="formularioLabel ">Contraseña</label>
 											<input type="password"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="passwordUsuario"
 											name="passwordUsuario" required></td>
-										<td style="border-right: solid 1.2px #818181;"><label
-											for="passwordUsuario" class="formularioLabel ">Repetir
+										<td><label for="passwordUsuario" class="formularioLabel ">Repetir
 												contraseña</label> <input type="password"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											style="font-size: 1vw;" class="form-control"
@@ -335,38 +316,34 @@
 
 									</tr>
 									<tr>
-										<td style="border-left: solid 1.2px #818181;"><label
-											for="rolJugador" class="formularioLabel">Rol de
-												Jugador</label> <select class="form-select"
+										<td><label for="rolJugador" class="formularioLabel">Rol
+												de Jugador</label> <select class="form-select"
 											style="font-size: 1vw; border: 1px solid #818181;"
 											id="rolJugador" name="rolJugador" required>
 												<option value="jugador">Jugador</option>
 												<option value="porteror">Entrenador</option>
 										</select></td>
-										<td style="border-right: solid 1.2px #818181;"><label
-											for="descripcionUsuario" class="formularioLabel ">Descripción</label>
-											<textarea class="form-control"
+										<td><label for="descripcionUsuario"
+											class="formularioLabel ">Descripción</label> <textarea
+												class="form-control"
 												style="font-size: 1vw; border: 1px solid #818181;"
 												id="descripcionUsuario" name="descripcionUsuario" rows="3"></textarea>
 										</td>
 									</tr>
 									<tr>
-										<td
-											style="border-right: white; border-bottom: solid 1.2px #818181; border-left: solid 1.2px #818181;"><label
-											for="imagenUsuario" class="formularioLabel ">Imagen
+										<td><label for="imagenUsuario" class="formularioLabel ">Imagen
 												del Usuario</label> <input type="file"
 											style="font-size: 1vw; border: 1px solid #818181;"
 											class="form-control" id="imagenUsuario" name="imagenUsuario">
 										</td>
-										<td
-											style="border-left: white; border-bottom: solid 1.2px #818181; border-right: solid 1.2px #818181;"></td>
+										<td></td>
 									</tr>
 
 
 								</tbody>
 							</table>
 
-							<div class="text-center mt-3  mb-3">
+							<div class="text-center mt-4  mb-3">
 								<button type="submit" class=" botonRegistrarCabecera">REGISTRARSE</button>
 
 							</div>
@@ -380,109 +357,215 @@
 
 
 			<!-- FORMULARIO CLUB -->
-			<div class="row mt-5 mb-1">
+			<div class="row mt-5 mb-5">
 				<div class=" col-md-10 col-sm-10  mx-auto "
 					style="background-color: #dfead5; border-radius: 12px">
 					<h2 class=" text-center mt-4 mb-5"
-						style="font-size: 3.6vw; text-decoration: underline;">
-						<i>Formulario de Registro Club </i>
+						style="font-size: 3.5vw; text-decoration: underline;">
+						<i>Formulario de Registro: Club </i>
 					</h2>
 					<div class="registrarFormulario">
 						<form action="#" method="POST">
-								<table class="tablaFormulario "
-									style="background-color: #d1d1d1; color: black;">
-									<tbody>
-										<tr>
-											<td
-												style="border-top: solid 1.2px #818181; border-left: solid 1.2px #818181;">
-												<label for="nombreClub" class="formularioLabel">Nombre
-													del Club</label> <input type="text"
-												style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-												class="form-control" id="nombreClub" name="nombreClub"
-												required>
-											</td>
-											<td
-												style="border-top: solid 1.2px #818181; border-right: solid 1.2px #818181;">
-												<label for="abreviaturaClub" class="formularioLabel">Abreviatura</label>
-												<input type="text"
-												style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-												class="form-control" id="abreviaturaClub"
-												name="abreviaturaClub" required>
-											</td>
-										</tr>
-										<tr>
-											<td style="border-left: solid 1.2px #818181;"><label
-												for="emailClub" class="formularioLabel">Correo
-													Electrónico</label> <input type="email"
-												style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-												class="form-control" id="emailClub" name="emailClub"
-												required></td>
-											<td style="border-right: solid 1.2px #818181;"><label
-												for="telefonoClub" class="formularioLabel">Teléfono</label>
-												<input type="tel"
-												style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-												class="form-control" id="telefonoClub" name="telefonoClub"
-												required></td>
-										</tr>
-										<tr>
-											<td style="border-left: solid 1.2px #818181;"><label
-												for="paisClub" class="formularioLabel">País</label> <input
-												type="text"
-												style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-												class="form-control" id="paisClub" name="paisClub" required>
-											</td>
-											<td style="border-right: solid 1.2px #818181;"><label
-												for="localidadClub" class="formularioLabel">Localidad</label>
-												<input type="text"
-												style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-												class="form-control" id="localidadClub" name="localidadClub"
-												required></td>
-										</tr>
-										<tr>
-											<td style="border-left: solid 1.2px #818181;"><label
-												for="passwordClub" class="formularioLabel">Contraseña</label>
-												<input type="password"
-												style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-												class="form-control" id="passwordClub" name="passwordClub"
-												required></td>
-											<td style="border-right: solid 1.2px #818181;"><label
-												for="repasswordClub" class="formularioLabel">Repetir
-													Contraseña</label> <input type="password"
-												style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-												class="form-control" id="repasswordClub"
-												name="repasswordClub" required></td>
-										</tr>
-										<tr>
-											<td
-												style="border-right: white; border-bottom: solid 1.2px #818181; border-left: solid 1.2px #818181;">
-												<label for="imagenClub" class="formularioLabel">Escudo
-													del Club</label> <input type="file"
-												style="font-size: 1vw; border: 1px solid #818181;"
-												class="form-control" id="imagenClub" name="imagenClub">
-											</td>
-											<td
-												style="border-bottom: solid 1.2px #818181; border-right: solid 1.2px #818181;">
-												<label for="descripcionClub" class="formularioLabel">Descripción</label>
-												<textarea class="form-control"
-													style="font-size: 1vw; border: 1px solid #818181; border-botto: 1px solid #818181;"
-													id="descripcionClub" name="descripcionClub" rows="3"
-													></textarea>
-											</td>
-										</tr>
+							<table class="tablaFormulario "
+								style="background-color: #d1d1d1; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.65);">
+								<tbody>
+									<tr>
+										<td><label for="nombreClub"
+											class="formularioLabel">Nombre del Club</label> <input
+											type="text"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											class="form-control" id="nombreClub" name="nombreClub"
+											required></td>
+										<td><label for="abreviaturaClub"
+											class="formularioLabel">Abreviatura</label> <input
+											type="text"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											class="form-control" id="abreviaturaClub"
+											name="abreviaturaClub" required></td>
+									</tr>
+									<tr>
+										<td><label for="emailClub" class="formularioLabel">Correo
+												Electrónico</label> <input type="email"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											class="form-control" id="emailClub" name="emailClub" required></td>
+										<td><label for="telefonoClub" class="formularioLabel">Teléfono</label>
+											<input type="tel"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											class="form-control" id="telefonoClub" name="telefonoClub"
+											required></td>
+									</tr>
+									<tr>
+										<td><label for="paisClub" class="formularioLabel">País</label>
+											<input type="text"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											class="form-control" id="paisClub" name="paisClub" required>
+										</td>
+										<td><label for="localidadClub" class="formularioLabel">Localidad</label>
+											<input type="text"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											class="form-control" id="localidadClub" name="localidadClub"
+											required></td>
+									</tr>
+									<tr>
+										<td><label for="passwordClub" class="formularioLabel">Contraseña</label>
+											<input type="password"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											class="form-control" id="passwordClub" name="passwordClub"
+											required></td>
+										<td><label for="repasswordClub" class="formularioLabel">Repetir
+												Contraseña</label> <input type="password"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											class="form-control" id="repasswordClub"
+											name="repasswordClub" required></td>
+									</tr>
+									<tr>
+										<td><label for="imagenClub"
+											class="formularioLabel">Escudo del Club</label> <input
+											type="file"
+											style="font-size: 1vw; border: 1px solid #818181;"
+											class="form-control" id="imagenClub" name="imagenClub">
+										</td>
+										<td><label for="descripcionClub" class="formularioLabel">Descripción</label>
+											<textarea class="form-control"
+												style="font-size: 1vw; border: 1px solid #818181; border-botto: 1px solid #818181;"
+												id="descripcionClub" name="descripcionClub" rows="3"></textarea>
+										</td>
+									</tr>
 
-									</tbody>
-								</table>
-								<div class="text-center mt-3 mb-3">
-									<button type="submit" class="botonRegistrarCabecera">REGISTRARSE</button>
-								</div>
-							</form>
-						</div>
+								</tbody>
+							</table>
+							<div class="text-center mt-4 mb-3">
+								<button type="submit" class="botonRegistrarCabecera">REGISTRARSE</button>
+							</div>
+						</form>
 					</div>
+
 				</div>
 			</div>
 
 
-		
+
+			<!-- FORMULARIO INSTALACIÓN -->
+			<div class="row mt-5 mb-5">
+				<div class="col-md-10 col-sm-10 mx-auto"
+					style="background-color: #dfead5; border-radius: 12px">
+					<h2 class="text-center mt-4 mb-5"
+						style="font-size: 3.5vw; text-decoration: underline;">
+						<i>Formulario de Registro: Instalación</i>
+					</h2>
+					<div class="registrarFormulario">
+						<form action="#" method="POST">
+							<table class="tablaFormulario"
+								style="background-color: #d1d1d1; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.65);">
+								<tbody>
+									<tr>
+										<td><label for="nombreInstalacion"
+											class="formularioLabel">Nombre de la Instalación</label> <input
+											type="text" class="form-control" id="nombreInstalacion"
+											name="nombreInstalacion" required
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
+										</td>
+										<td><label for="direccionInstalacion"
+											class="formularioLabel">Dirección</label> <input type="text"
+											class="form-control" id="direccionInstalacion"
+											name="direccionInstalacion" required
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
+										</td>
+									</tr>
+									<tr>
+										<td><label for="emailInstalacion"
+											class="formularioLabel">Correo Electrónico</label> <input
+											type="email" class="form-control" id="emailInstalacion"
+											name="emailInstalacion" required
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
+										</td>
+										<td><label for="telefonoInstalacion"
+											class="formularioLabel">Teléfono</label> <input type="tel"
+											class="form-control" id="telefonoInstalacion"
+											name="telefonoInstalacion" required
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
+										</td>
+									</tr>
+									<tr>
+										<td><label for="passwordInstalacion"
+											class="formularioLabel">Contraseña</label> <input
+											type="password" class="form-control" id="passwordInstalacion"
+											name="passwordInstalacion" required
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
+										</td>
+										<td><label for="repasswordInstalacion"
+											class="formularioLabel">Repetir Contraseña</label> <input
+											type="password" class="form-control"
+											id="repasswordInstalacion" name="repasswordInstalacion"
+											required
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
+										</td>
+									</tr>
+									<tr>
+										<td><label for="tipoCampo1" class="formularioLabel">
+												Pista deportiva principal</label> <select class="form-select"
+											id="tipoCampo1" name="tipoCampo1" required
+											style="font-size: 1vw; border: 1px solid #818181;">
+												<option value="futbol5">Fútbol 5</option>
+												<option value="futbol7">Fútbol 7</option>
+												<option value="futbol11">Fútbol 11</option>
+										</select></td>
+										<td><label for="tipoCampo2" class="formularioLabel">Pista
+												deportiva secundaria</label> <select class="form-select"
+											id="tipoCampo2" name="tipoCampo2"
+											style="font-size: 1vw; border: 1px solid #818181;">
+												<option value="">Ninguno</option>
+												<option value="futbol5">Fútbol 5</option>
+												<option value="futbol7">Fútbol 7</option>
+												<option value="futbol11">Fútbol 11</option>
+										</select></td>
+									</tr>
+									<tr>
+										<td><label for="tipoCampo3" class="formularioLabel">Pista
+												deportiva adicional</label> <select class="form-select"
+											id="tipoCampo3" name="tipoCampo3"
+											style="font-size: 1vw; border: 1px solid #818181;">
+												<option value="">Ninguno</option>
+												<option value="futbol5">Fútbol 5</option>
+												<option value="futbol7">Fútbol 7</option>
+												<option value="futbol11">Fútbol 11</option>
+										</select></td>
+										<td><label for="estadoInstalacion"
+											class="formularioLabel">Estado de la Instalación</label> <select
+											class="form-select" id="estadoInstalacion"
+											name="estadoInstalacion" required
+											style="font-size: 1vw; border: 1px solid #818181;">
+												<option value="activo">Activo</option>
+												<option value="inactivo">Inactivo</option>
+										</select></td>
+									</tr>
+									<tr>
+										<td><label for="imagenInstalacion"
+											class="formularioLabel">Imagen de la Instalación</label> <input
+											type="file" class="form-control" id="imagenInstalacion"
+											name="imagenInstalacion"
+											style="font-size: 1vw; border: 1px solid #818181;"></td>
+
+										<td><label for="serviciosInstalacion"
+											class="formularioLabel">Servicios</label> <textarea
+												class="form-control" id="descripcion"
+												name="serviciosInstalacion" rows="3"
+												style="font-size: 1vw; border: 1px solid #818181;"></textarea>
+										</td>
+									</tr>
+
+
+								</tbody>
+							</table>
+							<div class="text-center mt-4 mb-3">
+								<button type="submit" class="botonRegistrarCabecera">REGISTRARSE</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
 	</main>
 
 
@@ -492,7 +575,8 @@
 			<div class="row">
 				<div class="col-md-12 col-sm-12">
 					<div class="row">
-						<div class="col-md-3 col-sm-3  g-4 pieDePagina p-1 pb-1">
+						<div class="col-md-3 col-sm-3  g-4 pieDePagina p-4 pb-1  "
+							style="margin-left: 2vw">
 							<p style="text-decoration: underline; font-size: 1.5vw">SOBRE
 								NOSOTROS</p>
 							<p style="font-size: 1.05vw">Somos la plataforma líder para
@@ -500,7 +584,7 @@
 								fútbol amateur. Únete a nuestra comunidad deportiva y vive la
 								pasión por el fútbol.</p>
 						</div>
-						<div class="col-md-3 col-sm-3 g-4 pieDePagina p-1 pb-1 ">
+						<div class="col-md-3 col-sm-3 g-4 pieDePagina p-4 pb-1 ">
 							<p
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.5vw">ENLACES
 								ÚTILES</p>
@@ -513,7 +597,7 @@
 <a href="" style="color: white">Términos y Condiciones</a>
 <a href="" style="color: white">Política de Privacidad</a> </pre>
 						</div>
-						<div class="col-md-3 col-sm-3 g-4 pieDePagina p-1 pb-1">
+						<div class="col-md-3 col-sm-3 g-4 pieDePagina p-4 pb-1">
 							<p style="text-decoration: underline; font-size: 1.5vw">CONTACTO</p>
 							<pre
 								style="font-family: 'Open Sans', sans-serif; font-size: 1.05vw">futboldebarrio@gmail.es
@@ -521,7 +605,7 @@
 Avenida mujer trabajadora
  Sevilla, España</pre>
 						</div>
-						<div class="col-md-3 col-sm-3 g-4 pieDePagina p-1 pb-1">
+						<div class="col-md-2 col-sm-2 g-4 pieDePagina p-4 pb-1">
 							<p
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.5vw">
 								SIGUENOS</p>

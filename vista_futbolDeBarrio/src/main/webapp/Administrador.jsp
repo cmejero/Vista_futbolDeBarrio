@@ -234,11 +234,11 @@
 
 	<footer>
 
-		<div class="container-fluid">
+		<div class="container-fluid ">
 			<div class="row">
 				<div class="col-md-12 col-sm-12">
 					<div class="row">
-						<div class="col-md-3 col-sm-3  pieDePagina p-4 ">
+						<div class="col-md-3 col-sm-3  g-4 pieDePagina p-4 pb-1  " style="margin-left: 2vw">
 							<p style="text-decoration: underline; font-size: 1.5vw">SOBRE
 								NOSOTROS</p>
 							<p style="font-size: 1.05vw">Somos la plataforma líder para
@@ -246,7 +246,7 @@
 								fútbol amateur. Únete a nuestra comunidad deportiva y vive la
 								pasión por el fútbol.</p>
 						</div>
-						<div class="col-md-3 col-sm-3 pieDePagina p-4  ">
+						<div class="col-md-3 col-sm-3 g-4 pieDePagina p-4 pb-1 ">
 							<p
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.5vw">ENLACES
 								ÚTILES</p>
@@ -259,7 +259,7 @@
 <a href="" style="color: white">Términos y Condiciones</a>
 <a href="" style="color: white">Política de Privacidad</a> </pre>
 						</div>
-						<div class="col-md-3 col-sm-3 pieDePagina p-4 ">
+						<div class="col-md-3 col-sm-3 g-4 pieDePagina p-4 pb-1">
 							<p style="text-decoration: underline; font-size: 1.5vw">CONTACTO</p>
 							<pre
 								style="font-family: 'Open Sans', sans-serif; font-size: 1.05vw">futboldebarrio@gmail.es
@@ -267,7 +267,7 @@
 Avenida mujer trabajadora
  Sevilla, España</pre>
 						</div>
-						<div class="col-md-3 col-sm-3 pieDePagina p-4 ">
+						<div class="col-md-2 col-sm-2 g-4 pieDePagina p-4 pb-1">
 							<p
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.5vw">
 								SIGUENOS</p>
@@ -321,6 +321,7 @@ Avenida mujer trabajadora
 				</div>
 			</div>
 		</div>
+
 	</footer>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

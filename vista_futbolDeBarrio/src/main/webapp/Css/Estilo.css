@@ -16,7 +16,7 @@ main {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 1.1vw;;
+	font-size: 1vw;;
 	color: black;
 	background-color: #43a624;
 	text-align: center;
@@ -57,7 +57,7 @@ button.botonCabeceraContactar:hover {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 3.6vw;
+	font-size: 3.4vw;
 	color: black;
 	background-color: white;
 	text-align: center;
@@ -68,7 +68,7 @@ button.botonCabeceraContactar:hover {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 1.13vw;
+	font-size: 1.08vw;
 	color: #1d6212;
 	background-color: white;
 	text-align: center;
@@ -112,7 +112,7 @@ button.botonRegistrarCabecera:active {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 1.65vw;
+	font-size: 1.63vw;
 	color: white;
 	background-color: #004000;
 	text-align: center;
@@ -199,23 +199,34 @@ footer {
 
 
 /* REGISTRAR */
-.botonSeleccion {
-	font-size: 1.2vw;
+.columnaBotonRegistrar{
+	display: flex;
+	justify-content: center;
+}
+
+button.botonSeleccion {
+	font-size: 1.1vw;
 	font-family: 'Open Sans', sans-serif;
 	color: black;
 	font-weight: bold;
-	width: 100%;
-	display: block;
 	border: 1.5px solid black;
 	border-radius: 3px;
 	font-style: italic;
+	margin-left: 1vw;
+	margin-right: 1vw;
+	background-color: #333333;
+	color:white;
+	border-radius: 10px;
+	text-decoration: underline;
+	
 }
-.botonSeleccion:active{
+.botonSeleccion:focus{
 	background-color:  #d4af37;
+	color: black;
 }
 
 .botonSeleccion:hover {
-	transform: scale(1.2);
+	transform: scale(1.1);
 }
 
 .registrarFormulario {
@@ -252,4 +263,119 @@ footer {
 .formularioLabel {
 	font-weight: bold;
 	font-size: 1.2vw;
+}
+
+/* INICIO SESION */
+
+
+ 
+.formularioInicioSesion {
+    background-color: #dfead5;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.65);
+    text-align: center;
+}
+
+.etiquetaFormulario {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    text-align: left;
+    font-size: 1.1vw;
+}
+
+
+.campoFormulario {
+    width: 100%;
+    padding: 0.6vw;
+    border: 1px solid #818181;
+    border-radius: 6px;
+    font-size: 1vw;
+    margin-bottom: 0.6vw;
+}
+
+
+.contenedorContrasenia {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.botonMostrarContrasenia {
+    background: none;
+    border: none;
+    font-size: 1.2vw;
+    cursor: pointer;
+    position: absolute;
+    right: 1vw;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+.recordarContrasenia {
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+    font-size: 1vw;
+}
+
+.enlaceContraseniaOlvidada {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 1vw;
+}
+
+.enlaceContraseniaOlvidada:hover {
+    text-decoration: underline;
+}
+
+
+.botonEnviarInicioSesion {
+    width: 100%;
+    padding: 0.8vw;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1vw;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.botonEnviarInicioSesion:hover {
+    background-color: #555;
+}
+
+
+.botonInicioSesionGoogle {
+    width: 100%;
+    padding: 0.8vw;
+    background-color: #db4437;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1vw;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.botonInicioSesionGoogle:hover {
+    background-color: #c1351d;
+}
+
+
+.enlaceRegistroGoogle {
+    margin-top: 1vw;
+    font-size: 0.9vw;
+}
+
+.enlaceRegistroGoogle a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.enlaceRegistroGoogle a:hover {
+    text-decoration: underline;
 }
