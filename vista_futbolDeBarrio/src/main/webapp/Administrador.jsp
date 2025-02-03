@@ -20,7 +20,7 @@
 <body>
 
 
-	<header >
+	<header>
 		<!-- Contenedor principal de -->
 		<div class="container-fluid fixed-top ">
 			<div class="row ">
@@ -143,7 +143,7 @@
 				<!-- fila de abajo -->
 				<div class="col-sm-12 col-md-12  "
 					style="border: solid 2px black; background-color: #004000; box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, 0.45);">
-					<div class="row " style="background-color: #004000; ">
+					<div class="row " style="background-color: #004000;">
 						<div class="col-sm-2 col-md-2"></div>
 
 						<div class="col-sm-10 col-md-10 ">
@@ -174,134 +174,157 @@
 
 	<main style="background-color: rgba(223, 234, 213, 0.5);">
 		<div class="container-fluid mt-5 pt-2">
-			
+
 
 			<!-- MAIN -->
 			<div class="row igual-altura">
 				<!-- MENU LATERAL -->
 				<div class="col-md-2 col-sm-2 menuLateral">
-					<pre style="text-align: left;font-family: 'Open Sans', sans-serif; overflow: hidden;">
-<b><span style="text-decoration: underline; font-size: 1.68vw">Gestiones</span>
-- <a href="" style="text-decoration: none;" class="letraMenuLateral">Eventos</a>
-- <a href="" style="text-decoration: none;" class="letraMenuLateral">Reservas</a>
-- <a href="" style="text-decoration: none;" class="letraMenuLateral">Pagos</a>
-- <a href="" style="text-decoration: none;" class="letraMenuLateral">Estadísticas</a>
-<span style="text-decoration: underline; font-size: 1.68vw">Soporte</span>
-- <a href="" style="text-decoration: none;" class="letraMenuLateral">Configuración</a>
-- <a href="" style="text-decoration: none;" class="letraMenuLateral">Ticket</a>
-- <a href="" style="text-decoration: none;" class="letraMenuLateral">Feedback</a>
-<span style="text-decoration: underline; font-size: 1.68vw">Promociones</span>
-- <a href="" style="text-decoration: none;" class="letraMenuLateral">Descuentos</a>
-- <a href="" style="text-decoration: none;" class="letraMenuLateral">Boletines</a>
-<span style="text-decoration: underline; font-size: 1.6vw"><a href=""
-								style="text-decoration: none;" class="letraMenuLateral">Cerrar sesión</a></span>
-</b>
+					<pre
+						style="text-align: left; font-family: 'Open Sans', sans-serif; overflow: hidden;">
+<b><span style="text-decoration: underline; font-size: 1.92vw">Gestiones</span></b>
+ - <a href="" style="text-decoration: none;" class="letraMenuLateral">Eventos</a>
+ - <a href="" style="text-decoration: none;" class="letraMenuLateral">Reservas</a>
+ - <a href="" style="text-decoration: none;" class="letraMenuLateral">Pagos</a>
+ - <a href="" style="text-decoration: none;" class="letraMenuLateral">Estadísticas</a>
+<b><span style="text-decoration: underline; font-size: 1.92vw">Soporte</span></b>
+ - <a href="" style="text-decoration: none;" class="letraMenuLateral">Configuración</a>
+ - <a href="" style="text-decoration: none;" class="letraMenuLateral">Ticket</a>
+ - <a href="" style="text-decoration: none;" class="letraMenuLateral">Feedback</a>
+<b><span style="text-decoration: underline; font-size: 1.92vw">Promociones</span></b>
+ - <a href="" style="text-decoration: none;" class="letraMenuLateral">Descuentos</a>
+ - <a href="" style="text-decoration: none;" class="letraMenuLateral">Boletines</a>
+<b><span style="text-decoration: underline; font-size: 1.8vw"><a
+								href="" style="text-decoration: none;" class="letraMenuLateral">Cerrar sesión</a></span></b>
+	
 					</pre>
 				</div>
 
 
-<!-- CONTENIDO -->
+				<!-- CONTENIDO -->
 				<div class="col-md-10 col-sm-10 contenido ">
 					<div class="row">
-					
-					<!-- USUARIOS -->
-					<div class="col-md-11 col-sm-11  mx-auto m-5" >
-					
-					<table class="tablaDatos">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>NOMBRE</th>
-            <th>EMAIL</th>
-            <th>OPCIONES</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Fila 1, Col 1</td>
-            <td>Fila 1, Col 2</td>
-            <td>Fila 1, Col 3</td>
-            <td>Fila 1, Col 4</td>
-        </tr>
-        <tr>
-            <td>Fila 2, Col 1</td>
-            <td>Fila 2, Col 2</td>
-            <td>Fila 2, Col 3</td>
-            <td>Fila 2, Col 4</td>
-        </tr>
-        <tr>
-            <td>Fila 3, Col 1</td>
-            <td>Fila 3, Col 2</td>
-            <td>Fila 3, Col 3</td>
-            <td>Fila 3, Col 4</td>
-        </tr>
-        <tr>
-            <td>Fila 4, Col 1</td>
-            <td>Fila 4, Col 2</td>
-            <td>Fila 4, Col 3</td>
-            <td>Fila 4, Col 4</td>
-        </tr>
-        <tr>
-            <td>Fila 5, Col 1</td>
-            <td>Fila 5, Col 2</td>
-            <td>Fila 5, Col 3</td>
-            <td>Fila 5, Col 4</td>
-        </tr>
-        <tr>
-            <td>Fila 5, Col 1</td>
-            <td>Fila 5, Col 2</td>
-            <td>Fila 5, Col 3</td>
-            <td>Fila 5, Col 4</td>
-        </tr>
-        <tr>
-            <td>Fila 5, Col 1</td>
-            <td>Fila 5, Col 2</td>
-            <td>Fila 5, Col 3</td>
-            <td>Fila 5, Col 4</td>
-        </tr>
-        <tr>
-            <td>Fila 5, Col 1</td>
-            <td>Fila 5, Col 2</td>
-            <td>Fila 5, Col 3</td>
-            <td>Fila 5, Col 4</td>
-        </tr>
-        <tr>
-            <td>Fila 5, Col 1</td>
-            <td>Fila 5, Col 2</td>
-            <td>Fila 5, Col 3</td>
-            <td>Fila 5, Col 4</td>
-        </tr>
-        <tr>
-            <td>Fila 5, Col 1</td>
-            <td>Fila 5, Col 2</td>
-            <td>Fila 5, Col 3</td>
-            <td>Fila 5, Col 4</td>
-        </tr>
-        </tbody>
-        </table>
-					
-					</div>
-					
-					
-					<!-- INSTALACIONES -->
-					<div class="col-md-11 col-sm-11 border border-dark mx-auto" >
-					gosdofodfodsofsdo
-					</div>
-					
-					
-					<!-- CLUBES -->
-					<div class="col-md-11 col-sm-11 border border-dark mx-auto" >
-					gosdofodfodsofsdo
-					</div>
-					
-					
-					<!-- ARBITROS -->
-					<div class="col-md-11 col-sm-11 border border-dark mx-auto" >
-					gosdofodfodsofsdo
-					</div>
-					
-					
-					
+
+						<!-- USUARIOS -->
+						<div class="col-md-11 col-sm-11  mx-auto m-5">
+
+							<button id="mostrarFiltros" class="mb-3 ml-auto botonFiltrar" >Mostrar
+								Filtros</button>
+
+							<!-- Filtros de búsqueda (inicialmente ocultos) -->
+							<div id="filtros" class="row  " style="display: none;">
+								<div class="col-md-4 mb-4 ">
+									<label for="buscarId" class="form-label">Buscar por ID:</label>
+									<input type="text" id="buscarId" class="form-control"
+										placeholder="Buscar por ID">
+								</div>
+
+								<div class="col-md-4 mb-4">
+									<label for="buscarNombre" class="form-label">Buscar por
+										Nombre:</label> <input type="text" id="buscarNombre"
+										class="form-control" placeholder="Buscar por Nombre">
+								</div>
+
+								<div class="col-md-4 mb-4">
+									<label for="buscarCorreo" class="form-label">Buscar por
+										Correo:</label> <input type="text" id="buscarCorreo"
+										class="form-control" placeholder="Buscar por Correo">
+								</div>
+							</div>
+
+
+							<table class="tablaDatos">
+								<thead>
+									<tr>
+										<th style="border: 1.5px solid #8a210b;">ID</th>
+										<th style="border: 1.5px solid #8a210b;">NOMBRE</th>
+										<th style="border: 1.5px solid #8a210b;">EMAIL</th>
+										<th style="border: 1.5px solid #8a210b;">OPCIONES</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1000000000</td>
+										<td>Fila 1, Col 2</td>
+										<td>Fila 1, Col 3</td>
+										<td>Fila 1, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 2, Col 1</td>
+										<td>Fila 2, Col 2</td>
+										<td>Fila 2, Col 3</td>
+										<td>Fila 2, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 3, Col 1</td>
+										<td>Fila 3, Col 2</td>
+										<td>Fila 3, Col 3</td>
+										<td>Fila 3, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 4, Col 1</td>
+										<td>Fila 4, Col 2</td>
+										<td>Fila 4, Col 3</td>
+										<td>Fila 4, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 5, Col 1</td>
+										<td>Fila 5, Col 2</td>
+										<td>Fila 5, Col 3</td>
+										<td>Fila 5, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 5, Col 1</td>
+										<td>Fila 5, Col 2</td>
+										<td>Fila 5, Col 3</td>
+										<td>Fila 5, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 5, Col 1</td>
+										<td>Fila 5, Col 2</td>
+										<td>Fila 5, Col 3</td>
+										<td>Fila 5, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 5, Col 1</td>
+										<td>Fila 5, Col 2</td>
+										<td>Fila 5, Col 3</td>
+										<td>Fila 5, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 5, Col 1</td>
+										<td>Fila 5, Col 2</td>
+										<td>Fila 5, Col 3</td>
+										<td>Fila 5, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 5, Col 1</td>
+										<td>Fila 5, Col 2</td>
+										<td>Fila 5, Col 3</td>
+										<td>Fila 5, Col 4</td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+
+
+						<!-- INSTALACIONES -->
+						<div class="col-md-11 col-sm-11 border border-dark mx-auto">
+							gosdofodfodsofsdo</div>
+
+
+						<!-- CLUBES -->
+						<div class="col-md-11 col-sm-11 border border-dark mx-auto">
+							gosdofodfodsofsdo</div>
+
+
+						<!-- ARBITROS -->
+						<div class="col-md-11 col-sm-11 border border-dark mx-auto">
+							gosdofodfodsofsdo</div>
+
+
+
 					</div>
 				</div>
 			</div>
@@ -315,7 +338,8 @@
 			<div class="row">
 				<div class="col-md-12 col-sm-12">
 					<div class="row">
-						<div class="col-md-3 col-sm-3  g-4 pieDePagina p-4 pb-1  " style="margin-left: 2vw">
+						<div class="col-md-3 col-sm-3  g-4 pieDePagina p-4 pb-1  "
+							style="margin-left: 2vw">
 							<p style="text-decoration: underline; font-size: 1.5vw">SOBRE
 								NOSOTROS</p>
 							<p style="font-size: 1.05vw">Somos la plataforma líder para
@@ -404,5 +428,59 @@ Avenida mujer trabajadora
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
+
+	<script>
+		// Mostrar/Ocultar los filtros al hacer clic en el botón
+		document.getElementById("mostrarFiltros").addEventListener("click",
+				function() {
+					const filtros = document.getElementById("filtros");
+					const boton = document.getElementById("mostrarFiltros");
+
+					if (filtros.style.display === "none") {
+						filtros.style.display = "flex"; // Mostrar los filtros
+						boton.textContent = "Ocultar Filtros"; // Cambiar el texto del botón
+					} else {
+						filtros.style.display = "none"; // Ocultar los filtros
+						boton.textContent = "Mostrar Filtros"; // Cambiar el texto del botón
+					}
+				});
+
+		// Función para filtrar la tabla
+		function filtrarTabla(idFiltro, columnaIndex) {
+			const valorFiltro = document.getElementById(idFiltro).value
+					.toLowerCase();
+			const filas = document.querySelectorAll(".tablaDatos tbody tr");
+
+			filas.forEach(function(fila) {
+				const celdas = fila.getElementsByTagName("td");
+				const textoCelda = celdas[columnaIndex].textContent
+						.toLowerCase();
+				if (textoCelda.includes(valorFiltro)) {
+					fila.style.display = "";
+				} else {
+					fila.style.display = "none";
+				}
+			});
+		}
+
+		// Agregar evento de filtro para cada campo
+		document.getElementById("buscarId").addEventListener("input",
+				function() {
+					filtrarTabla("buscarId", 0); // Filtro por columna ID (columna 0)
+				});
+
+		document.getElementById("buscarNombre").addEventListener("input",
+				function() {
+					filtrarTabla("buscarNombre", 1); // Filtro por columna Nombre (columna 1)
+				});
+
+		document.getElementById("buscarCorreo").addEventListener("input",
+				function() {
+					filtrarTabla("buscarCorreo", 2); // Filtro por columna Correo (columna 2)
+				});
+	</script>
+
+
+
 </body>
 </html>

@@ -272,7 +272,7 @@
 
 
 							<table class="tablaFormulario "
-								style="background-color: #d1d1d1; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.65);">
+								style="background-color: #dedede; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6) ,  0px -4px 8px rgba(0, 0, 0, 0.15)">
 
 								<tbody>
 									<tr>
@@ -367,7 +367,7 @@
 					<div class="registrarFormulario">
 						<form action="#" method="POST">
 							<table class="tablaFormulario "
-								style="background-color: #d8d8d8; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.65);">
+								style="background-color: #d8d8d8; color: black;  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6) ,  0px -4px 8px rgba(0, 0, 0, 0.15)">
 								<tbody>
 									<tr>
 										<td><label for="nombreClub"
@@ -456,7 +456,7 @@
 					<div class="registrarFormulario">
 						<form action="#" method="POST">
 							<table class="tablaFormulario"
-								style="background-color: #d1d1d1; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.65);">
+								style="background-color: #d1d1d1; color: black;box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6) ,  0px -4px 8px rgba(0, 0, 0, 0.15)">
 								<tbody>
 									<tr>
 										<td><label for="nombreInstalacion"
