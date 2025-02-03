@@ -139,7 +139,7 @@
 				</div>
 				<!-- fila de abajo -->
 				<div class="col-sm-12 col-md-12  "
-					style="border: solid 2px black; background-color: #004000;">
+					style="border: solid 2px black; background-color: #004000;  box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, 0.45);">
 					<div class="row " style="background-color: #004000;">
 						<!-- columna iquierda -->
 						<div class="col-sm-5 col-md-5 ">

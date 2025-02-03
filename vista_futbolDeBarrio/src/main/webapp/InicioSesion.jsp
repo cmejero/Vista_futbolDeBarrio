@@ -134,7 +134,7 @@
 				</div>
 				<!-- fila de abajo -->
 				<div class="col-sm-12 col-md-12  "
-					style="border: solid 2px black; background-color: #004000;">
+					style="border: solid 2px black; background-color: #004000;  box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, 0.45);">
 					<div class="row " style="background-color: #004000;">
 						<!-- columna iquierda -->
 						<div class="col-sm-5 col-md-5 ">
@@ -217,10 +217,10 @@
 		</div>
 	</header>
 
-	<main style="background-color: rgba(223, 234, 213, 0.5);">
+	<main class="m-5 p-5 " style="background-color: rgba(223, 234, 213, 0.5); ">
 
 		<div
-			class=" d-flex justify-content-center align-items-center vh-100">
+			class=" d-flex justify-content-center align-items-center  pt-5 mt-5 mb-5 ">
 			<div class="formularioInicioSesion"
 				style="width: 100%; max-width: 28vw;">
 				<h2 class="text-center mb-4" style="text-decoration: underline; font-size:2.2vw">
@@ -277,7 +277,7 @@
 
 	<footer>
 
-		<div class="container-fluid ">
+		<div class="container-fluid  ">
 			<div class="row">
 				<div class="col-md-12 col-sm-12">
 					<div class="row">

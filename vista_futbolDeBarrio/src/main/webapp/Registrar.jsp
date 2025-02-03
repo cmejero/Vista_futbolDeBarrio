@@ -136,7 +136,7 @@
 				</div>
 				<!-- fila de abajo -->
 				<div class="col-sm-12 col-md-12  "
-					style="border: solid 2px black; background-color: #004000;">
+					style="border: solid 2px black; background-color: #004000; box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, 0.45);">
 					<div class="row " style="background-color: #004000;">
 						<!-- columna iquierda -->
 						<div class="col-sm-5 col-md-5 ">
@@ -260,7 +260,7 @@
 		<div class="container-fluid  ">
 			<!-- FORMULARIO JUGADOR -->
 			<div class="row mt-5 mb-5">
-				<div class=" col-md-10 col-sm-10  mx-auto "
+				<div class=" col-md-10 col-sm-10  mx-auto"
 					style="background-color: #dfead5; border-radius: 12px">
 					<h2 class=" text-center mt-4 mb-5"
 						style="font-size: 3.5vw; text-decoration: underline;">
@@ -343,7 +343,7 @@
 								</tbody>
 							</table>
 
-							<div class="text-center mt-4  mb-3">
+							<div class="text-center mt-4  mb-4">
 								<button type="submit" class=" botonRegistrarCabecera">REGISTRARSE</button>
 
 							</div>
@@ -367,7 +367,7 @@
 					<div class="registrarFormulario">
 						<form action="#" method="POST">
 							<table class="tablaFormulario "
-								style="background-color: #d1d1d1; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.65);">
+								style="background-color: #d8d8d8; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.65);">
 								<tbody>
 									<tr>
 										<td><label for="nombreClub"
@@ -434,7 +434,7 @@
 
 								</tbody>
 							</table>
-							<div class="text-center mt-4 mb-3">
+							<div class="text-center mt-4 mb-4">
 								<button type="submit" class="botonRegistrarCabecera">REGISTRARSE</button>
 							</div>
 						</form>
@@ -557,7 +557,7 @@
 
 								</tbody>
 							</table>
-							<div class="text-center mt-4 mb-3">
+							<div class="text-center mt-4 mb-4">
 								<button type="submit" class="botonRegistrarCabecera">REGISTRARSE</button>
 							</div>
 						</form>

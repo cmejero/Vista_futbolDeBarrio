@@ -20,7 +20,7 @@
 <body>
 
 
-	<header>
+	<header >
 		<!-- Contenedor principal de -->
 		<div class="container-fluid fixed-top ">
 			<div class="row ">
@@ -142,8 +142,8 @@
 				</div>
 				<!-- fila de abajo -->
 				<div class="col-sm-12 col-md-12  "
-					style="border: solid 2px black; background-color: #004000;">
-					<div class="row " style="background-color: #004000;">
+					style="border: solid 2px black; background-color: #004000; box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, 0.45);">
+					<div class="row " style="background-color: #004000; ">
 						<div class="col-sm-2 col-md-2"></div>
 
 						<div class="col-sm-10 col-md-10 ">
@@ -199,33 +199,110 @@
 					</pre>
 				</div>
 
+
+<!-- CONTENIDO -->
 				<div class="col-md-10 col-sm-10 contenido ">
-					<pre>g
-                g
-                g
-                g
-                g
-                g
-                g
-                g
-                g
-                g
-                g
-                g
-                g
-                g
-                gg
-                g
-                g
-                g
-                g
-                g
-                g
-                g
-                g
-                g
-                g
-                </pre>
+					<div class="row">
+					
+					<!-- USUARIOS -->
+					<div class="col-md-11 col-sm-11  mx-auto m-5" >
+					
+					<table class="tablaDatos">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>NOMBRE</th>
+            <th>EMAIL</th>
+            <th>OPCIONES</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Fila 1, Col 1</td>
+            <td>Fila 1, Col 2</td>
+            <td>Fila 1, Col 3</td>
+            <td>Fila 1, Col 4</td>
+        </tr>
+        <tr>
+            <td>Fila 2, Col 1</td>
+            <td>Fila 2, Col 2</td>
+            <td>Fila 2, Col 3</td>
+            <td>Fila 2, Col 4</td>
+        </tr>
+        <tr>
+            <td>Fila 3, Col 1</td>
+            <td>Fila 3, Col 2</td>
+            <td>Fila 3, Col 3</td>
+            <td>Fila 3, Col 4</td>
+        </tr>
+        <tr>
+            <td>Fila 4, Col 1</td>
+            <td>Fila 4, Col 2</td>
+            <td>Fila 4, Col 3</td>
+            <td>Fila 4, Col 4</td>
+        </tr>
+        <tr>
+            <td>Fila 5, Col 1</td>
+            <td>Fila 5, Col 2</td>
+            <td>Fila 5, Col 3</td>
+            <td>Fila 5, Col 4</td>
+        </tr>
+        <tr>
+            <td>Fila 5, Col 1</td>
+            <td>Fila 5, Col 2</td>
+            <td>Fila 5, Col 3</td>
+            <td>Fila 5, Col 4</td>
+        </tr>
+        <tr>
+            <td>Fila 5, Col 1</td>
+            <td>Fila 5, Col 2</td>
+            <td>Fila 5, Col 3</td>
+            <td>Fila 5, Col 4</td>
+        </tr>
+        <tr>
+            <td>Fila 5, Col 1</td>
+            <td>Fila 5, Col 2</td>
+            <td>Fila 5, Col 3</td>
+            <td>Fila 5, Col 4</td>
+        </tr>
+        <tr>
+            <td>Fila 5, Col 1</td>
+            <td>Fila 5, Col 2</td>
+            <td>Fila 5, Col 3</td>
+            <td>Fila 5, Col 4</td>
+        </tr>
+        <tr>
+            <td>Fila 5, Col 1</td>
+            <td>Fila 5, Col 2</td>
+            <td>Fila 5, Col 3</td>
+            <td>Fila 5, Col 4</td>
+        </tr>
+        </tbody>
+        </table>
+					
+					</div>
+					
+					
+					<!-- INSTALACIONES -->
+					<div class="col-md-11 col-sm-11 border border-dark mx-auto" >
+					gosdofodfodsofsdo
+					</div>
+					
+					
+					<!-- CLUBES -->
+					<div class="col-md-11 col-sm-11 border border-dark mx-auto" >
+					gosdofodfodsofsdo
+					</div>
+					
+					
+					<!-- ARBITROS -->
+					<div class="col-md-11 col-sm-11 border border-dark mx-auto" >
+					gosdofodfodsofsdo
+					</div>
+					
+					
+					
+					</div>
 				</div>
 			</div>
 		</div>
