@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
-html, body {
+html,
+body {
 	height: 100%;
 	margin: 0;
 }
@@ -15,7 +16,8 @@ main {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 1vw;;
+	font-size: 1vw;
+	;
 	color: black;
 	background-color: #43a624;
 	text-align: center;
@@ -168,16 +170,16 @@ footer {
 .menuLateral {
 	padding: 2%;
 	box-shadow: 0px 4px 8px rgba(0, 0, 0, 1);
-	font-size: 1.8vw;
+	font-size: 1.5vw;
 	font-style: italic;
-	background-color: #e9e9e9;
+	background-color: #ececec;
 	color: black;
 	position: fixed;
 	height: 100%;
 	/* Asegura que el menú lateral ocupe toda la altura de la ventana */
 	width: 16.6667%;
 	/* Ocupa el 2 de 12 columnas de Bootstrap (2/12 = 1/6 ≈ 16.67%) */
-	font-family: 'Open Sans', sans-serif;
+
 }
 
 .letraMenuLateral {
@@ -196,42 +198,128 @@ footer {
 	/* Añadido para separar un poco el contenido de los bordes */
 }
 
+/* 📌 Estilos de la tabla */
 .tablaDatos {
-	width: 100%;
-	border-collapse: collapse;
-	background-color: #eafeea;
-	color: black;
-	font-size: 1vw;
-	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3), 0px -4px 8px
-		rgba(0, 0, 0, 0.15);
-	font-family: 'Open Sans', sans-serif;
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #eafeea;
+    color: black;
+    font-size: 1vw;
+    box-shadow: 0vw 0.4vw 0.8vw rgba(0, 0, 0, 0.3), 0vw -0.4vw 0.8vw rgba(0, 0, 0, 0.15);
+    font-family: 'Open Sans', sans-serif;
 }
 
-.tablaDatos th, .tablaDatos td {
-	border: 1.75px solid #aeaeae;
-	padding: 0.7vw;
-	text-align: center;
+/* 📌 Encabezado y celdas */
+.tablaDatos th, 
+.tablaDatos td {
+    border: 0.11vw solid #aeaeae;
+    padding: 0.6vw;
+    text-align: center;
 }
 
+/* 📌 Encabezado */
 .tablaDatos th {
-	background-color: #c33214;
-	text-decoration: underline;
-	font-style: italic;
-	font-size: 1.4vw;
+    background-color: #c33214;
+    text-decoration: underline;
+    font-style: italic;
+    font-size: 1.4vw;
+    font-weight: bold;
 }
 
+/* 📌 Filas alternas */
 .tablaDatos tr:nth-child(even) {
-	background-color: #e0fee0;
+    background-color: #e0fee0;
 }
 
-button.botonFiltrar {
-	background-color: #333333;
-	border: 1.5px solid #008f00;
-	color: white;
-	box-shadow: 0px 4px 8px rgba(0, 64, 0, 0.5), 0px -4px 8px rgba(0, 64, 0, 0.15);
-	font-style: bold;
-
+/* 📌 Botones de paginación */
+.botonFiltrar {
+    background-color: #2c2c2c;
+    border: 0.15vw solid #008f00;
+    color: white;
+    box-shadow: 0vw 0.4vw 0.8vw rgba(0, 64, 0, 0.6), 0vw -0.4vw 0.8vw rgba(0, 64, 0, 0.15);
+    font-size: 1.2vw;
+    width: 10.5vw;
+    height: 2.5vw;
+    cursor: pointer;
+    border-radius: 0.5vw;
 }
+.botonFiltrar:hover{
+	 background-color:#6c6c6c;
+	
+}
+.botonPaginacion{
+	background-color: #c9c9c9;
+    border: 0.1vw solid #2c2c2c;
+    color: black;
+    box-shadow: 0vw 0.4vw 0.8vw rgba(0, 0, 0, 0.2), 0vw -0.4vw 0.8vw rgba(0, 0, 0, 0.1);
+    font-size: 1vw;
+    width: 7.8vw;
+    height: 2vw;
+    cursor: pointer;
+    border-radius: 0.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    
+}
+
+.botonPaginacion:hover {
+    border: 0.15vw solid #008f00;
+}
+.botonPaginacion:active {
+    border: 0.15vw solid #d4af37;
+}
+
+/* 📌 Contenedor de paginación */
+.contenedorPaginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+    margin-top: 1.5vw;
+}
+
+/* 📌 Filtros */
+.filaFiltrar {
+    display: none;
+    background-color: #373737;
+    border: 0.15vw solid #008f00;
+    color: white;
+    box-shadow: 0vw 0.4vw 0.8vw rgba(0, 64, 0, 0.7), 0vw -0.4vw 0.8vw rgba(0, 64, 0, 0.15);
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1vw;
+    padding: 0.5vw;
+    margin-bottom: 1.5vw;
+}
+
+/* 📌 Estilos de los labels */
+.labelFiltrar {
+    font-size: 1vw;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    border-radius: 0.5vw;
+    white-space: nowrap;
+}
+
+/* 📌 Estilos de los inputs */
+.inputFiltrar {
+    font-size: 1vw;
+    border: 0.1vw solid #008f00;
+    border-radius: 0.5vw;
+    text-align: center;
+    width: 22vw;
+    height: 1.8vw;
+    margin-top: 0.4vw;
+    margin-bottom: 0.5vw;
+}
+
+
 
 /* REGISTRAR */
 .columnaBotonRegistrar {
@@ -296,13 +384,15 @@ button.botonSeleccion {
 	font-size: 1.2vw;
 }
 
+
+
+
 /* INICIO SESION */
 .formularioInicioSesion {
 	background-color: #e0e0e0;
 	padding: 1.8vw;
 	border-radius: 12px;
-	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.65), 0px -4px 8px
-		rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.65), 0px -4px 8px rgba(0, 0, 0, 0.15);
 	text-align: center;
 }
 

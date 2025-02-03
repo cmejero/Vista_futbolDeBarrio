@@ -217,7 +217,7 @@
 		</div>
 	</header>
 
-	<main class="m-5 p-5 " style="background-color: rgba(223, 234, 213, 0.5); ">
+	<main class="mt-5 pt-5 mb-5 pb-5" style="background-color: rgba(223, 234, 213, 0.5); ">
 
 		<div
 			class=" d-flex justify-content-center align-items-center  pt-5 mt-5 mb-5 ">

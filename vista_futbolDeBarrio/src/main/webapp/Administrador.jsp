@@ -182,19 +182,19 @@
 				<div class="col-md-2 col-sm-2 menuLateral">
 					<pre
 						style="text-align: left; font-family: 'Open Sans', sans-serif; overflow: hidden;">
-<b><span style="text-decoration: underline; font-size: 1.92vw">Gestiones</span></b>
+<b><span style="text-decoration: underline; font-size: 1.85vw">Gestiones</span></b>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Eventos</a>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Reservas</a>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Pagos</a>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Estadísticas</a>
-<b><span style="text-decoration: underline; font-size: 1.92vw">Soporte</span></b>
+<b><span style="text-decoration: underline; font-size: 1.85vw">Soporte</span></b>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Configuración</a>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Ticket</a>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Feedback</a>
-<b><span style="text-decoration: underline; font-size: 1.92vw">Promociones</span></b>
+<b><span style="text-decoration: underline; font-size: 1.85vw">Promociones</span></b>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Descuentos</a>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Boletines</a>
-<b><span style="text-decoration: underline; font-size: 1.8vw"><a
+<b><span style="text-decoration: underline; font-size: 1.7vw"><a
 								href="" style="text-decoration: none;" class="letraMenuLateral">Cerrar sesión</a></span></b>
 	
 					</pre>
@@ -208,41 +208,39 @@
 						<!-- USUARIOS -->
 						<div class="col-md-11 col-sm-11  mx-auto m-5">
 
-							<button id="mostrarFiltros" class="mb-3 ml-auto botonFiltrar" >Mostrar
+							<button id="mostrarFiltros" class="mb-3 mr-auto botonFiltrar" >Mostrar
 								Filtros</button>
 
 							<!-- Filtros de búsqueda (inicialmente ocultos) -->
-							<div id="filtros" class="row  " style="display: none;">
-								<div class="col-md-4 mb-4 ">
-									<label for="buscarId" class="form-label">Buscar por ID:</label>
-									<input type="text" id="buscarId" class="form-control"
-										placeholder="Buscar por ID">
-								</div>
+							<!-- Filtros de búsqueda (inicialmente ocultos) -->
+<div id="filtros" class="filaFiltrar">
+    <div class="filtroItem">
+        <label for="buscarId" class="labelFiltrar"><b>-Buscar por ID:</b></label>
+        <input type="text" id="buscarId" class="inputFiltrar" placeholder="Buscar por ID">
+    </div>
 
-								<div class="col-md-4 mb-4">
-									<label for="buscarNombre" class="form-label">Buscar por
-										Nombre:</label> <input type="text" id="buscarNombre"
-										class="form-control" placeholder="Buscar por Nombre">
-								</div>
+    <div class="filtroItem">
+        <label for="buscarNombre" class="labelFiltrar"><b>-Buscar por Nombre:</b></label>
+        <input type="text" id="buscarNombre" class="inputFiltrar" placeholder="Buscar por Nombre">
+    </div>
 
-								<div class="col-md-4 mb-4">
-									<label for="buscarCorreo" class="form-label">Buscar por
-										Correo:</label> <input type="text" id="buscarCorreo"
-										class="form-control" placeholder="Buscar por Correo">
-								</div>
-							</div>
+    <div class="filtroItem">
+        <label for="buscarCorreo" class="labelFiltrar"><b>-Buscar por Correo:</b></label>
+        <input type="text" id="buscarCorreo" class="inputFiltrar" placeholder="Buscar por Correo">
+    </div>
+</div>
 
 
 							<table class="tablaDatos">
 								<thead>
 									<tr>
-										<th style="border: 1.5px solid #8a210b;">ID</th>
-										<th style="border: 1.5px solid #8a210b;">NOMBRE</th>
-										<th style="border: 1.5px solid #8a210b;">EMAIL</th>
-										<th style="border: 1.5px solid #8a210b;">OPCIONES</th>
+										<th style="border: 1.8px solid #8a210b; width: 10%">ID</th>
+										<th style="border: 1.8px solid #8a210b; width: 35%">NOMBRE</th>
+										<th style="border: 1.8px solid #8a210b; width: 35%">EMAIL</th>
+										<th style="border: 1.8px solid #8a210b; width: 20%">OPCIONES</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="tablaCuerpo">
 									<tr>
 										<td>1000000000</td>
 										<td>Fila 1, Col 2</td>
@@ -305,6 +303,11 @@
 									</tr>
 								</tbody>
 							</table>
+							<div class="contenedorPaginacion">
+    <button id="botonAnterior" class="botonPaginacion" onclick="cambiarPagina(-1)"> < Anterior</button>
+    <span id="paginaActual"><b style ="font-size:1.2vw">1</b></span>
+    <button id="botonSiguiente" class="botonPaginacion" onclick="cambiarPagina(1)">Siguiente ></button>
+</div>
 
 						</div>
 
@@ -478,6 +481,46 @@ Avenida mujer trabajadora
 				function() {
 					filtrarTabla("buscarCorreo", 2); // Filtro por columna Correo (columna 2)
 				});
+		
+		
+		// CODIGO PARA BOTONES ANTERIOR Y SIGUIENTE Y ESCRIBIR EN LA TBODY
+		 let datos = [];
+		    for (let i = 1; i <= 50; i++) { 
+		        datos.push({ id: i, nombre: "Jugador " + i, correo: "jugador" + i + "@correo.com", opciones: "Editar | Eliminar" });
+		    }
+
+		    let paginaActual = 1;
+		    const filasPorPagina = 10;
+		    const cuerpoTabla = document.getElementById("cuerpoTabla");
+
+		    function mostrarTabla() {
+		        cuerpoTabla.innerHTML = "";
+		        let inicio = (paginaActual - 1) * filasPorPagina;
+		        let fin = inicio + filasPorPagina;
+		        let datosPagina = datos.slice(inicio, fin);
+
+		        datosPagina.forEach((item) => {
+		            let fila = `<tr>
+		                <td>${item.id}</td>
+		                <td>${item.nombre}</td>
+		                <td>${item.correo}</td>
+		                <td>${item.opciones}</td>
+		            </tr>`;
+		            cuerpoTabla.innerHTML += fila;
+		        });
+
+		        document.getElementById("paginaActual").textContent = paginaActual;
+		        document.getElementById("botonAnterior").disabled = paginaActual === 1;
+		        document.getElementById("botonSiguiente").disabled = fin >= datos.length;
+		    }
+
+		    function cambiarPagina(cambio) {
+		        paginaActual += cambio;
+		        mostrarTabla();
+		    }
+
+		    // Mostrar primera página al cargar
+		    mostrarTabla();
 	</script>
 
 
