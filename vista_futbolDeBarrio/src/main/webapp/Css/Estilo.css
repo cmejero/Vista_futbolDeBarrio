@@ -2,13 +2,29 @@
 
 html,
 body {
-	height: 100%;
-	margin: 0;
+  height: 100%;
+  margin: 0;
+  display: flex;  /* Esto asegura que el contenido se estire en todo el alto de la ventana */
+  flex-direction: column; /* Aplica una dirección vertical a los elementos */
 }
 
 main {
-	margin-top: 9%;
-	/* 10% de la altura del contenedor principal o del viewport */
+	margin-top: 5%;	
+	 flex-grow: 1;
+}
+
+footer {
+	background-color: #282828;
+	color: white;
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1.2vw;
+	border-top: 2px solid black;
+	width: 100%;
+	position: relative;
+	/* Permite que el footer fluya naturalmente después del contenido */
+	z-index: 5;
+	/* Asegura que el footer se quede por debajo del menú lateral y no se solape */
 }
 
 /* CABECERA */
@@ -152,43 +168,31 @@ button.botonRegistrarCabecera:active {
 	text-decoration: none;
 }
 
-footer {
-	background-color: #282828;
-	color: white;
-	text-align: center;
-	font-family: 'Open Sans', sans-serif;
-	font-size: 1.2vw;
-	border-top: 2px solid black;
-	width: 100%;
-	position: relative;
-	/* Permite que el footer fluya naturalmente después del contenido */
-	z-index: 5;
-	/* Asegura que el footer se quede por debajo del menú lateral y no se solape */
-}
+
 
 /* ADMINISTRADOR */
 .menuLateral {
 	padding: 2%;
 	box-shadow: 0px 4px 8px rgba(0, 0, 0, 1);
-	font-size: 1.5vw;
+	font-size: 1.55vw;
 	font-style: italic;
 	background-color: #ececec;
 	color: black;
 	position: fixed;
 	height: 100%;
-	/* Asegura que el menú lateral ocupe toda la altura de la ventana */
+
 	width: 16.6667%;
-	/* Ocupa el 2 de 12 columnas de Bootstrap (2/12 = 1/6 ≈ 16.67%) */
+	
 
 }
 
 .letraMenuLateral {
 	text-decoration: none;
-	color: black;
+	color: #4b4b4b;
 }
 
 .letraMenuLateral:hover {
-	color: #5b5b5b;
+	color: #9b9b9b;
 }
 
 .contenido {
@@ -198,18 +202,20 @@ footer {
 	/* Añadido para separar un poco el contenido de los bordes */
 }
 
-/* 📌 Estilos de la tabla */
+
 .tablaDatos {
     width: 100%;
     border-collapse: collapse;
     background-color: #eafeea;
     color: black;
-    font-size: 1vw;
+    font-size: 1.1vw;
     box-shadow: 0vw 0.4vw 0.8vw rgba(0, 0, 0, 0.3), 0vw -0.4vw 0.8vw rgba(0, 0, 0, 0.15);
     font-family: 'Open Sans', sans-serif;
+    
+    
 }
 
-/* 📌 Encabezado y celdas */
+
 .tablaDatos th, 
 .tablaDatos td {
     border: 0.11vw solid #aeaeae;
@@ -217,21 +223,21 @@ footer {
     text-align: center;
 }
 
-/* 📌 Encabezado */
+
 .tablaDatos th {
-    background-color: #c33214;
     text-decoration: underline;
     font-style: italic;
     font-size: 1.4vw;
     font-weight: bold;
 }
 
-/* 📌 Filas alternas */
+
 .tablaDatos tr:nth-child(even) {
     background-color: #e0fee0;
+    
 }
 
-/* 📌 Botones de paginación */
+
 .botonFiltrar {
     background-color: #2c2c2c;
     border: 0.15vw solid #008f00;
@@ -271,7 +277,7 @@ footer {
     border: 0.15vw solid #d4af37;
 }
 
-/* 📌 Contenedor de paginación */
+
 .contenedorPaginacion {
     display: flex;
     justify-content: center;
@@ -280,7 +286,7 @@ footer {
     margin-top: 1.5vw;
 }
 
-/* 📌 Filtros */
+
 .filaFiltrar {
     display: none;
     background-color: #373737;
@@ -297,7 +303,7 @@ footer {
     margin-bottom: 1.5vw;
 }
 
-/* 📌 Estilos de los labels */
+
 .labelFiltrar {
     font-size: 1vw;
     display: flex;
@@ -307,7 +313,7 @@ footer {
     white-space: nowrap;
 }
 
-/* 📌 Estilos de los inputs */
+
 .inputFiltrar {
     font-size: 1vw;
     border: 0.1vw solid #008f00;
@@ -319,6 +325,28 @@ footer {
     margin-bottom: 0.5vw;
 }
 
+.botonEliminarAdmin{
+	border: 1px solid black;
+	height: 1.75vw;	
+}
+.botonEliminarAdmin:hover{
+	border: 1.5px solid red ;
+}
+.botonEliminarAdmin:active{
+	border: 2px solid #d4af37;
+}
+
+
+.botonModificarAdmin{
+	border: 1px solid black;
+	height: 1.75vw;	
+}
+.botonModificarAdmin:hover{
+	border: 1.5px solid orange;
+}
+.botonModificarAdmin:active{
+	border: 2px solid #d4af37;
+}
 
 
 /* REGISTRAR */
@@ -351,6 +379,8 @@ button.botonSeleccion {
 .botonSeleccion:hover {
 	transform: scale(1.1);
 }
+
+
 
 .registrarFormulario {
 	font-family: 'Open Sans', sans-serif;

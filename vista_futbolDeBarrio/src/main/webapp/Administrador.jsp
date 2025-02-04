@@ -152,7 +152,7 @@
 									<a href="" class="letraCabeceraAbajo" style="color: #d4af37;">INICIO</a>
 								</div>
 								<div class="col-md-2 col-sm-2 cabeceraAbajo">
-									<a href="" class="letraCabeceraAbajo">USUARIOS</a>
+									<button href="" id="toggleUser" class="letraCabeceraAbajo">USUARIOS</button>
 								</div>
 								<div class="col-md-3 col-sm-3 cabeceraAbajo">
 									<a href="" class="letraCabeceraAbajo">INSTALACIONES</a>
@@ -182,20 +182,28 @@
 				<div class="col-md-2 col-sm-2 menuLateral">
 					<pre
 						style="text-align: left; font-family: 'Open Sans', sans-serif; overflow: hidden;">
-<b><span style="text-decoration: underline; font-size: 1.85vw">Gestiones</span></b>
+<b><span style="font-size: 1.6vw"><svg xmlns="http://www.w3.org/2000/svg" style="margin-right:0.4vw"width="1.65vw" height="1.75vw" fill="currentColor" class="bi bi-clipboard-check-fill" viewBox="0 0 16 16">
+  <path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z"/>
+  <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5zm6.854 7.354-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708"/>
+</svg>Gestiones</span></b>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Eventos</a>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Reservas</a>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Pagos</a>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Estadísticas</a>
-<b><span style="text-decoration: underline; font-size: 1.85vw">Soporte</span></b>
+<b><span style="font-size: 1.6vw"><svg xmlns="http://www.w3.org/2000/svg" style="margin-right:0.4vw" width="1.5vw" height="1.75vw" fill="currentColor" class="bi bi-headset" viewBox="0 0 16 16">
+  <path d="M8 1a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a6 6 0 1 1 12 0v6a2.5 2.5 0 0 1-2.5 2.5H9.366a1 1 0 0 1-.866.5h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 .866.5H11.5A1.5 1.5 0 0 0 13 12h-1a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h1V6a5 5 0 0 0-5-5"/>
+</svg>Soporte</span></b>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Configuración</a>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Ticket</a>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Feedback</a>
-<b><span style="text-decoration: underline; font-size: 1.85vw">Promociones</span></b>
+<b><span style="font-size: 1.6vw"><svg xmlns="http://www.w3.org/2000/svg" style="margin-right:0.4vw" width="1.65vw" height="1.75vw" fill="currentColor" class="bi bi-cart-check-fill" viewBox="0 0 16 16">
+  <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-1.646-7.646-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708"/>
+</svg>Promociones</span></b>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Descuentos</a>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Boletines</a>
-<b><span style="text-decoration: underline; font-size: 1.7vw"><a
-								href="" style="text-decoration: none;" class="letraMenuLateral">Cerrar sesión</a></span></b>
+<b><span style="text-decoration: underline"><a href=""
+								style="text-decoration: none; font-size: 1.35vw"
+								class="letraMenuLateral">Cerrar sesión</a></span></b>
 	
 					</pre>
 				</div>
@@ -206,38 +214,43 @@
 					<div class="row">
 
 						<!-- USUARIOS -->
-						<div class="col-md-11 col-sm-11  mx-auto m-5">
+						<div class="col-md-11 col-sm-11  mx-auto m-5" id="userContainer" style="display: none;">
 
-							<button id="mostrarFiltros" class="mb-3 mr-auto botonFiltrar" >Mostrar
+							<button id="mostrarFiltros" class="mb-3 mr-auto botonFiltrar">Mostrar
 								Filtros</button>
 
 							<!-- Filtros de búsqueda (inicialmente ocultos) -->
-							<!-- Filtros de búsqueda (inicialmente ocultos) -->
-<div id="filtros" class="filaFiltrar">
-    <div class="filtroItem">
-        <label for="buscarId" class="labelFiltrar"><b>-Buscar por ID:</b></label>
-        <input type="text" id="buscarId" class="inputFiltrar" placeholder="Buscar por ID">
-    </div>
 
-    <div class="filtroItem">
-        <label for="buscarNombre" class="labelFiltrar"><b>-Buscar por Nombre:</b></label>
-        <input type="text" id="buscarNombre" class="inputFiltrar" placeholder="Buscar por Nombre">
-    </div>
+							<div id="filtros" class="filaFiltrar">
+								<div class="filtroItem">
+									<label for="buscarId" class="labelFiltrar"><b>-Buscar
+											por ID:</b></label> <input type="text" id="buscarId" class="inputFiltrar"
+										placeholder="Buscar por ID">
+								</div>
 
-    <div class="filtroItem">
-        <label for="buscarCorreo" class="labelFiltrar"><b>-Buscar por Correo:</b></label>
-        <input type="text" id="buscarCorreo" class="inputFiltrar" placeholder="Buscar por Correo">
-    </div>
-</div>
+								<div class="filtroItem">
+									<label for="buscarNombre" class="labelFiltrar"><b>-Buscar
+											por Nombre:</b></label> <input type="text" id="buscarNombre"
+										class="inputFiltrar" placeholder="Buscar por Nombre">
+								</div>
+
+								<div class="filtroItem">
+									<label for="buscarCorreo" class="labelFiltrar"><b>-Buscar
+											por Correo:</b></label> <input type="text" id="buscarCorreo"
+										class="inputFiltrar" placeholder="Buscar por Correo">
+								</div>
+							</div>
 
 
 							<table class="tablaDatos">
-								<thead>
+								<thead style="background-color: #c33214;">
 									<tr>
 										<th style="border: 1.8px solid #8a210b; width: 10%">ID</th>
-										<th style="border: 1.8px solid #8a210b; width: 35%">NOMBRE</th>
-										<th style="border: 1.8px solid #8a210b; width: 35%">EMAIL</th>
-										<th style="border: 1.8px solid #8a210b; width: 20%">OPCIONES</th>
+										<th style="border: 1.8px solid #8a210b; width: 37.5'%">NOMBRE
+											JUGADOR</th>
+										<th style="border: 1.8px solid #8a210b; width: 37.5%">EMAIL
+											JUGADOR</th>
+										<th style="border: 1.8px solid #8a210b; width: 15%">OPCIONES</th>
 									</tr>
 								</thead>
 								<tbody id="tablaCuerpo">
@@ -245,7 +258,26 @@
 										<td>1000000000</td>
 										<td>Fila 1, Col 2</td>
 										<td>Fila 1, Col 3</td>
-										<td>Fila 1, Col 4</td>
+										<td><button class="botonEliminarAdmin">
+												<svg xmlns="http://www.w3.org/2000/svg" width="15"
+													height="15" fill="currentColor" class="bi bi-trash3-fill"
+													style="color: #c33214; margin-bottom: 0.1vw"
+													viewBox="0 0 16 16">
+  <path
+														d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+</svg>
+											</button>
+											<button class="botonModificarAdmin">
+												<svg xmlns="http://www.w3.org/2000/svg" width="15"
+													height="15" fill="currentColor" class="bi bi-pencil-square"
+													style="color: orange; margin-bottom: 0.1vw"
+													viewBox="0 0 16 16">
+  <path
+														d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+  <path fill-rule="evenodd"
+														d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+</svg>
+											</button></td>
 									</tr>
 									<tr>
 										<td>Fila 2, Col 1</td>
@@ -304,27 +336,292 @@
 								</tbody>
 							</table>
 							<div class="contenedorPaginacion">
-    <button id="botonAnterior" class="botonPaginacion" onclick="cambiarPagina(-1)"> < Anterior</button>
-    <span id="paginaActual"><b style ="font-size:1.2vw">1</b></span>
-    <button id="botonSiguiente" class="botonPaginacion" onclick="cambiarPagina(1)">Siguiente ></button>
-</div>
+								<button id="botonAnterior" class="botonPaginacion"
+									onclick="cambiarPagina(-1)">< Anterior</button>
+								<span id="paginaActual"><b style="font-size: 1.2vw">1</b></span>
+								<button id="botonSiguiente" class="botonPaginacion"
+									onclick="cambiarPagina(1)">Siguiente ></button>
+							</div>
 
 						</div>
 
 
+
+
+
+
+
 						<!-- INSTALACIONES -->
-						<div class="col-md-11 col-sm-11 border border-dark mx-auto">
-							gosdofodfodsofsdo</div>
+						<div class="col-md-11 col-sm-11  mx-auto m-5">
+
+							<button id="mostrarFiltros" class="mb-3 mr-auto botonFiltrar">Mostrar
+								Filtros</button>
+
+							<!-- Filtros de búsqueda (inicialmente ocultos) -->
+
+							<div id="filtros" class="filaFiltrar">
+								<div class="filtroItem">
+									<label for="buscarId" class="labelFiltrar"><b>-Buscar
+											por ID:</b></label> <input type="text" id="buscarId" class="inputFiltrar"
+										placeholder="Buscar por ID">
+								</div>
+
+								<div class="filtroItem">
+									<label for="buscarNombre" class="labelFiltrar"><b>-Buscar
+											por Nombre:</b></label> <input type="text" id="buscarNombre"
+										class="inputFiltrar" placeholder="Buscar por Nombre">
+								</div>
+
+								<div class="filtroItem">
+									<label for="buscarCorreo" class="labelFiltrar"><b>-Buscar
+											por Correo:</b></label> <input type="text" id="buscarCorreo"
+										class="inputFiltrar" placeholder="Buscar por Correo">
+								</div>
+							</div>
+
+
+							<table class="tablaDatos">
+								<thead style="background-color: #37b137;">
+									<tr>
+										<th style="border: 1.8px solid #0d730d; width: 10%">ID</th>
+										<th style="border: 1.8px solid #0d730d; width: 37.5'%">NOMBRE
+											INSTALACIÓN</th>
+										<th style="border: 1.8px solid #0d730d; width: 37.5%">EMAIL
+											INSTALACIÓN</th>
+										<th style="border: 1.8px solid #0d730d; width: 15%">OPCIONES</th>
+									</tr>
+								</thead>
+								<tbody id="tablaCuerpo">
+									<tr>
+										<td>1000000000</td>
+										<td>Fila 1, Col 2</td>
+										<td>Fila 1, Col 3</td>
+										<td><button class="botonEliminarAdmin">
+												<svg xmlns="http://www.w3.org/2000/svg" width="15"
+													height="15" fill="currentColor" class="bi bi-trash3-fill"
+													style="color: #c33214; margin-bottom: 0.1vw"
+													viewBox="0 0 16 16">
+  <path
+														d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+</svg>
+											</button>
+											<button class="botonModificarAdmin">
+												<svg xmlns="http://www.w3.org/2000/svg" width="15"
+													height="15" fill="currentColor" class="bi bi-pencil-square"
+													style="color: orange; margin-bottom: 0.1vw"
+													viewBox="0 0 16 16">
+  <path
+														d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+  <path fill-rule="evenodd"
+														d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+</svg>
+											</button></td>
+									</tr>
+									<tr>
+										<td>Fila 2, Col 1</td>
+										<td>Fila 2, Col 2</td>
+										<td>Fila 2, Col 3</td>
+										<td>Fila 2, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 3, Col 1</td>
+										<td>Fila 3, Col 2</td>
+										<td>Fila 3, Col 3</td>
+										<td>Fila 3, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 4, Col 1</td>
+										<td>Fila 4, Col 2</td>
+										<td>Fila 4, Col 3</td>
+										<td>Fila 4, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 5, Col 1</td>
+										<td>Fila 5, Col 2</td>
+										<td>Fila 5, Col 3</td>
+										<td>Fila 5, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 5, Col 1</td>
+										<td>Fila 5, Col 2</td>
+										<td>Fila 5, Col 3</td>
+										<td>Fila 5, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 5, Col 1</td>
+										<td>Fila 5, Col 2</td>
+										<td>Fila 5, Col 3</td>
+										<td>Fila 5, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 5, Col 1</td>
+										<td>Fila 5, Col 2</td>
+										<td>Fila 5, Col 3</td>
+										<td>Fila 5, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 5, Col 1</td>
+										<td>Fila 5, Col 2</td>
+										<td>Fila 5, Col 3</td>
+										<td>Fila 5, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 5, Col 1</td>
+										<td>Fila 5, Col 2</td>
+										<td>Fila 5, Col 3</td>
+										<td>Fila 5, Col 4</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="contenedorPaginacion">
+								<button id="botonAnterior" class="botonPaginacion"
+									onclick="cambiarPagina(-1)">< Anterior</button>
+								<span id="paginaActual"><b style="font-size: 1.2vw">1</b></span>
+								<button id="botonSiguiente" class="botonPaginacion"
+									onclick="cambiarPagina(1)">Siguiente ></button>
+							</div>
+
+						</div>
+
+
+
+
+
 
 
 						<!-- CLUBES -->
-						<div class="col-md-11 col-sm-11 border border-dark mx-auto">
-							gosdofodfodsofsdo</div>
+						<div class="col-md-11 col-sm-11  mx-auto m-5">
+
+							<button id="mostrarFiltros" class="mb-3 mr-auto botonFiltrar">Mostrar
+								Filtros</button>
+
+							<!-- Filtros de búsqueda (inicialmente ocultos) -->
+
+							<div id="filtros" class="filaFiltrar">
+								<div class="filtroItem">
+									<label for="buscarId" class="labelFiltrar"><b>-Buscar
+											por ID:</b></label> <input type="text" id="buscarId" class="inputFiltrar"
+										placeholder="Buscar por ID">
+								</div>
+
+								<div class="filtroItem">
+									<label for="buscarNombre" class="labelFiltrar"><b>-Buscar
+											por Nombre:</b></label> <input type="text" id="buscarNombre"
+										class="inputFiltrar" placeholder="Buscar por Nombre">
+								</div>
+
+								<div class="filtroItem">
+									<label for="buscarCorreo" class="labelFiltrar"><b>-Buscar
+											por Correo:</b></label> <input type="text" id="buscarCorreo"
+										class="inputFiltrar" placeholder="Buscar por Correo">
+								</div>
+							</div>
 
 
-						<!-- ARBITROS -->
-						<div class="col-md-11 col-sm-11 border border-dark mx-auto">
-							gosdofodfodsofsdo</div>
+							<table class="tablaDatos">
+								<thead style="background-color: #2783b8;">
+									<tr>
+										<th style="border: 1.8px solid #0d6ba1; width: 10%">ID</th>
+										<th style="border: 1.8px solid #0d6ba1; width: 37.5'%">NOMBRE
+											CLUB</th>
+										<th style="border: 1.8px solid #0d6ba1; width: 37.5%">EMAIL
+											CLUB</th>
+										<th style="border: 1.8px solid #0d6ba1; width: 15%">OPCIONES</th>
+									</tr>
+								</thead>
+								<tbody id="tablaCuerpo">
+									<tr>
+										<td>1000000000</td>
+										<td>Fila 1, Col 2</td>
+										<td>Fila 1, Col 3</td>
+										<td><button class="botonEliminarAdmin">
+												<svg xmlns="http://www.w3.org/2000/svg" width="15"
+													height="15" fill="currentColor" class="bi bi-trash3-fill"
+													style="color: #c33214; margin-bottom: 0.1vw"
+													viewBox="0 0 16 16">
+  <path
+														d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+</svg>
+											</button>
+											<button class="botonModificarAdmin">
+												<svg xmlns="http://www.w3.org/2000/svg" width="15"
+													height="15" fill="currentColor" class="bi bi-pencil-square"
+													style="color: orange; margin-bottom: 0.1vw"
+													viewBox="0 0 16 16">
+  <path
+														d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+  <path fill-rule="evenodd"
+														d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+</svg>
+											</button></td>
+									</tr>
+									<tr>
+										<td>Fila 2, Col 1</td>
+										<td>Fila 2, Col 2</td>
+										<td>Fila 2, Col 3</td>
+										<td>Fila 2, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 3, Col 1</td>
+										<td>Fila 3, Col 2</td>
+										<td>Fila 3, Col 3</td>
+										<td>Fila 3, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 4, Col 1</td>
+										<td>Fila 4, Col 2</td>
+										<td>Fila 4, Col 3</td>
+										<td>Fila 4, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 5, Col 1</td>
+										<td>Fila 5, Col 2</td>
+										<td>Fila 5, Col 3</td>
+										<td>Fila 5, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 5, Col 1</td>
+										<td>Fila 5, Col 2</td>
+										<td>Fila 5, Col 3</td>
+										<td>Fila 5, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 5, Col 1</td>
+										<td>Fila 5, Col 2</td>
+										<td>Fila 5, Col 3</td>
+										<td>Fila 5, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 5, Col 1</td>
+										<td>Fila 5, Col 2</td>
+										<td>Fila 5, Col 3</td>
+										<td>Fila 5, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 5, Col 1</td>
+										<td>Fila 5, Col 2</td>
+										<td>Fila 5, Col 3</td>
+										<td>Fila 5, Col 4</td>
+									</tr>
+									<tr>
+										<td>Fila 5, Col 1</td>
+										<td>Fila 5, Col 2</td>
+										<td>Fila 5, Col 3</td>
+										<td>Fila 5, Col 4</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="contenedorPaginacion">
+								<button id="botonAnterior" class="botonPaginacion"
+									onclick="cambiarPagina(-1)">< Anterior</button>
+								<span id="paginaActual"><b style="font-size: 1.2vw">1</b></span>
+								<button id="botonSiguiente" class="botonPaginacion"
+									onclick="cambiarPagina(1)">Siguiente ></button>
+							</div>
+
+						</div>
+
+
 
 
 
@@ -433,6 +730,8 @@ Avenida mujer trabajadora
 		crossorigin="anonymous"></script>
 
 	<script>
+	
+	
 		// Mostrar/Ocultar los filtros al hacer clic en el botón
 		document.getElementById("mostrarFiltros").addEventListener("click",
 				function() {
@@ -519,8 +818,24 @@ Avenida mujer trabajadora
 		        mostrarTabla();
 		    }
 
-		    // Mostrar primera página al cargar
-		    mostrarTabla();
+		 // Obtenemos el botón y el contenedor de la tabla
+	        const boton = document.getElementById("toggleBtn");
+	        const tablaContenedor = document.getElementById("tablaContenedor");
+
+	        // Añadimos un event listener al botón para que cuando se haga clic, cambie la visibilidad
+	        boton.addEventListener("click", function() {
+	            // Comprobamos si la tabla está visible
+	            if (tablaContenedor.style.display === "none") {
+	                // Si está oculta, la mostramos
+	                tablaContenedor.style.display = "block";
+	                boton.textContent = "Ocultar Tabla"; // Cambiar el texto del botón
+	            } else {
+	                // Si está visible, la ocultamos
+	                tablaContenedor.style.display = "none";
+	                boton.textContent = "Mostrar Tabla"; // Cambiar el texto del botón
+	            }
+	        });
+		  
 	</script>
 
 

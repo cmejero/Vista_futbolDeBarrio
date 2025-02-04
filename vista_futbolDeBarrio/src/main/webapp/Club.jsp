@@ -210,7 +210,18 @@
 		</div>
 	</header>
 
-	<main style="background-color: rgba(223, 234, 213, 0.5);"></main>
+	<main style="background-color: rgba(223, 234, 213, 0.5);">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	</main>
 
 
 	<footer>

@@ -223,7 +223,7 @@
 
 	<main style="background-color: rgba(223, 234, 213, 0.5);">
 		<!-- FILA BOTONES -->
-		<div class="container-fluid mt-3 pt-4">
+		<div class="container-fluid mt-4 pt-5">
 
 
 			<div class="row ">
