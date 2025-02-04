@@ -152,7 +152,7 @@
 									<a href="" class="letraCabeceraAbajo" style="color: #d4af37;">INICIO</a>
 								</div>
 								<div class="col-md-2 col-sm-2 cabeceraAbajo">
-									<button href="" id="toggleUser" class="letraCabeceraAbajo">USUARIOS</button>
+									<a href="" id="mostrarUsuariosBtn" class="letraCabeceraAbajo">USUARIOS</a>
 								</div>
 								<div class="col-md-3 col-sm-3 cabeceraAbajo">
 									<a href="" class="letraCabeceraAbajo">INSTALACIONES</a>
@@ -216,7 +216,7 @@
 						<!-- USUARIOS -->
 						<div class="col-md-11 col-sm-11  mx-auto m-5" id="userContainer" style="display: none;">
 
-							<button id="mostrarFiltros" class="mb-3 mr-auto botonFiltrar">Mostrar
+							<button  id="mostrarFiltrosBtn" class="mb-3 mr-auto botonFiltrar">Mostrar
 								Filtros</button>
 
 							<!-- Filtros de búsqueda (inicialmente ocultos) -->
@@ -724,119 +724,127 @@ Avenida mujer trabajadora
 		</div>
 
 	</footer>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-		crossorigin="anonymous"></script>
-
+	
+	
+	
 	<script>
-	
-	
-		// Mostrar/Ocultar los filtros al hacer clic en el botón
-		document.getElementById("mostrarFiltros").addEventListener("click",
-				function() {
-					const filtros = document.getElementById("filtros");
-					const boton = document.getElementById("mostrarFiltros");
+	// Mostrar/Ocultar los filtros al hacer clic en el botón
+	document.getElementById("mostrarFiltrosBtn").addEventListener("click", function() {
+		const filtros = document.getElementById("filtros");
+		const boton = document.getElementById("mostrarFiltrosBtn");
 
-					if (filtros.style.display === "none") {
-						filtros.style.display = "flex"; // Mostrar los filtros
-						boton.textContent = "Ocultar Filtros"; // Cambiar el texto del botón
-					} else {
-						filtros.style.display = "none"; // Ocultar los filtros
-						boton.textContent = "Mostrar Filtros"; // Cambiar el texto del botón
-					}
-				});
-
-		// Función para filtrar la tabla
-		function filtrarTabla(idFiltro, columnaIndex) {
-			const valorFiltro = document.getElementById(idFiltro).value
-					.toLowerCase();
-			const filas = document.querySelectorAll(".tablaDatos tbody tr");
-
-			filas.forEach(function(fila) {
-				const celdas = fila.getElementsByTagName("td");
-				const textoCelda = celdas[columnaIndex].textContent
-						.toLowerCase();
-				if (textoCelda.includes(valorFiltro)) {
-					fila.style.display = "";
-				} else {
-					fila.style.display = "none";
-				}
-			});
+		if (filtros.style.display === "none") {
+			filtros.style.display = "flex"; // Mostrar los filtros
+			boton.textContent = "Ocultar Filtros"; // Cambiar el texto del botón
+		} else {
+			filtros.style.display = "none"; // Ocultar los filtros
+			boton.textContent = "Mostrar Filtros"; // Cambiar el texto del botón
 		}
+	});
 
-		// Agregar evento de filtro para cada campo
-		document.getElementById("buscarId").addEventListener("input",
-				function() {
-					filtrarTabla("buscarId", 0); // Filtro por columna ID (columna 0)
-				});
+	// Función para filtrar la tabla
+	function filtrarTabla(idFiltro, columnaIndex) {
+		const valorFiltro = document.getElementById(idFiltro).value.toLowerCase();
+		const filas = document.querySelectorAll(".tablaDatos tbody tr");
 
-		document.getElementById("buscarNombre").addEventListener("input",
-				function() {
-					filtrarTabla("buscarNombre", 1); // Filtro por columna Nombre (columna 1)
-				});
+		filas.forEach(function(fila) {
+			const celdas = fila.getElementsByTagName("td");
+			const textoCelda = celdas[columnaIndex].textContent.toLowerCase();
+			if (textoCelda.includes(valorFiltro)) {
+				fila.style.display = "";
+			} else {
+				fila.style.display = "none";
+			}
+		});
+	}
 
-		document.getElementById("buscarCorreo").addEventListener("input",
-				function() {
-					filtrarTabla("buscarCorreo", 2); // Filtro por columna Correo (columna 2)
-				});
-		
-		
-		// CODIGO PARA BOTONES ANTERIOR Y SIGUIENTE Y ESCRIBIR EN LA TBODY
-		 let datos = [];
-		    for (let i = 1; i <= 50; i++) { 
-		        datos.push({ id: i, nombre: "Jugador " + i, correo: "jugador" + i + "@correo.com", opciones: "Editar | Eliminar" });
-		    }
+	// Agregar evento de filtro para cada campo
+	document.getElementById("buscarId").addEventListener("input", function() {
+		filtrarTabla("buscarId", 0); // Filtro por columna ID (columna 0)
+	});
 
-		    let paginaActual = 1;
-		    const filasPorPagina = 10;
-		    const cuerpoTabla = document.getElementById("cuerpoTabla");
+	document.getElementById("buscarNombre").addEventListener("input", function() {
+		filtrarTabla("buscarNombre", 1); // Filtro por columna Nombre (columna 1)
+	});
 
-		    function mostrarTabla() {
-		        cuerpoTabla.innerHTML = "";
-		        let inicio = (paginaActual - 1) * filasPorPagina;
-		        let fin = inicio + filasPorPagina;
-		        let datosPagina = datos.slice(inicio, fin);
+	document.getElementById("buscarCorreo").addEventListener("input", function() {
+		filtrarTabla("buscarCorreo", 2); // Filtro por columna Correo (columna 2)
+	});
 
-		        datosPagina.forEach((item) => {
-		            let fila = `<tr>
-		                <td>${item.id}</td>
-		                <td>${item.nombre}</td>
-		                <td>${item.correo}</td>
-		                <td>${item.opciones}</td>
-		            </tr>`;
-		            cuerpoTabla.innerHTML += fila;
-		        });
 
-		        document.getElementById("paginaActual").textContent = paginaActual;
-		        document.getElementById("botonAnterior").disabled = paginaActual === 1;
-		        document.getElementById("botonSiguiente").disabled = fin >= datos.length;
-		    }
+	// CODIGO PARA BOTONES ANTERIOR Y SIGUIENTE Y ESCRIBIR EN LA TBODY
+	let datos = [];
+	for (let i = 1; i <= 50; i++) {
+		datos.push({ id: i, nombre: "Jugador " + i, correo: "jugador" + i + "@correo.com", opciones: "Editar | Eliminar" });
+	}
 
-		    function cambiarPagina(cambio) {
-		        paginaActual += cambio;
-		        mostrarTabla();
-		    }
+	let paginaActual = 1;
+	const filasPorPagina = 10;
+	const cuerpoTabla = document.getElementById("cuerpoTabla");
 
-		 // Obtenemos el botón y el contenedor de la tabla
-	        const boton = document.getElementById("toggleBtn");
-	        const tablaContenedor = document.getElementById("tablaContenedor");
+	function mostrarTabla() {
+		cuerpoTabla.innerHTML = "";
+		let inicio = (paginaActual - 1) * filasPorPagina;
+		let fin = inicio + filasPorPagina;
+		let datosPagina = datos.slice(inicio, fin);
 
-	        // Añadimos un event listener al botón para que cuando se haga clic, cambie la visibilidad
-	        boton.addEventListener("click", function() {
-	            // Comprobamos si la tabla está visible
-	            if (tablaContenedor.style.display === "none") {
-	                // Si está oculta, la mostramos
-	                tablaContenedor.style.display = "block";
-	                boton.textContent = "Ocultar Tabla"; // Cambiar el texto del botón
-	            } else {
-	                // Si está visible, la ocultamos
-	                tablaContenedor.style.display = "none";
-	                boton.textContent = "Mostrar Tabla"; // Cambiar el texto del botón
-	            }
-	        });
-		  
-	</script>
+		datosPagina.forEach((item) => {
+			let fila = `<tr>
+				<td>${item.id}</td>
+				<td>${item.nombre}</td>
+				<td>${item.correo}</td>
+				<td>${item.opciones}</td>
+			</tr>`;
+			cuerpoTabla.innerHTML += fila;
+		});
+
+		document.getElementById("paginaActual").textContent = paginaActual;
+		document.getElementById("botonAnterior").disabled = paginaActual === 1;
+		document.getElementById("botonSiguiente").disabled = fin >= datos.length;
+	}
+
+	function cambiarPagina(cambio) {
+		paginaActual += cambio;
+		mostrarTabla();
+	}
+
+
+	// Obtener el botón y el contenedor de la tabla de usuarios
+	const mostrarUsuariosBtn = document.getElementById('mostrarUsuariosBtn');
+	const userContainer = document.getElementById('userContainer');
+
+	// Añadir un evento de clic al botón para mostrar/ocultar los usuarios
+	mostrarUsuariosBtn.addEventListener('click', function(event) {
+		event.preventDefault(); // Evita el comportamiento predeterminado del botón (si lo tiene)
+
+		// Cambiar el estado de visibilidad del contenedor de usuarios
+		if (userContainer.style.display === 'none' || userContainer.style.display === '') {
+			userContainer.style.display = 'block'; // Mostrar el contenedor de usuarios
+		} else {
+			userContainer.style.display = 'none'; // Ocultar el contenedor de usuarios
+		}
+	});
+
+	
+	// Obtener todos los enlaces
+	const enlaces = document.querySelectorAll("a");
+
+	// Función para resaltar el enlace clicado y restablecer los demás
+	function resaltarEnlace() {
+	    // Restablecer el color de todos los enlaces
+	    enlaces.forEach(function(enlace) {
+	        enlace.style.backgroundColor = ''; // Elimina el color de fondo de todos
+	    });
+
+	    // Resaltar el enlace clicado
+	    this.style.backgroundColor = 'yellow'; // Resalta con color amarillo
+	}
+
+	// Añadir el evento de clic a cada enlace
+	enlaces.forEach(function(enlace) {
+	    enlace.addEventListener("click", resaltarEnlace);
+	});
+</script>
 
 
 
