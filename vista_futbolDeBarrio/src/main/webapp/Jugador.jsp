@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -139,7 +139,7 @@
 				</div>
 				<!-- fila de abajo -->
 				<div class="col-sm-12 col-md-12  "
-					style="border: solid 2px black; background-color: #004000;  box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, 0.45);">
+					style="border: solid 2px black; background-color: #004000; box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, 0.45);">
 					<div class="row " style="background-color: #004000;">
 						<!-- columna iquierda -->
 						<div class="col-sm-5 col-md-5 ">
@@ -158,7 +158,7 @@
 
 							</div>
 						</div>
-						
+
 						<!-- columna derecha -->
 						<div class="col-sm-7 col-md-7 ">
 
@@ -202,7 +202,7 @@
 										</ul>
 									</div>
 								</div>
-								
+
 							</div>
 						</div>
 					</div>
@@ -211,7 +211,93 @@
 		</div>
 	</header>
 
-	<main style="background-color: rgba(223, 234, 213, 0.5);"></main>
+	<main style="background-color: rgba(223, 234, 213, 0.5);">
+	
+	
+	
+	
+	
+	<!-- CONTENEDOR MARCADORES -->
+		<div class="container-fluid mt-5 pt-5" id="marcadorContainer">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 mt-3 mb-5 mx-auto">
+					<div class="row">
+						<div class="col-md-3 col-sm-3 mx-auto"
+							style="display: flex; justify-content: left; align-items: center;">
+							<button id="botonMarcadoresClubes" class="botonMarcadores p-4">
+								<img class="imagenMarcadores" src="Imagenes/clubes.PNG"
+									alt="Clubes"> MARCADORES CLUBES
+							</button>
+						</div>
+						<div class="col-md-3 col-sm-3 mx-auto"
+							style="display: flex; justify-content: right; align-items: center;">
+							<button class="botonMarcadores p-4">
+								<img class="imagenMarcadores" src="Imagenes/futbolista.PNG"
+									alt="Jugadores"> MARCADORES JUGADORES
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Aquí va el contenedor de la tabla, inicialmente oculto -->
+		<div class="container-fluid mt-4" id="clubContainer"
+			style="display: none;">
+			<div class="row">
+
+				<div class="col-md-12 col-sm-12 mx-auto mt-5 pt-3 m-1"
+					style="display: flex; align-items: center; gap: 10px;">
+					<button id="volverAContenido" class="mb-2 mr-auto botonFiltrar"
+						style="background-color: red">Volver</button>
+					<button id="mostrarFiltrosClubes" class="mb-2 mr-auto botonFiltrar"
+						style="background-color: black">Mostrar Filtros</button>
+
+				</div>
+
+				<!-- Filtros de búsqueda (inicialmente ocultos) -->
+				<div id="filtrosClubes" class="filaFiltrar"
+					style="display: none; background-color: black;">
+					<div class="filtroItem">
+						<input type="text" id="buscarId" class="inputFiltrar"
+							placeholder="Buscar por ID">
+					</div>
+					<div class="filtroItem">
+						<input type="text" id="buscarNombre" class="inputFiltrar"
+							placeholder="Buscar por Nombre">
+					</div>
+					<div class="filtroItem">
+						<input type="text" id="buscarNjugadores" class="inputFiltrar"
+							placeholder="Buscar por número de Jugadores">
+					</div>
+					<input type="text" id="buscarLocalidad" class="inputFiltrar"
+						placeholder="Buscar por Localidad">
+
+				</div>
+
+				<table class="tablaDatosListaClubes mb-4">
+					<thead style="background-color: black;">
+						<tr>
+							<th style="border: 1.5px solid #0d6ba1; width: 12.5%">POS</th>
+							<th style="border: 1.5px solid #0d6ba1; width: 30%">CLUB</th>
+							<th style="border: 1.5px solid #0d6ba1; width: 22.5%">LOCALIDAD</th>
+							<th style="border: 1.5px solid #0d6ba1; width: 5%">PJ</th>
+							<th style="border: 1.5px solid #0d6ba1; width: 5%">V</th>
+							<th style="border: 1.5px solid #0d6ba1; width: 5%">E</th>
+							<th style="border: 1.5px solid #0d6ba1; width: 5%">D</th>
+							<th style="border: 1.5px solid #0d6ba1; width: 5%">GF</th>
+							<th style="border: 1.5px solid #0d6ba1; width: 5%">GC</th>
+							<th style="border: 1.5px solid #0d6ba1; width: 5%">DG</th>
+						</tr>
+					</thead>
+					<tbody id="tablaClubes"></tbody>
+				</table>
+			</div>
+		</div>
+	</main>
+
+
+
 
 
 	<footer>
@@ -220,7 +306,8 @@
 			<div class="row">
 				<div class="col-md-12 col-sm-12">
 					<div class="row">
-						<div class="col-md-3 col-sm-3  g-4 pieDePagina p-4 pb-1  " style="margin-left: 2vw">
+						<div class="col-md-3 col-sm-3  g-4 pieDePagina p-4 pb-1  "
+							style="margin-left: 2vw">
 							<p style="text-decoration: underline; font-size: 1.5vw">SOBRE
 								NOSOTROS</p>
 							<p style="font-size: 1.05vw">Somos la plataforma líder para
@@ -295,7 +382,7 @@ Avenida mujer trabajadora
 						</div>
 					</div>
 				</div>
-				<div class="col-md-12 col-sm-12 pieDePagina p-1"
+				<div class="col-md-12 col-sm-12 pieDePagina p-1 mt-4"
 					style="border-top: 1px solid white;">
 					<p style="font-size: 1.8vw; margin-top: 1.4vw; color: #d4af37">©
 						2024 futboldebarrio.com | Todos los derechos reservados</p>
@@ -308,42 +395,199 @@ Avenida mujer trabajadora
 
 
 
-	<!-- CODIDO PARA BUSCADOR
-<script>
-  // Lista de sugerencias (puedes personalizar los valores)
-  const datosSugerencias = ["Inicio", "Acerca de", "Servicios", "Eventos", "Contacto", "Marcadores", "Desafíos"];
+	<script>
+	
+	//MOSTRAR CONTENDOR PULSADO EN LA CABECERA
+	document.addEventListener("DOMContentLoaded", function () {
+	const marcadorContainer = document.getElementById('marcadorContainer');
+	 const mostrarMarcadorBtn = document.getElementById('mostrarMarcadorBtn');
+	 
+	 function mostrarContenedor(mostrar) {
+	        // Ocultar todos los contenedores
+	        mostrarContainer.style.display = "none";
+	       
+	        // Mostrar solo el contenedor seleccionado
+	        mostrar.style.display = "block";
+	    }
+	 
+	 mostrarMArcadorBtn.addEventListener('click', function (event) {
+	        event.preventDefault();
+	        mostrarContenedor(marcadorContainer);
+	    });
+	  // Mostrar la sección de inicio al cargar la página
+	    mostrarContenedor(inicioContainer);
 
-  // Función para mostrar las sugerencias
-  function mostrarSugerencias() {
-    const entrada = document.getElementById("entradaBusqueda");
-    const contenedorSugerencias = document.getElementById("sugerencias");
-    const consulta = entrada.value.toLowerCase();
+	    // Obtener todos los enlaces
+	    const enlaces = document.querySelectorAll("a");
 
-    // Limpia las sugerencias previas
-    contenedorSugerencias.innerHTML = "";
+	    // Función para resaltar el enlace clicado y restablecer los demás
+	    function resaltarEnlace(event) {
+	        event.preventDefault(); // Evita que la página se recargue
 
-    // Filtra las sugerencias según el texto ingresado
-    const sugerenciasFiltradas = datosSugerencias.filter(item => 
-      item.toLowerCase().includes(consulta)
-    );
+	        enlaces.forEach(function (enlace) {
+	            enlace.style.color = ""; // Restablece el color original
+	        });
 
-    // Genera la lista de sugerencias
-    sugerenciasFiltradas.forEach(sugerencia => {
-      const li = document.createElement("li");
-      li.textContent = sugerencia;
-      li.onclick = () => {
-        entrada.value = sugerencia; // Rellena el campo con la sugerencia seleccionada
-        contenedorSugerencias.innerHTML = ""; // Limpia las sugerencias
-      };
-      contenedorSugerencias.appendChild(li);
-    });
+	        this.style.color = "#d4af37"; // Resalta el enlace clicado con color amarillo
+	    }
 
-    // Muestra u oculta el contenedor de sugerencias
-    contenedorSugerencias.style.display = sugerenciasFiltradas.length > 0 ? "block" : "none";
-  }
-</script>
+	    // Añadir el evento de clic a cada enlace
+	    enlaces.forEach(function (enlace) {
+	        enlace.addEventListener("click", resaltarEnlace);
+	    });
+	});
+	
+ 
+ // METODO PARA MOSTRAR CONTENIDO DE LA TABLA CLUBES 
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM completamente cargado');
+            
+            let clubes = [
+                { club: "FC Barcelona", localidad: "Barcelona", PJ: 20, V: 14, E: 4, D: 2, GF: 38, GC: 18 },
+                { club: "Real Madrid", localidad: "Madrid", PJ: 20, V: 13, E: 5, D: 2, GF: 42, GC: 20 },
+                { club: "Atlético Madrid", localidad: "Madrid", PJ: 20, V: 12, E: 5, D: 3, GF: 36, GC: 19 },
+                { club: "Sevilla FC", localidad: "Sevilla", PJ: 20, V: 12, E: 6, D: 2, GF: 35, GC: 17 },
+                { club: "Valencia CF", localidad: "Valencia", PJ: 20, V: 10, E: 5, D: 5, GF: 30, GC: 22 },
+                { club: "Real Sociedad", localidad: "San Sebastián", PJ: 20, V: 9, E: 6, D: 5, GF: 28, GC: 24 },
+                { club: "Real Betis", localidad: "Sevilla", PJ: 20, V: 8, E: 7, D: 5, GF: 25, GC: 20 },
+                { club: "Villarreal CF", localidad: "Villarreal", PJ: 20, V: 8, E: 5, D: 7, GF: 24, GC: 22 },
+                { club: "Celta de Vigo", localidad: "Vigo", PJ: 20, V: 7, E: 6, D: 7, GF: 23, GC: 25 },
+                { club: "Athletic Club", localidad: "Bilbao", PJ: 20, V: 7, E: 6, D: 7, GF: 20, GC: 22 },
+                { club: "Granada CF", localidad: "Granada", PJ: 20, V: 6, E: 6, D: 8, GF: 18, GC: 24 },
+                { club: "Espanyol", localidad: "Barcelona", PJ: 20, V: 6, E: 5, D: 9, GF: 17, GC: 26 },
+                { club: "Getafe CF", localidad: "Getafe", PJ: 20, V: 5, E: 6, D: 9, GF: 15, GC: 25 },
+                { club: "Alavés", localidad: "Vitoria", PJ: 20, V: 5, E: 4, D: 11, GF: 13, GC: 27 },
+                { club: "Levante UD", localidad: "Valencia", PJ: 20, V: 4, E: 5, D: 11, GF: 12, GC: 28 },
+                { club: "Mallorca", localidad: "Palma", PJ: 20, V: 3, E: 6, D: 11, GF: 11, GC: 29 },
+                { club: "Cádiz CF", localidad: "Cádiz", PJ: 20, V: 3, E: 5, D: 12, GF: 10, GC: 30 },
+                { club: "Osasuna", localidad: "Pamplona", PJ: 20, V: 2, E: 6, D: 12, GF: 9, GC: 31 },
+                { club: "Elche CF", localidad: "Elche", PJ: 20, V: 2, E: 5, D: 13, GF: 8, GC: 32 }
+               
+            ];
 
- -->
+            // Ordenar los clubes por el número de victorias en orden descendente
+            clubes.sort((a, b) => b.V - a.V);
+
+            const tablaCuerpo = document.getElementById("tablaClubes");
+
+            let startIndex = 0;
+            const batchSize = 15; // Cargar 15 clubes al principio
+            const maxClubs = 100; // Limitar a 100 clubes
+
+            // Función para cargar los clubes en la tabla
+            function cargarClubes() {
+                if (startIndex >= maxClubs) return; // No cargar más de 100 clubes
+
+                let endIndex = Math.min(startIndex + batchSize, clubes.length, maxClubs);
+
+                for (let i = startIndex; i < endIndex; i++) {
+                    const club = clubes[i];
+                    const diferenciaGoles = club.GF - club.GC; // Calcular DG
+                    let row = document.createElement("tr");
+
+                    // Crear las celdas individualmente
+                    let posCell = document.createElement("td");
+                    posCell.textContent = i + 1;
+                    row.appendChild(posCell);
+
+                    let clubCell = document.createElement("td");
+                    clubCell.textContent = club.club;
+                    row.appendChild(clubCell);
+
+                    let localidadCell = document.createElement("td");
+                    localidadCell.textContent = club.localidad;
+                    row.appendChild(localidadCell);
+
+                    let pjCell = document.createElement("td");
+                    pjCell.textContent = club.PJ;
+                    row.appendChild(pjCell);
+
+                    let vCell = document.createElement("td");
+                    vCell.textContent = club.V;
+                    row.appendChild(vCell);
+
+                    let eCell = document.createElement("td");
+                    eCell.textContent = club.E;
+                    row.appendChild(eCell);
+
+                    let dCell = document.createElement("td");
+                    dCell.textContent = club.D;
+                    row.appendChild(dCell);
+
+                    let gfCell = document.createElement("td");
+                    gfCell.textContent = club.GF;
+                    row.appendChild(gfCell);
+
+                    let gcCell = document.createElement("td");
+                    gcCell.textContent = club.GC;
+                    row.appendChild(gcCell);
+
+                    let dgCell = document.createElement("td");
+                    dgCell.textContent = diferenciaGoles;
+                    row.appendChild(dgCell);
+
+                    // Agregar la fila a la tabla
+                    tablaCuerpo.appendChild(row);
+                }
+
+                startIndex += batchSize;
+            }
+
+            // Cargar los primeros 15 clubes al cargar la página
+            cargarClubes();
+
+            // Detectar el scroll y cargar más clubes cuando se llegue al final
+            window.addEventListener("scroll", function() {
+                if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
+                    cargarClubes();
+                }
+            });
+
+            // Lógica para mostrar/ocultar los filtros
+            document.getElementById("mostrarFiltrosClubes").addEventListener("click", function() {
+                const filtros = document.getElementById("filtrosClubes");
+                const boton = document.getElementById("mostrarFiltrosClubes");
+
+                if (filtros.style.display === "none") {
+                    filtros.style.display = "flex"; // Mostrar los filtros
+                    boton.textContent = "Ocultar Filtros"; // Cambiar el texto del botón
+                } else {
+                    filtros.style.display = "none"; // Ocultar los filtros
+                    boton.textContent = "Mostrar Filtros"; // Cambiar el texto del botón
+                }
+            });
+        });
+ 
+        const botonMarcadoresClubes = document.getElementById('botonMarcadoresClubes');
+        const clubContainer = document.getElementById('clubContainer');
+        const volverAContenido = document.getElementById('volverAContenido');  // Botón para volver a la vista anterior
+        const mainContent = document.querySelector('main');  // Capturamos todo el contenido principal
+
+        // Función para mostrar solo la tabla de clubes
+        botonMarcadoresClubes.addEventListener('click', function() {
+          // Ocultar las secciones que no son la tabla
+          const contenidoPrincipal = mainContent.querySelectorAll('.container-fluid');
+          contenidoPrincipal.forEach(item => {
+            item.style.display = 'none';  // Ocultar todas las secciones, excepto la tabla
+          });
+
+          // Mostrar solo el contenedor de la tabla
+          clubContainer.style.display = 'block';  // Mostrar la tabla
+        });
+
+        // Función para volver a la vista anterior
+        volverAContenido.addEventListener('click', function() {
+          // Mostrar el contenido principal nuevamente
+          const contenidoPrincipal = mainContent.querySelectorAll('.container-fluid');
+          contenidoPrincipal.forEach(item => {
+            item.style.display = 'block';  // Mostrar las secciones
+          });
+
+          // Ocultar la tabla
+          clubContainer.style.display = 'none';  // Ocultar la tabla
+        });
+    </script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

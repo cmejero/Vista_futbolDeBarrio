@@ -113,6 +113,7 @@ button.botonRegistrarCabecera {
 	border: 1px solid #000000;
 	font-size: 1.4vw;
 	transition: background-color 0.3s ease;
+	box-shadow: 5px 4px 8px rgba(0, 0, 0, 0.55);
 }
 
 button.botonRegistrarCabecera:hover {
@@ -172,19 +173,19 @@ button.botonRegistrarCabecera:active {
 
 /* ADMINISTRADOR */
 .menuLateral {
-	padding: 2%;
-	box-shadow: 0px 4px 8px rgba(0, 0, 0, 1);
-	font-size: 1.55vw;
-	font-style: italic;
-	background-color: #ececec;
-	color: black;
-	position: fixed;
-	height: 100%;
-
-	width: 16.6667%;
-	
-
-}
+    padding: 11.5%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 1);
+    font-size: 1.55vw;
+    font-style: italic;
+    background-color: #ececec;
+    color: black;
+    position: fixed;
+    top: 0; /* Asegura que se quede pegado a la parte superior */
+    left: 0;
+    height: 100%; /* Ocupa toda la altura de la pantalla */
+    width: 16.6667%;
+    
+    }
 
 .letraMenuLateral {
 	text-decoration: none;
@@ -208,7 +209,7 @@ button.botonRegistrarCabecera:active {
     border-collapse: collapse;
     background-color: #eafeea;
     color: black;
-    font-size: 1.1vw;
+    font-size: 1.1	vw;
     box-shadow: 0vw 0.4vw 0.8vw rgba(0, 0, 0, 0.3), 0vw -0.4vw 0.8vw rgba(0, 0, 0, 0.15);
     font-family: 'Open Sans', sans-serif;
     
@@ -248,6 +249,10 @@ button.botonRegistrarCabecera:active {
     height: 2.5vw;
     cursor: pointer;
     border-radius: 0.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: left;
+    
 }
 .botonFiltrar:hover{
 	 background-color:#6c6c6c;
@@ -300,7 +305,7 @@ button.botonRegistrarCabecera:active {
     flex-wrap: wrap;
     gap: 1vw;
     padding: 0.5vw;
-    margin-bottom: 1.5vw;
+    margin-bottom: 0.8vw;
 }
 
 
@@ -371,10 +376,7 @@ button.botonSeleccion {
 	text-decoration: underline;
 }
 
-.botonSeleccion:focus {
-	background-color: #d4af37;
-	color: black;
-}
+
 
 .botonSeleccion:hover {
 	transform: scale(1.1);
@@ -521,4 +523,64 @@ button.botonSeleccion {
 
 .enlaceRegistroGoogle a:hover {
 	text-decoration: underline;
+}
+
+/* MARCADORES */
+
+.tablaDatosListaClubes {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #333333;
+    color: white;
+    font-size: 1.25	vw;
+    box-shadow: 0vw 0.4vw 0.8vw rgba(0, 0, 0, 0.3), 0vw -0.4vw 0.8vw rgba(0, 0, 0, 0.15);
+    font-family: 'Open Sans', sans-serif;
+    border: 2px solid black;
+    
+}
+
+.tablaDatosListaClubes th, 
+.tablaDatosListaClubes td {
+    
+    padding: 0.6vw;
+    text-align: center;
+    border: 1.2px solid #0d6ba1;
+    
+}
+
+.tablaDatosListaClubes th {
+    text-decoration: underline;
+    font-style: italic;
+    font-size: 1.4vw;
+    font-weight: bold;
+}
+
+.tablaDatosListaClubes tr:nth-child(even) {
+    background-color: #0e0e0e;   
+}
+
+.imagenMarcadores{
+	
+	width: 24vw;
+	height: 24vw;
+	margin-bottom: 1.5vw;
+	border: 1px solid  #333333;
+}
+.botonMarcadores {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; /* Asegura que la imagen esté arriba y el texto debajo */
+  text-align: center;
+  border: none;
+  background-color: white;
+  box-shadow: 0vw 0.4vw 0.8vw rgba(0, 0, 0, 1), 0vw -0.4vw 0.8vw rgba(0, 0, 0, 0.15);
+  font-weight: bold;
+  font-size: 1.5vw;
+  
+}
+
+.botonMarcadores:hover{
+	
+	transform: scale(1.1);
 }

@@ -232,20 +232,20 @@
 
 				<div class="col-md-12 col-sm-12 columnaBotonRegistrar p-3" >
 
-					<button type="button" class=" botonSeleccion p-3"
+					<button type="button" class=" botonSeleccion p-3" id="mostrarUsuarioBtn"
 						style=" box-shadow: 3.5px 3.5px 0px red, 3.5px 3.5px 8px rgba(255, 0, 0, 0.5);">REGISTRARSE
-						COMO JUGADOR</button>
+						COMO USUARIO</button>
+						
+						<button type="button" class=" botonSeleccion p-3" id="mostrarInstalacionBtn"
+						style=" box-shadow: 3.5px 3.5px 0px green, 3.5px 3.5px 8px rgba(0, 128, 0, 0.5);">REGISTRARSE
+						COMO INSTALACIÓN</button>
 
-					<button type="button" class=" botonSeleccion p-3"
+					<button type="button" class=" botonSeleccion p-3 " id="mostrarClubBtn"
 						style=" box-shadow: 3.5px 3.5px 0px blue, 3.5px 3.5px 8px rgba(0, 0, 255, 0.5);">REGISTRARSE
 						COMO CLUB</button>
 
 
-					<button type="button" class=" botonSeleccion p-3"
-						style=" box-shadow: 3.5px 3.5px 0px green, 3.5px 3.5px 8px rgba(0, 128, 0, 0.5);">REGISTRARSE
-						COMO INSTALACIÓN</button>
-
-					<button type="button" class=" botonSeleccion p-3"
+					<button type="button" class=" botonSeleccion p-3" id="mostrarArbitroBtn"
 						style=" box-shadow: 3.5px 3.5px 0px yellow, 3.5px 3.5px 8px rgba(255, 255, 0, 0.5);">REGISTRARSE
 						COMO ARBITRO</button>
 
@@ -258,11 +258,11 @@
 		</div>
 
 		<div class="container-fluid  ">
-			<!-- FORMULARIO JUGADOR -->
-			<div class="row mt-5 mb-5">
-				<div class=" col-md-10 col-sm-10  mx-auto"
+			<!-- FORMULARIO USUARIO -->
+			<div class="row mt-5 mb-5" style="display: none;" id="usuarioContainer" >
+				<div class=" col-md-10 col-sm-10  mx-auto "
 					style="background-color: #dfead5; border-radius: 12px">
-					<h2 class=" text-center mt-4 mb-5"
+					<h2 class=" text-center mt-5 mb-5 pt-4 "
 						style="font-size: 3.5vw; text-decoration: underline;">
 						<i>Formulario de Registro: Usuario</i>
 					</h2>
@@ -317,11 +317,12 @@
 									</tr>
 									<tr>
 										<td><label for="rolJugador" class="formularioLabel">Rol
-												de Jugador</label> <select class="form-select"
+												usuario</label> <select class="form-select"
 											style="font-size: 1vw; border: 1px solid #818181;"
 											id="rolJugador" name="rolJugador" required>
-												<option value="jugador">Jugador</option>
-												<option value="porteror">Entrenador</option>
+												<option value="Jugador">Jugador</option>
+												<option value="Portero">Entrenador</option>
+												<option value="Administrador">Administrador</option>
 										</select></td>
 										<td><label for="descripcionUsuario"
 											class="formularioLabel ">Descripción</label> <textarea
@@ -343,7 +344,7 @@
 								</tbody>
 							</table>
 
-							<div class="text-center mt-4  mb-4">
+							<div class="text-center mt-4  mb-5">
 								<button type="submit" class=" botonRegistrarCabecera">REGISTRARSE</button>
 
 							</div>
@@ -357,10 +358,10 @@
 
 
 			<!-- FORMULARIO CLUB -->
-			<div class="row mt-5 mb-5">
+			<div class="row mt-5 mb-5" style="display: none;" id="clubContainer" >
 				<div class=" col-md-10 col-sm-10  mx-auto "
 					style="background-color: #dfead5; border-radius: 12px">
-					<h2 class=" text-center mt-4 mb-5"
+					<h2 class=" text-center mt-4 mb-5 pt-4"
 						style="font-size: 3.5vw; text-decoration: underline;">
 						<i>Formulario de Registro: Club </i>
 					</h2>
@@ -434,7 +435,7 @@
 
 								</tbody>
 							</table>
-							<div class="text-center mt-4 mb-4">
+							<div class="text-center mt-4 mb-5">
 								<button type="submit" class="botonRegistrarCabecera">REGISTRARSE</button>
 							</div>
 						</form>
@@ -446,10 +447,10 @@
 
 
 			<!-- FORMULARIO INSTALACIÓN -->
-			<div class="row mt-5 mb-5">
+			<div class="row mt-5 mb-5" style="display: none;" id="instalacionContainer" >
 				<div class="col-md-10 col-sm-10 mx-auto"
 					style="background-color: #dfead5; border-radius: 12px">
-					<h2 class="text-center mt-4 mb-5"
+					<h2 class="text-center mt-4 mb-5 pt-4"
 						style="font-size: 3.5vw; text-decoration: underline;">
 						<i>Formulario de Registro: Instalación</i>
 					</h2>
@@ -557,13 +558,104 @@
 
 								</tbody>
 							</table>
-							<div class="text-center mt-4 mb-4">
+							<div class="text-center mt-4 mb-5">
 								<button type="submit" class="botonRegistrarCabecera">REGISTRARSE</button>
 							</div>
 						</form>
 					</div>
 				</div>
 			</div>
+			
+			
+			
+			
+			<!-- FORMULARIO ARBITRO -->
+			<div class="row mt-5 mb-5" style="display: none;" id="arbitroContainer" >
+				<div class=" col-md-10 col-sm-10  mx-auto"
+					style="background-color: #dfead5; border-radius: 12px">
+					<h2 class=" text-center mt-4 mb-5 pt-4"
+						style="font-size: 3.5vw; text-decoration: underline;">
+						<i>Formulario de Registro: Arbitro</i>
+					</h2>
+					<div class="registrarFormulario ">
+						<form action="#" method="POST">
+
+
+
+							<table class="tablaFormulario "
+								style="background-color: #dedede; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6) ,  0px -4px 8px rgba(0, 0, 0, 0.15)">
+
+								<tbody>
+									<tr>
+
+										<td><label for="nombreCompletoUsuario"
+											class="formularioLabel ">Nombre Completo</label> <input
+											type="text"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											class="form-control" id="nombreCompletoUsuario"
+											name="nombreCompletoUsuario" required></td>
+										<td><label for="fechaNacimientoUsuario"
+											class="formularioLabel ">Fecha de Nacimiento</label> <input
+											type="date"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											class="form-control" id="fechaNacimientoUsuario"
+											name="fechaNacimientoUsuario" required></td>
+									</tr>
+									<tr>
+										<td><label for="emailUsuario" class="formularioLabel ">Correo
+												Electrónico</label> <input type="email"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											class="form-control" id="emailUsuario" name="emailUsuario"
+											required></td>
+										<td><label for="telefonoUsuario" class="formularioLabel ">Teléfono</label>
+											<input type="tel"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											class="form-control" id="telefonoUsuario"
+											name="telefonoUsuario" required></td>
+									</tr>
+									<tr>
+										<td><label for="passwordUsuario" class="formularioLabel ">Contraseña</label>
+											<input type="password"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											class="form-control" id="passwordUsuario"
+											name="passwordUsuario" required></td>
+										<td><label for="passwordUsuario" class="formularioLabel ">Repetir
+												contraseña</label> <input type="password"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											style="font-size: 1vw;" class="form-control"
+											id="passwordUsuario" name="passwordUsuario" required></td>
+
+									</tr>
+									<tr>
+										
+										<td><label for="descripcionUsuario"
+											class="formularioLabel ">Descripción</label> <textarea
+												class="form-control"
+												style="font-size: 1vw; border: 1px solid #818181;"
+												id="descripcionUsuario" name="descripcionUsuario" rows="3"></textarea>
+										</td>
+										
+										<td><label for="imagenUsuario" class="formularioLabel ">Imagen
+												Arbitro</label> <input type="file"
+											style="font-size: 1vw; border: 1px solid #818181;"
+											class="form-control" id="imagenUsuario" name="imagenUsuario">
+										</td>
+									</tr>
+									
+
+
+								</tbody>
+							</table>
+
+							<div class="text-center mt-4  mb-5">
+								<button type="submit" class=" botonRegistrarCabecera">REGISTRARSE</button>
+
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			
 
 		</div>
 	</main>
@@ -651,7 +743,7 @@ Avenida mujer trabajadora
 						</div>
 					</div>
 				</div>
-				<div class="col-md-12 col-sm-12 pieDePagina p-1"
+				<div class="col-md-12 col-sm-12 pieDePagina p-1 mt-4"
 					style="border-top: 1px solid white;">
 					<p style="font-size: 1.8vw; margin-top: 1.4vw; color: #d4af37">©
 						2024 futboldebarrio.com | Todos los derechos reservados</p>
@@ -665,42 +757,90 @@ Avenida mujer trabajadora
 
 
 
-	<!-- CODIDO PARA BUSCADOR
-<script>
-  // Lista de sugerencias (puedes personalizar los valores)
-  const datosSugerencias = ["Inicio", "Acerca de", "Servicios", "Eventos", "Contacto", "Marcadores", "Desafíos"];
+	
 
-  // Función para mostrar las sugerencias
-  function mostrarSugerencias() {
-    const entrada = document.getElementById("entradaBusqueda");
-    const contenedorSugerencias = document.getElementById("sugerencias");
-    const consulta = entrada.value.toLowerCase();
+ <script>
+ document.addEventListener("DOMContentLoaded", function () {
+	    // Obtener los botones
+	    const mostrarUsuarioBtn = document.getElementById('mostrarUsuarioBtn');
+	    const mostrarInstalacionBtn = document.getElementById('mostrarInstalacionBtn');
+	    const mostrarClubBtn = document.getElementById('mostrarClubBtn');
+	    const mostrarArbitroBtn = document.getElementById('mostrarArbitroBtn');
 
-    // Limpia las sugerencias previas
-    contenedorSugerencias.innerHTML = "";
+	    // Obtener los contenedores
+	    const usuarioContainer = document.getElementById('usuarioContainer');
+	    const instalacionContainer = document.getElementById('instalacionContainer');
+	    const clubContainer = document.getElementById('clubContainer');
+	    const arbitroContainer = document.getElementById('arbitroContainer');
 
-    // Filtra las sugerencias según el texto ingresado
-    const sugerenciasFiltradas = datosSugerencias.filter(item => 
-      item.toLowerCase().includes(consulta)
-    );
+	    // Función para mostrar un contenedor y ocultar los demás
+	    function mostrarContenedor(mostrar) {
+	        // Ocultar todos los contenedores
+	        usuarioContainer.style.display = "none";
+	        instalacionContainer.style.display = "none";
+	        clubContainer.style.display = "none";
+	        arbitroContainer.style.display = "none";
 
-    // Genera la lista de sugerencias
-    sugerenciasFiltradas.forEach(sugerencia => {
-      const li = document.createElement("li");
-      li.textContent = sugerencia;
-      li.onclick = () => {
-        entrada.value = sugerencia; // Rellena el campo con la sugerencia seleccionada
-        contenedorSugerencias.innerHTML = ""; // Limpia las sugerencias
-      };
-      contenedorSugerencias.appendChild(li);
-    });
+	        // Mostrar solo el contenedor seleccionado
+	        mostrar.style.display = "block";
+	    }
 
-    // Muestra u oculta el contenedor de sugerencias
-    contenedorSugerencias.style.display = sugerenciasFiltradas.length > 0 ? "block" : "none";
-  }
-</script>
+	    // Evento para mostrar Usuario
+	    mostrarUsuarioBtn.addEventListener('click', function (event) {
+	        event.preventDefault();
+	        mostrarContenedor(usuarioContainer);
+	    });
 
- -->
+	    // Evento para mostrar Instalación
+	    mostrarInstalacionBtn.addEventListener('click', function (event) {
+	        event.preventDefault();
+	        mostrarContenedor(instalacionContainer);
+	    });
+
+	    // Evento para mostrar Club
+	    mostrarClubBtn.addEventListener('click', function (event) {
+	        event.preventDefault();
+	        mostrarContenedor(clubContainer);
+	    });
+
+	    // Evento para mostrar Árbitro
+	    mostrarArbitroBtn.addEventListener('click', function (event) {
+	        event.preventDefault();
+	        mostrarContenedor(arbitroContainer);
+	    });
+
+	    // Mostrar la sección de Usuario al cargar la página
+	    mostrarContenedor(usuarioContainer);
+
+	    // Obtener todos los botones
+	    const botones = document.querySelectorAll("button");
+
+	    // Función para resaltar el enlace clicado y restablecer los demás
+	    function resaltarEnlace(event) {
+	        event.preventDefault(); // Evita que la página se recargue
+
+	        // Restablecer el color y el fondo de todos los botones
+	        botones.forEach(function (boton) {
+	            boton.style.color = ""; // Restablece el color del texto original
+	            boton.style.backgroundColor = ""; // Restablece el color de fondo original
+	        });
+
+	        // Cambiar el color de fondo y texto del botón clicado
+	        this.style.color = "black"; // Cambiar color de texto a negro
+	        this.style.backgroundColor = "#d4af37"; // Cambiar color de fondo a dorado
+	    }
+
+	    // Añadir el evento de clic a cada botón
+	    botones.forEach(function (boton) {
+	        boton.addEventListener("click", resaltarEnlace);
+	    });
+	});
+ 
+ mostrarUsuarioBtn.style.color = "black"; // Cambiar color de texto a negro
+ mostrarUsuarioBtn.style.backgroundColor = "#d4af37";
+
+    </script>
+
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

@@ -294,7 +294,7 @@ Avenida mujer trabajadora
 						</div>
 					</div>
 				</div>
-				<div class="col-md-12 col-sm-12 pieDePagina p-1"
+				<div class="col-md-12 col-sm-12 pieDePagina p-1 mt-4"
 					style="border-top: 1px solid white;">
 					<p style="font-size: 1.8vw; margin-top: 1.4vw; color: #d4af37">©
 						2024 futboldebarrio.com | Todos los derechos reservados</p>

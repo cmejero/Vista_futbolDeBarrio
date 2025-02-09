@@ -217,63 +217,53 @@
 		</div>
 	</header>
 
-	<main class="mt-5 pt-5 mb-5 pb-5" style="background-color: rgba(223, 234, 213, 0.5); ">
+	<main class="mt-5 pt-5 pb-5" style="background-color: rgba(223, 234, 213, 0.5);">
+    <div class="d-flex justify-content-center align-items-center pt-5 mt-5 mb-5">
+        <div class="formularioInicioSesion" style="width: 100%; max-width: 28vw;">
+            <h2 class="text-center mb-4" style="text-decoration: underline; font-size:2.2vw">
+                <i>Iniciar Sesión</i>
+            </h2>
 
-		<div
-			class=" d-flex justify-content-center align-items-center  pt-5 mt-5 mb-5 ">
-			<div class="formularioInicioSesion"
-				style="width: 100%; max-width: 28vw;">
-				<h2 class="text-center mb-4" style="text-decoration: underline; font-size:2.2vw">
-					<i>Iniciar Sesión</i>
-				</h2>
+            <form action="LoginServlet" method="POST">
+                <!-- Selección de Rol -->
+               
+                <div class="mb-1">
+                    <label for="correoUsuario" class="etiquetaFormulario">Correo Electrónico</label> 
+                    <input type="email" class="campoFormulario" id="correoUsuario" name="correoUsuario" required>
+                </div>
 
-				<form action="#" method="POST">
-					<div class="mb-3">
-						<label for="correoUsuario" class="etiquetaFormulario">Correo
-							Electrónico</label> <input type="email" class="campoFormulario"
-							id="correoUsuario" name="correoUsuario" required>
-					</div>
+                <div class="mb-2">
+                    <label for="contrasenaUsuario" class="etiquetaFormulario">Contraseña</label>
+                    <div class="contenedorContrasenia">
+                        <input type="password" class="campoFormulario" id="contrasenaUsuario" name="contrasenaUsuario" required>
+                        <button type="button" class="botonMostrarContrasenia" onclick="mostrarContrasena()">👁️</button>
+                    </div>
+                </div>
 
-					<div class="mb-3">
-						<label for="contrasenaUsuario" class="etiquetaFormulario">Contraseña</label>
-						<div class="contenedorContrasenia">
-							<input type="password" class="campoFormulario"
-								id="contrasenaUsuario" name="contrasenaUsuario" required>
-							<button type="button" class="botonMostrarContrasenia"
-								onclick="mostrarContrasena()">👁️</button>
-						</div>
-					</div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="recordarContrasenia">
+                        <input type="checkbox" id="recordarSesion"> <label for="recordarSesion">Recordar sesión</label>
+                    </div>
+                    <a href="#" class="enlaceContraseniaOlvidada">¿Olvidaste tu contraseña?</a>
+                </div>
 
-					<div class="d-flex justify-content-between align-items-center">
-						<div class="recordarContrasenia">
-							<input type="checkbox" id="recordarSesion"> <label
-								for="recordarSesion">Recordar sesión</label>
-						</div>
-						<a href="#" class="enlaceContraseniaOlvidada">¿Olvidaste tu contraseña?</a>
-					</div>
+                <div class="text-center mt-3">
+                    <button type="submit" class="botonEnviarInicioSesion">Iniciar Sesión</button>
+                </div>
 
-					<div class="text-center mt-3">
-						<button type="submit" class="botonEnviarInicioSesion">Iniciar Sesión</button>
-					</div>
+                <div class="text-center mt-2">
+                    <button type="button" class="botonInicioSesionGoogle">Iniciar con Google</button>
+                </div>
 
-					<div class="text-center mt-2">
-						<button type="button" class="botonInicioSesionGoogle">Iniciar con
-							Google</button>
-					</div>
-
-					<div class="enlaceRegistroGoogle">
-						¿No tienes una cuenta? <a
-							href="https://accounts.google.com/lifecycle/steps/signup/name?continue=https://myaccount.google.com?utm_source%3Daccount-marketing-page%26utm_medium%3Dcreate-account-button&ddm=1&dsh=S-132378610:1738527437949933&flowEntry=SignUp&flowName=GlifWebSignIn&TL=AO-GBTfH2V2PbMnNLj-A3oChe85s4pKn5Ua8_mdG-UlJ4mONvF_8AJEB_QXrAgMc">Regístrate
-							aquí</a>
-					</div>
-				</form>
-			</div>
-		</div>
-
-
-
-
-	</main>
+                <div class="enlaceRegistroGoogle">
+                    ¿No tienes una cuenta? <a href="https://accounts.google.com/lifecycle/steps/signup/name">
+                        Regístrate aquí
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
 
 	<footer>
 
@@ -357,7 +347,7 @@ Avenida mujer trabajadora
 						</div>
 					</div>
 				</div>
-				<div class="col-md-12 col-sm-12 pieDePagina p-1"
+				<div class="col-md-12 col-sm-12 pieDePagina p-1 mt-4"
 					style="border-top: 1px solid white;">
 					<p style="font-size: 1.8vw; margin-top: 1.4vw; color: #d4af37">©
 						2024 futboldebarrio.com | Todos los derechos reservados</p>
