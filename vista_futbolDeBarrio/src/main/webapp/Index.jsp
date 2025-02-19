@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -123,7 +125,7 @@
 								</div>
 								<div class="col-sm-2 col-md-2 cabeceraMedio"
 									style="text-decoration: underline;">
-									<a href="" class="letraCabeceraMedio">¿QUIENES SOMOS?</a>
+									<a href="" class="letraCabeceraMedio">Â¿QUIENES SOMOS?</a>
 								</div>
 							</div>
 						</div>
@@ -196,12 +198,12 @@
 											<li><a class="dropdown-item" href="#"
 												style="color: white;">Ayuda </a></li>
 											<li><a class="dropdown-item" href="#"
-												style="color: white;">Configuración </a></li>
+												style="color: white;">ConfiguraciÃ³n </a></li>
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
 											<li><a class="dropdown-item" href="#"
-												style="color: white;">Cerrar sesión </a></li>
+												style="color: white;">Cerrar sesiÃ³n </a></li>
 										</ul>
 									</div>
 								</div>
@@ -226,23 +228,23 @@
 						<div class="col-md-3 col-sm-3  g-4 pieDePagina p-4 pb-1  " style="margin-left: 2vw">
 							<p style="text-decoration: underline; font-size: 1.5vw">SOBRE
 								NOSOTROS</p>
-							<p style="font-size: 1.05vw">Somos la plataforma líder para
+							<p style="font-size: 1.05vw">Somos la plataforma lÃ­der para
 								conectar jugadores, organizar torneos y reservar canchas de
-								fútbol amateur. Únete a nuestra comunidad deportiva y vive la
-								pasión por el fútbol.</p>
+								fÃºtbol amateur. Ãnete a nuestra comunidad deportiva y vive la
+								pasiÃ³n por el fÃºtbol.</p>
 						</div>
 						<div class="col-md-3 col-sm-3 g-4 pieDePagina p-4 pb-1 ">
 							<p
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.5vw">ENLACES
-								ÚTILES</p>
+								ÃTILES</p>
 							<pre
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.05vw">
 <a href="" style="color: white">Inicio</a>
-<a href="" style="color: white">¿Qué es nuestra web?</a>
-<a href="" style="color: white">Próximos eventos</a>
+<a href="" style="color: white">Â¿QuÃ© es nuestra web?</a>
+<a href="" style="color: white">PrÃ³ximos eventos</a>
 <a href="" style="color: white">Registrarse</a>
-<a href="" style="color: white">Términos y Condiciones</a>
-<a href="" style="color: white">Política de Privacidad</a> </pre>
+<a href="" style="color: white">TÃ©rminos y Condiciones</a>
+<a href="" style="color: white">PolÃ­tica de Privacidad</a> </pre>
 						</div>
 						<div class="col-md-3 col-sm-3 g-4 pieDePagina p-4 pb-1">
 							<p style="text-decoration: underline; font-size: 1.5vw">CONTACTO</p>
@@ -250,7 +252,7 @@
 								style="font-family: 'Open Sans', sans-serif; font-size: 1.05vw">futboldebarrio@gmail.es
 +34 123 456 789
 Avenida mujer trabajadora
- Sevilla, España</pre>
+ Sevilla, EspaÃ±a</pre>
 						</div>
 						<div class="col-md-2 col-sm-2 g-4 pieDePagina p-4 pb-1">
 							<p
@@ -300,7 +302,7 @@ Avenida mujer trabajadora
 				</div>
 				<div class="col-md-12 col-sm-12 pieDePagina p-1 mt-4"
 					style="border-top: 1px solid white;">
-					<p style="font-size: 1.8vw; margin-top: 1.4vw; color: #d4af37">©
+					<p style="font-size: 1.8vw; margin-top: 1.4vw; color: #d4af37">Â©
 						2024 futboldebarrio.com | Todos los derechos reservados</p>
 
 				</div>
@@ -313,9 +315,9 @@ Avenida mujer trabajadora
 	<!-- CODIDO PARA BUSCADOR
 <script>
   // Lista de sugerencias (puedes personalizar los valores)
-  const datosSugerencias = ["Inicio", "Acerca de", "Servicios", "Eventos", "Contacto", "Marcadores", "Desafíos"];
+  const datosSugerencias = ["Inicio", "Acerca de", "Servicios", "Eventos", "Contacto", "Marcadores", "DesafÃ­os"];
 
-  // Función para mostrar las sugerencias
+  // FunciÃ³n para mostrar las sugerencias
   function mostrarSugerencias() {
     const entrada = document.getElementById("entradaBusqueda");
     const contenedorSugerencias = document.getElementById("sugerencias");
@@ -324,7 +326,7 @@ Avenida mujer trabajadora
     // Limpia las sugerencias previas
     contenedorSugerencias.innerHTML = "";
 
-    // Filtra las sugerencias según el texto ingresado
+    // Filtra las sugerencias segÃºn el texto ingresado
     const sugerenciasFiltradas = datosSugerencias.filter(item => 
       item.toLowerCase().includes(consulta)
     );

@@ -230,23 +230,27 @@
 
 
 
-				<div class="col-md-12 col-sm-12 columnaBotonRegistrar p-3" >
+				<div class="col-md-12 col-sm-12 columnaBotonRegistrar p-3">
 
-					<button type="button" class=" botonSeleccion p-3" id="mostrarUsuarioBtn"
-						style=" box-shadow: 3.5px 3.5px 0px red, 3.5px 3.5px 8px rgba(255, 0, 0, 0.5);">REGISTRARSE
+					<button type="button" class=" botonSeleccion p-3"
+						id="mostrarUsuarioBtn"
+						style="box-shadow: 3.5px 3.5px 0px red, 3.5px 3.5px 8px rgba(255, 0, 0, 0.5);">REGISTRARSE
 						COMO USUARIO</button>
-						
-						<button type="button" class=" botonSeleccion p-3" id="mostrarInstalacionBtn"
-						style=" box-shadow: 3.5px 3.5px 0px green, 3.5px 3.5px 8px rgba(0, 128, 0, 0.5);">REGISTRARSE
+
+					<button type="button" class=" botonSeleccion p-3"
+						id="mostrarInstalacionBtn"
+						style="box-shadow: 3.5px 3.5px 0px green, 3.5px 3.5px 8px rgba(0, 128, 0, 0.5);">REGISTRARSE
 						COMO INSTALACIÓN</button>
 
-					<button type="button" class=" botonSeleccion p-3 " id="mostrarClubBtn"
-						style=" box-shadow: 3.5px 3.5px 0px blue, 3.5px 3.5px 8px rgba(0, 0, 255, 0.5);">REGISTRARSE
+					<button type="button" class=" botonSeleccion p-3 "
+						id="mostrarClubBtn"
+						style="box-shadow: 3.5px 3.5px 0px blue, 3.5px 3.5px 8px rgba(0, 0, 255, 0.5);">REGISTRARSE
 						COMO CLUB</button>
 
 
-					<button type="button" class=" botonSeleccion p-3" id="mostrarArbitroBtn"
-						style=" box-shadow: 3.5px 3.5px 0px yellow, 3.5px 3.5px 8px rgba(255, 255, 0, 0.5);">REGISTRARSE
+					<button type="button" class=" botonSeleccion p-3"
+						id="mostrarArbitroBtn"
+						style="box-shadow: 3.5px 3.5px 0px yellow, 3.5px 3.5px 8px rgba(255, 255, 0, 0.5);">REGISTRARSE
 						COMO ARBITRO</button>
 
 
@@ -259,7 +263,8 @@
 
 		<div class="container-fluid  ">
 			<!-- FORMULARIO USUARIO -->
-			<div class="row mt-5 mb-5" style="display: none;" id="usuarioContainer" >
+			<div class="row mt-5 mb-5" style="display: none;"
+				id="usuarioContainer">
 				<div class=" col-md-10 col-sm-10  mx-auto "
 					style="background-color: #dfead5; border-radius: 12px">
 					<h2 class=" text-center mt-5 mb-5 pt-4 "
@@ -267,12 +272,11 @@
 						<i>Formulario de Registro: Usuario</i>
 					</h2>
 					<div class="registrarFormulario ">
-						<form action="#" method="POST">
-
-
+						<form action="usuario" method="POST" enctype="multipart/form-data">
+							<input type="hidden" name="accion" value="aniadir" >
 
 							<table class="tablaFormulario "
-								style="background-color: #dedede; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6) ,  0px -4px 8px rgba(0, 0, 0, 0.15)">
+								style="background-color: #dedede; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
 
 								<tbody>
 									<tr>
@@ -283,24 +287,46 @@
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="nombreCompletoUsuario"
 											name="nombreCompletoUsuario" required></td>
+
+										<td><label for="aliasUsuario" class="formularioLabel ">Alias</label>
+											<input type="text"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											class="form-control" id="aliasUsuario" name="aliasUsuario"
+											required></td>
+
+
+									</tr>
+									<tr>
 										<td><label for="fechaNacimientoUsuario"
 											class="formularioLabel ">Fecha de Nacimiento</label> <input
 											type="date"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="fechaNacimientoUsuario"
 											name="fechaNacimientoUsuario" required></td>
-									</tr>
-									<tr>
 										<td><label for="emailUsuario" class="formularioLabel ">Correo
 												Electrónico</label> <input type="email"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="emailUsuario" name="emailUsuario"
 											required></td>
+
+									</tr>
+									<tr>
 										<td><label for="telefonoUsuario" class="formularioLabel ">Teléfono</label>
 											<input type="tel"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="telefonoUsuario"
 											name="telefonoUsuario" required></td>
+
+										<td><label for="rolUsuario" class="formularioLabel">Rol
+												usuario</label> <select class="form-select"
+											style="font-size: 1vw; border: 1px solid #818181;"
+											id="rolUsuario" name="rolUsuario" required>
+												<option value="Jugador">Jugador</option>
+												<option value="Portero">Portero</option>
+												<option value="Administrador">Administrador</option>
+										</select></td>
+
+
 									</tr>
 									<tr>
 										<td><label for="passwordUsuario" class="formularioLabel ">Contraseña</label>
@@ -312,24 +338,10 @@
 												contraseña</label> <input type="password"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											style="font-size: 1vw;" class="form-control"
-											id="passwordUsuario" name="passwordUsuario" required></td>
+											id="passwordUsuario2" name="passwordUsuario2" required></td>
 
-									</tr>
-									<tr>
-										<td><label for="rolJugador" class="formularioLabel">Rol
-												usuario</label> <select class="form-select"
-											style="font-size: 1vw; border: 1px solid #818181;"
-											id="rolJugador" name="rolJugador" required>
-												<option value="Jugador">Jugador</option>
-												<option value="Portero">Entrenador</option>
-												<option value="Administrador">Administrador</option>
-										</select></td>
-										<td><label for="descripcionUsuario"
-											class="formularioLabel ">Descripción</label> <textarea
-												class="form-control"
-												style="font-size: 1vw; border: 1px solid #818181;"
-												id="descripcionUsuario" name="descripcionUsuario" rows="3"></textarea>
-										</td>
+
+
 									</tr>
 									<tr>
 										<td><label for="imagenUsuario" class="formularioLabel ">Imagen
@@ -337,7 +349,13 @@
 											style="font-size: 1vw; border: 1px solid #818181;"
 											class="form-control" id="imagenUsuario" name="imagenUsuario">
 										</td>
-										<td></td>
+										<td><label for="descripcionUsuario"
+											class="formularioLabel ">Descripción</label> <textarea
+												class="form-control"
+												style="font-size: 1vw; border: 1px solid #818181;"
+												id="descripcionUsuario" name="descripcionUsuario" rows="3"></textarea>
+
+										</td>
 									</tr>
 
 
@@ -358,7 +376,7 @@
 
 
 			<!-- FORMULARIO CLUB -->
-			<div class="row mt-5 mb-5" style="display: none;" id="clubContainer" >
+			<div class="row mt-5 mb-5" style="display: none;" id="clubContainer">
 				<div class=" col-md-10 col-sm-10  mx-auto "
 					style="background-color: #dfead5; border-radius: 12px">
 					<h2 class=" text-center mt-4 mb-5 pt-4"
@@ -366,20 +384,19 @@
 						<i>Formulario de Registro: Club </i>
 					</h2>
 					<div class="registrarFormulario">
-						<form action="#" method="POST">
+						<form action="club" method="POST" enctype="multipart/form-data">
+							<input type="hidden" name="accion" value="aniadir" >
 							<table class="tablaFormulario "
-								style="background-color: #d8d8d8; color: black;  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6) ,  0px -4px 8px rgba(0, 0, 0, 0.15)">
+								style="background-color: #d8d8d8; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
 								<tbody>
 									<tr>
-										<td><label for="nombreClub"
-											class="formularioLabel">Nombre del Club</label> <input
-											type="text"
+										<td><label for="nombreClub" class="formularioLabel">Nombre
+												del Club</label> <input type="text"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="nombreClub" name="nombreClub"
 											required></td>
-										<td><label for="abreviaturaClub"
-											class="formularioLabel">Abreviatura</label> <input
-											type="text"
+										<td><label for="abreviaturaClub" class="formularioLabel">Abreviatura</label>
+											<input type="text"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="abreviaturaClub"
 											name="abreviaturaClub" required></td>
@@ -389,6 +406,7 @@
 												Electrónico</label> <input type="email"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="emailClub" name="emailClub" required></td>
+
 										<td><label for="telefonoClub" class="formularioLabel">Teléfono</label>
 											<input type="tel"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
@@ -420,15 +438,14 @@
 											name="repasswordClub" required></td>
 									</tr>
 									<tr>
-										<td><label for="imagenClub"
-											class="formularioLabel">Escudo del Club</label> <input
-											type="file"
+										<td><label for="logoClub" class="formularioLabel">Escudo
+												del Club</label> <input type="file"
 											style="font-size: 1vw; border: 1px solid #818181;"
-											class="form-control" id="imagenClub" name="imagenClub">
+											class="form-control" id="logoClub" name="logoClub">
 										</td>
 										<td><label for="descripcionClub" class="formularioLabel">Descripción</label>
 											<textarea class="form-control"
-												style="font-size: 1vw; border: 1px solid #818181; border-botto: 1px solid #818181;"
+												style="font-size: 1vw; border: 1px solid #818181; border-bottom: 1px solid #818181;"
 												id="descripcionClub" name="descripcionClub" rows="3"></textarea>
 										</td>
 									</tr>
@@ -447,7 +464,8 @@
 
 
 			<!-- FORMULARIO INSTALACIÓN -->
-			<div class="row mt-5 mb-5" style="display: none;" id="instalacionContainer" >
+			<div class="row mt-5 mb-5" style="display: none;"
+				id="instalacionContainer">
 				<div class="col-md-10 col-sm-10 mx-auto"
 					style="background-color: #dfead5; border-radius: 12px">
 					<h2 class="text-center mt-4 mb-5 pt-4"
@@ -457,7 +475,7 @@
 					<div class="registrarFormulario">
 						<form action="#" method="POST">
 							<table class="tablaFormulario"
-								style="background-color: #d1d1d1; color: black;box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6) ,  0px -4px 8px rgba(0, 0, 0, 0.15)">
+								style="background-color: #d1d1d1; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
 								<tbody>
 									<tr>
 										<td><label for="nombreInstalacion"
@@ -474,10 +492,9 @@
 										</td>
 									</tr>
 									<tr>
-										<td><label for="emailInstalacion"
-											class="formularioLabel">Correo Electrónico</label> <input
-											type="email" class="form-control" id="emailInstalacion"
-											name="emailInstalacion" required
+										<td><label for="emailInstalacion" class="formularioLabel">Correo
+												Electrónico</label> <input type="email" class="form-control"
+											id="emailInstalacion" name="emailInstalacion" required
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
 										</td>
 										<td><label for="telefonoInstalacion"
@@ -565,12 +582,13 @@
 					</div>
 				</div>
 			</div>
-			
-			
-			
-			
+
+
+
+
 			<!-- FORMULARIO ARBITRO -->
-			<div class="row mt-5 mb-5" style="display: none;" id="arbitroContainer" >
+			<div class="row mt-5 mb-5" style="display: none;"
+				id="arbitroContainer">
 				<div class=" col-md-10 col-sm-10  mx-auto"
 					style="background-color: #dfead5; border-radius: 12px">
 					<h2 class=" text-center mt-4 mb-5 pt-4"
@@ -583,65 +601,65 @@
 
 
 							<table class="tablaFormulario "
-								style="background-color: #dedede; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6) ,  0px -4px 8px rgba(0, 0, 0, 0.15)">
+								style="background-color: #dedede; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
 
 								<tbody>
 									<tr>
 
-										<td><label for="nombreCompletoUsuario"
-											class="formularioLabel ">Nombre Completo</label> <input
+										<td><label for="nombreCompletoArbitro"
+											class="formularioLabel ">Nombre Completo:</label> <input
 											type="text"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="nombreCompletoUsuario"
-											name="nombreCompletoUsuario" required></td>
-										<td><label for="fechaNacimientoUsuario"
-											class="formularioLabel ">Fecha de Nacimiento</label> <input
+											class="form-control" id="nombreCompletoArbitro"
+											name="nombreCompletoArbitro" required></td>
+										<td><label for="fechaNacimientoArbitro"
+											class="formularioLabel ">Fecha de Nacimiento:</label> <input
 											type="date"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="fechaNacimientoUsuario"
-											name="fechaNacimientoUsuario" required></td>
+											class="form-control" id="fechaNacimientoArbitro"
+											name="fechaNacimientoArbitro" required></td>
 									</tr>
 									<tr>
-										<td><label for="emailUsuario" class="formularioLabel ">Correo
-												Electrónico</label> <input type="email"
+										<td><label for="emailArbitro" class="formularioLabel ">Correo
+												Electrónico:</label> <input type="email"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="emailUsuario" name="emailUsuario"
+											class="form-control" id="emailArbitro" name="emailArbitro"
 											required></td>
-										<td><label for="telefonoUsuario" class="formularioLabel ">Teléfono</label>
+										<td><label for="telefonoArbitro" class="formularioLabel ">Teléfono:</label>
 											<input type="tel"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="telefonoUsuario"
-											name="telefonoUsuario" required></td>
+											class="form-control" id="telefonoArbitro"
+											name="telefonoArbitro" required></td>
 									</tr>
 									<tr>
-										<td><label for="passwordUsuario" class="formularioLabel ">Contraseña</label>
+										<td><label for="passwordArbitro" class="formularioLabel ">Contraseña:</label>
 											<input type="password"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="passwordUsuario"
-											name="passwordUsuario" required></td>
-										<td><label for="passwordUsuario" class="formularioLabel ">Repetir
-												contraseña</label> <input type="password"
+											class="form-control" id="passwordArbitro"
+											name="passwordArbitro" required></td>
+										<td><label for="passwordArbitro" class="formularioLabel ">Repetir
+												contraseña:</label> <input type="password"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											style="font-size: 1vw;" class="form-control"
-											id="passwordUsuario" name="passwordUsuario" required></td>
+											id="passwordArbitro2" name="passwordArbitro2" required></td>
 
 									</tr>
 									<tr>
-										
-										<td><label for="descripcionUsuario"
-											class="formularioLabel ">Descripción</label> <textarea
+
+										<td><label for="descripcionArbitro"
+											class="formularioLabel ">Descripción:</label> <textarea
 												class="form-control"
 												style="font-size: 1vw; border: 1px solid #818181;"
-												id="descripcionUsuario" name="descripcionUsuario" rows="3"></textarea>
+												id="descripcionArbitro" name="descripcionArbitro" rows="3"></textarea>
 										</td>
-										
-										<td><label for="imagenUsuario" class="formularioLabel ">Imagen
-												Arbitro</label> <input type="file"
+
+										<td><label for="imagenArbitro" class="formularioLabel ">Imagen
+												Arbitro:</label> <input type="file"
 											style="font-size: 1vw; border: 1px solid #818181;"
-											class="form-control" id="imagenUsuario" name="imagenUsuario">
+											class="form-control" id="imagenArbitro" name="imagenArbitro">
 										</td>
 									</tr>
-									
+
 
 
 								</tbody>
@@ -655,7 +673,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 
 		</div>
 	</main>
@@ -757,89 +775,81 @@ Avenida mujer trabajadora
 
 
 
-	
 
- <script>
- document.addEventListener("DOMContentLoaded", function () {
-	    // Obtener los botones
-	    const mostrarUsuarioBtn = document.getElementById('mostrarUsuarioBtn');
-	    const mostrarInstalacionBtn = document.getElementById('mostrarInstalacionBtn');
-	    const mostrarClubBtn = document.getElementById('mostrarClubBtn');
-	    const mostrarArbitroBtn = document.getElementById('mostrarArbitroBtn');
 
-	    // Obtener los contenedores
-	    const usuarioContainer = document.getElementById('usuarioContainer');
-	    const instalacionContainer = document.getElementById('instalacionContainer');
-	    const clubContainer = document.getElementById('clubContainer');
-	    const arbitroContainer = document.getElementById('arbitroContainer');
+	<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const mostrarUsuarioBtn = document.getElementById('mostrarUsuarioBtn');
+        const mostrarInstalacionBtn = document.getElementById('mostrarInstalacionBtn');
+        const mostrarClubBtn = document.getElementById('mostrarClubBtn');
+        const mostrarArbitroBtn = document.getElementById('mostrarArbitroBtn');
 
-	    // Función para mostrar un contenedor y ocultar los demás
-	    function mostrarContenedor(mostrar) {
-	        // Ocultar todos los contenedores
-	        usuarioContainer.style.display = "none";
-	        instalacionContainer.style.display = "none";
-	        clubContainer.style.display = "none";
-	        arbitroContainer.style.display = "none";
+        const usuarioContainer = document.getElementById('usuarioContainer');
+        const instalacionContainer = document.getElementById('instalacionContainer');
+        const clubContainer = document.getElementById('clubContainer');
+        const arbitroContainer = document.getElementById('arbitroContainer');
 
-	        // Mostrar solo el contenedor seleccionado
-	        mostrar.style.display = "block";
-	    }
+        function mostrarContenedor(mostrar) {
+            usuarioContainer.style.display = "none";
+            instalacionContainer.style.display = "none";
+            clubContainer.style.display = "none";
+            arbitroContainer.style.display = "none";
+            mostrar.style.display = "block";
+        }
 
-	    // Evento para mostrar Usuario
-	    mostrarUsuarioBtn.addEventListener('click', function (event) {
-	        event.preventDefault();
-	        mostrarContenedor(usuarioContainer);
-	    });
+        function activarBoton(boton) {
+            [mostrarUsuarioBtn, mostrarInstalacionBtn, mostrarClubBtn, mostrarArbitroBtn].forEach(btn => {
+                btn.style.backgroundColor = "";
+                btn.style.color = "";
+            });
+            boton.style.backgroundColor = "#d4af37";
+            boton.style.color = "black";
+        }
 
-	    // Evento para mostrar Instalación
-	    mostrarInstalacionBtn.addEventListener('click', function (event) {
-	        event.preventDefault();
-	        mostrarContenedor(instalacionContainer);
-	    });
+        mostrarUsuarioBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            mostrarContenedor(usuarioContainer);
+            activarBoton(mostrarUsuarioBtn);
+        });
 
-	    // Evento para mostrar Club
-	    mostrarClubBtn.addEventListener('click', function (event) {
-	        event.preventDefault();
-	        mostrarContenedor(clubContainer);
-	    });
+        mostrarInstalacionBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            mostrarContenedor(instalacionContainer);
+            activarBoton(mostrarInstalacionBtn);
+        });
 
-	    // Evento para mostrar Árbitro
-	    mostrarArbitroBtn.addEventListener('click', function (event) {
-	        event.preventDefault();
-	        mostrarContenedor(arbitroContainer);
-	    });
+        mostrarClubBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            mostrarContenedor(clubContainer);
+            activarBoton(mostrarClubBtn);
+        });
 
-	    // Mostrar la sección de Usuario al cargar la página
-	    mostrarContenedor(usuarioContainer);
+        mostrarArbitroBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            mostrarContenedor(arbitroContainer);
+            activarBoton(mostrarArbitroBtn);
+        });
 
-	    // Obtener todos los botones
-	    const botones = document.querySelectorAll("button");
+        mostrarContenedor(usuarioContainer);
+        activarBoton(mostrarUsuarioBtn);
 
-	    // Función para resaltar el enlace clicado y restablecer los demás
-	    function resaltarEnlace(event) {
-	        event.preventDefault(); // Evita que la página se recargue
+        const formularioUsuario = document.querySelector("#usuarioContainer form");
 
-	        // Restablecer el color y el fondo de todos los botones
-	        botones.forEach(function (boton) {
-	            boton.style.color = ""; // Restablece el color del texto original
-	            boton.style.backgroundColor = ""; // Restablece el color de fondo original
-	        });
+        formularioUsuario.addEventListener("submit", function(event) {
+            event.preventDefault();
+            const formData = new FormData(formularioUsuario);
+            const accion = formData.get("accion");
+            if (accion) {
+                formularioUsuario.submit();
+            } else {
+                alert("Error: No se ha definido una acción válida en el formulario.");
+            }
+        });
+    });
+</script>
 
-	        // Cambiar el color de fondo y texto del botón clicado
-	        this.style.color = "black"; // Cambiar color de texto a negro
-	        this.style.backgroundColor = "#d4af37"; // Cambiar color de fondo a dorado
-	    }
 
-	    // Añadir el evento de clic a cada botón
-	    botones.forEach(function (boton) {
-	        boton.addEventListener("click", resaltarEnlace);
-	    });
-	});
- 
- mostrarUsuarioBtn.style.color = "black"; // Cambiar color de texto a negro
- mostrarUsuarioBtn.style.backgroundColor = "#d4af37";
 
-    </script>
 
 
 	<script
