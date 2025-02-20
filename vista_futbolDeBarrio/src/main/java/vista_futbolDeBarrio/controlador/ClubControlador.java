@@ -2,6 +2,8 @@ package vista_futbolDeBarrio.controlador;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -65,7 +67,17 @@ public class ClubControlador extends HttpServlet {
                 nuevoClub.setNombreClub(nombreClubForm);
                 nuevoClub.setAbreviaturaClub(abreviaturaClubForm);
                 nuevoClub.setDescripcionClub(descripcionClubForm);
-                nuevoClub.setFechaCreacionClub(fechaCreacionClubForm);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"); // Ajusta el formato según el de tu fecha
+                if (fechaCreacionClubForm != null && !fechaCreacionClubForm.isEmpty()) {
+                    try {
+                        LocalDate fechaCreacion = LocalDate.parse(fechaCreacionClubForm, formatter);
+                        nuevoClub.setFechaCreacionClub(fechaCreacion);
+                    } catch (Exception e) {
+                        response.getWriter().write("Error al convertir la fecha de creación.");
+                        log.ficheroErrores("Error al convertir la fecha de creación: " + e.getMessage());
+                        return; 
+                    }
+                }
                 nuevoClub.setFechaFundacionClub(fechaFundacionClubForm);
                 nuevoClub.setLocalidadClub(localidadClubForm);
                 nuevoClub.setPaisClub(paisClubForm);

@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 
@@ -33,7 +35,6 @@ public class ClubServicio {
             json.put("emailClub", club.getEmailClub());
             json.put("passwordClub", club.getPasswordClub());
             json.put("telefonoClub", club.getTelefonoClub());
-            json.put("instalacionId", club.getInstalacionId());
             json.put("logoClub", club.getLogoClub());
 
             String urlApi = "http://localhost:9527/api/guardarClub"; // Cambia esta URL según tu configuración
@@ -64,6 +65,7 @@ public class ClubServicio {
     // Obtener la lista de clubes
     public ArrayList<ClubDto> listaClub() {
         ArrayList<ClubDto> lista = new ArrayList<ClubDto>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
         try {
             String urlApi = "http://localhost:9527/api/club"; // Cambia esta URL según tu configuración
@@ -98,14 +100,17 @@ public class ClubServicio {
                     club.setNombreClub(jsonClub.getString("nombreClub"));
                     club.setAbreviaturaClub(jsonClub.getString("abreviaturaClub"));
                     club.setDescripcionClub(jsonClub.getString("descripcionClub"));
-                    club.setFechaCreacionClub(jsonClub.getString("fechaCreacionClub"));
+                    String fechaCreacionStr = jsonClub.getString("fechaCreacionClub");
+                    if (fechaCreacionStr != null && !fechaCreacionStr.isEmpty()) {
+                        LocalDate fechaCreacion = LocalDate.parse(fechaCreacionStr, formatter);
+                        club.setFechaCreacionClub(fechaCreacion);
+                    }
                     club.setFechaFundacionClub(jsonClub.getString("fechaFundacionClub"));
                     club.setLocalidadClub(jsonClub.getString("localidadClub"));
                     club.setPaisClub(jsonClub.getString("paisClub"));
                     club.setEmailClub(jsonClub.getString("emailClub"));
                     club.setPasswordClub(jsonClub.getString("passwordClub"));
                     club.setTelefonoClub(jsonClub.getString("telefonoClub"));
-                    club.setInstalacionId(jsonClub.getLong("instalacionId"));
 
                     // Manejar la imagen del logo
                     String logoBase64 = jsonClub.getString("logoClub");
@@ -151,7 +156,6 @@ public class ClubServicio {
             json.put("emailClub", club.getEmailClub());
             json.put("passwordClub", club.getPasswordClub());
             json.put("telefonoClub", club.getTelefonoClub());
-            json.put("instalacionId", club.getInstalacionId());
             json.put("logoClub", club.getLogoClub());
 
             // URL para hacer la solicitud PUT. Usamos el idClub en la URL

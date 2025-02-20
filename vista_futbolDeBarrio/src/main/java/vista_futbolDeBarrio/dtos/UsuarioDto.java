@@ -1,8 +1,5 @@
 package vista_futbolDeBarrio.dtos;
 
-import java.lang.invoke.StringConcatFactory;
-import java.sql.Date;
-
 import vista_futbolDeBarrio.enums.Estado;
 import vista_futbolDeBarrio.enums.RolUsuario;
 

@@ -49,7 +49,7 @@ public class UsuarioControlador extends HttpServlet {
 	        if ("aniadir".equals(accion)) {
 	            // Obtener los datos del formulario
 	            String nombreCompletoUsuarioForm = request.getParameter("nombreCompletoUsuario");
-	            System.out.println(nombreCompletoUsuarioForm);
+	           
 	            String aliasUsuarioForm = request.getParameter("aliasUsuario");
 	            String fechaNacimientoUsuarioForm = request.getParameter("fechaNacimientoUsuario");
 	            String emailUsuarioForm = request.getParameter("emailUsuario");

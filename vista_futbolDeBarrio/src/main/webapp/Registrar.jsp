@@ -143,7 +143,7 @@
 							<div class="row  ">
 								<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 								<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-									<a href="Index.html" class="letraCabeceraAbajo">INICIO</a>
+									<a href="Index.jsp" class="letraCabeceraAbajo">INICIO</a>
 								</div>
 								<div class="col-sm-4 col-md-4 cabeceraAbajo ">
 									<a href="" class="letraCabeceraAbajo">ALQUILERES</a>
@@ -263,11 +263,11 @@
 
 		<div class="container-fluid  ">
 			<!-- FORMULARIO USUARIO -->
-			<div class="row mt-5 mb-5" style="display: none;"
+			<div class="row mt-3 mb-5" style="display: none;"
 				id="usuarioContainer">
 				<div class=" col-md-10 col-sm-10  mx-auto "
 					style="background-color: #dfead5; border-radius: 12px">
-					<h2 class=" text-center mt-5 mb-5 pt-4 "
+					<h2 class=" text-center mt-4 mb-5 pt-4 "
 						style="font-size: 3.5vw; text-decoration: underline;">
 						<i>Formulario de Registro: Usuario</i>
 					</h2>
@@ -376,7 +376,7 @@
 
 
 			<!-- FORMULARIO CLUB -->
-			<div class="row mt-5 mb-5" style="display: none;" id="clubContainer">
+			<div class="row mt-3 mb-5" style="display: none;" id="clubContainer">
 				<div class=" col-md-10 col-sm-10  mx-auto "
 					style="background-color: #dfead5; border-radius: 12px">
 					<h2 class=" text-center mt-4 mb-5 pt-4"
@@ -464,7 +464,7 @@
 
 
 			<!-- FORMULARIO INSTALACIÓN -->
-			<div class="row mt-5 mb-5" style="display: none;"
+			<div class="row mt-3 mb-5" style="display: none;"
 				id="instalacionContainer">
 				<div class="col-md-10 col-sm-10 mx-auto"
 					style="background-color: #dfead5; border-radius: 12px">
@@ -473,7 +473,8 @@
 						<i>Formulario de Registro: Instalación</i>
 					</h2>
 					<div class="registrarFormulario">
-						<form action="#" method="POST">
+						<form action="instalacion" method="POST" enctype="multipart/form-data">
+							<input type="hidden" name="accion" value="aniadir" >
 							<table class="tablaFormulario"
 								style="background-color: #d1d1d1; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
 								<tbody>
@@ -524,18 +525,18 @@
 												Pista deportiva principal</label> <select class="form-select"
 											id="tipoCampo1" name="tipoCampo1" required
 											style="font-size: 1vw; border: 1px solid #818181;">
-												<option value="futbol5">Fútbol 5</option>
-												<option value="futbol7">Fútbol 7</option>
-												<option value="futbol11">Fútbol 11</option>
+												<option value="Futbol5">Fútbol 5</option>
+												<option value="Futbol7">Fútbol 7</option>
+												<option value="Futbol11">Fútbol 11</option>
 										</select></td>
 										<td><label for="tipoCampo2" class="formularioLabel">Pista
 												deportiva secundaria</label> <select class="form-select"
 											id="tipoCampo2" name="tipoCampo2"
 											style="font-size: 1vw; border: 1px solid #818181;">
 												<option value="">Ninguno</option>
-												<option value="futbol5">Fútbol 5</option>
-												<option value="futbol7">Fútbol 7</option>
-												<option value="futbol11">Fútbol 11</option>
+												<option value="Futbol5">Fútbol 5</option>
+												<option value="Futbol7">Fútbol 7</option>
+												<option value="Futbol11">Fútbol 11</option>
 										</select></td>
 									</tr>
 									<tr>
@@ -544,17 +545,17 @@
 											id="tipoCampo3" name="tipoCampo3"
 											style="font-size: 1vw; border: 1px solid #818181;">
 												<option value="">Ninguno</option>
-												<option value="futbol5">Fútbol 5</option>
-												<option value="futbol7">Fútbol 7</option>
-												<option value="futbol11">Fútbol 11</option>
+												<option value="Futbol5">Fútbol 5</option>
+												<option value="Futbol7">Fútbol 7</option>
+												<option value="Futbol11">Fútbol 11</option>
 										</select></td>
 										<td><label for="estadoInstalacion"
 											class="formularioLabel">Estado de la Instalación</label> <select
 											class="form-select" id="estadoInstalacion"
 											name="estadoInstalacion" required
 											style="font-size: 1vw; border: 1px solid #818181;">
-												<option value="activo">Activo</option>
-												<option value="inactivo">Inactivo</option>
+												<option value="Activo">Activo</option>
+												<option value="Inactivo">Inactivo</option>
 										</select></td>
 									</tr>
 									<tr>
@@ -566,7 +567,7 @@
 
 										<td><label for="serviciosInstalacion"
 											class="formularioLabel">Servicios</label> <textarea
-												class="form-control" id="descripcion"
+												class="form-control" id="serviciosInstalacion"
 												name="serviciosInstalacion" rows="3"
 												style="font-size: 1vw; border: 1px solid #818181;"></textarea>
 										</td>
@@ -587,7 +588,7 @@
 
 
 			<!-- FORMULARIO ARBITRO -->
-			<div class="row mt-5 mb-5" style="display: none;"
+			<div class="row mt-3 " style="display: none;"
 				id="arbitroContainer">
 				<div class=" col-md-10 col-sm-10  mx-auto"
 					style="background-color: #dfead5; border-radius: 12px">
@@ -822,12 +823,14 @@ Avenida mujer trabajadora
             event.preventDefault();
             mostrarContenedor(clubContainer);
             activarBoton(mostrarClubBtn);
+            
         });
 
         mostrarArbitroBtn.addEventListener('click', function(event) {
             event.preventDefault();
             mostrarContenedor(arbitroContainer);
             activarBoton(mostrarArbitroBtn);
+            arbitroContainer.style.height = "60vw"
         });
 
         mostrarContenedor(usuarioContainer);

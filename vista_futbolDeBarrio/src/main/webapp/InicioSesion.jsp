@@ -141,7 +141,7 @@
 							<div class="row  ">
 								<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 								<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-									<a href="Index.html" class="letraCabeceraAbajo">INICIO</a>
+									<a href="Index.jsp" class="letraCabeceraAbajo">INICIO</a>
 								</div>
 								<div class="col-sm-4 col-md-4 cabeceraAbajo ">
 									<a href="" class="letraCabeceraAbajo">ALQUILERES</a>
