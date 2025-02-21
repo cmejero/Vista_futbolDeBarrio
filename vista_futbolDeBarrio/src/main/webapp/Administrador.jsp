@@ -15,6 +15,16 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
 	rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Incluir jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Incluir DataTables CSS -->
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+<!-- Incluir DataTables JS -->
+<script type="text/javascript" charset="utf8"
+	src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
 <title>FUTBOL DE BARRIO</title>
 </head>
@@ -418,86 +428,8 @@ canvas {
 										<th style="border: 1.8px solid #8a210b; width: 15%">OPCIONES</th>
 									</tr>
 								</thead>
-								<tbody id="tablaCuerpo">
-									<tr>
-										<td>1000000000</td>
-										<td>Fila 1, Col 2</td>
-										<td>Fila 1, Col 3</td>
-										<td><button class="botonEliminarAdmin">
-												<svg xmlns="http://www.w3.org/2000/svg" width="1vw"
-													height="1vw" fill="currentColor" class="bi bi-trash3-fill"
-													style="color: #c33214; margin-bottom: 0.1vw"
-													viewBox="0 0 16 16">
-  <path
-														d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
-</svg>
-											</button>
-											<button class="botonModificarAdmin">
-												<svg xmlns="http://www.w3.org/2000/svg" width="1vw"
-													height="1vw" fill="currentColor" class="bi bi-pencil-square"
-													style="color: orange; margin-bottom: 0.1vw"
-													viewBox="0 0 16 16">
-  <path
-														d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-  <path fill-rule="evenodd"
-														d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-</svg>
-											</button></td>
-									</tr>
-									<tr>
-										<td>Fila 2, Col 1</td>
-										<td>Fila 2, Col 2</td>
-										<td>Fila 2, Col 3</td>
-										<td>Fila 2, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 3, Col 1</td>
-										<td>Fila 3, Col 2</td>
-										<td>Fila 3, Col 3</td>
-										<td>Fila 3, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 4, Col 1</td>
-										<td>Fila 4, Col 2</td>
-										<td>Fila 4, Col 3</td>
-										<td>Fila 4, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 5, Col 1</td>
-										<td>Fila 5, Col 2</td>
-										<td>Fila 5, Col 3</td>
-										<td>Fila 5, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 5, Col 1</td>
-										<td>Fila 5, Col 2</td>
-										<td>Fila 5, Col 3</td>
-										<td>Fila 5, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 5, Col 1</td>
-										<td>Fila 5, Col 2</td>
-										<td>Fila 5, Col 3</td>
-										<td>Fila 5, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 5, Col 1</td>
-										<td>Fila 5, Col 2</td>
-										<td>Fila 5, Col 3</td>
-										<td>Fila 5, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 5, Col 1</td>
-										<td>Fila 5, Col 2</td>
-										<td>Fila 5, Col 3</td>
-										<td>Fila 5, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 5, Col 1</td>
-										<td>Fila 5, Col 2</td>
-										<td>Fila 5, Col 3</td>
-										<td>Fila 5, Col 4</td>
-									</tr>
+								<tbody id="tablaCuerpoUsuario">
+
 								</tbody>
 							</table>
 							<div class="contenedorPaginacion">
@@ -529,8 +461,8 @@ canvas {
 								style="display: none;">
 								<div class="filtroItem">
 									<label for="buscarIdInstalaciones" class="labelFiltrar"><b>-Buscar
-											por ID:</b></label> <input type="text" id="buscarIdInstalaciones" class="inputFiltrar"
-										placeholder="Buscar por ID">
+											por ID:</b></label> <input type="text" id="buscarIdInstalaciones"
+										class="inputFiltrar" placeholder="Buscar por ID">
 								</div>
 
 								<div class="filtroItem">
@@ -558,86 +490,8 @@ canvas {
 										<th style="border: 1.8px solid #0d730d; width: 15%">OPCIONES</th>
 									</tr>
 								</thead>
-								<tbody id="tablaCuerpo">
-									<tr>
-										<td>1000000000</td>
-										<td>Fila 1, Col 2</td>
-										<td>Fila 1, Col 3</td>
-										<td><button class="botonEliminarAdmin">
-												<svg xmlns="http://www.w3.org/2000/svg" width="1vw"
-													height="1vw" fill="currentColor" class="bi bi-trash3-fill"
-													style="color: #c33214; margin-bottom: 0.1vw"
-													viewBox="0 0 16 16">
-  <path
-														d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
-</svg>
-											</button>
-											<button class="botonModificarAdmin">
-												<svg xmlns="http://www.w3.org/2000/svg" width="1vw"
-													height="1vw" fill="currentColor" class="bi bi-pencil-square"
-													style="color: orange; margin-bottom: 0.1vw"
-													viewBox="0 0 16 16">
-  <path
-														d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-  <path fill-rule="evenodd"
-														d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-</svg>
-											</button></td>
-									</tr>
-									<tr>
-										<td>Fila 2, Col 1</td>
-										<td>Fila 2, Col 2</td>
-										<td>Fila 2, Col 3</td>
-										<td>Fila 2, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 3, Col 1</td>
-										<td>Fila 3, Col 2</td>
-										<td>Fila 3, Col 3</td>
-										<td>Fila 3, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 4, Col 1</td>
-										<td>Fila 4, Col 2</td>
-										<td>Fila 4, Col 3</td>
-										<td>Fila 4, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 5, Col 1</td>
-										<td>Fila 5, Col 2</td>
-										<td>Fila 5, Col 3</td>
-										<td>Fila 5, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 5, Col 1</td>
-										<td>Fila 5, Col 2</td>
-										<td>Fila 5, Col 3</td>
-										<td>Fila 5, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 5, Col 1</td>
-										<td>Fila 5, Col 2</td>
-										<td>Fila 5, Col 3</td>
-										<td>Fila 5, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 5, Col 1</td>
-										<td>Fila 5, Col 2</td>
-										<td>Fila 5, Col 3</td>
-										<td>Fila 5, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 5, Col 1</td>
-										<td>Fila 5, Col 2</td>
-										<td>Fila 5, Col 3</td>
-										<td>Fila 5, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 5, Col 1</td>
-										<td>Fila 5, Col 2</td>
-										<td>Fila 5, Col 3</td>
-										<td>Fila 5, Col 4</td>
-									</tr>
+								<tbody id="tablaCuerpoInstalacion">
+
 								</tbody>
 							</table>
 							<div class="contenedorPaginacion">
@@ -665,12 +519,11 @@ canvas {
 
 							<!-- Filtros de búsqueda (inicialmente ocultos) -->
 
-							<div id="filtrosClub" class="filaFiltrar"
-								style="display: none;">
+							<div id="filtrosClub" class="filaFiltrar" style="display: none;">
 								<div class="filtroItem">
 									<label for="buscarIdClub" class="labelFiltrar"><b>-Buscar
-											por ID:</b></label> <input type="text" id="buscarIdClub" class="inputFiltrar"
-										placeholder="Buscar por ID">
+											por ID:</b></label> <input type="text" id="buscarIdClub"
+										class="inputFiltrar" placeholder="Buscar por ID">
 								</div>
 
 								<div class="filtroItem">
@@ -698,86 +551,8 @@ canvas {
 										<th style="border: 1.8px solid #0d6ba1; width: 15%">OPCIONES</th>
 									</tr>
 								</thead>
-								<tbody id="tablaCuerpo">
-									<tr>
-										<td>1000000000</td>
-										<td>Fila 1, Col 2</td>
-										<td>Fila 1, Col 3</td>
-										<td><button class="botonEliminarAdmin">
-												<svg xmlns="http://www.w3.org/2000/svg" width="1vw"
-													height="1vw" fill="currentColor" class="bi bi-trash3-fill"
-													style="color: #c33214; margin-bottom: 0.1vw"
-													viewBox="0 0 16 16">
-  <path
-														d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
-</svg>
-											</button>
-											<button class="botonModificarAdmin">
-												<svg xmlns="http://www.w3.org/2000/svg" width="1vw"
-													height="1vw" fill="currentColor" class="bi bi-pencil-square"
-													style="color: orange; margin-bottom: 0.1vw"
-													viewBox="0 0 16 16">
-  <path
-														d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-  <path fill-rule="evenodd"
-														d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-</svg>
-											</button></td>
-									</tr>
-									<tr>
-										<td>Fila 2, Col 1</td>
-										<td>Fila 2, Col 2</td>
-										<td>Fila 2, Col 3</td>
-										<td>Fila 2, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 3, Col 1</td>
-										<td>Fila 3, Col 2</td>
-										<td>Fila 3, Col 3</td>
-										<td>Fila 3, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 4, Col 1</td>
-										<td>Fila 4, Col 2</td>
-										<td>Fila 4, Col 3</td>
-										<td>Fila 4, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 5, Col 1</td>
-										<td>Fila 5, Col 2</td>
-										<td>Fila 5, Col 3</td>
-										<td>Fila 5, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 5, Col 1</td>
-										<td>Fila 5, Col 2</td>
-										<td>Fila 5, Col 3</td>
-										<td>Fila 5, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 5, Col 1</td>
-										<td>Fila 5, Col 2</td>
-										<td>Fila 5, Col 3</td>
-										<td>Fila 5, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 5, Col 1</td>
-										<td>Fila 5, Col 2</td>
-										<td>Fila 5, Col 3</td>
-										<td>Fila 5, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 5, Col 1</td>
-										<td>Fila 5, Col 2</td>
-										<td>Fila 5, Col 3</td>
-										<td>Fila 5, Col 4</td>
-									</tr>
-									<tr>
-										<td>Fila 5, Col 1</td>
-										<td>Fila 5, Col 2</td>
-										<td>Fila 5, Col 3</td>
-										<td>Fila 5, Col 4</td>
-									</tr>
+								<tbody id="tablaCuerpoClub">
+
 								</tbody>
 							</table>
 							<div class="contenedorPaginacion">
@@ -800,8 +575,8 @@ canvas {
 						<div class="col-md-11 col-sm-11  mx-auto m-5"
 							id="arbitrosContainer" style="display: none;">
 
-							<button id="mostrarFiltrosArbitros" class="mb-3 mr-auto botonFiltrar">Mostrar
-								Filtros</button>
+							<button id="mostrarFiltrosArbitros"
+								class="mb-3 mr-auto botonFiltrar">Mostrar Filtros</button>
 
 							<!-- Filtros de búsqueda (inicialmente ocultos) -->
 
@@ -809,8 +584,8 @@ canvas {
 								style="display: none;">
 								<div class="filtroItem">
 									<label for="buscarIdArbitro" class="labelFiltrar"><b>-Buscar
-											por ID:</b></label> <input type="text" id="buscarIdArbitro" class="inputFiltrar"
-										placeholder="Buscar por ID">
+											por ID:</b></label> <input type="text" id="buscarIdArbitro"
+										class="inputFiltrar" placeholder="Buscar por ID">
 								</div>
 
 								<div class="filtroItem">
@@ -842,7 +617,8 @@ canvas {
 										<td>1000000000</td>
 										<td>Fila 1, Col 2</td>
 										<td>Fila 1, Col 3</td>
-										<td><button class="botonEliminarAdmin">
+										<td><button class="botonEliminarAdmin"
+												style="border: 1px solid black; height: 1.75vw;">
 												<svg xmlns="http://www.w3.org/2000/svg" width="1vw"
 													height="1vw" fill="currentColor" class="bi bi-trash3-fill"
 													style="color: #c33214; margin-bottom: 0.1vw"
@@ -853,7 +629,8 @@ canvas {
 											</button>
 											<button class="botonModificarAdmin">
 												<svg xmlns="http://www.w3.org/2000/svg" width="1vw"
-													height="1vw" fill="currentColor" class="bi bi-pencil-square"
+													height="1vw" fill="currentColor"
+													class="bi bi-pencil-square"
 													style="color: orange; margin-bottom: 0.1vw"
 													viewBox="0 0 16 16">
   <path
@@ -1175,25 +952,95 @@ Avenida mujer trabajadora
 	const filasPorPagina = 10;
 	const cuerpoTabla = document.getElementById("cuerpoTabla");
 
-	function mostrarTabla() {
-		cuerpoTabla.innerHTML = "";
-		let inicio = (paginaActual - 1) * filasPorPagina;
-		let fin = inicio + filasPorPagina;
-		let datosPagina = datos.slice(inicio, fin);
+	$(document).ready(function () {
+	    // Llamada AJAX al cargar la página
+	    $.ajax({
+	        url: 'http://localhost:9527/api/mostrarUsuarios',
+	        method: 'GET',
+	        dataType: 'json',
+	        success: function (data) {
+	            console.log(data);
 
-		datosPagina.forEach((item) => {
-			let fila = `<tr>
-				<td>${item.id}</td>
-				<td>${item.nombre}</td>
-				<td>${item.correo}</td>
-				<td>${item.opciones}</td>
-			</tr>`;
-			cuerpoTabla.innerHTML += fila;
-		});
+	            // Vaciar el tbody antes de llenarlo
+	            $('#tablaCuerpoUsuario').empty();
 
-		document.getElementById("paginaActual").textContent = paginaActual;
-		document.getElementById("botonAnterior").disabled = paginaActual === 1;
-		document.getElementById("botonSiguiente").disabled = fin >= datos.length;
+	            // Recorrer los datos y añadir filas a la tabla
+	            $.each(data, function (index, usuario) {
+	                var row =
+	                    '<tr style="font-size: 1.5vw">' +
+	                    '<td>' + usuario.idUsuario + '</td>' +
+	                    '<td>' + usuario.nombreCompletoUsuario + '</td>' +
+	                    '<td>' + usuario.emailUsuario + '</td>' +
+	                    '<td style="display: flex; justify-content: center; align-items: center; height: 100% ;gap: 10px; ">' + // Mantén los bordes laterales
+	                    '<button style="border: 1px solid red; height: 2.2vw; width: 2.2vw; display: flex; align-items: center; justify-content: center; ">' +
+	                    '<i class="bi bi-trash3-fill" style="color: #c33214; font-size: 1.5vw;"></i>' +
+	                    '</button>' +
+	                    '<button data-usuario=\'' + JSON.stringify(usuario) + '\' style="border: 1px solid orange; height: 2.2vw; width: 2.2vw; display: flex; align-items: center; justify-content: center; ">' +
+	                    '<i class="bi bi-pencil-square" style="font-size: 1.5vw; color: orange;"></i>' +
+	                    '</button>' +
+	                    '</td>' +
+	                    '</tr>';
+	                $('#tablaCuerpoUsuario').append(row);
+	            });
+
+	            // Inicializar DataTables después de agregar las filas
+	            $('#example').DataTable();
+	        },
+	        error: function (xhr, status, error) {
+	            console.error('Error en la solicitud AJAX:', error);
+	        }
+	    });
+	});
+
+
+
+
+	// Función para cargar clubes
+	function cargarClubes() {
+	    fetch('https://api.ejemplo.com/clubes')
+	        .then(response => response.json())
+	        .then(data => {
+	            const tbody = document.getElementById('tablaClubes').getElementsByTagName('tbody')[0];
+	            tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos datos
+	            data.forEach(item => {
+	                const fila = document.createElement('tr');
+	                fila.innerHTML = `
+	                    <td>${item.id}</td>
+	                    <td>${item.nombre}</td>
+	                    <td>${item.direccion}</td>
+	                    <td>
+	                        <button onclick="editarClub(${item.id})">Editar</button>
+	                        <button onclick="eliminarClub(${item.id})">Eliminar</button>
+	                    </td>
+	                `;
+	                tbody.appendChild(fila);
+	            });
+	        })
+	        .catch(error => console.error('Error al obtener los datos de clubes:', error));
+	}
+
+	// Función para cargar instalaciones
+	function cargarInstalaciones() {
+	    fetch('https://api.ejemplo.com/instalaciones')
+	        .then(response => response.json())
+	        .then(data => {
+	            const tbody = document.getElementById('tablaInstalaciones').getElementsByTagName('tbody')[0];
+	            tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos datos
+	            data.forEach(item => {
+	                const fila = document.createElement('tr');
+	                fila.innerHTML = `
+	                    <td>${item.id}</td>
+	                    <td>${item.nombre}</td>
+	                    <td>${item.ubicacion}</td>
+	                    <td>
+	                        <button onclick="editarInstalacion(${item.id})">Editar</button>
+	                        <button onclick="eliminarInstalacion(${item.id})">Eliminar</button>
+	                    </td>
+	                `;
+	                tbody.appendChild(fila);
+	            });
+	        })
+	        .catch(error => console.error('Error al obtener los datos de instalaciones:', error));
 	}
 
 	function cambiarPagina(cambio) {

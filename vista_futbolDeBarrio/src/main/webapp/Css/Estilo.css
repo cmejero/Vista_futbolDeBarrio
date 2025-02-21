@@ -201,31 +201,30 @@ button.botonRegistrarCabecera:active {
 }
 
 .tablaDatos {
-	width: 100%;
-	border-collapse: collapse;
-	background-color: #eafeea;
-	color: black;
-	font-size: 1.1 vw;
-	box-shadow: 0vw 0.4vw 0.8vw rgba(0, 0, 0, 0.3), 0vw -0.4vw 0.8vw
-		rgba(0, 0, 0, 0.15);
-	font-family: 'Open Sans', sans-serif;
+    width: 100%;
+    background-color: #eafeea;
+    color: black;
+    font-size: 1.1vw;
+    box-shadow: 0vw 0.4vw 0.8vw rgba(0, 0, 0, 0.3), 0vw -0.4vw 0.8vw rgba(0, 0, 0, 0.15);
+    font-family: 'Open Sans', sans-serif;
 }
 
 .tablaDatos th, .tablaDatos td {
-	border: 0.11vw solid #aeaeae;
-	padding: 0.6vw;
-	text-align: center;
+    border: 0.11vw solid #aeaeae; 
+    padding: 0.6vw;
+    text-align: center;
+    
 }
 
 .tablaDatos th {
-	text-decoration: underline;
-	font-style: italic;
-	font-size: 1.4vw;
-	font-weight: bold;
+    text-decoration: underline;
+    font-style: italic;
+    font-size: 1.4vw;
+    font-weight: bold;
 }
 
 .tablaDatos tr:nth-child(even) {
-	background-color: #e0fee0;
+    background-color: #e0fee0;
 }
 
 .botonFiltrar {
@@ -316,32 +315,6 @@ button.botonRegistrarCabecera:active {
 	height: 1.8vw;
 	margin-top: 0.4vw;
 	margin-bottom: 0.5vw;
-}
-
-.botonEliminarAdmin {
-	border: 1px solid black;
-	height: 1.75vw;
-}
-
-.botonEliminarAdmin:hover {
-	border: 1.5px solid red;
-}
-
-.botonEliminarAdmin:active {
-	border: 2px solid #d4af37;
-}
-
-.botonModificarAdmin {
-	border: 1px solid black;
-	height: 1.75vw;
-}
-
-.botonModificarAdmin:hover {
-	border: 1.5px solid orange;
-}
-
-.botonModificarAdmin:active {
-	border: 2px solid #d4af37;
 }
 
 /* REGISTRAR */
@@ -570,13 +543,12 @@ button.botonSeleccion {
 	justify-content: center;
 	align-items: center;
 	background-color: #43a624;
-	width: 3.4vw;
-	height: 2.4vw;
+	width: 3vw;
+	height: 2vw;
 	margin-left: 1.1vw;
 	border-radius: 6px;
-	
-	
 }
+
 .botonUnirse:hover {
-	background-color:  #d4af37;
+	background-color: #d4af37;
 }
