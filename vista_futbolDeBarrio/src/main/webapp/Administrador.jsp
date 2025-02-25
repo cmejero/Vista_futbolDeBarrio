@@ -952,101 +952,43 @@ Avenida mujer trabajadora
 	const filasPorPagina = 10;
 	const cuerpoTabla = document.getElementById("cuerpoTabla");
 
-	$(document).ready(function () {
-	    // Llamada AJAX al cargar la página
-	    $.ajax({
-	        url: 'http://localhost:9527/api/mostrarUsuarios',
-	        method: 'GET',
-	        dataType: 'json',
-	        success: function (data) {
-	            console.log(data);
-
-	            // Vaciar el tbody antes de llenarlo
-	            $('#tablaCuerpoUsuario').empty();
-
-	            // Recorrer los datos y añadir filas a la tabla
-	            $.each(data, function (index, usuario) {
-	                var row =
-	                    '<tr style="font-size: 1.5vw">' +
-	                    '<td>' + usuario.idUsuario + '</td>' +
-	                    '<td>' + usuario.nombreCompletoUsuario + '</td>' +
-	                    '<td>' + usuario.emailUsuario + '</td>' +
-	                    '<td style="display: flex; justify-content: center; align-items: center; height: 100% ;gap: 10px; ">' + // Mantén los bordes laterales
-	                    '<button style="border: 1px solid red; height: 2.2vw; width: 2.2vw; display: flex; align-items: center; justify-content: center; ">' +
-	                    '<i class="bi bi-trash3-fill" style="color: #c33214; font-size: 1.5vw;"></i>' +
-	                    '</button>' +
-	                    '<button data-usuario=\'' + JSON.stringify(usuario) + '\' style="border: 1px solid orange; height: 2.2vw; width: 2.2vw; display: flex; align-items: center; justify-content: center; ">' +
-	                    '<i class="bi bi-pencil-square" style="font-size: 1.5vw; color: orange;"></i>' +
-	                    '</button>' +
-	                    '</td>' +
-	                    '</tr>';
-	                $('#tablaCuerpoUsuario').append(row);
-	            });
-
-	            // Inicializar DataTables después de agregar las filas
-	            $('#example').DataTable();
-	        },
-	        error: function (xhr, status, error) {
-	            console.error('Error en la solicitud AJAX:', error);
-	        }
-	    });
+	$.ajax({
+	    url: 'usuario',  // Verifica si '/usuario' es la ruta correcta
+	    method: 'GET',
+	    dataType: 'json',
+	    success: function (data) {
+	        console.log(data); // Verifica la estructura del objeto JSON que recibes
+	        $('#tablaCuerpoUsuario').empty();
+	        
+	        // Si `data` ya es un array, puedes iterar sobre él directamente
+	        $.each(data, function (index, usuario) {
+	            var row = 
+	                '<tr id="fila-' + usuario.idUsuario + '" style="font-size: 1.5vw; font-style:Open Sans, sans-serif;">' +
+	                '<td style="font-weight: bold;">' + usuario.idUsuario + '</td>' +
+	                '<td>' + usuario.nombreCompletoUsuario + '</td>' +
+	                '<td>' + usuario.emailUsuario + '</td>' +
+	                '<td style="display: flex; justify-content: center; align-items: center; height: 100%; gap: 1.5vw;">' +
+	                '<button class="btnEliminar" data-id="' + usuario.idUsuario + '" style="border: 1px solid red; height: 2.2vw; width: 2.2vw; display: flex; align-items: center; justify-content: center;">' +
+	                '<i class="bi bi-trash3-fill" style="color: #c33214; font-size: 1.5vw;"></i>' +
+	                '</button>' +
+	                '<button data-usuario=\'' + JSON.stringify(usuario) + '\' style="border: 1px solid orange; height: 2.2vw; width: 2.2vw; display: flex; align-items: center; justify-content: center;">' +
+	                '<i class="bi bi-pencil-square" style="font-size: 1.5vw; color: orange;"></i>' +
+	                '</button>' +
+	                '</td>' +
+	                '</tr>';
+	            $('#tablaCuerpoUsuario').append(row);
+	        });
+	        $('#example').DataTable();
+	    },
+	    error: function (xhr, status, error) {
+	        console.error('Error en la solicitud AJAX:', error);
+	    }
 	});
 
 
 
+ 
 
-	// Función para cargar clubes
-	function cargarClubes() {
-	    fetch('https://api.ejemplo.com/clubes')
-	        .then(response => response.json())
-	        .then(data => {
-	            const tbody = document.getElementById('tablaClubes').getElementsByTagName('tbody')[0];
-	            tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos datos
-	            data.forEach(item => {
-	                const fila = document.createElement('tr');
-	                fila.innerHTML = `
-	                    <td>${item.id}</td>
-	                    <td>${item.nombre}</td>
-	                    <td>${item.direccion}</td>
-	                    <td>
-	                        <button onclick="editarClub(${item.id})">Editar</button>
-	                        <button onclick="eliminarClub(${item.id})">Eliminar</button>
-	                    </td>
-	                `;
-	                tbody.appendChild(fila);
-	            });
-	        })
-	        .catch(error => console.error('Error al obtener los datos de clubes:', error));
-	}
-
-	// Función para cargar instalaciones
-	function cargarInstalaciones() {
-	    fetch('https://api.ejemplo.com/instalaciones')
-	        .then(response => response.json())
-	        .then(data => {
-	            const tbody = document.getElementById('tablaInstalaciones').getElementsByTagName('tbody')[0];
-	            tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos datos
-	            data.forEach(item => {
-	                const fila = document.createElement('tr');
-	                fila.innerHTML = `
-	                    <td>${item.id}</td>
-	                    <td>${item.nombre}</td>
-	                    <td>${item.ubicacion}</td>
-	                    <td>
-	                        <button onclick="editarInstalacion(${item.id})">Editar</button>
-	                        <button onclick="eliminarInstalacion(${item.id})">Eliminar</button>
-	                    </td>
-	                `;
-	                tbody.appendChild(fila);
-	            });
-	        })
-	        .catch(error => console.error('Error al obtener los datos de instalaciones:', error));
-	}
-
-	function cambiarPagina(cambio) {
-		paginaActual += cambio;
-		mostrarTabla();
-	}
 
 
 	document.addEventListener("DOMContentLoaded", function () {

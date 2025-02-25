@@ -120,20 +120,51 @@ public class UsuarioControlador extends HttpServlet {
 	}
 
 
-	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		ArrayList<UsuarioDto> listaUsuario = servicio.listausuario();
+	        throws ServletException, IOException {
+	    // Llamada al servicio que obtiene los usuarios
+	    ArrayList<UsuarioDto> listaUsuario = servicio.listausuario();
 
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
+	    // Configurar la respuesta como JSON
+	    response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
 
-		// Convertir la lista a JSON
-		ObjectMapper objectMapper = new ObjectMapper(); // Asegúrate de tener la biblioteca Jackson en tu proyecto
-		String json = objectMapper.writeValueAsString(listaUsuario);
+	    // Convertir la lista a JSON
+	    ObjectMapper objectMapper = new ObjectMapper();
+	    String json = objectMapper.writeValueAsString(listaUsuario);
 
-		// Escribir la respuesta JSON
-		response.getWriter().write(json);
+	    // Escribir la respuesta JSON
+	    response.getWriter().write(json);
 	}
+	
+	 @Override
+	    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+	            throws ServletException, IOException {
+	        try {
+	            String idUsuarioParam = request.getParameter("idUsuario");
+	            if (idUsuarioParam == null || idUsuarioParam.isEmpty()) {
+	                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	                response.getWriter().write("ID de usuario no proporcionado.");
+	                return;
+	            }
+
+	            Long idUsuario = Long.parseLong(idUsuarioParam);
+	            boolean eliminado = servicio.eliminarUsuario(idUsuario);
+
+	            if (eliminado) {
+	                response.setStatus(HttpServletResponse.SC_OK);
+	                response.getWriter().write("Usuario eliminado correctamente.");
+	            } else {
+	                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	                response.getWriter().write("Error al eliminar el usuario.");
+	            }
+	        } catch (NumberFormatException e) {
+	            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	            response.getWriter().write("ID de usuario no válido.");
+	        } catch (Exception e) {
+	            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	            response.getWriter().write("Error en el servidor: " + e.getMessage());
+	        }
+	    }
 
 }

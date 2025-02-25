@@ -72,82 +72,82 @@ public class UsuarioServicio {
 	}
 
 	public ArrayList<UsuarioDto> listausuario() {
-		ArrayList<UsuarioDto> lista = new ArrayList<UsuarioDto>();
+	    ArrayList<UsuarioDto> lista = new ArrayList<UsuarioDto>();
 
-		try {
-			String urlApi = "http://localhost:9527/api/usuario";
-			URL url = new URL(urlApi);
+	    try {
+	        String urlApi = "http://localhost:9527/api/mostrarUsuarios";
+	        URL url = new URL(urlApi);
 
-			HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-			conex.setRequestMethod("GET");
-			conex.setRequestProperty("Accept", "application/json");
+	        HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+	        conex.setRequestMethod("GET");
+	        conex.setRequestProperty("Accept", "application/json");
 
-			int responseCode = conex.getResponseCode();
+	        int responseCode = conex.getResponseCode();
 
-			if (responseCode == HttpURLConnection.HTTP_OK) {
-				// Leer la respuesta
-				BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
-				String inputLine;
-				StringBuilder response = new StringBuilder();
+	        if (responseCode == HttpURLConnection.HTTP_OK) {
+	            // Leer la respuesta
+	            BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
+	            String inputLine;
+	            StringBuilder response = new StringBuilder();
 
-				while ((inputLine = in.readLine()) != null) {
-					response.append(inputLine);
-				}
-				in.close();
+	            while ((inputLine = in.readLine()) != null) {
+	                response.append(inputLine);
+	            }
+	            in.close();
 
-				// Procesar la respuesta JSON
-				JSONArray jsonlista = new JSONArray(response.toString());
+	            // Procesar la respuesta JSON
+	            JSONArray jsonlista = new JSONArray(response.toString());
+	            for (int i = 0; i < jsonlista.length(); i++) {
+	                JSONObject jsonUsuario = jsonlista.getJSONObject(i);
+	                UsuarioDto usuario = new UsuarioDto();
 
-				System.out.println(jsonlista);
+	                usuario.setIdUsuario(jsonUsuario.getLong("idUsuario"));
+	                usuario.setNombreCompletoUsuario(jsonUsuario.getString("nombreCompletoUsuario"));
+	                usuario.setAliasUsuario(jsonUsuario.getString("aliasUsuario"));
+	                usuario.setFechaNacimientoUsuario(jsonUsuario.getString("fechaNacimientoUsuario"));
+	                usuario.setEmailUsuario(jsonUsuario.getString("emailUsuario"));
+	                usuario.setTelefonoUsuario(jsonUsuario.getString("telefonoUsuario"));
+	                usuario.setPasswordUsuario(jsonUsuario.getString("passwordUsuario"));
+	                String rol = jsonUsuario.getString("rolUsuario").toUpperCase();
+	                RolUsuario rolUsuario = RolUsuario.valueOf(rol);
+	                usuario.setRolUsuario(rolUsuario);
+	                usuario.setDescripcionUsuario(jsonUsuario.getString("descripcionUsuario"));
 
-				for (int i = 0; i < jsonlista.length(); i++) {
-					JSONObject jsonUsuario = jsonlista.getJSONObject(i);
-					UsuarioDto usuario = new UsuarioDto();
+	                // Procesar la imagen en base64
+	                String imagenBase64 = jsonUsuario.getString("imagenUsuario");
+	                if (imagenBase64 != null && !imagenBase64.isEmpty()) {
+	                    String fileName = "usuario_" + usuario.getIdUsuario() + ".jpg";
+	                    byte[] imageBytes = Base64.getDecoder().decode(imagenBase64);
+	                    try (FileOutputStream fos = new FileOutputStream(fileName)) {
+	                        fos.write(imageBytes);
+	                        System.out.println("Imagen guardada como: " + fileName);
+	                    } catch (IOException e) {
+	                        e.printStackTrace();
+	                    }
+	                }
 
-					usuario.setIdUsuario(jsonUsuario.getLong("id_usuario"));
-					usuario.setNombreCompletoUsuario(jsonUsuario.getString("nombreCompletoUsuario"));
-					usuario.setAliasUsuario(jsonUsuario.getString("aliasUsuario"));
-					usuario.setFechaNacimientoUsuario(jsonUsuario.getString("fechaNacimientoUsuario"));
-					usuario.setEmailUsuario(jsonUsuario.getString("emailUsuario"));
-					usuario.setTelefonoUsuario(jsonUsuario.getString("telefonoUsuario")); // Cambio en la "U"
-					usuario.setPasswordUsuario(jsonUsuario.getString("passwordUsuario"));
-					String rol = jsonUsuario.getString("rolUsuario").toUpperCase(); 
-					RolUsuario rolUsuario = RolUsuario.valueOf(rol);
-					usuario.setRolUsuario(rolUsuario);
-					usuario.setDescripcionUsuario(jsonUsuario.getString("descripcionUsuario"));
-                    String imagenBase64 = jsonUsuario.getString("imagenUsuario");
-                    if (imagenBase64 != null && !imagenBase64.isEmpty()) {
-                        // Si la imagen viene como Base64, puedes guardarla en un archivo
-                        String fileName = "usuario_" + usuario.getIdUsuario() + ".jpg"; // Nombre del archivo
-                        byte[] imageBytes = Base64.getDecoder().decode(imagenBase64);
-                        try (FileOutputStream fos = new FileOutputStream(fileName)) {
-                            fos.write(imageBytes);
-                            System.out.println("Imagen guardada como: " + fileName);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            System.out.println("Error al guardar la imagen: " + e.getMessage());
-                        }
-                    }
-                	String estadoUsuarioString = jsonUsuario.getString("estadoUsuario").toUpperCase(); 
-					Estado estadoUsuario = Estado.valueOf(estadoUsuarioString);
-					usuario.setEstadoUsuario(estadoUsuario);
+	                // Procesar el estado del usuario
+	                String estadoUsuarioString = jsonUsuario.getString("estadoUsuario").toUpperCase();
+	                Estado estadoUsuario = Estado.valueOf(estadoUsuarioString);
+	                usuario.setEstadoUsuario(estadoUsuario);
 
+	                lista.add(usuario);
+	                System.out.println(response.toString());
+	            }
+	        } else {
+	            System.out.println("Error al obtener usuarios: " + responseCode);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("ERROR- ServiciosUsuarios-ListaUsuario: " + e.getMessage());
+	    }
 
-					lista.add(usuario);
-				}
-			} else {
-				System.out.println("Error al obtener usuarios: " + responseCode);
-			}
-		} catch (Exception e) {
-			// Manejo de la excepción con detalles completos
-			e.printStackTrace();
-			System.out.println("ERROR- ServiciosUsuarios-ListaUsuario: " + e.getMessage());
-		}
-
-		// Imprimir la lista de usuarios
-		System.out.println(lista);
-		return lista;
+	    // Imprimir la lista de usuarios
+	    System.out.println(lista);
+	    return lista;
 	}
+
+
 
 	public boolean modificarUsuario(String idUsuario, UsuarioDto usuario) {
 		try {
@@ -191,5 +191,35 @@ public class UsuarioServicio {
 			return false; // Error
 		}
 	}
+	
+	public boolean eliminarUsuario(Long idUsuario) {
+	    try {
+	        // Construir la URL para la solicitud DELETE, incluyendo el ID del usuario
+	        String urlApi = "http://localhost:9527/api/eliminarUsuario/" + idUsuario;
+	        URL url = new URL(urlApi);
+
+	        // Abrir la conexión HTTP
+	        HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+	        conex.setRequestMethod("DELETE");
+	        conex.setRequestProperty("Accept", "application/json");
+
+	        // Obtener el código de respuesta
+	        int responseCode = conex.getResponseCode();
+
+	        // Verificar si la eliminación fue exitosa
+	        if (responseCode == HttpURLConnection.HTTP_OK) {
+	            System.out.println("Usuario eliminado correctamente.");
+	            return true;
+	        } else {
+	            System.out.println("Error al eliminar usuario: " + responseCode);
+	            return false;
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("ERROR- [UsuarioServicio.eliminarUsuario]: " + e.getMessage());
+	        return false;
+	    }
+	}
+
 
 }
