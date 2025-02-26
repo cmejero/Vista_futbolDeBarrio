@@ -334,7 +334,7 @@
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="passwordUsuario"
 											name="passwordUsuario" required></td>
-										<td><label for="passwordUsuario" class="formularioLabel ">Repetir
+										<td><label for="passwordUsuario2" class="formularioLabel ">Repetir
 												contraseña</label> <input type="password"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											style="font-size: 1vw;" class="form-control"

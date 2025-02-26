@@ -3,31 +3,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <title>FUTBOL DE BARRIO</title>
 
-<link rel="stylesheet" href="Css/Estilo.css">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-	crossorigin="anonymous">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
-	rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<!-- Incluir jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Estilos CSS -->
+    <link rel="stylesheet" href="Css/Estilo.css">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-<!-- Incluir DataTables CSS -->
-<link rel="stylesheet" type="text/css"
-	href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
-<!-- Incluir DataTables JS -->
-<script type="text/javascript" charset="utf8"
-	src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <!-- jQuery (Debe estar antes de Bootstrap y DataTables) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<title>FUTBOL DE BARRIO</title>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <!-- Chart.js (Solo si lo necesitas) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
 
@@ -291,95 +294,147 @@ canvas {
 								</div>
 
 								<script>
-        // Obtener el ancho de la pantalla para calcular el tamaño del texto
-        function calcularTamanioTexto() {
-            return Math.max(1, window.innerWidth * 0.015); // 1.5vw en función del tamaño de la pantalla
-        }
+									// Obtener el ancho de la pantalla para calcular el tamaño del texto
+									function calcularTamanioTexto() {
+										return Math.max(1,
+												window.innerWidth * 0.015); // 1.5vw en función del tamaño de la pantalla
+									}
 
-        // Opciones de los gráficos
-        function getChartOptions() {
-            return {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: { 
-                        ticks: { color: 'black', font: { size: calcularTamanioTexto() } }, 
-                        grid: { color: 'black' }
-                    },
-                    y: { 
-                        ticks: { color: 'black', font: { size: calcularTamanioTexto() } }, 
-                        grid: { color: 'black' }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        labels: { 
-                            color: 'black',
-                            font: { size: calcularTamanioTexto() }
-                        }
-                    }
-                }
-            };
-        }
+									// Opciones de los gráficos
+									function getChartOptions() {
+										return {
+											responsive : true,
+											maintainAspectRatio : false,
+											scales : {
+												x : {
+													ticks : {
+														color : 'black',
+														font : {
+															size : calcularTamanioTexto()
+														}
+													},
+													grid : {
+														color : 'black'
+													}
+												},
+												y : {
+													ticks : {
+														color : 'black',
+														font : {
+															size : calcularTamanioTexto()
+														}
+													},
+													grid : {
+														color : 'black'
+													}
+												}
+											},
+											plugins : {
+												legend : {
+													labels : {
+														color : 'black',
+														font : {
+															size : calcularTamanioTexto()
+														}
+													}
+												}
+											}
+										};
+									}
 
-        // Gráfico de Usuarios Registrados
-        new Chart(document.getElementById('usuariosChart').getContext('2d'), {
-            type: 'bar',
-            data: {
-                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
-                datasets: [{
-                    label: 'USUARIOS REGISTRADOS',
-                    data: [120, 150, 180, 210, 250, 300],
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: getChartOptions()
-        });
+									// Gráfico de Usuarios Registrados
+									new Chart(
+											document.getElementById(
+													'usuariosChart')
+													.getContext('2d'),
+											{
+												type : 'bar',
+												data : {
+													labels : [ 'Enero',
+															'Febrero', 'Marzo',
+															'Abril', 'Mayo',
+															'Junio' ],
+													datasets : [ {
+														label : 'USUARIOS REGISTRADOS',
+														data : [ 120, 150, 180,
+																210, 250, 300 ],
+														backgroundColor : 'rgba(54, 162, 235, 0.6)',
+														borderColor : 'rgba(54, 162, 235, 1)',
+														borderWidth : 1
+													} ]
+												},
+												options : getChartOptions()
+											});
 
-        // Gráfico de Visitas Mensuales
-        new Chart(document.getElementById('visitasChart').getContext('2d'), {
-            type: 'line',
-            data: {
-                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
-                datasets: [{
-                    label: 'VISITAS MENSUALES',
-                    data: [500, 800, 1200, 1500, 2000, 2500],
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderWidth: 2,
-                    fill: true
-                }]
-            },
-            options: getChartOptions()
-        });
+									// Gráfico de Visitas Mensuales
+									new Chart(
+											document.getElementById(
+													'visitasChart').getContext(
+													'2d'),
+											{
+												type : 'line',
+												data : {
+													labels : [ 'Enero',
+															'Febrero', 'Marzo',
+															'Abril', 'Mayo',
+															'Junio' ],
+													datasets : [ {
+														label : 'VISITAS MENSUALES',
+														data : [ 500, 800,
+																1200, 1500,
+																2000, 2500 ],
+														borderColor : 'rgba(255, 99, 132, 1)',
+														backgroundColor : 'rgba(255, 99, 132, 0.2)',
+														borderWidth : 2,
+														fill : true
+													} ]
+												},
+												options : getChartOptions()
+											});
 
-        // Gráfico de Categorías Populares
-        new Chart(document.getElementById('categoriasChart').getContext('2d'), {
-            type: 'pie',
-            data: {
-                labels: ['Jugadores', 'Porteros', 'Instalaciones', 'Clubes', 'Aribtros', 'Premium'],
-                datasets: [{
-                    data: [8000, 560, 100, 300, 200, 1200],
-                    backgroundColor: ['#c33214', '#f94300', '#37b137', '#2783b8', '#fff024' , '#d4af37']
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        labels: { 
-                            color: 'black',
-                            font: { size: calcularTamanioTexto() }
-                        }
-                    }
-                }
-            }
-        });
-
-    </script>
+									// Gráfico de Categorías Populares
+									new Chart(
+											document.getElementById(
+													'categoriasChart')
+													.getContext('2d'),
+											{
+												type : 'pie',
+												data : {
+													labels : [ 'Jugadores',
+															'Porteros',
+															'Instalaciones',
+															'Clubes',
+															'Aribtros',
+															'Premium' ],
+													datasets : [ {
+														data : [ 8000, 560,
+																100, 300, 200,
+																1200 ],
+														backgroundColor : [
+																'#c33214',
+																'#f94300',
+																'#37b137',
+																'#2783b8',
+																'#fff024',
+																'#d4af37' ]
+													} ]
+												},
+												options : {
+													responsive : true,
+													maintainAspectRatio : false,
+													plugins : {
+														legend : {
+															labels : {
+																color : 'black',
+																font : {
+																	size : calcularTamanioTexto()
+																}
+															}
+														}
+													}
+												}
+											});
+								</script>
 						</div>
 
 
@@ -442,6 +497,84 @@ canvas {
 
 						</div>
 
+
+<!-- Modal de Edición de Usuario -->
+<div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-labelledby="modalEditarUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarUsuarioLabel" style="text-align: center;"><b>EDITAR USUARIO</b></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" id="idUsuario">
+                    <table class="table" style="border: 1px solid #ccc;">
+                        <tbody>
+                            <tr style="border: 1px solid #ccc;">
+                                <td style="border: 1px solid #ccc; padding: 10px;">
+                                    <label for="nombreCompletoUsuario"><b>Nombre Completo</b></label>
+                                    <input type="text" class="form-control" id="nombreCompletoUsuario" 
+                                        style="border: 2px solid #aaa;">
+                                </td>
+                                <td style="border: 1px solid #ccc; padding: 10px;">
+                                    <label for="aliasUsuario"><b>Alias</b></label>
+                                    <input type="text" class="form-control" id="aliasUsuario"
+                                        style="border: 2px solid #aaa;">
+                                </td>
+                            </tr>
+                            <tr style="border: 1px solid #ccc;">
+                                <td style="border: 1px solid #ccc; padding: 10px;">
+                                    <label for="emailUsuario"><b>Email</b></label>
+                                    <input type="email" class="form-control" id="emailUsuario"
+                                        style="border: 2px solid #aaa;">
+                                </td>
+                                <td style="border: 1px solid #ccc; padding: 10px;">
+                                    <label for="telefonoUsuario"><b>Teléfono</b></label>
+                                    <input type="text" class="form-control" id="telefonoUsuario"
+                                        style="border: 2px solid #aaa;">
+                                </td>
+                            </tr>
+                            <tr style="border: 1px solid #ccc;">
+                                <td style="border: 1px solid #ccc; padding: 10px;">
+                                    <label for="rolUsuario"><b>Rol</b></label>
+                                    <select class="form-select" id="rolUsuario" style="border: 2px solid #aaa;">
+                                        <option value="Administrador">Administrador</option>
+                                        <option value="Jugador">Jugador</option>
+                                        <option value="Portero">Portero</option>
+                                    </select>
+                                </td>
+                                <td style="border: 1px solid #ccc; padding: 10px;">
+                                    <label for="estadoUsuario"><b>Estado</b></label>
+                                    <select class="form-select" id="estadoUsuario" style="border: 2px solid #aaa;">
+                                        <option value="Activo">Activo</option>
+                                        <option value="Inactivo">Inactivo</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr style="border: 1px solid #ccc;">
+                                <td style="border: 1px solid #ccc; padding: 10px;">
+                                    <label for="descripcionUsuario"><b>Descripción</b></label>
+                                    <input type="text" class="form-control" id="descripcionUsuario"
+                                        style="border: 2px solid #aaa;">
+                                </td>
+                                <td style="border: 1px solid #ccc; padding: 10px;">
+                                    <label for="imagenUsuario"><b>Imagen</b></label>
+                                    <input type="file" class="form-control" id="imagenUsuario"
+                                        style="border: 2px solid #aaa;">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" id="btnGuardarCambios" class="btn btn-primary">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -813,271 +946,380 @@ Avenida mujer trabajadora
 
 
 	<script>
-	// Mostrar/Ocultar los filtros al hacer clic en el botón 
-	document.getElementById("mostrarFiltrosUsuario").addEventListener("click", function() {
-		const filtros = document.getElementById("filtrosUsuario");
-		const boton = document.getElementById("mostrarFiltrosUsuario");
+		// Mostrar/Ocultar los filtros al hacer clic en el botón 
+		document.getElementById("mostrarFiltrosUsuario").addEventListener(
+				"click",
+				function() {
+					const filtros = document.getElementById("filtrosUsuario");
+					const boton = document
+							.getElementById("mostrarFiltrosUsuario");
 
-		if (filtros.style.display === "none") {
-			filtros.style.display = "flex"; // Mostrar los filtros
-			boton.textContent = "Ocultar Filtros"; // Cambiar el texto del botón
-		} else {
-			filtros.style.display = "none"; // Ocultar los filtros
-			boton.textContent = "Mostrar Filtros"; // Cambiar el texto del botón
+					if (filtros.style.display === "none") {
+						filtros.style.display = "flex"; // Mostrar los filtros
+						boton.textContent = "Ocultar Filtros"; // Cambiar el texto del botón
+					} else {
+						filtros.style.display = "none"; // Ocultar los filtros
+						boton.textContent = "Mostrar Filtros"; // Cambiar el texto del botón
+					}
+				});
+
+		document.getElementById("mostrarFiltrosInstalacion").addEventListener(
+				"click",
+				function() {
+					const filtros = document
+							.getElementById("filtrosInstalacion");
+					const boton = document
+							.getElementById("mostrarFiltrosinstalacion");
+
+					if (filtros.style.display === "none") {
+						filtros.style.display = "flex"; // Mostrar los filtros
+						boton.textContent = "Ocultar Filtros"; // Cambiar el texto del botón
+					} else {
+						filtros.style.display = "none"; // Ocultar los filtros
+						boton.textContent = "Mostrar Filtros"; // Cambiar el texto del botón
+					}
+				});
+
+		document.getElementById("mostrarFiltrosClub")
+				.addEventListener(
+						"click",
+						function() {
+							const filtros = document
+									.getElementById("filtrosClub");
+							const boton = document
+									.getElementById("mostrarFiltrosClub");
+
+							if (filtros.style.display === "none") {
+								filtros.style.display = "flex"; // Mostrar los filtros
+								boton.textContent = "Ocultar Filtros"; // Cambiar el texto del botón
+							} else {
+								filtros.style.display = "none"; // Ocultar los filtros
+								boton.textContent = "Mostrar Filtros"; // Cambiar el texto del botón
+							}
+						});
+
+		document.getElementById("mostrarFiltrosArbitros").addEventListener(
+				"click",
+				function() {
+					const filtros = document.getElementById("filtrosArbitros");
+					const boton = document
+							.getElementById("mostrarFiltrosArbitros");
+
+					if (filtros.style.display === "none") {
+						filtros.style.display = "flex"; // Mostrar los filtros
+						boton.textContent = "Ocultar Filtros"; // Cambiar el texto del botón
+					} else {
+						filtros.style.display = "none"; // Ocultar los filtros
+						boton.textContent = "Mostrar Filtros"; // Cambiar el texto del botón
+					}
+				});
+
+		// Función para filtrar la tabla
+		function filtrarTabla(idFiltro, columnaIndex) {
+			const valorFiltro = document.getElementById(idFiltro).value
+					.toLowerCase();
+			const filas = document.querySelectorAll(".tablaDatos tbody tr");
+
+			filas.forEach(function(fila) {
+				const celdas = fila.getElementsByTagName("td");
+				const textoCelda = celdas[columnaIndex].textContent
+						.toLowerCase();
+				if (textoCelda.includes(valorFiltro)) {
+					fila.style.display = "";
+				} else {
+					fila.style.display = "none";
+				}
+			});
 		}
-	});
-	
-	document.getElementById("mostrarFiltrosInstalacion").addEventListener("click", function() {
-		const filtros = document.getElementById("filtrosInstalacion");
-		const boton = document.getElementById("mostrarFiltrosinstalacion");
 
-		if (filtros.style.display === "none") {
-			filtros.style.display = "flex"; // Mostrar los filtros
-			boton.textContent = "Ocultar Filtros"; // Cambiar el texto del botón
-		} else {
-			filtros.style.display = "none"; // Ocultar los filtros
-			boton.textContent = "Mostrar Filtros"; // Cambiar el texto del botón
+		// Agregar evento de filtro para cada campo
+		document.getElementById("buscarId").addEventListener("input",
+				function() {
+					filtrarTabla("buscarId", 0); // Filtro por columna ID (columna 0)
+				});
+
+		document.getElementById("buscarNombre").addEventListener("input",
+				function() {
+					filtrarTabla("buscarNombre", 1); // Filtro por columna Nombre (columna 1)
+				});
+
+		document.getElementById("buscarCorreo").addEventListener("input",
+				function() {
+					filtrarTabla("buscarCorreo", 2); // Filtro por columna Correo (columna 2)
+				});
+
+		document.getElementById("buscarIdInstalaciones").addEventListener(
+				"input", function() {
+					filtrarTabla("buscarIdInstalaciones", 0); // Filtro por columna ID (columna 0)
+				});
+
+		document.getElementById("buscarNombreInstalaciones").addEventListener(
+				"input", function() {
+					filtrarTabla("buscarNombreInstalaciones", 1); // Filtro por columna Nombre (columna 1)
+				});
+
+		document.getElementById("buscarCorreoInstalaciones").addEventListener(
+				"input", function() {
+					filtrarTabla("buscarCorreoInstalaciones", 2); // Filtro por columna Correo (columna 2)
+				});
+
+		document.getElementById("buscarIdClub").addEventListener("input",
+				function() {
+					filtrarTabla("buscarIdClub", 0); // Filtro por columna ID (columna 0)
+				});
+
+		document.getElementById("buscarNombreClub").addEventListener("input",
+				function() {
+					filtrarTabla("buscarNombreClub", 1); // Filtro por columna Nombre (columna 1)
+				});
+
+		document.getElementById("buscarCorreoClub").addEventListener("input",
+				function() {
+					filtrarTabla("buscarCorreoClub", 2); // Filtro por columna Correo (columna 2)
+				});
+
+		document.getElementById("buscarIdArbitro").addEventListener("input",
+				function() {
+					filtrarTabla("buscarIdArbitro", 0); // Filtro por columna ID (columna 0)
+				});
+
+		document.getElementById("buscarNombreArbitro").addEventListener(
+				"input", function() {
+					filtrarTabla("buscarNombreArbitro", 1); // Filtro por columna Nombre (columna 1)
+				});
+
+		document.getElementById("buscarCorreoArbitro").addEventListener(
+				"input", function() {
+					filtrarTabla("buscarCorreoArbitro", 2); // Filtro por columna Correo (columna 2)
+				});
+
+		// CODIGO PARA BOTONES ANTERIOR Y SIGUIENTE Y ESCRIBIR EN LA TBODY
+		let datos = [];
+		for (let i = 1; i <= 50; i++) {
+			datos.push({
+				id : i,
+				nombre : "Jugador " + i,
+				correo : "jugador" + i + "@correo.com",
+				opciones : "Editar | Eliminar"
+			});
 		}
-	});
-	
-	document.getElementById("mostrarFiltrosClub").addEventListener("click", function() {
-		const filtros = document.getElementById("filtrosClub");
-		const boton = document.getElementById("mostrarFiltrosClub");
 
-		if (filtros.style.display === "none") {
-			filtros.style.display = "flex"; // Mostrar los filtros
-			boton.textContent = "Ocultar Filtros"; // Cambiar el texto del botón
-		} else {
-			filtros.style.display = "none"; // Ocultar los filtros
-			boton.textContent = "Mostrar Filtros"; // Cambiar el texto del botón
-		}
-	});
-	
-	document.getElementById("mostrarFiltrosArbitros").addEventListener("click", function() {
-		const filtros = document.getElementById("filtrosArbitros");
-		const boton = document.getElementById("mostrarFiltrosArbitros");
+		let paginaActual = 1;
+		const filasPorPagina = 10;
+		const cuerpoTabla = document.getElementById("cuerpoTabla");
 
-		if (filtros.style.display === "none") {
-			filtros.style.display = "flex"; // Mostrar los filtros
-			boton.textContent = "Ocultar Filtros"; // Cambiar el texto del botón
-		} else {
-			filtros.style.display = "none"; // Ocultar los filtros
-			boton.textContent = "Mostrar Filtros"; // Cambiar el texto del botón
-		}
-	});
+		
+		$(document).ready(function () {
+		    // Obtener todos los usuarios al cargar la página
+		    $.ajax({
+		        url: 'usuario', // Verifica si esta es la ruta correcta
+		        method: 'GET',
+		        dataType: 'json',
+		        success: function (data) {
+		            console.log(data); // Verifica la estructura del objeto JSON que recibes
+		            $('#tablaCuerpoUsuario').empty(); // Limpiar la tabla antes de llenarla
 
-	// Función para filtrar la tabla
-	function filtrarTabla(idFiltro, columnaIndex) {
-		const valorFiltro = document.getElementById(idFiltro).value.toLowerCase();
-		const filas = document.querySelectorAll(".tablaDatos tbody tr");
+		            // Si `data` ya es un array, puedes iterar sobre él directamente
+		            $.each(data, function (index, usuario) {
+		                var row = '<tr id="fila-' + usuario.idUsuario + '" style="font-size: 1.5vw; font-style:Open Sans, sans-serif;">'
+		                    + '<td style="font-weight: bold;">' + usuario.idUsuario + '</td>'
+		                    + '<td>' + usuario.nombreCompletoUsuario + '</td>'
+		                    + '<td>' + usuario.emailUsuario + '</td>'
+		                    + '<td style="display: flex; justify-content: center; align-items: center; height: 100%; gap: 1.5vw;">'
+		                    + '<button class="btnEliminar" data-id="' + usuario.idUsuario + '" style="border: 1px solid red; height: 2.2vw; width: 2.2vw; display: flex; align-items: center; justify-content: center;">'
+		                    + '<i class="bi bi-trash3-fill" style="color: #c33214; font-size: 1.5vw;"></i>'
+		                    + '</button>'
+		                    + '<button class="btnEditar" data-usuario=\'' + JSON.stringify(usuario) + '\' style="border: 1px solid orange; height: 2.2vw; width: 2.2vw; display: flex; align-items: center; justify-content: center;">'
+		                    + '<i class="bi bi-pencil-square" style="font-size: 1.5vw; color: orange;"></i>'
+		                    + '</button>'
+		                    + '</td>'
+		                    + '</tr>';
+		                $('#tablaCuerpoUsuario').append(row); // Añadir cada fila al cuerpo de la tabla
+		            });
 
-		filas.forEach(function(fila) {
-			const celdas = fila.getElementsByTagName("td");
-			const textoCelda = celdas[columnaIndex].textContent.toLowerCase();
-			if (textoCelda.includes(valorFiltro)) {
-				fila.style.display = "";
-			} else {
-				fila.style.display = "none";
-			}
+		            $('#example').DataTable(); // Inicializa DataTable
+
+		            // ------------------- ELIMINAR USUARIO -------------------
+		            $('.btnEliminar').click(function () {
+		                var idUsuario = $(this).data('id');
+		                if (confirm("¿Seguro que deseas eliminar este usuario?")) {
+		                    $.ajax({
+		                        url: 'usuario?idUsuario=' + idUsuario,
+		                        method: 'DELETE',
+		                        success: function (response) {
+		                            console.log(response);
+		                            $('#fila-' + idUsuario).remove(); 
+		                        },
+		                        error: function (xhr, status, error) {
+		                            console.error('Error al eliminar usuario:', error);
+		                        }
+		                    });
+		                }
+		            });
+
+		            // ------------------- MODIFICAR USUARIO -------------------
+		            $(document).on("click", ".btnEditar", function () {
+		                var usuarioData = $(this).data("usuario"); // Obtener los datos del usuario desde el botón
+
+		                if (!usuarioData) {
+		                    console.error("No se encontraron datos de usuario.");
+		                    return;
+		                }
+
+		                console.log("Usuario seleccionado:", usuarioData);
+
+		                // Llenar el modal con los datos del usuario
+		                $("#idUsuario").val(usuarioData.idUsuario);
+		                $("#nombreCompletoUsuario").val(usuarioData.nombreCompletoUsuario);
+		                $("#aliasUsuario").val(usuarioData.aliasUsuario);
+		                $("#fechaNacimientoUsuario").val(usuarioData.fechaNacimientoUsuario);
+		                $("#emailUsuario").val(usuarioData.emailUsuario);
+		                $("#telefonoUsuario").val(usuarioData.telefonoUsuario);
+		                $("#rolUsuario").val(usuarioData.rolUsuario);
+		                $("#descripcionUsuario").val(usuarioData.descripcionUsuario);
+		                $("#estadoUsuario").val(usuarioData.estadoUsuario);
+
+		                // Mostrar el modal
+		                $("#modalEditarUsuario").modal("show");
+		            });
+
+		            // Evento para guardar los cambios del usuario modificado
+		            $("#btnGuardarCambios").click(function () {
+		                var idUsuario = $("#idUsuario").val();
+		                var usuarioModificado = {
+		                    nombreCompletoUsuario: $("#nombreCompletoUsuario").val(),
+		                    aliasUsuario: $("#aliasUsuario").val(),
+		                    fechaNacimientoUsuario: $("#fechaNacimientoUsuario").val(),
+		                    emailUsuario: $("#emailUsuario").val(),
+		                    telefonoUsuario: $("#telefonoUsuario").val(),
+		                    rolUsuario: $("#rolUsuario").val(),
+		                    descripcionUsuario: $("#descripcionUsuario").val(),
+		                    estadoUsuario: $("#estadoUsuario").val()
+		                };
+
+		                $.ajax({
+		                    url: 'usuario?idUsuario=' + idUsuario,  // Ruta para modificar usuario con el ID
+		                  
+		                    method: "PUT",
+		                    contentType: "application/json",
+		                    data: JSON.stringify(usuarioModificado),
+		                    success: function (response) {
+		                        console.log(response);
+		                        
+
+		                        // Actualizar la fila en lugar de recargar toda la página
+		                        var fila = $('#fila-' + idUsuario);
+		                        fila.find('td:eq(1)').text(usuarioModificado.nombreCompletoUsuario);
+		                        fila.find('td:eq(2)').text(usuarioModificado.emailUsuario);
+		                        
+
+		                        // Cerrar el modal
+		                        $("#modalEditarUsuario").modal("hide"); 
+		                    },
+		                    error: function (xhr, status, error) {
+		                        console.error("Error al modificar usuario:", error);
+		                    }
+		                });
+		            });
+
+		        },
+		        error: function (xhr, status, error) {
+		            console.error('Error en la solicitud AJAX:', error);
+		        }
+		    });
 		});
-	}
-
-	// Agregar evento de filtro para cada campo
-	document.getElementById("buscarId").addEventListener("input", function() {
-		filtrarTabla("buscarId", 0); // Filtro por columna ID (columna 0)
-	});
-
-	document.getElementById("buscarNombre").addEventListener("input", function() {
-		filtrarTabla("buscarNombre", 1); // Filtro por columna Nombre (columna 1)
-	});
-
-	document.getElementById("buscarCorreo").addEventListener("input", function() {
-		filtrarTabla("buscarCorreo", 2); // Filtro por columna Correo (columna 2)
-	});
-
-	
-	
-	document.getElementById("buscarIdInstalaciones").addEventListener("input", function() {
-		filtrarTabla("buscarIdInstalaciones", 0); // Filtro por columna ID (columna 0)
-	});
-
-	document.getElementById("buscarNombreInstalaciones").addEventListener("input", function() {
-		filtrarTabla("buscarNombreInstalaciones", 1); // Filtro por columna Nombre (columna 1)
-	});
-
-	document.getElementById("buscarCorreoInstalaciones").addEventListener("input", function() {
-		filtrarTabla("buscarCorreoInstalaciones", 2); // Filtro por columna Correo (columna 2)
-	});
-	
-	
-	
-	document.getElementById("buscarIdClub").addEventListener("input", function() {
-		filtrarTabla("buscarIdClub", 0); // Filtro por columna ID (columna 0)
-	});
-
-	document.getElementById("buscarNombreClub").addEventListener("input", function() {
-		filtrarTabla("buscarNombreClub", 1); // Filtro por columna Nombre (columna 1)
-	});
-
-	document.getElementById("buscarCorreoClub").addEventListener("input", function() {
-		filtrarTabla("buscarCorreoClub", 2); // Filtro por columna Correo (columna 2)
-	});
-	
-	
-	
-	
-	document.getElementById("buscarIdArbitro").addEventListener("input", function() {
-		filtrarTabla("buscarIdArbitro", 0); // Filtro por columna ID (columna 0)
-	});
-
-	document.getElementById("buscarNombreArbitro").addEventListener("input", function() {
-		filtrarTabla("buscarNombreArbitro", 1); // Filtro por columna Nombre (columna 1)
-	});
-
-	document.getElementById("buscarCorreoArbitro").addEventListener("input", function() {
-		filtrarTabla("buscarCorreoArbitro", 2); // Filtro por columna Correo (columna 2)
-	});
-
-	
-	
-	
-
-	// CODIGO PARA BOTONES ANTERIOR Y SIGUIENTE Y ESCRIBIR EN LA TBODY
-	let datos = [];
-	for (let i = 1; i <= 50; i++) {
-		datos.push({ id: i, nombre: "Jugador " + i, correo: "jugador" + i + "@correo.com", opciones: "Editar | Eliminar" });
-	}
-
-	let paginaActual = 1;
-	const filasPorPagina = 10;
-	const cuerpoTabla = document.getElementById("cuerpoTabla");
-
-	$.ajax({
-	    url: 'usuario',  // Verifica si '/usuario' es la ruta correcta
-	    method: 'GET',
-	    dataType: 'json',
-	    success: function (data) {
-	        console.log(data); // Verifica la estructura del objeto JSON que recibes
-	        $('#tablaCuerpoUsuario').empty();
-	        
-	        // Si `data` ya es un array, puedes iterar sobre él directamente
-	        $.each(data, function (index, usuario) {
-	            var row = 
-	                '<tr id="fila-' + usuario.idUsuario + '" style="font-size: 1.5vw; font-style:Open Sans, sans-serif;">' +
-	                '<td style="font-weight: bold;">' + usuario.idUsuario + '</td>' +
-	                '<td>' + usuario.nombreCompletoUsuario + '</td>' +
-	                '<td>' + usuario.emailUsuario + '</td>' +
-	                '<td style="display: flex; justify-content: center; align-items: center; height: 100%; gap: 1.5vw;">' +
-	                '<button class="btnEliminar" data-id="' + usuario.idUsuario + '" style="border: 1px solid red; height: 2.2vw; width: 2.2vw; display: flex; align-items: center; justify-content: center;">' +
-	                '<i class="bi bi-trash3-fill" style="color: #c33214; font-size: 1.5vw;"></i>' +
-	                '</button>' +
-	                '<button data-usuario=\'' + JSON.stringify(usuario) + '\' style="border: 1px solid orange; height: 2.2vw; width: 2.2vw; display: flex; align-items: center; justify-content: center;">' +
-	                '<i class="bi bi-pencil-square" style="font-size: 1.5vw; color: orange;"></i>' +
-	                '</button>' +
-	                '</td>' +
-	                '</tr>';
-	            $('#tablaCuerpoUsuario').append(row);
-	        });
-	        $('#example').DataTable();
-	    },
-	    error: function (xhr, status, error) {
-	        console.error('Error en la solicitud AJAX:', error);
-	    }
-	});
 
 
+		document.addEventListener("DOMContentLoaded", function() {
+			// Obtener los botones
+			const mostrarInicioBtn = document
+					.getElementById('mostrarInicioBtn');
+			const mostrarUsuariosBtn = document
+					.getElementById('mostrarUsuariosBtn');
+			const mostrarInstalacionesBtn = document
+					.getElementById('mostrarInstalacionesBtn');
+			const mostrarClubesBtn = document
+					.getElementById('mostrarClubesBtn');
+			const mostrarArbitrosBtn = document
+					.getElementById('mostrarArbitrosBtn');
 
- 
+			// Obtener los contenedores
+			const inicioContainer = document.getElementById('inicioContainer');
+			const userContainer = document.getElementById('usuarioContainer');
+			const instalacionesContainer = document
+					.getElementById('instalacionesContainer');
+			const clubContainer = document.getElementById('clubContainer');
+			const arbitrosContainer = document
+					.getElementById('arbitrosContainer');
 
+			// Función para mostrar un contenedor y ocultar los demás
+			function mostrarContenedor(mostrar) {
+				// Ocultar todos los contenedores
+				inicioContainer.style.display = "none";
+				userContainer.style.display = "none";
+				instalacionesContainer.style.display = "none";
+				clubContainer.style.display = "none";
+				arbitrosContainer.style.display = "none";
 
+				// Mostrar solo el contenedor seleccionado
+				mostrar.style.display = "block";
+			}
 
-	document.addEventListener("DOMContentLoaded", function () {
-	    // Obtener los botones
-	    const mostrarInicioBtn = document.getElementById('mostrarInicioBtn');
-	    const mostrarUsuariosBtn = document.getElementById('mostrarUsuariosBtn');
-	    const mostrarInstalacionesBtn = document.getElementById('mostrarInstalacionesBtn');
-	    const mostrarClubesBtn = document.getElementById('mostrarClubesBtn');
-	    const mostrarArbitrosBtn = document.getElementById('mostrarArbitrosBtn');
+			// Evento para mostrar Inicio (página principal)
+			mostrarInicioBtn.addEventListener('click', function(event) {
+				event.preventDefault();
+				mostrarContenedor(inicioContainer);
+			});
 
-	    // Obtener los contenedores
-	    const inicioContainer = document.getElementById('inicioContainer');
-	    const userContainer = document.getElementById('usuarioContainer');
-	    const instalacionesContainer = document.getElementById('instalacionesContainer');
-	    const clubContainer = document.getElementById('clubContainer');
-	    const arbitrosContainer = document.getElementById('arbitrosContainer');
+			// Evento para mostrar Usuarios
+			mostrarUsuariosBtn.addEventListener('click', function(event) {
+				event.preventDefault();
+				mostrarContenedor(userContainer);
+			});
 
-	    // Función para mostrar un contenedor y ocultar los demás
-	    function mostrarContenedor(mostrar) {
-	        // Ocultar todos los contenedores
-	        inicioContainer.style.display = "none";
-	        userContainer.style.display = "none";
-	        instalacionesContainer.style.display = "none";
-	        clubContainer.style.display = "none";
-	        arbitrosContainer.style.display = "none";
+			// Evento para mostrar Instalaciones
+			mostrarInstalacionesBtn.addEventListener('click', function(event) {
+				event.preventDefault();
+				mostrarContenedor(instalacionesContainer);
+			});
 
-	        // Mostrar solo el contenedor seleccionado
-	        mostrar.style.display = "block";
-	    }
+			// Evento para mostrar Clubes
+			mostrarClubesBtn.addEventListener('click', function(event) {
+				event.preventDefault();
+				mostrarContenedor(clubContainer);
+			});
 
-	    // Evento para mostrar Inicio (página principal)
-	    mostrarInicioBtn.addEventListener('click', function (event) {
-	        event.preventDefault();
-	        mostrarContenedor(inicioContainer);
-	    });
+			// Evento para mostrar Arbitros
+			mostrarArbitrosBtn.addEventListener('click', function(event) {
+				event.preventDefault();
+				mostrarContenedor(arbitrosContainer);
+			});
 
-	    // Evento para mostrar Usuarios
-	    mostrarUsuariosBtn.addEventListener('click', function (event) {
-	        event.preventDefault();
-	        mostrarContenedor(userContainer);
-	    });
+			// Mostrar la sección de inicio al cargar la página
+			mostrarContenedor(inicioContainer);
 
-	    // Evento para mostrar Instalaciones
-	    mostrarInstalacionesBtn.addEventListener('click', function (event) {
-	        event.preventDefault();
-	        mostrarContenedor(instalacionesContainer);
-	    });
+			// Obtener todos los enlaces
+			const enlaces = document.querySelectorAll("a");
 
-	    // Evento para mostrar Clubes
-	    mostrarClubesBtn.addEventListener('click', function (event) {
-	        event.preventDefault();
-	        mostrarContenedor(clubContainer);
-	    });
-	    
-	 // Evento para mostrar Arbitros
-	    mostrarArbitrosBtn.addEventListener('click', function (event) {
-	        event.preventDefault();
-	        mostrarContenedor(arbitrosContainer);
-	    });
+			// Función para resaltar el enlace clicado y restablecer los demás
+			function resaltarEnlace(event) {
+				event.preventDefault(); // Evita que la página se recargue
 
-	    // Mostrar la sección de inicio al cargar la página
-	    mostrarContenedor(inicioContainer);
+				enlaces.forEach(function(enlace) {
+					enlace.style.color = ""; // Restablece el color original
+				});
 
-	    // Obtener todos los enlaces
-	    const enlaces = document.querySelectorAll("a");
+				this.style.color = "#d4af37"; // Resalta el enlace clicado con color amarillo
+			}
 
-	    // Función para resaltar el enlace clicado y restablecer los demás
-	    function resaltarEnlace(event) {
-	        event.preventDefault(); // Evita que la página se recargue
+			// Añadir el evento de clic a cada enlace
+			enlaces.forEach(function(enlace) {
+				enlace.addEventListener("click", resaltarEnlace);
+			});
+		});
 
-	        enlaces.forEach(function (enlace) {
-	            enlace.style.color = ""; // Restablece el color original
-	        });
-
-	        this.style.color = "#d4af37"; // Resalta el enlace clicado con color amarillo
-	    }
-
-	    // Añadir el evento de clic a cada enlace
-	    enlaces.forEach(function (enlace) {
-	        enlace.addEventListener("click", resaltarEnlace);
-	    });
-	});
-
-	 
-	 mostrarInicioBtn.style.color = "#d4af37"; // Cambiar color de texto a negro
-	 
-
-
-</script>
+		mostrarInicioBtn.style.color = "#d4af37"; // Cambiar color de texto a negro
+	</script>
 
 
 

@@ -38,24 +38,17 @@ public class UsuarioControlador extends HttpServlet {
 	}
 
 	
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-	        throws ServletException, IOException {
-	    try {
-	        String accion = request.getParameter("accion"); // Acción para determinar si es crear o modificar
-	        System.out.println("Acción recibida desde el formulario: " + request.getParameter("accion"));
-
-	        
-	        if ("aniadir".equals(accion)) {
-	            // Obtener los datos del formulario
+	  @Override
+	    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	        try {
+	            // Obtener los datos del formulario para añadir
 	            String nombreCompletoUsuarioForm = request.getParameter("nombreCompletoUsuario");
-	           
 	            String aliasUsuarioForm = request.getParameter("aliasUsuario");
 	            String fechaNacimientoUsuarioForm = request.getParameter("fechaNacimientoUsuario");
 	            String emailUsuarioForm = request.getParameter("emailUsuario");
 	            String telefonoUsuarioForm = request.getParameter("telefonoUsuario");
 	            String passwordUsuarioForm = request.getParameter("passwordUsuario");
-	            String passwordUsuario2Form = request.getParameter("passwordUsuario2"); // Confirmar contraseña
+	            String passwordUsuario2Form = request.getParameter("passwordUsuario2");
 
 	            // Verificar si las contraseñas coinciden
 	            if (!passwordUsuarioForm.equals(passwordUsuario2Form)) {
@@ -66,7 +59,7 @@ public class UsuarioControlador extends HttpServlet {
 	            // Obtener el rol
 	            String rolUsuarioString = request.getParameter("rolUsuario");
 	            RolUsuario rolUsuarioForm = RolUsuario.valueOf(rolUsuarioString.trim());
-	            
+
 	            // Obtener descripción
 	            String descripcionUsuarioForm = request.getParameter("descripcionUsuario");
 
@@ -98,26 +91,79 @@ public class UsuarioControlador extends HttpServlet {
 
 	            // Guardar el usuario en el servicio
 	            servicio.guardarUsuario(nuevoUsuario);
-	            
+
 	            response.getWriter().write("Usuario creado correctamente.");
-	        } else if ("modificar".equals(accion)) {
-	            // Lógica para modificar el usuario
-	        } else {
-	            response.getWriter().write("Acción no válida.");
-	            log.ficheroErrores("Acción no válida recibida: " + accion);
+	        } catch (Exception e) {
+	            e.printStackTrace(); // Imprime la traza del error en el servidor o consola
+	            response.getWriter().write("Se ha producido un error en el servidor. Por favor, inténtelo más tarde." + e.getMessage());
 	        }
-
-	    } catch (Exception e) {
-	        // En caso de que ocurra algún error durante la ejecución del doPost
-	        e.printStackTrace(); // Imprime la traza del error en el servidor o consola
-
-	        // Responder con un mensaje genérico de error
-	        response.getWriter().write("Se ha producido un error en el servidor. Por favor, inténtelo más tarde." + e.getMessage());
-	        
-	        // Registrar el error en el archivo de log
-	        log.ficheroErrores("Error en el procesamiento de la acción: " + e.getMessage());
 	    }
-	}
+
+	    // Manejar la modificación de un usuario con doPut
+	    @Override
+	    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	        try {
+	            // Recoger el ID del usuario que se va a modificar
+	            String idUsuarioForm = request.getParameter("idUsuario"); // Se espera que haya un ID
+
+	            if (idUsuarioForm == null || idUsuarioForm.isEmpty()) {
+	                response.getWriter().write("El ID del usuario es necesario para modificar.");
+	                return;
+	            }
+
+	            // Obtener los nuevos datos del formulario
+	            String nombreCompletoUsuarioForm = request.getParameter("nombreCompletoUsuario");
+	            String aliasUsuarioForm = request.getParameter("aliasUsuario");
+	            String fechaNacimientoUsuarioForm = request.getParameter("fechaNacimientoUsuario");
+	            String emailUsuarioForm = request.getParameter("emailUsuario");
+	            String telefonoUsuarioForm = request.getParameter("telefonoUsuario");
+	            String passwordUsuarioForm = request.getParameter("passwordUsuario");
+	            String rolUsuarioString = request.getParameter("rolUsuario");
+	            String descripcionUsuarioForm = request.getParameter("descripcionUsuario");
+	            String estadoUsuarioString = request.getParameter("estadoUsuario");
+
+	            // Obtener el rol y estado
+	            RolUsuario rolUsuarioForm = RolUsuario.valueOf(rolUsuarioString);
+	            Estado estadoUsuarioForm = Estado.valueOf(estadoUsuarioString);
+
+	            // Procesar la imagen
+	            Part imagenPart = request.getPart("imagenUsuario");
+	            byte[] imagenUsuarioForm = null;
+	            if (imagenPart != null && imagenPart.getSize() > 0) {
+	                imagenUsuarioForm = new byte[(int) imagenPart.getSize()];
+	                InputStream inputStream = imagenPart.getInputStream();
+	                inputStream.read(imagenUsuarioForm);
+	            }
+
+	            // Crear el objeto UsuarioDto con los datos nuevos
+	            UsuarioDto usuarioModificado = new UsuarioDto();
+	            usuarioModificado.setIdUsuario(Long.parseLong(idUsuarioForm)); // Asignar el ID del usuario
+	            usuarioModificado.setNombreCompletoUsuario(nombreCompletoUsuarioForm);
+	            usuarioModificado.setAliasUsuario(aliasUsuarioForm);
+	            usuarioModificado.setFechaNacimientoUsuario(fechaNacimientoUsuarioForm);
+	            usuarioModificado.setEmailUsuario(emailUsuarioForm);
+	            usuarioModificado.setTelefonoUsuario(telefonoUsuarioForm);
+	            usuarioModificado.setPasswordUsuario(passwordUsuarioForm);
+	            usuarioModificado.setRolUsuario(rolUsuarioForm);
+	            usuarioModificado.setDescripcionUsuario(descripcionUsuarioForm);
+	            usuarioModificado.setEstadoUsuario(estadoUsuarioForm);
+	            usuarioModificado.setImagenUsuario(imagenUsuarioForm);
+
+	            // Llamar al servicio para modificar el usuario
+	            boolean actualizado = servicio.modificarUsuario(idUsuarioForm, usuarioModificado);
+
+	            if (actualizado) {
+	                response.getWriter().write("Usuario modificado correctamente.");
+	            } else {
+	                response.getWriter().write("No se pudo modificar el usuario.");
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace(); // Imprime la traza del error en el servidor o consola
+	            response.getWriter().write("Se ha producido un error en el servidor. Por favor, inténtelo más tarde." + e.getMessage());
+	        }
+	    }
+
+
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

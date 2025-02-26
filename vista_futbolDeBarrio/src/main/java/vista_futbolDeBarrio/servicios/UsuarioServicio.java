@@ -1,8 +1,6 @@
 package vista_futbolDeBarrio.servicios;
 
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -27,14 +25,13 @@ public class UsuarioServicio {
 
 			JSONObject json = new JSONObject();
 
-			json.put("nombreUsuario", usuario.getNombreCompletoUsuario());
+			json.put("nombreCompletoUsuario", usuario.getNombreCompletoUsuario());
 			json.put("aliasUsuario", usuario.getAliasUsuario());
 			json.put("fechaNacimientoUsuario", usuario.getFechaNacimientoUsuario());
 			json.put("emailUsuario", usuario.getEmailUsuario());
 			json.put("telefonoUsuario", usuario.getTelefonoUsuario());
 			json.put("passwordUsuario", usuario.getPasswordUsuario());
 			json.put("rolUsuario", usuario.getRolUsuario().name()); 
-			
 			json.put("descripcionUsuario", usuario.getDescripcionUsuario());
 			json.put("imagenUsuario", usuario.getImagenUsuario());
 			json.put("estadoUsuario", usuario.getEstadoUsuario());
@@ -73,6 +70,7 @@ public class UsuarioServicio {
 
 	public ArrayList<UsuarioDto> listausuario() {
 	    ArrayList<UsuarioDto> lista = new ArrayList<UsuarioDto>();
+	    StringBuilder response = new StringBuilder(); // Declaración fuera del bloque try-catch
 
 	    try {
 	        String urlApi = "http://localhost:9527/api/mostrarUsuarios";
@@ -88,10 +86,9 @@ public class UsuarioServicio {
 	            // Leer la respuesta
 	            BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
 	            String inputLine;
-	            StringBuilder response = new StringBuilder();
 
 	            while ((inputLine = in.readLine()) != null) {
-	                response.append(inputLine);
+	                response.append(inputLine);  // Continuamos agregando a la respuesta
 	            }
 	            in.close();
 
@@ -108,26 +105,28 @@ public class UsuarioServicio {
 	                usuario.setEmailUsuario(jsonUsuario.getString("emailUsuario"));
 	                usuario.setTelefonoUsuario(jsonUsuario.getString("telefonoUsuario"));
 	                usuario.setPasswordUsuario(jsonUsuario.getString("passwordUsuario"));
-	                String rol = jsonUsuario.getString("rolUsuario").toUpperCase();
+	                String rol = jsonUsuario.getString("rolUsuario");
 	                RolUsuario rolUsuario = RolUsuario.valueOf(rol);
 	                usuario.setRolUsuario(rolUsuario);
 	                usuario.setDescripcionUsuario(jsonUsuario.getString("descripcionUsuario"));
 
-	                // Procesar la imagen en base64
-	                String imagenBase64 = jsonUsuario.getString("imagenUsuario");
-	                if (imagenBase64 != null && !imagenBase64.isEmpty()) {
-	                    String fileName = "usuario_" + usuario.getIdUsuario() + ".jpg";
-	                    byte[] imageBytes = Base64.getDecoder().decode(imagenBase64);
-	                    try (FileOutputStream fos = new FileOutputStream(fileName)) {
-	                        fos.write(imageBytes);
-	                        System.out.println("Imagen guardada como: " + fileName);
-	                    } catch (IOException e) {
-	                        e.printStackTrace();
+	                String imagenBase64 = null;
+	                if (jsonUsuario.has("imagenUsuario") && !jsonUsuario.isNull("imagenUsuario")) {
+	                    if (jsonUsuario.get("imagenUsuario") instanceof String) {
+	                        imagenBase64 = jsonUsuario.getString("imagenUsuario");
+
+	                        if (imagenBase64 != null && !imagenBase64.isEmpty()) {
+	                            byte[] imageBytes = Base64.getDecoder().decode(imagenBase64);
+	                            usuario.setImagenUsuario(imageBytes);
+	                        }
+	                    } else {
+	                        System.out.println("El campo 'imagenUsuario' no es un String válido.");
+	                        usuario.setImagenUsuario(null);
 	                    }
 	                }
 
 	                // Procesar el estado del usuario
-	                String estadoUsuarioString = jsonUsuario.getString("estadoUsuario").toUpperCase();
+	                String estadoUsuarioString = jsonUsuario.getString("estadoUsuario");
 	                Estado estadoUsuario = Estado.valueOf(estadoUsuarioString);
 	                usuario.setEstadoUsuario(estadoUsuario);
 
@@ -142,10 +141,10 @@ public class UsuarioServicio {
 	        System.out.println("ERROR- ServiciosUsuarios-ListaUsuario: " + e.getMessage());
 	    }
 
-	    // Imprimir la lista de usuarios
 	    System.out.println(lista);
 	    return lista;
 	}
+
 
 
 
@@ -153,13 +152,14 @@ public class UsuarioServicio {
 		try {
 			// Crear JSON del objeto UsuarioDtos
 			JSONObject json = new JSONObject();
+			json.put("idUsuario", usuario.getIdUsuario());
 			json.put("nombreCompletoUsuario", usuario.getNombreCompletoUsuario());
 			json.put("aliasUsuario", usuario.getAliasUsuario());
 			json.put("fechaNacimientoUsuario", usuario.getFechaNacimientoUsuario());
 			json.put("emailUsuario", usuario.getEmailUsuario());
 			json.put("telefonoUsuario", usuario.getTelefonoUsuario());
 			json.put("passwordUsuario", usuario.getPasswordUsuario());
-			json.put("rolUsuario", usuario.getRolUsuario());
+			json.put("rolUsuario", usuario.getRolUsuario().name());
 			json.put("descripcionUsuario", usuario.getDescripcionUsuario());
 			json.put("imagenUsuario", usuario.getImagenUsuario());
 			json.put("estadoUsuario", usuario.getEstadoUsuario());
