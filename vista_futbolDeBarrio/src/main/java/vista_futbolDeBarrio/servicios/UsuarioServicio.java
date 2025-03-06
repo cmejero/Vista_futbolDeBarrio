@@ -17,56 +17,7 @@ import vista_futbolDeBarrio.enums.RolUsuario;
 
 public class UsuarioServicio {
 
-	public void guardarUsuario(UsuarioDto usuario) {
-
-		try {
-
-			// Tras pasarle un dto construyo el json en base al objeto usuario
-
-			JSONObject json = new JSONObject();
-
-			json.put("nombreCompletoUsuario", usuario.getNombreCompletoUsuario());
-			json.put("aliasUsuario", usuario.getAliasUsuario());
-			json.put("fechaNacimientoUsuario", usuario.getFechaNacimientoUsuario());
-			json.put("emailUsuario", usuario.getEmailUsuario());
-			json.put("telefonoUsuario", usuario.getTelefonoUsuario());
-			json.put("passwordUsuario", usuario.getPasswordUsuario());
-			json.put("rolUsuario", usuario.getRolUsuario().name()); 
-			json.put("descripcionUsuario", usuario.getDescripcionUsuario());
-			json.put("imagenUsuario", usuario.getImagenUsuario());
-			json.put("estadoUsuario", usuario.getEstadoUsuario());
-
-			String urlApi = "http://localhost:9527/api/guardarUsuario";
-
-			URL url = new URL(urlApi);
-			// Habro la conexion a la api
-
-			HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-			conex.setRequestMethod("POST");
-			conex.setRequestProperty("Content-Type", "application/json");
-			conex.setDoOutput(true);
-
-			// Meto el JSON en la solicitud
-
-			try (OutputStream os = conex.getOutputStream()) {
-				byte[] input = json.toString().getBytes("utf-8");
-				os.write(input, 0, input.length);
-			}
-
-			int responseCode = conex.getResponseCode();
-			if (responseCode == HttpURLConnection.HTTP_OK) {
-				System.out.println("Usuario guardado correctamente.");
-			} else {
-				System.out.println("Error al guardar usuario: " + responseCode);
-			}
-
-		} catch (Exception e) {
-
-			System.out.println("ERROR- [ServiciosUsuario]" + e);
-
-		}
-
-	}
+	
 
 	public ArrayList<UsuarioDto> listausuario() {
 	    ArrayList<UsuarioDto> lista = new ArrayList<UsuarioDto>();
@@ -109,6 +60,7 @@ public class UsuarioServicio {
 	                RolUsuario rolUsuario = RolUsuario.valueOf(rol);
 	                usuario.setRolUsuario(rolUsuario);
 	                usuario.setDescripcionUsuario(jsonUsuario.getString("descripcionUsuario"));
+	                System.out.println("pass base de datos: " + usuario.getPasswordUsuario());
 
 	                String imagenBase64 = null;
 	                if (jsonUsuario.has("imagenUsuario") && !jsonUsuario.isNull("imagenUsuario")) {
@@ -142,55 +94,101 @@ public class UsuarioServicio {
 	    }
 
 	    System.out.println(lista);
+	    
 	    return lista;
 	}
 
 
 
 
-	public boolean modificarUsuario(String idUsuario, UsuarioDto usuario) {
-		try {
-			// Crear JSON del objeto UsuarioDtos
-			JSONObject json = new JSONObject();
-			json.put("idUsuario", usuario.getIdUsuario());
-			json.put("nombreCompletoUsuario", usuario.getNombreCompletoUsuario());
-			json.put("aliasUsuario", usuario.getAliasUsuario());
-			json.put("fechaNacimientoUsuario", usuario.getFechaNacimientoUsuario());
-			json.put("emailUsuario", usuario.getEmailUsuario());
-			json.put("telefonoUsuario", usuario.getTelefonoUsuario());
-			json.put("passwordUsuario", usuario.getPasswordUsuario());
-			json.put("rolUsuario", usuario.getRolUsuario().name());
-			json.put("descripcionUsuario", usuario.getDescripcionUsuario());
-			json.put("imagenUsuario", usuario.getImagenUsuario());
-			json.put("estadoUsuario", usuario.getEstadoUsuario());
+	 public void guardarUsuario(UsuarioDto usuario) {
+	        try {
+	            // Tras pasarle un dto construyo el json en base al objeto usuario
+	            JSONObject json = new JSONObject();
+	            json.put("nombreCompletoUsuario", usuario.getNombreCompletoUsuario());
+	            json.put("aliasUsuario", usuario.getAliasUsuario());
+	            json.put("fechaNacimientoUsuario", usuario.getFechaNacimientoUsuario());
+	            json.put("emailUsuario", usuario.getEmailUsuario());
+	            json.put("telefonoUsuario", usuario.getTelefonoUsuario());
+	            json.put("passwordUsuario", usuario.getPasswordUsuario());
+	            json.put("rolUsuario", usuario.getRolUsuario().name()); 
+	            json.put("descripcionUsuario", usuario.getDescripcionUsuario());
+	            json.put("imagenUsuario", usuario.getImagenUsuario());
+	            json.put("estadoUsuario", usuario.getEstadoUsuario());
 
-			// URL para hacer la solicitud PUT. Aquí estamos usando el idUsuario en la URL
-			String urlApi = "http://localhost:9527/api/modificarUsuario/" + idUsuario;
-			URL url = new URL(urlApi);
+	            String urlApi = "http://localhost:9527/api/guardarUsuario";
+	            URL url = new URL(urlApi);
+	            HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+	            conex.setRequestMethod("POST");
+	            conex.setRequestProperty("Content-Type", "application/json");
+	            conex.setDoOutput(true);
 
-			HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-			conex.setRequestMethod("PUT");
-			conex.setRequestProperty("Content-Type", "application/json");
-			conex.setDoOutput(true);
+	            // Meto el JSON en la solicitud
+	            try (OutputStream os = conex.getOutputStream()) {
+	                byte[] input = json.toString().getBytes("utf-8");
+	                os.write(input, 0, input.length);
+	            }
 
-			// Enviar JSON en la solicitud PUT
-			try (OutputStream os = conex.getOutputStream()) {
-				byte[] input = json.toString().getBytes();
-				os.write(input, 0, input.length);
-			}
+	            int responseCode = conex.getResponseCode();
+	            if (responseCode == HttpURLConnection.HTTP_OK) {
+	                System.out.println("Usuario guardado correctamente.");
+	            } else {
+	                System.out.println("Error al guardar usuario: " + responseCode);
+	            }
 
-			// Verificar la respuesta
-			int responseCode = conex.getResponseCode();
-			if (responseCode == HttpURLConnection.HTTP_OK) {
-				return true; // Usuario actualizado correctamente
-			} else {
-				return false; // Error al actualizar
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false; // Error
-		}
-	}
+	        } catch (Exception e) {
+	            System.out.println("ERROR- [ServiciosUsuario]" + e);
+	        }
+	    }
+
+	    // Método para actualizar un usuario
+	    public boolean modificarUsuario(String idUsuario, UsuarioDto usuario) {
+	        try {
+	            // Crear JSON del objeto UsuarioDtos
+	            JSONObject json = new JSONObject();
+	            json.put("idUsuario", usuario.getIdUsuario());
+	            json.put("nombreCompletoUsuario", usuario.getNombreCompletoUsuario());
+	            json.put("aliasUsuario", usuario.getAliasUsuario());
+	            json.put("fechaNacimientoUsuario", usuario.getFechaNacimientoUsuario());
+	            json.put("emailUsuario", usuario.getEmailUsuario());
+	            json.put("telefonoUsuario", usuario.getTelefonoUsuario());
+	            json.put("passwordUsuario", usuario.getPasswordUsuario());
+	            json.put("rolUsuario", usuario.getRolUsuario());
+	            json.put("descripcionUsuario", usuario.getDescripcionUsuario());
+	            json.put("imagenUsuario", usuario.getImagenUsuario() != null ? usuario.getImagenUsuario() : "");
+	            json.put("estadoUsuario", usuario.getEstadoUsuario());
+
+	            System.out.println("Datos enviados a la API:");
+	            System.out.println(json.toString());
+	            // URL para hacer la solicitud PUT
+	            String urlApi = "http://localhost:9527/api/modificarUsuario/" + idUsuario;
+	            URL url = new URL(urlApi);
+
+	            HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+	            conex.setRequestMethod("PUT");
+	            conex.setRequestProperty("Content-Type", "application/json");
+	            conex.setDoOutput(true);
+
+	            // Enviar JSON en la solicitud PUT
+	            try (OutputStream os = conex.getOutputStream()) {
+	                byte[] input = json.toString().getBytes();
+	                os.write(input, 0, input.length);
+	            }
+
+	            // Verificar la respuesta
+	            int responseCode = conex.getResponseCode();
+	            if (responseCode == HttpURLConnection.HTTP_OK) {
+	                return true; // Usuario actualizado correctamente
+	            } else {
+	                // Mostrar el código de error si no es 200
+	                System.out.println("Error al modificar usuario, código de respuesta: " + responseCode);
+	                return false; // Error al actualizar
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return false; // Error
+	        }
+	    }
 	
 	public boolean eliminarUsuario(Long idUsuario) {
 	    try {

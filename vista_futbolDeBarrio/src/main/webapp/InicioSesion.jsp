@@ -224,18 +224,16 @@
                 <i>Iniciar Sesión</i>
             </h2>
 
-            <form action="LoginServlet" method="POST">
-                <!-- Selección de Rol -->
-               
+            <form action="login" method="POST" enctype="multipart/form-data" action="login">
                 <div class="mb-1">
-                    <label for="correoUsuario" class="etiquetaFormulario">Correo Electrónico</label> 
-                    <input type="email" class="campoFormulario" id="correoUsuario" name="correoUsuario" required>
+                    <label for="email" class="etiquetaFormulario">Correo Electrónico</label> 
+                    <input type="email" class="campoFormulario" id="email" name="email" required>
                 </div>
 
                 <div class="mb-2">
-                    <label for="contrasenaUsuario" class="etiquetaFormulario">Contraseña</label>
+                    <label for="password" class="etiquetaFormulario">Contraseña</label>
                     <div class="contenedorContrasenia">
-                        <input type="password" class="campoFormulario" id="contrasenaUsuario" name="contrasenaUsuario" required>
+                        <input type="password" class="campoFormulario" id="password" name="password" required>
                         <button type="button" class="botonMostrarContrasenia" onclick="mostrarContrasena()">👁️</button>
                     </div>
                 </div>
@@ -264,6 +262,7 @@
         </div>
     </div>
 </main>
+
 
 	<footer>
 
@@ -399,7 +398,7 @@ Avenida mujer trabajadora
  -->
 	<script>
 		function mostrarContrasena() {
-			var input = document.getElementById("contrasenaUsuario");
+			var input = document.getElementById("password");
 			if (input.type === "password") {
 				input.type = "text";
 			} else {

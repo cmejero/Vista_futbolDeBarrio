@@ -3,32 +3,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>FUTBOL DE BARRIO</title>
+<meta charset="UTF-8">
+<title>FUTBOL DE BARRIO</title>
 
-    <!-- Estilos CSS -->
-    <link rel="stylesheet" href="Css/Estilo.css">
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<!-- Estilos CSS -->
+<link rel="stylesheet" href="Css/Estilo.css">
 
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<!-- Bootstrap CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
 
-    <!-- jQuery (Debe estar antes de Bootstrap y DataTables) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Bootstrap Icons -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+	rel="stylesheet">
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables CSS -->
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<!-- jQuery (Debe estar antes de Bootstrap y DataTables) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Chart.js (Solo si lo necesitas) -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Bootstrap JS -->
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- DataTables JS -->
+<script
+	src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<!-- Chart.js (Solo si lo necesitas) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -498,71 +505,85 @@ canvas {
 						</div>
 
 
-<!-- Modal de Edición de Usuario -->
-<div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-labelledby="modalEditarUsuarioLabel" aria-hidden="true">
+					<!-- Modal de Edición de Usuario -->
+<div class="modal fade" id="modalEditarUsuario" tabindex="-1"
+    aria-labelledby="modalEditarUsuarioLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalEditarUsuarioLabel" style="text-align: center;"><b>EDITAR USUARIO</b></h5>
+                <h5 class="modal-title" id="modalEditarUsuarioLabel" style="text-align: center;">
+                    <b>EDITAR USUARIO</b>
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <input type="hidden" id="idUsuario">
+                <form id="formEditarUsuario" method="POST" enctype="multipart/form-data" action="usuario">
+                    <!-- Campo oculto para ID de usuario -->
+                    <input type="hidden" id="idUsuario" name="idUsuario">
+
                     <table class="table" style="border: 1px solid #ccc;">
                         <tbody>
                             <tr style="border: 1px solid #ccc;">
                                 <td style="border: 1px solid #ccc; padding: 10px;">
                                     <label for="nombreCompletoUsuario"><b>Nombre Completo</b></label>
-                                    <input type="text" class="form-control" id="nombreCompletoUsuario" 
-                                        style="border: 2px solid #aaa;">
+                                    <input type="text" name="nombreCompletoUsuario" class="form-control" id="nombreCompletoUsuario"
+                                           style="border: 2px solid #aaa;">
                                 </td>
                                 <td style="border: 1px solid #ccc; padding: 10px;">
                                     <label for="aliasUsuario"><b>Alias</b></label>
-                                    <input type="text" class="form-control" id="aliasUsuario"
-                                        style="border: 2px solid #aaa;">
+                                    <input type="text" name="aliasUsuario" class="form-control" id="aliasUsuario"
+                                           style="border: 2px solid #aaa;">
                                 </td>
                             </tr>
                             <tr style="border: 1px solid #ccc;">
                                 <td style="border: 1px solid #ccc; padding: 10px;">
                                     <label for="emailUsuario"><b>Email</b></label>
-                                    <input type="email" class="form-control" id="emailUsuario"
-                                        style="border: 2px solid #aaa;">
+                                    <input type="email" name="emailUsuario" class="form-control" id="emailUsuario"
+                                           style="border: 2px solid #aaa;">
                                 </td>
                                 <td style="border: 1px solid #ccc; padding: 10px;">
-                                    <label for="telefonoUsuario"><b>Teléfono</b></label>
-                                    <input type="text" class="form-control" id="telefonoUsuario"
-                                        style="border: 2px solid #aaa;">
+                                    <label for="fechaNacimientoUsuario"><b>Fecha de Nacimiento</b></label>
+                                    <input type="date" name="fechaNacimientoUsuario" class="form-control" id="fechaNacimientoUsuario"
+                                           style="border: 2px solid #aaa;">
                                 </td>
                             </tr>
                             <tr style="border: 1px solid #ccc;">
                                 <td style="border: 1px solid #ccc; padding: 10px;">
-                                    <label for="rolUsuario"><b>Rol</b></label>
-                                    <select class="form-select" id="rolUsuario" style="border: 2px solid #aaa;">
-                                        <option value="Administrador">Administrador</option>
-                                        <option value="Jugador">Jugador</option>
-                                        <option value="Portero">Portero</option>
-                                    </select>
+                                    <label for="telefonoUsuario"><b>Teléfono</b></label>
+                                    <input type="text" name="telefonoUsuario" class="form-control" id="telefonoUsuario"
+                                           style="border: 2px solid #aaa;">
                                 </td>
                                 <td style="border: 1px solid #ccc; padding: 10px;">
+                                    <label for="rolUsuario"><b>Rol</b></label>
+                                    <select class="form-select" name="rolUsuario" id="rolUsuario" style="border: 2px solid #aaa;">
+                                        <option value="Administrador">Administrador</option>
+                                        <option value="Jugador">Jugador</option>
+                                        <option value="Guardameta">Portero</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #ccc; padding: 10px;">
                                     <label for="estadoUsuario"><b>Estado</b></label>
-                                    <select class="form-select" id="estadoUsuario" style="border: 2px solid #aaa;">
+                                    <select class="form-select" name="estadoUsuario" id="estadoUsuario"
+                                            style="border: 2px solid #aaa;">
                                         <option value="Activo">Activo</option>
                                         <option value="Inactivo">Inactivo</option>
                                     </select>
                                 </td>
-                            </tr>
-                            <tr style="border: 1px solid #ccc;">
                                 <td style="border: 1px solid #ccc; padding: 10px;">
                                     <label for="descripcionUsuario"><b>Descripción</b></label>
-                                    <input type="text" class="form-control" id="descripcionUsuario"
-                                        style="border: 2px solid #aaa;">
+                                    <input type="text" name="descripcionUsuario" class="form-control" id="descripcionUsuario"
+                                           style="border: 2px solid #aaa;">
                                 </td>
+                            </tr>
+                            <tr>
                                 <td style="border: 1px solid #ccc; padding: 10px;">
                                     <label for="imagenUsuario"><b>Imagen</b></label>
-                                    <input type="file" class="form-control" id="imagenUsuario"
-                                        style="border: 2px solid #aaa;">
+                                    <input type="file" name="imagenUsuario" class="form-control" id="imagenUsuario"
+                                           style="border: 2px solid #aaa;">
                                 </td>
+                                <td><input type="hidden" id="passwordUsuario" name="passwordUsuario"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -570,14 +591,12 @@ canvas {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" id="btnGuardarCambios" class="btn btn-primary">Guardar Cambios</button>
+                <!-- Botón de envío del formulario -->
+                <button type="submit" class="btn btn-primary" form="formEditarUsuario">Guardar Cambios</button>
             </div>
         </div>
     </div>
 </div>
-
-
-
 
 
 
@@ -1108,122 +1127,83 @@ Avenida mujer trabajadora
 		const filasPorPagina = 10;
 		const cuerpoTabla = document.getElementById("cuerpoTabla");
 
-		
-		$(document).ready(function () {
+		$(document).ready(function() {
 		    // Obtener todos los usuarios al cargar la página
 		    $.ajax({
 		        url: 'usuario', // Verifica si esta es la ruta correcta
 		        method: 'GET',
 		        dataType: 'json',
-		        success: function (data) {
+		        success: function(data) {
 		            console.log(data); // Verifica la estructura del objeto JSON que recibes
 		            $('#tablaCuerpoUsuario').empty(); // Limpiar la tabla antes de llenarla
 
 		            // Si `data` ya es un array, puedes iterar sobre él directamente
-		            $.each(data, function (index, usuario) {
+		            $.each(data, function(index, usuario) {
 		                var row = '<tr id="fila-' + usuario.idUsuario + '" style="font-size: 1.5vw; font-style:Open Sans, sans-serif;">'
-		                    + '<td style="font-weight: bold;">' + usuario.idUsuario + '</td>'
-		                    + '<td>' + usuario.nombreCompletoUsuario + '</td>'
-		                    + '<td>' + usuario.emailUsuario + '</td>'
-		                    + '<td style="display: flex; justify-content: center; align-items: center; height: 100%; gap: 1.5vw;">'
-		                    + '<button class="btnEliminar" data-id="' + usuario.idUsuario + '" style="border: 1px solid red; height: 2.2vw; width: 2.2vw; display: flex; align-items: center; justify-content: center;">'
-		                    + '<i class="bi bi-trash3-fill" style="color: #c33214; font-size: 1.5vw;"></i>'
-		                    + '</button>'
-		                    + '<button class="btnEditar" data-usuario=\'' + JSON.stringify(usuario) + '\' style="border: 1px solid orange; height: 2.2vw; width: 2.2vw; display: flex; align-items: center; justify-content: center;">'
-		                    + '<i class="bi bi-pencil-square" style="font-size: 1.5vw; color: orange;"></i>'
-		                    + '</button>'
-		                    + '</td>'
-		                    + '</tr>';
+		                        + '<td style="font-weight: bold;">'
+		                        + usuario.idUsuario
+		                        + '</td>'
+		                        + '<td>'
+		                        + usuario.nombreCompletoUsuario
+		                        + '</td>'
+		                        + '<td>'
+		                        + usuario.emailUsuario
+		                        + '</td>'
+		                        + '<td style="display: flex; justify-content: center; align-items: center; height: 100%; gap: 1.5vw;">'
+		                        + '<button class="btnEliminar" data-id="' + usuario.idUsuario + '" style="border: 1px solid red; height: 2.2vw; width: 2.2vw; display: flex; align-items: center; justify-content: center;">'
+		                        + '<i class="bi bi-trash3-fill" style="color: #c33214; font-size: 1.5vw;"></i>'
+		                        + '</button>'
+		                        + '<button class="btnEditar" data-usuario=\'' + JSON.stringify(usuario) + '\' style="border: 1px solid orange; height: 2.2vw; width: 2.2vw; display: flex; align-items: center; justify-content: center;">'
+		                        + '<i class="bi bi-pencil-square" style="font-size: 1.5vw; color: orange;"></i>'
+		                        + '</button>'
+		                        + '</td>'
+		                        + '</tr>';
 		                $('#tablaCuerpoUsuario').append(row); // Añadir cada fila al cuerpo de la tabla
 		            });
 
 		            $('#example').DataTable(); // Inicializa DataTable
 
-		            // ------------------- ELIMINAR USUARIO -------------------
-		            $('.btnEliminar').click(function () {
+		            // Delegación de evento para el botón "Eliminar"
+		            $('#tablaCuerpoUsuario').on('click', '.btnEliminar', function() {
 		                var idUsuario = $(this).data('id');
 		                if (confirm("¿Seguro que deseas eliminar este usuario?")) {
 		                    $.ajax({
 		                        url: 'usuario?idUsuario=' + idUsuario,
 		                        method: 'DELETE',
-		                        success: function (response) {
+		                        success: function(response) {
 		                            console.log(response);
-		                            $('#fila-' + idUsuario).remove(); 
+		                            $('#fila-' + idUsuario).remove();
 		                        },
-		                        error: function (xhr, status, error) {
+		                        error: function(xhr, status, error) {
 		                            console.error('Error al eliminar usuario:', error);
 		                        }
 		                    });
 		                }
 		            });
-
-		            // ------------------- MODIFICAR USUARIO -------------------
-		            $(document).on("click", ".btnEditar", function () {
-		                var usuarioData = $(this).data("usuario"); // Obtener los datos del usuario desde el botón
-
-		                if (!usuarioData) {
-		                    console.error("No se encontraron datos de usuario.");
-		                    return;
-		                }
-
-		                console.log("Usuario seleccionado:", usuarioData);
-
-		                // Llenar el modal con los datos del usuario
-		                $("#idUsuario").val(usuarioData.idUsuario);
-		                $("#nombreCompletoUsuario").val(usuarioData.nombreCompletoUsuario);
-		                $("#aliasUsuario").val(usuarioData.aliasUsuario);
-		                $("#fechaNacimientoUsuario").val(usuarioData.fechaNacimientoUsuario);
-		                $("#emailUsuario").val(usuarioData.emailUsuario);
-		                $("#telefonoUsuario").val(usuarioData.telefonoUsuario);
-		                $("#rolUsuario").val(usuarioData.rolUsuario);
-		                $("#descripcionUsuario").val(usuarioData.descripcionUsuario);
-		                $("#estadoUsuario").val(usuarioData.estadoUsuario);
-
-		                // Mostrar el modal
-		                $("#modalEditarUsuario").modal("show");
+		            document.getElementById("formEditarUsuario").addEventListener("submit", function(event) {
+		                console.log("Formulario enviado");
 		            });
 
-		            // Evento para guardar los cambios del usuario modificado
-		            $("#btnGuardarCambios").click(function () {
-		                var idUsuario = $("#idUsuario").val();
-		                var usuarioModificado = {
-		                    nombreCompletoUsuario: $("#nombreCompletoUsuario").val(),
-		                    aliasUsuario: $("#aliasUsuario").val(),
-		                    fechaNacimientoUsuario: $("#fechaNacimientoUsuario").val(),
-		                    emailUsuario: $("#emailUsuario").val(),
-		                    telefonoUsuario: $("#telefonoUsuario").val(),
-		                    rolUsuario: $("#rolUsuario").val(),
-		                    descripcionUsuario: $("#descripcionUsuario").val(),
-		                    estadoUsuario: $("#estadoUsuario").val()
-		                };
-
-		                $.ajax({
-		                    url: 'usuario?idUsuario=' + idUsuario,  // Ruta para modificar usuario con el ID
-		                  
-		                    method: "PUT",
-		                    contentType: "application/json",
-		                    data: JSON.stringify(usuarioModificado),
-		                    success: function (response) {
-		                        console.log(response);
-		                        
-
-		                        // Actualizar la fila en lugar de recargar toda la página
-		                        var fila = $('#fila-' + idUsuario);
-		                        fila.find('td:eq(1)').text(usuarioModificado.nombreCompletoUsuario);
-		                        fila.find('td:eq(2)').text(usuarioModificado.emailUsuario);
-		                        
-
-		                        // Cerrar el modal
-		                        $("#modalEditarUsuario").modal("hide"); 
-		                    },
-		                    error: function (xhr, status, error) {
-		                        console.error("Error al modificar usuario:", error);
-		                    }
-		                });
+		            // Delegación de evento para el botón "Editar"
+		            $('#tablaCuerpoUsuario').on('click', '.btnEditar', function() {
+		                var usuario = $(this).data('usuario'); // Obtenemos el usuario completo como objeto
+		                // Abrimos el modal de edición
+		                $('#modalEditarUsuario').modal('show');
+		                // Rellenamos los campos del modal con los datos del usuario
+		                $('#idUsuario').val(usuario.idUsuario);
+		                $('#nombreCompletoUsuario').val(usuario.nombreCompletoUsuario);
+		                $('#aliasUsuario').val(usuario.aliasUsuario);
+		                $('#emailUsuario').val(usuario.emailUsuario);
+		                $('#fechaNacimientoUsuario').val(usuario.fechaNacimientoUsuario);
+		                $('#telefonoUsuario').val(usuario.telefonoUsuario);
+		                $('#passwordUsuario').val(usuario.passwordUsuario);
+		                $('#rolUsuario').val(usuario.rolUsuario);
+		                $('#estadoUsuario').val(usuario.estadoUsuario);
+		                $('#descripcionUsuario').val(usuario.descripcionUsuario);
+		                // Aquí también podrías manejar la imagen si fuera necesario
 		            });
-
 		        },
-		        error: function (xhr, status, error) {
+		        error: function(xhr, status, error) {
 		            console.error('Error en la solicitud AJAX:', error);
 		        }
 		    });
