@@ -1,14 +1,14 @@
 package vista_futbolDeBarrio.controlador;
 
 import java.io.IOException;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import vista_futbolDeBarrio.dtos.LoginDto;
+import jakarta.servlet.http.HttpSession;
+import vista_futbolDeBarrio.dtos.RespuestaLoginDto;
 import vista_futbolDeBarrio.servicios.LoginServicio;
 
 @WebServlet("/login")
@@ -16,41 +16,59 @@ import vista_futbolDeBarrio.servicios.LoginServicio;
 public class LoginControlador extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private LoginServicio loginServicio;
-
-    @Override
-    public void init() throws ServletException {
-        this.loginServicio = new LoginServicio();
-    }
+    private LoginServicio servicioLogin = new LoginServicio();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         try {
-            // Obtener las credenciales del formulario
+            // Obtener parámetros del formulario
             String email = request.getParameter("email");
             String password = request.getParameter("password");
 
-            // Crear el DTO con las credenciales del usuario
-            LoginDto loginDto = new LoginDto();
-            loginDto.setEmail(email);
-            loginDto.setPassword(password);
+            System.out.println("Recibido el email: " + email + " y la contraseña: " + password);
 
-            // Llamada al servicio para autenticar al usuario
-            String token = loginServicio.autenticarUsuario(loginDto);
+            // Llamar al servicio de login
+            RespuestaLoginDto respuestaLogin = servicioLogin.login(email, password);
 
-            if (token != null) {
-                // Si el token es devuelto, login exitoso
-                request.getSession().setAttribute("authToken", token);
-                response.sendRedirect("/Administracion.jsp"); // Redirige al dashboard u otra página
+            if (respuestaLogin != null && respuestaLogin.getToken() != null) {
+                String token = respuestaLogin.getToken();
+                String tipoUsuario = respuestaLogin.getTipoUsuario();
+                Object datosUsuario = respuestaLogin.getDatosUsuario();
+
+                System.out.println("Token recibido: " + token);
+                System.out.println("Tipo de usuario recibido: " + tipoUsuario);
+
+                // Guardar en sesión
+                HttpSession session = request.getSession();
+                session.setAttribute("token", token);
+                session.setAttribute("tipoUsuario", tipoUsuario);
+                session.setAttribute("datosUsuario", datosUsuario); // único atributo para todos los tipos
+
+                // Redirigir según tipo de usuario
+                switch (tipoUsuario) {
+                    case "administrador":
+                        response.sendRedirect("Administrador.jsp");
+                        break;
+                    case "jugador":
+                        response.sendRedirect("Jugador.jsp");
+                        break;
+                    case "club":
+                        response.sendRedirect("Club.jsp");
+                        break;
+                    case "instalacion":
+                        response.sendRedirect("Instalacion.jsp");
+                        break;
+                    default:
+                        System.out.println("Tipo de usuario desconocido: " + tipoUsuario);
+                        response.sendRedirect("InicioSesion.jsp?error=tipoDesconocido");
+                }
             } else {
-                // Si no hay token, login fallido
-                response.getWriter().write("Credenciales incorrectas.");
+                response.sendRedirect("InicioSesion.jsp?error=credenciales");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.getWriter().write("Error en el servidor: " + e.getMessage());
+            response.sendRedirect("InicioSesion.jsp?error=servidor");
         }
     }
 }

@@ -1,17 +1,19 @@
 package vista_futbolDeBarrio.controlador;
 
 import java.io.IOException;
-
 import java.io.InputStream;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.annotation.MultipartConfig;
+
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import vista_futbolDeBarrio.dtos.UsuarioDto;
 import vista_futbolDeBarrio.enums.Estado;
@@ -23,162 +25,227 @@ import vista_futbolDeBarrio.servicios.UsuarioServicio;
 @MultipartConfig
 public class UsuarioControlador extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
-	private log log = new log();
+    private static final long serialVersionUID = 1L;
+    private log log = new log();
+    private UsuarioServicio servicio;
 
-	private UsuarioServicio servicio;
+    @Override
+    public void init() throws ServletException {
+        this.servicio = new UsuarioServicio();
+        this.log = new log();
+    }
 
-	@Override
-	public void init() throws ServletException {
-		this.servicio = new UsuarioServicio();
-		this.log = new log();
-	}
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            HttpSession session = request.getSession(false);
+            String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
 
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		try {
-			// Recoger el ID del usuario para saber si es creación o actualización
-			
-				// Obtener los datos del formulario para añadir
-			String idUsuarioForm = request.getParameter("idUsuario");
-			String nombreCompletoUsuarioForm = request.getParameter("nombreCompletoUsuario");
-			String aliasUsuarioForm = request.getParameter("aliasUsuario");
-			String fechaNacimientoUsuarioForm = request.getParameter("fechaNacimientoUsuario");
-			String emailUsuarioForm = request.getParameter("emailUsuario");
-			String telefonoUsuarioForm = request.getParameter("telefonoUsuario");
-			String passwordUsuarioForm = request.getParameter("passwordUsuario");
-			String passwordUsuario2Form = request.getParameter("passwordUsuario2");
+            if (tipoUsuario == null) {
+                crearUsuario(request, response);
+            } else if ("administrador".equals(tipoUsuario)) {
+                modificarUsuario(request, response);
+            } else {
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "No tienes permiso para esta acción.");
+            }
 
-			
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().write("Se ha producido un error en el servidor. Por favor, inténtelo más tarde.");
+        }
+    }
 
-				// Obtener el rol
-				String rolUsuarioString = request.getParameter("rolUsuario");
-				RolUsuario rolUsuarioForm = RolUsuario.valueOf(rolUsuarioString);
+    private void crearUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    	ServletContext context = request.getServletContext();
+    	
+        String nombreCompleto = request.getParameter("nombreCompletoUsuario");
+        String alias = request.getParameter("aliasUsuario");
+        String fechaNac = request.getParameter("fechaNacimientoUsuario");
+        String email = request.getParameter("emailUsuario");
+        String telefono = request.getParameter("telefonoUsuario");
+        String password = request.getParameter("passwordUsuario");
+        String password2 = request.getParameter("passwordUsuario2");
+        String rolString = request.getParameter("rolUsuario");
 
-				// Obtener descripción
-				String descripcionUsuarioForm = request.getParameter("descripcionUsuario");
+        if (!password.equals(password2)) {
+            response.getWriter().write("Las contraseñas no coinciden.");
+            return;
+        }
 
-				// Crear el estado del usuario (puedes cambiarlo según tu lógica)
-				
+        RolUsuario rol = RolUsuario.valueOf(rolString); // Se obtiene del formulario
 
-				// Procesar la imagen
-				Part imagenPart = request.getPart("imagenUsuario");
-				byte[] imagenUsuarioForm = null;
-				if (imagenPart != null && imagenPart.getSize() > 0) {
-					imagenUsuarioForm = new byte[(int) imagenPart.getSize()];
-					InputStream inputStream = imagenPart.getInputStream();
-					inputStream.read(imagenUsuarioForm);
-				}
-			
+        // Obtener la imagen (si fue enviada)
+        Part imagenPart = request.getPart("imagenUsuario");
+        byte[] imagenBytes = null;
 
-			// Si el ID del usuario existe, es una actualización
-			if (idUsuarioForm != null && !idUsuarioForm.isEmpty()) {
-				String estadoUsuarioString = request.getParameter("estadoUsuario"); 
-				Estado estadoUsuarioForm = Estado.valueOf(estadoUsuarioString);
-				
-				// Se actualizará el usuario
-				UsuarioDto usuarioModificado = new UsuarioDto();
-				usuarioModificado.setIdUsuario(Long.parseLong(idUsuarioForm));
-				usuarioModificado.setNombreCompletoUsuario(nombreCompletoUsuarioForm);
-				usuarioModificado.setAliasUsuario(aliasUsuarioForm);
-				usuarioModificado.setFechaNacimientoUsuario(fechaNacimientoUsuarioForm);
-				usuarioModificado.setEmailUsuario(emailUsuarioForm);
-				usuarioModificado.setTelefonoUsuario(telefonoUsuarioForm);
-				usuarioModificado.setPasswordUsuario(passwordUsuarioForm); 			
-				usuarioModificado.setRolUsuario(rolUsuarioForm);
-				usuarioModificado.setDescripcionUsuario(descripcionUsuarioForm);
-				usuarioModificado.setEstadoUsuario(estadoUsuarioForm);				
-				usuarioModificado.setImagenUsuario(imagenUsuarioForm);
+        if (imagenPart != null && imagenPart.getSize() > 0) {
+            // Si el usuario sube una imagen, la guardamos
+            imagenBytes = new byte[(int) imagenPart.getSize()];
+            try (InputStream inputStream = imagenPart.getInputStream()) {
+                inputStream.read(imagenBytes);
+            }
+        } else {
+            // Si no se sube una imagen, asignamos la imagen por defecto
+            imagenBytes = servicio.obtenerImagenPorDefecto(context);  // Asignamos la imagen por defecto
+        }
 
-				// Llamar al servicio para modificar el usuario
-				boolean actualizado = servicio.modificarUsuario(idUsuarioForm, usuarioModificado);
+        // Crear el usuario y guardarlo en la base de datos
+        UsuarioDto usuario = new UsuarioDto();
+        usuario.setNombreCompletoUsuario(nombreCompleto);
+        usuario.setAliasUsuario(alias);
+        usuario.setFechaNacimientoUsuario(fechaNac);
+        usuario.setEmailUsuario(email);
+        usuario.setTelefonoUsuario(telefono);
+        usuario.setPasswordUsuario(password);
+        usuario.setRolUsuario(rol);
+        usuario.setImagenUsuario(imagenBytes);  // Usamos la imagen (por defecto o subida)
+        usuario.setDescripcionUsuario(request.getParameter("descripcionUsuario"));
+        usuario.setEstadoUsuario(Estado.Activo);  // O cualquier estado por defecto
 
-				if (actualizado) {
-					response.getWriter().write("Usuario modificado correctamente.");
-				} else {
-					response.getWriter().write("No se pudo modificar el usuario.");
-				}
+        // Llamar al servicio para guardar el usuario
+        servicio.guardarUsuario(usuario);
 
-			} else {
-				if (!passwordUsuarioForm.equals(passwordUsuario2Form)) {
-					response.getWriter().write("Las contraseñas no coinciden.");
-					return; 
-				}
-				// Si no existe ID, es una creación de usuario
-				UsuarioDto nuevoUsuario = new UsuarioDto();
-				nuevoUsuario.setNombreCompletoUsuario(nombreCompletoUsuarioForm);
-				nuevoUsuario.setAliasUsuario(aliasUsuarioForm);
-				nuevoUsuario.setFechaNacimientoUsuario(fechaNacimientoUsuarioForm);
-				nuevoUsuario.setEmailUsuario(emailUsuarioForm);
-				nuevoUsuario.setTelefonoUsuario(telefonoUsuarioForm);
-				nuevoUsuario.setPasswordUsuario(passwordUsuarioForm);
-				nuevoUsuario.setRolUsuario(rolUsuarioForm);
-				nuevoUsuario.setDescripcionUsuario(descripcionUsuarioForm);
-				nuevoUsuario.setImagenUsuario(imagenUsuarioForm);
-				Estado estadoUsuarioNuevoEstado = Estado.valueOf("Activo");
-				nuevoUsuario.setEstadoUsuario(estadoUsuarioNuevoEstado);
+        response.getWriter().write("Usuario creado correctamente.");
+    }
 
-				// Verificar si las contraseñas coinciden
-				
-				// Guardar el usuario en el servicio
-				servicio.guardarUsuario(nuevoUsuario);
 
-				response.getWriter().write("Usuario creado correctamente.");
-			}
+      
 
-		} catch (Exception e) {
-			e.printStackTrace(); // Imprime la traza del error en el servidor o consola
-			response.getWriter()
-					.write("Se ha producido un error en el servidor. Por favor, inténtelo más tarde." + e.getMessage());
-		}
-	}
+    private void modificarUsuario(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// Llamada al servicio que obtiene los usuarios
-		ArrayList<UsuarioDto> listaUsuario = servicio.listausuario();
+        String idUsuarioForm = request.getParameter("idUsuario");
 
-		// Configurar la respuesta como JSON
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
+        // Validar que el ID del usuario esté presente
+        if (idUsuarioForm == null || idUsuarioForm.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.getWriter().write("Los administradores solo pueden modificar usuarios existentes.");
+            return;
+        }
 
-		// Convertir la lista a JSON
-		ObjectMapper objectMapper = new ObjectMapper();
-		String json = objectMapper.writeValueAsString(listaUsuario);
+        // Recoger los demás datos del formulario enviados desde el frontend
+        String nombre = request.getParameter("nombreCompletoUsuario");
+        String alias = request.getParameter("aliasUsuario");
+        String fechaNac = request.getParameter("fechaNacimientoUsuario");
+        String email = request.getParameter("emailUsuario");
+        String telefono = request.getParameter("telefonoUsuario");
+        String password = request.getParameter("passwordUsuario");
+        String rolString = request.getParameter("rolUsuario");
+        String descripcion = request.getParameter("descripcionUsuario");
+        String estadoStr = request.getParameter("estadoUsuario");
 
-		// Escribir la respuesta JSON
-		response.getWriter().write(json);
-	}
+        // Convertir roles y estado
+        RolUsuario rol = RolUsuario.valueOf(rolString);
+        Estado estado = Estado.valueOf(estadoStr);
 
-	@Override
-	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		try {
-			String idUsuarioParam = request.getParameter("idUsuario");
-			if (idUsuarioParam == null || idUsuarioParam.isEmpty()) {
-				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				response.getWriter().write("ID de usuario no proporcionado.");
-				return;
-			}
+        // Obtener la imagen subida por el usuario
+        Part imagenPart = request.getPart("imagenUsuario");
+        byte[] imagenBytes = null;
 
-			Long idUsuario = Long.parseLong(idUsuarioParam);
-			boolean eliminado = servicio.eliminarUsuario(idUsuario);
+        // Verificar si el usuario subió una nueva imagen
+        if (imagenPart != null && imagenPart.getSize() > 0) {
+            // Si sube una imagen, la usamos
+            imagenBytes = new byte[(int) imagenPart.getSize()];
+            try (InputStream inputStream = imagenPart.getInputStream()) {
+                inputStream.read(imagenBytes);
+            }
+        } else {
+            // Si no sube nada, mantener la imagen que ya tenía (si la había)
+            imagenBytes = null; // Aquí puedes establecer un valor predeterminado si lo deseas
+        }
 
-			if (eliminado) {
-				response.setStatus(HttpServletResponse.SC_OK);
-				response.getWriter().write("Usuario eliminado correctamente.");
-			} else {
-				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				response.getWriter().write("Error al eliminar el usuario.");
-			}
-		} catch (NumberFormatException e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			response.getWriter().write("ID de usuario no válido.");
-		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.getWriter().write("Error en el servidor: " + e.getMessage());
-		}
-	}
+        // Crear un objeto UsuarioDto con todos los datos nuevos
+        UsuarioDto usuarioModificado = new UsuarioDto();
+        usuarioModificado.setIdUsuario(Long.parseLong(idUsuarioForm));
+        usuarioModificado.setNombreCompletoUsuario(nombre);
+        usuarioModificado.setAliasUsuario(alias);
+        usuarioModificado.setFechaNacimientoUsuario(fechaNac);
+        usuarioModificado.setEmailUsuario(email);
+        usuarioModificado.setTelefonoUsuario(telefono);
+        usuarioModificado.setPasswordUsuario(password);
+        usuarioModificado.setRolUsuario(rol);
+        usuarioModificado.setDescripcionUsuario(descripcion);
+        usuarioModificado.setEstadoUsuario(estado);
+        usuarioModificado.setImagenUsuario(imagenBytes);  // Imagen actual o nueva
 
+        // Llamar al servicio para modificar el usuario
+        boolean actualizado = servicio.modificarUsuario(idUsuarioForm, usuarioModificado);
+
+        // Enviar respuesta al usuario
+        if (actualizado) {
+            response.getWriter().write("Usuario modificado correctamente.");
+        } else {
+            response.getWriter().write("No se pudo modificar el usuario.");
+        }
+    }
+
+
+
+
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            HttpSession session = request.getSession(false);
+            String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
+
+            if (!"administrador".equals(tipoUsuario)) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.getWriter().write("Acceso denegado. Solo los administradores pueden ver la lista de usuarios.");
+                return;
+            }
+
+            ArrayList<UsuarioDto> listaUsuario = servicio.listausuario();
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(listaUsuario);
+            response.getWriter().write(json);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("Error en el servidor: " + e.getMessage());
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            HttpSession session = request.getSession(false);
+            String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
+
+            if (!"administrador".equals(tipoUsuario)) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.getWriter().write("Acceso denegado. Solo los administradores pueden eliminar usuarios.");
+                return;
+            }
+
+            String idUsuarioParam = request.getParameter("idUsuario");
+            if (idUsuarioParam == null || idUsuarioParam.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("ID de usuario no proporcionado.");
+                return;
+            }
+
+            Long idUsuario = Long.parseLong(idUsuarioParam);
+            boolean eliminado = servicio.eliminarUsuario(idUsuario);
+
+            if (eliminado) {
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("Usuario eliminado correctamente.");
+            } else {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.getWriter().write("Error al eliminar el usuario.");
+            }
+        } catch (NumberFormatException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("ID de usuario no válido.");
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("Error en el servidor: " + e.getMessage());
+        }
+    }
 }

@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%
+    String tipoUsuario = (String) session.getAttribute("tipoUsuario");
+    if (tipoUsuario == null) {
+        tipoUsuario = "jugador";
+    }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -452,6 +458,17 @@ Avenida mujer trabajadora
 
 
 	<script>
+	
+    // Guardamos el tipo en sessionStorage para uso en JS
+    sessionStorage.setItem('tipoUsuario', '<%= tipoUsuario %>');
+
+    // Verificamos si el usuario es jugador
+    const tipo = sessionStorage.getItem('tipoUsuario');
+    if (tipo !== 'jugador') {
+        // Si no es jugador, lo redirigimos (puedes cambiar el destino)
+        window.location.href = 'acceso_denegado.jsp';
+    }
+
 	
 	//MOSTRAR CONTENDOR PULSADO EN LA CABECERA
 	document.addEventListener("DOMContentLoaded", function () {

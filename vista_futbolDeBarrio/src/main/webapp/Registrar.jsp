@@ -273,7 +273,7 @@
 					</h2>
 					<div class="registrarFormulario ">
 						<form action="usuario" method="POST" enctype="multipart/form-data">
-							<input type="hidden" name="accion" value="aniadir" >
+							<input type="hidden" name="accion" value="aniadir">
 
 							<table class="tablaFormulario "
 								style="background-color: #dedede; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
@@ -322,7 +322,6 @@
 											style="font-size: 1vw; border: 1px solid #818181;"
 											id="rolUsuario" name="rolUsuario" required>
 												<option value="Jugador">Jugador</option>
-												<option value="Portero">Portero</option>
 												<option value="Administrador">Administrador</option>
 										</select></td>
 
@@ -334,8 +333,9 @@
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="passwordUsuario"
 											name="passwordUsuario" required></td>
-										<td><label for="passwordUsuario2" class="formularioLabel ">Repetir
-												contraseña</label> <input type="password"
+										<td><label for="passwordUsuario2"
+											class="formularioLabel ">Repetir contraseña</label> <input
+											type="password"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											style="font-size: 1vw;" class="form-control"
 											id="passwordUsuario2" name="passwordUsuario2" required></td>
@@ -385,7 +385,7 @@
 					</h2>
 					<div class="registrarFormulario">
 						<form action="club" method="POST" enctype="multipart/form-data">
-							<input type="hidden" name="accion" value="aniadir" >
+							<input type="hidden" name="accion" value="aniadir">
 							<table class="tablaFormulario "
 								style="background-color: #d8d8d8; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
 								<tbody>
@@ -441,8 +441,7 @@
 										<td><label for="logoClub" class="formularioLabel">Escudo
 												del Club</label> <input type="file"
 											style="font-size: 1vw; border: 1px solid #818181;"
-											class="form-control" id="logoClub" name="logoClub">
-										</td>
+											class="form-control" id="logoClub" name="logoClub"></td>
 										<td><label for="descripcionClub" class="formularioLabel">Descripción</label>
 											<textarea class="form-control"
 												style="font-size: 1vw; border: 1px solid #818181; border-bottom: 1px solid #818181;"
@@ -473,8 +472,9 @@
 						<i>Formulario de Registro: Instalación</i>
 					</h2>
 					<div class="registrarFormulario">
-						<form action="instalacion" method="POST" enctype="multipart/form-data">
-							<input type="hidden" name="accion" value="aniadir" >
+						<form action="instalacion" method="POST"
+							enctype="multipart/form-data">
+							<input type="hidden" name="accion" value="aniadir">
 							<table class="tablaFormulario"
 								style="background-color: #d1d1d1; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
 								<tbody>
@@ -588,87 +588,73 @@
 
 
 			<!-- FORMULARIO ARBITRO -->
-			<div class="row mt-3 " style="display: none;"
-				id="arbitroContainer">
-				<div class=" col-md-10 col-sm-10  mx-auto"
+			<div class="row mt-3 " style="display: none;" id="arbitroContainer">
+				<div class="col-md-10 col-sm-10 mx-auto"
 					style="background-color: #dfead5; border-radius: 12px">
-					<h2 class=" text-center mt-4 mb-5 pt-4"
+					<h2 class="text-center mt-4 mb-5 pt-4"
 						style="font-size: 3.5vw; text-decoration: underline;">
 						<i>Formulario de Registro: Arbitro</i>
 					</h2>
-					<div class="registrarFormulario ">
+					<div class="registrarFormulario">
 						<form action="#" method="POST">
-
-
-
-							<table class="tablaFormulario "
+							<table class="tablaFormulario"
 								style="background-color: #dedede; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
-
 								<tbody>
 									<tr>
-
 										<td><label for="nombreCompletoArbitro"
-											class="formularioLabel ">Nombre Completo:</label> <input
+											class="formularioLabel">Nombre Completo:</label> <input
 											type="text"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="nombreCompletoArbitro"
 											name="nombreCompletoArbitro" required></td>
 										<td><label for="fechaNacimientoArbitro"
-											class="formularioLabel ">Fecha de Nacimiento:</label> <input
+											class="formularioLabel">Fecha de Nacimiento:</label> <input
 											type="date"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="fechaNacimientoArbitro"
 											name="fechaNacimientoArbitro" required></td>
 									</tr>
 									<tr>
-										<td><label for="emailArbitro" class="formularioLabel ">Correo
+										<td><label for="emailArbitro" class="formularioLabel">Correo
 												Electrónico:</label> <input type="email"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="emailArbitro" name="emailArbitro"
 											required></td>
-										<td><label for="telefonoArbitro" class="formularioLabel ">Teléfono:</label>
+										<td><label for="telefonoArbitro" class="formularioLabel">Teléfono:</label>
 											<input type="tel"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="telefonoArbitro"
 											name="telefonoArbitro" required></td>
 									</tr>
 									<tr>
-										<td><label for="passwordArbitro" class="formularioLabel ">Contraseña:</label>
+										<td><label for="passwordArbitro" class="formularioLabel">Contraseña:</label>
 											<input type="password"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											class="form-control" id="passwordArbitro"
 											name="passwordArbitro" required></td>
-										<td><label for="passwordArbitro" class="formularioLabel ">Repetir
+										<td><label for="passwordArbitro2" class="formularioLabel">Repetir
 												contraseña:</label> <input type="password"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											style="font-size: 1vw;" class="form-control"
-											id="passwordArbitro2" name="passwordArbitro2" required></td>
-
+											class="form-control" id="passwordArbitro2"
+											name="passwordArbitro2" required></td>
 									</tr>
 									<tr>
-
 										<td><label for="descripcionArbitro"
-											class="formularioLabel ">Descripción:</label> <textarea
+											class="formularioLabel">Descripción:</label> <textarea
 												class="form-control"
 												style="font-size: 1vw; border: 1px solid #818181;"
 												id="descripcionArbitro" name="descripcionArbitro" rows="3"></textarea>
 										</td>
-
-										<td><label for="imagenArbitro" class="formularioLabel ">Imagen
+										<td><label for="imagenArbitro" class="formularioLabel">Imagen
 												Arbitro:</label> <input type="file"
 											style="font-size: 1vw; border: 1px solid #818181;"
 											class="form-control" id="imagenArbitro" name="imagenArbitro">
 										</td>
 									</tr>
-
-
-
 								</tbody>
 							</table>
-
-							<div class="text-center mt-4  mb-5">
-								<button type="submit" class=" botonRegistrarCabecera">REGISTRARSE</button>
-
+							<div class="text-center mt-4 mb-5">
+								<button type="submit" class="botonRegistrarCabecera">REGISTRARSE</button>
 							</div>
 						</form>
 					</div>
