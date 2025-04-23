@@ -36,6 +36,8 @@ public class AuthFilter implements Filter {
             requestedURI.contains("Registrar.jsp") ||
             requestedURI.contains("Index.jsp") ||
             requestedURI.contains("/usuario") ||
+            requestedURI.contains("/club") ||
+            requestedURI.contains("/instalacion") ||
             requestedURI.contains("/Css") ||
             requestedURI.contains("/Imagenes/") ||
             requestedURI.contains("/login")) {

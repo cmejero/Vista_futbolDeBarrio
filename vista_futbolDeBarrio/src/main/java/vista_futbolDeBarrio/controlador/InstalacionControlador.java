@@ -17,7 +17,7 @@ import jakarta.servlet.http.Part;
 import vista_futbolDeBarrio.dtos.InstalacionDto;
 import vista_futbolDeBarrio.enums.Estado;
 import vista_futbolDeBarrio.enums.Modalidad;
-import vista_futbolDeBarrio.log.log;
+import vista_futbolDeBarrio.log.Log;
 import vista_futbolDeBarrio.servicios.InstalacionServicio;
 
 @WebServlet("/instalacion")
@@ -25,13 +25,12 @@ import vista_futbolDeBarrio.servicios.InstalacionServicio;
 public class InstalacionControlador extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private log log = new log();
+    
     private InstalacionServicio servicio;
 
     @Override
     public void init() throws ServletException {
         this.servicio = new InstalacionServicio();
-        this.log = new log();
     }
 
     @Override
@@ -39,7 +38,7 @@ public class InstalacionControlador extends HttpServlet {
             throws ServletException, IOException {
         try {
             String accion = request.getParameter("accion"); // Determina la acción a realizar
-            System.out.println("Acción recibida desde el formulario: " + accion);
+            Log.ficheroLog("Acción recibida desde el formulario: " + accion );
 
             if ("aniadir".equals(accion)) {
                 // Obtener los datos del formulario
@@ -82,7 +81,6 @@ public class InstalacionControlador extends HttpServlet {
                 }
                 
                 nuevaInstalacion.setServiciosInstalacion(serviciosInstalacionForm);
-              
                 
                 if (estadoInstalacionForm != null && !estadoInstalacionForm.isEmpty()) {
                     nuevaInstalacion.setEstadoInstalacion(Estado.valueOf(estadoInstalacionForm));
@@ -96,42 +94,50 @@ public class InstalacionControlador extends HttpServlet {
                 } else {
                     nuevaInstalacion.setImagenInstalacion("");
                 }
-                
-                // Inicializar las listas de IDs para  torneos (si aplica)
-                
+
+                // Inicializar las listas de IDs para torneos (si aplica)
                 nuevaInstalacion.setTorneoId(new ArrayList<>());
-                
+
                 // Guardar la instalación a través del servicio
                 servicio.guardarInstalacion(nuevaInstalacion);
+                Log.ficheroLog("Instalación creada correctamente: " + nombreInstalacionForm );
                 response.getWriter().write("Instalación creada correctamente.");
-                
+
             } else if ("modificar".equals(accion)) {
                 // Lógica para modificar la instalación (similar a la de añadir, obteniendo el ID y actualizando los campos)
                 // Puedes implementar este bloque según tus necesidades.
+                Log.ficheroLog("Modificar instalación. Acción no implementada aún." );
             } else {
                 response.getWriter().write("Acción no válida.");
-                log.ficheroErrores("Acción no válida recibida: " + accion);
+                Log.ficheroLog("Acción no válida recibida: " + accion );
             }
             
         } catch (Exception e) {
             e.printStackTrace();
             response.getWriter().write("Se ha producido un error en el servidor. " + e.getMessage());
-            log.ficheroErrores("Error en el procesamiento de la acción: " + e.getMessage());
+            Log.ficheroLog("Error en el procesamiento de la acción: " + e.getMessage());
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Obtener la lista de instalaciones a través del servicio
-        List<InstalacionDto> listaInstalaciones = servicio.listaInstalaciones();
+        try {
+            // Obtener la lista de instalaciones a través del servicio
+            List<InstalacionDto> listaInstalaciones = servicio.listaInstalaciones();
 
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
 
-        // Convertir la lista a JSON y escribir la respuesta
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(listaInstalaciones);
-        response.getWriter().write(json);
+            // Convertir la lista a JSON y escribir la respuesta
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(listaInstalaciones);
+            Log.ficheroLog("Lista de instalaciones solicitada. Número de instalaciones: " + listaInstalaciones.size());
+            response.getWriter().write(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().write("Se ha producido un error al obtener las instalaciones. " + e.getMessage());
+            Log.ficheroLog("Error al obtener lista de instalaciones: " + e.getMessage() );
+        }
     }
 }

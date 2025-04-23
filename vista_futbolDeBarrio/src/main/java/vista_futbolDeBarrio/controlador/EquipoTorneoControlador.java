@@ -13,20 +13,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vista_futbolDeBarrio.dtos.EquipoTorneoDto;
 import vista_futbolDeBarrio.enums.EstadoParticipacion;
-import vista_futbolDeBarrio.log.log;
+import vista_futbolDeBarrio.log.Log;
 import vista_futbolDeBarrio.servicios.EquipoTorneoServicio;
 
 @WebServlet("/equipoTorneo")
 public class EquipoTorneoControlador extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private log log = new log();
+    
     private EquipoTorneoServicio servicio;
 
     @Override
     public void init() throws ServletException {
         this.servicio = new EquipoTorneoServicio();
-        this.log = new log();
     }
 
     @Override
@@ -34,6 +33,8 @@ public class EquipoTorneoControlador extends HttpServlet {
             throws ServletException, IOException {
         try {
             String accion = request.getParameter("accion");
+
+            Log.ficheroLog("Acción recibida desde el formulario: " + accion );
 
             if ("aniadir".equals(accion)) {
                 // Obtener los datos del formulario
@@ -51,35 +52,43 @@ public class EquipoTorneoControlador extends HttpServlet {
 
                 // Guardar el equipo en el servicio
                 servicio.guardarEquipoTorneo(nuevoEquipoTorneo);
-
+                Log.ficheroLog("Equipo-Torneo creado correctamente. Torneo ID: " + torneoId + ", Club ID: " + clubId );
                 response.getWriter().write("Equipo-Torneo creado correctamente.");
             } else if ("modificar".equals(accion)) {
                 // Lógica para modificar el equipo-torneo
+                // Puedes implementar este bloque según tus necesidades.
+                Log.ficheroLog("Modificar equipo-torneo. Acción no implementada aún." );
             } else {
                 response.getWriter().write("Acción no válida.");
-                log.ficheroErrores("Acción no válida recibida: " + accion);
+                Log.ficheroLog("Acción no válida recibida: " + accion);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
             response.getWriter().write("Se ha producido un error en el servidor. Por favor, inténtelo más tarde." + e.getMessage());
-            log.ficheroErrores("Error en el procesamiento de la acción: " + e.getMessage());
+            Log.ficheroLog("Error en el procesamiento de la acción: " + e.getMessage());
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<EquipoTorneoDto> listaEquiposTorneo = servicio.listaEquiposTorneo();
+        try {
+            // Obtener la lista de equipos-torneo a través del servicio
+            ArrayList<EquipoTorneoDto> listaEquiposTorneo = servicio.listaEquiposTorneo();
 
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
 
-        // Convertir la lista a JSON
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(listaEquiposTorneo);
-
-        // Escribir la respuesta JSON
-        response.getWriter().write(json);
+            // Convertir la lista a JSON y escribir la respuesta
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(listaEquiposTorneo);
+            Log.ficheroLog("Lista de equipos-torneo solicitada. Número de equipos: " + listaEquiposTorneo.size());
+            response.getWriter().write(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().write("Se ha producido un error al obtener los equipos-torneo. " + e.getMessage());
+            Log.ficheroLog("Error al obtener lista de equipos-torneo: " + e.getMessage() );
+        }
     }
 }

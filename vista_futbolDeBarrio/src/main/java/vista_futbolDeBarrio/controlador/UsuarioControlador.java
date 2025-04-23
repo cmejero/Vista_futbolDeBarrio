@@ -18,21 +18,19 @@ import jakarta.servlet.http.Part;
 import vista_futbolDeBarrio.dtos.UsuarioDto;
 import vista_futbolDeBarrio.enums.Estado;
 import vista_futbolDeBarrio.enums.RolUsuario;
-import vista_futbolDeBarrio.log.log;
 import vista_futbolDeBarrio.servicios.UsuarioServicio;
+import vista_futbolDeBarrio.log.Log;
 
 @WebServlet("/usuario")
 @MultipartConfig
 public class UsuarioControlador extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private log log = new log();
     private UsuarioServicio servicio;
 
     @Override
     public void init() throws ServletException {
         this.servicio = new UsuarioServicio();
-        this.log = new log();
     }
 
     @Override
@@ -48,17 +46,19 @@ public class UsuarioControlador extends HttpServlet {
                 modificarUsuario(request, response);
             } else {
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "No tienes permiso para esta acción.");
+                Log.ficheroLog("Intento de acceso no autorizado a POST /usuario");
             }
 
         } catch (Exception e) {
+            Log.ficheroLog("Error en doPost /usuario: " + e.getMessage() );
             e.printStackTrace();
             response.getWriter().write("Se ha producido un error en el servidor. Por favor, inténtelo más tarde.");
         }
     }
 
     private void crearUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-    	ServletContext context = request.getServletContext();
-    	
+        ServletContext context = request.getServletContext();
+
         String nombreCompleto = request.getParameter("nombreCompletoUsuario");
         String alias = request.getParameter("aliasUsuario");
         String fechaNac = request.getParameter("fechaNacimientoUsuario");
@@ -70,27 +70,24 @@ public class UsuarioControlador extends HttpServlet {
 
         if (!password.equals(password2)) {
             response.getWriter().write("Las contraseñas no coinciden.");
+            Log.ficheroLog("Error al crear usuario - contraseñas no coinciden (alias=" + alias + ") " );
             return;
         }
 
-        RolUsuario rol = RolUsuario.valueOf(rolString); // Se obtiene del formulario
+        RolUsuario rol = RolUsuario.valueOf(rolString);
 
-        // Obtener la imagen (si fue enviada)
         Part imagenPart = request.getPart("imagenUsuario");
         byte[] imagenBytes = null;
 
         if (imagenPart != null && imagenPart.getSize() > 0) {
-            // Si el usuario sube una imagen, la guardamos
             imagenBytes = new byte[(int) imagenPart.getSize()];
             try (InputStream inputStream = imagenPart.getInputStream()) {
                 inputStream.read(imagenBytes);
             }
         } else {
-            // Si no se sube una imagen, asignamos la imagen por defecto
-            imagenBytes = servicio.obtenerImagenPorDefecto(context);  // Asignamos la imagen por defecto
+            imagenBytes = servicio.obtenerImagenPorDefecto(context);
         }
 
-        // Crear el usuario y guardarlo en la base de datos
         UsuarioDto usuario = new UsuarioDto();
         usuario.setNombreCompletoUsuario(nombreCompleto);
         usuario.setAliasUsuario(alias);
@@ -99,32 +96,28 @@ public class UsuarioControlador extends HttpServlet {
         usuario.setTelefonoUsuario(telefono);
         usuario.setPasswordUsuario(password);
         usuario.setRolUsuario(rol);
-        usuario.setImagenUsuario(imagenBytes);  // Usamos la imagen (por defecto o subida)
+        usuario.setImagenUsuario(imagenBytes);
         usuario.setDescripcionUsuario(request.getParameter("descripcionUsuario"));
-        usuario.setEstadoUsuario(Estado.Activo);  // O cualquier estado por defecto
+        usuario.setEstadoUsuario(Estado.Activo);
 
-        // Llamar al servicio para guardar el usuario
         servicio.guardarUsuario(usuario);
 
+        Log.ficheroLog("Usuario creado: alias=" + alias );
         response.getWriter().write("Usuario creado correctamente.");
     }
-
-
-      
 
     private void modificarUsuario(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
         String idUsuarioForm = request.getParameter("idUsuario");
 
-        // Validar que el ID del usuario esté presente
         if (idUsuarioForm == null || idUsuarioForm.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getWriter().write("Los administradores solo pueden modificar usuarios existentes.");
+            Log.ficheroLog("Intento de modificación sin ID de usuario" );
             return;
         }
 
-        // Recoger los demás datos del formulario enviados desde el frontend
         String nombre = request.getParameter("nombreCompletoUsuario");
         String alias = request.getParameter("aliasUsuario");
         String fechaNac = request.getParameter("fechaNacimientoUsuario");
@@ -135,27 +128,19 @@ public class UsuarioControlador extends HttpServlet {
         String descripcion = request.getParameter("descripcionUsuario");
         String estadoStr = request.getParameter("estadoUsuario");
 
-        // Convertir roles y estado
         RolUsuario rol = RolUsuario.valueOf(rolString);
         Estado estado = Estado.valueOf(estadoStr);
 
-        // Obtener la imagen subida por el usuario
         Part imagenPart = request.getPart("imagenUsuario");
         byte[] imagenBytes = null;
 
-        // Verificar si el usuario subió una nueva imagen
         if (imagenPart != null && imagenPart.getSize() > 0) {
-            // Si sube una imagen, la usamos
             imagenBytes = new byte[(int) imagenPart.getSize()];
             try (InputStream inputStream = imagenPart.getInputStream()) {
                 inputStream.read(imagenBytes);
             }
-        } else {
-            // Si no sube nada, mantener la imagen que ya tenía (si la había)
-            imagenBytes = null; // Aquí puedes establecer un valor predeterminado si lo deseas
         }
 
-        // Crear un objeto UsuarioDto con todos los datos nuevos
         UsuarioDto usuarioModificado = new UsuarioDto();
         usuarioModificado.setIdUsuario(Long.parseLong(idUsuarioForm));
         usuarioModificado.setNombreCompletoUsuario(nombre);
@@ -167,22 +152,18 @@ public class UsuarioControlador extends HttpServlet {
         usuarioModificado.setRolUsuario(rol);
         usuarioModificado.setDescripcionUsuario(descripcion);
         usuarioModificado.setEstadoUsuario(estado);
-        usuarioModificado.setImagenUsuario(imagenBytes);  // Imagen actual o nueva
+        usuarioModificado.setImagenUsuario(imagenBytes);
 
-        // Llamar al servicio para modificar el usuario
         boolean actualizado = servicio.modificarUsuario(idUsuarioForm, usuarioModificado);
 
-        // Enviar respuesta al usuario
         if (actualizado) {
+            Log.ficheroLog("Usuario modificado: id=" + idUsuarioForm + ", alias=" + alias );
             response.getWriter().write("Usuario modificado correctamente.");
         } else {
+            Log.ficheroLog("Error al modificar usuario: id=" + idUsuarioForm );
             response.getWriter().write("No se pudo modificar el usuario.");
         }
     }
-
-
-
-
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -194,6 +175,7 @@ public class UsuarioControlador extends HttpServlet {
             if (!"administrador".equals(tipoUsuario)) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.getWriter().write("Acceso denegado. Solo los administradores pueden ver la lista de usuarios.");
+                Log.ficheroLog("Intento de acceso no autorizado a GET /usuario");
                 return;
             }
 
@@ -205,6 +187,7 @@ public class UsuarioControlador extends HttpServlet {
             String json = objectMapper.writeValueAsString(listaUsuario);
             response.getWriter().write(json);
         } catch (Exception e) {
+            Log.ficheroLog("Error en GET /usuario: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("Error en el servidor: " + e.getMessage());
         }
@@ -220,6 +203,7 @@ public class UsuarioControlador extends HttpServlet {
             if (!"administrador".equals(tipoUsuario)) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.getWriter().write("Acceso denegado. Solo los administradores pueden eliminar usuarios.");
+                Log.ficheroLog("Intento de eliminación no autorizado");
                 return;
             }
 
@@ -227,6 +211,7 @@ public class UsuarioControlador extends HttpServlet {
             if (idUsuarioParam == null || idUsuarioParam.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("ID de usuario no proporcionado.");
+                Log.ficheroLog("Eliminación fallida: ID no proporcionado");
                 return;
             }
 
@@ -234,16 +219,20 @@ public class UsuarioControlador extends HttpServlet {
             boolean eliminado = servicio.eliminarUsuario(idUsuario);
 
             if (eliminado) {
+                Log.ficheroLog("Usuario eliminado: id=" + idUsuario);
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().write("Usuario eliminado correctamente.");
             } else {
+                Log.ficheroLog("Error al eliminar usuario: id=" + idUsuario);
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write("Error al eliminar el usuario.");
             }
         } catch (NumberFormatException e) {
+            Log.ficheroLog("Error de formato en ID de usuario para eliminar: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("ID de usuario no válido.");
         } catch (Exception e) {
+            Log.ficheroLog("Error en DELETE /usuario: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("Error en el servidor: " + e.getMessage());
         }

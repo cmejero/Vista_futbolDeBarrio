@@ -16,21 +16,20 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import vista_futbolDeBarrio.dtos.ClubDto;
-import vista_futbolDeBarrio.log.log;
 import vista_futbolDeBarrio.servicios.ClubServicio;
+import vista_futbolDeBarrio.log.Log;
 
 @WebServlet("/club")
 @MultipartConfig
 public class ClubControlador extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private log log = new log();
+    
     private ClubServicio servicio;
 
     @Override
     public void init() throws ServletException {
         this.servicio = new ClubServicio();
-        this.log = new log();
     }
 
     @Override
@@ -38,7 +37,7 @@ public class ClubControlador extends HttpServlet {
             throws ServletException, IOException {
         try {
             String accion = request.getParameter("accion"); // Acción para determinar si es crear o modificar
-            System.out.println("Acción recibida desde el formulario: " + request.getParameter("accion"));
+            Log.ficheroLog("Acción recibida desde el formulario: " + accion  );
 
             if ("aniadir".equals(accion)) {
                 // Obtener los datos del formulario
@@ -74,8 +73,8 @@ public class ClubControlador extends HttpServlet {
                         nuevoClub.setFechaCreacionClub(fechaCreacion);
                     } catch (Exception e) {
                         response.getWriter().write("Error al convertir la fecha de creación.");
-                        log.ficheroErrores("Error al convertir la fecha de creación: " + e.getMessage());
-                        return; 
+                        Log.ficheroLog("Error al convertir la fecha de creación del club: " + e.getMessage());
+                        return;
                     }
                 }
                 nuevoClub.setFechaFundacionClub(fechaFundacionClubForm);
@@ -91,39 +90,46 @@ public class ClubControlador extends HttpServlet {
                 } else {
                     nuevoClub.setLogoClub(""); // O asigna null, según tu lógica
                 }
-                
+
                 // Guardar el club en el servicio
                 servicio.guardarClub(nuevoClub);
+                Log.ficheroLog("Club creado correctamente: " + nombreClubForm + ", " + abreviaturaClubForm);
                 response.getWriter().write("Club creado correctamente.");
                 
             } else if ("modificar".equals(accion)) {
                 // Lógica para modificar el club
+                Log.ficheroLog("Modificar club. Acción no implementada aún.");
             } else {
                 response.getWriter().write("Acción no válida.");
-                log.ficheroErrores("Acción no válida recibida: " + accion);
+                Log.ficheroLog("Acción no válida recibida: " + accion );
             }
             
         } catch (Exception e) {
             e.printStackTrace(); // Imprime la traza del error en el servidor o consola
             response.getWriter().write("Se ha producido un error en el servidor. Por favor, inténtelo más tarde." + e.getMessage());
-            log.ficheroErrores("Error en el procesamiento de la acción: " + e.getMessage());
+            Log.ficheroLog("Error en el procesamiento de la acción: " + e.getMessage());
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<ClubDto> listaClub = servicio.listaClub();
+        try {
+            // Obtener la lista de clubes a través del servicio
+            ArrayList<ClubDto> listaClub = servicio.listaClub();
 
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
 
-        // Convertir la lista a JSON
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(listaClub);
-
-        // Escribir la respuesta JSON
-        response.getWriter().write(json);
+            // Convertir la lista a JSON y escribir la respuesta
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(listaClub);
+            Log.ficheroLog("Lista de clubes solicitada. Número de clubes: " + listaClub.size());
+            response.getWriter().write(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().write("Se ha producido un error al obtener los clubes. " + e.getMessage());
+            Log.ficheroLog("Error al obtener lista de clubes: " + e.getMessage() );
+        }
     }
 }
-

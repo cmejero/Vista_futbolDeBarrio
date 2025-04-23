@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import vista_futbolDeBarrio.dtos.RespuestaLoginDto;
 import vista_futbolDeBarrio.servicios.LoginServicio;
+import vista_futbolDeBarrio.log.Log;
 
 @WebServlet("/login")
 @MultipartConfig
@@ -26,7 +27,8 @@ public class LoginControlador extends HttpServlet {
             String email = request.getParameter("email");
             String password = request.getParameter("password");
 
-            System.out.println("Recibido el email: " + email + " y la contraseña: " + password);
+            // Log de recepción de parámetros
+            Log.ficheroLog("Recibido intento de login. Email: " + email );
 
             // Llamar al servicio de login
             RespuestaLoginDto respuestaLogin = servicioLogin.login(email, password);
@@ -36,8 +38,8 @@ public class LoginControlador extends HttpServlet {
                 String tipoUsuario = respuestaLogin.getTipoUsuario();
                 Object datosUsuario = respuestaLogin.getDatosUsuario();
 
-                System.out.println("Token recibido: " + token);
-                System.out.println("Tipo de usuario recibido: " + tipoUsuario);
+                // Log de éxito en login
+                Log.ficheroLog("Login exitoso para el usuario: " + email + ", Tipo de usuario: " + tipoUsuario );
 
                 // Guardar en sesión
                 HttpSession session = request.getSession();
@@ -60,14 +62,19 @@ public class LoginControlador extends HttpServlet {
                         response.sendRedirect("Instalacion.jsp");
                         break;
                     default:
-                        System.out.println("Tipo de usuario desconocido: " + tipoUsuario);
+                        // Log de tipo de usuario desconocido
+                        Log.ficheroLog("Tipo de usuario desconocido: " + tipoUsuario );
                         response.sendRedirect("InicioSesion.jsp?error=tipoDesconocido");
                 }
             } else {
+                // Log de error de credenciales
+                Log.ficheroLog("Credenciales incorrectas para el email: " + email );
                 response.sendRedirect("InicioSesion.jsp?error=credenciales");
             }
         } catch (Exception e) {
             e.printStackTrace();
+            // Log de error en servidor
+            Log.ficheroLog("Error en el proceso de login: " + e.getMessage() );
             response.sendRedirect("InicioSesion.jsp?error=servidor");
         }
     }
