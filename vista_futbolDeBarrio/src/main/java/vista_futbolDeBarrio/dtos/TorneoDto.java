@@ -8,8 +8,8 @@ public class TorneoDto {
 
     private long idTorneo;
     private String nombreTorneo;
-    private LocalDate fechaInicioTorneo;
-    private LocalDate fechaFinTorneo;
+    private String fechaInicioTorneo;
+    private String fechaFinTorneo;
     private String descripcionTorneo;
     private Modalidad modalidad;
     private long instalacionId;
@@ -31,19 +31,19 @@ public class TorneoDto {
         this.nombreTorneo = nombreTorneo;
     }
 
-    public LocalDate getFechaInicioTorneo() {
+    public String getFechaInicioTorneo() {
         return fechaInicioTorneo;
     }
 
-    public void setFechaInicioTorneo(LocalDate fechaInicioTorneo) {
+    public void setFechaInicioTorneo(String fechaInicioTorneo) {
         this.fechaInicioTorneo = fechaInicioTorneo;
     }
 
-    public LocalDate getFechaFinTorneo() {
+    public String getFechaFinTorneo() {
         return fechaFinTorneo;
     }
 
-    public void setFechaFinTorneo(LocalDate fechaFinTorneo) {
+    public void setFechaFinTorneo(String fechaFinTorneo) {
         this.fechaFinTorneo = fechaFinTorneo;
     }
 

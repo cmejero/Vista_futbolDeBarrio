@@ -5,8 +5,8 @@ import java.time.LocalDate;
 public class MiembroClubDto {
 
     private long idMiembroClub;
-    private LocalDate fechaAltaUsuario;
-    private LocalDate fechaBajaUsuario;
+    private String fechaAltaUsuario;
+    private String fechaBajaUsuario;
     private long clubId;  
     private long usuarioId;  
 
@@ -19,19 +19,19 @@ public class MiembroClubDto {
         this.idMiembroClub = idMiembroClub;
     }
 
-    public LocalDate getFechaAltaUsuario() {
+    public String getFechaAltaUsuario() {
         return fechaAltaUsuario;
     }
 
-    public void setFechaAltaUsuario(LocalDate fechaAltaUsuario) {
+    public void setFechaAltaUsuario(String fechaAltaUsuario) {
         this.fechaAltaUsuario = fechaAltaUsuario;
     }
 
-    public LocalDate getFechaBajaUsuario() {
+    public String getFechaBajaUsuario() {
         return fechaBajaUsuario;
     }
 
-    public void setFechaBajaUsuario(LocalDate fechaBajaUsuario) {
+    public void setFechaBajaUsuario(String fechaBajaUsuario) {
         this.fechaBajaUsuario = fechaBajaUsuario;
     }
 

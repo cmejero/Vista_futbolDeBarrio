@@ -1,11 +1,7 @@
 package vista_futbolDeBarrio.controlador;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -13,104 +9,164 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import vista_futbolDeBarrio.dtos.TorneoDto;
 import vista_futbolDeBarrio.enums.Modalidad;
 import vista_futbolDeBarrio.log.Log;
 import vista_futbolDeBarrio.servicios.TorneoServicio;
+import com.google.gson.Gson;
+
 
 @WebServlet("/torneo")
 @MultipartConfig
+/**
+ * Clase controlador que se encarga de los metodos CRUD de la tabla torneo
+ */
 public class TorneoControlador extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
-    private TorneoServicio servicio;
+	private static final long serialVersionUID = 1L;
+	private TorneoServicio servicio;
 
-    @Override
-    public void init() throws ServletException {
-        this.servicio = new TorneoServicio();
-    }
+	@Override
+	public void init() throws ServletException {
+		this.servicio = new TorneoServicio();
+	}
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            String accion = request.getParameter("accion");
+	@Override
+	/**
+	 * Metodo POST que se encarga de guardar un nuevo torneo
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
+	    try {
+	        String accion = request.getParameter("accion");
 
-            if ("aniadir".equals(accion)) {
-                // Obtener los datos del formulario
-                String nombreTorneo = request.getParameter("nombreTorneo");
-                String fechaInicioTorneoStr = request.getParameter("fechaInicioTorneo");
-                String fechaFinTorneoStr = request.getParameter("fechaFinTorneo");
-                String descripcionTorneo = request.getParameter("descripcionTorneo");
-                String modalidadStr = request.getParameter("modalidad");
-                String instalacionIdStr = request.getParameter("instalacionId");
+	        if ("aniadir".equals(accion)) {
+	            String nombreTorneo = request.getParameter("nombreTorneo");
+	            String descripcionTorneo = request.getParameter("descripcionTorneo");
+	            String modalidadStr = request.getParameter("modalidad");
+	            Long instalacionId = (Long) request.getSession().getAttribute("instalacionId");
 
-                // Parsear las fechas
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                LocalDate fechaInicioTorneo = LocalDate.parse(fechaInicioTorneoStr, formatter);
-                LocalDate fechaFinTorneo = LocalDate.parse(fechaFinTorneoStr, formatter);
+	            if (instalacionId == null) {
+	                request.setAttribute("mensajeError", "Instalación no encontrada en sesión.");
+	                request.getRequestDispatcher("/EventoInstalacion.jsp").forward(request, response);
+	                return;
+	            }
 
-                // Parsear la modalidad
-                Modalidad modalidad = Modalidad.valueOf(modalidadStr.trim());
+	            String fechaInicioTorneo = request.getParameter("fechaInicioTorneo");
+	            String fechaFinTorneo = "9999-01-01";
 
-                // Parsear el ID de la instalación
-                long instalacionId = Long.parseLong(instalacionIdStr);
+	            try {
+	                Modalidad modalidad = Modalidad.valueOf(modalidadStr.trim());
 
-                // Crear el objeto TorneoDto
-                TorneoDto nuevoTorneo = new TorneoDto();
-                nuevoTorneo.setNombreTorneo(nombreTorneo);
-                nuevoTorneo.setFechaInicioTorneo(fechaInicioTorneo);
-                nuevoTorneo.setFechaFinTorneo(fechaFinTorneo);
-                nuevoTorneo.setDescripcionTorneo(descripcionTorneo);
-                nuevoTorneo.setModalidad(modalidad);
-                nuevoTorneo.setInstalacionId(instalacionId);
+	                TorneoDto nuevoTorneo = new TorneoDto();
+	                nuevoTorneo.setNombreTorneo(nombreTorneo);
+	                nuevoTorneo.setFechaInicioTorneo(fechaInicioTorneo);
+	                nuevoTorneo.setFechaFinTorneo(fechaFinTorneo);
+	                nuevoTorneo.setDescripcionTorneo(descripcionTorneo);
+	                nuevoTorneo.setModalidad(modalidad);
+	                nuevoTorneo.setInstalacionId(instalacionId);
 
-                // Guardar el torneo en el servicio
-                servicio.guardarTorneo(nuevoTorneo);
+	                servicio.guardarTorneo(nuevoTorneo);
 
-                // Log
-                Log.ficheroLog("Torneo creado: " + nombreTorneo + " | Modalidad: " + modalidad + " | Instalación ID: " + instalacionId);
+	                Log.ficheroLog("Torneo creado: " + nombreTorneo + " | Modalidad: " + modalidad + " | Instalación ID: " + instalacionId);
 
-                response.getWriter().write("Torneo creado correctamente.");
-            } else if ("modificar".equals(accion)) {
-                // Lógica para modificar el torneo (puedes implementarla después)
-                response.getWriter().write("Funcionalidad de modificación aún no implementada.");
-                Log.ficheroLog("Intento de modificar torneo, pero funcionalidad aún no implementada.");
-            } else {
-                response.getWriter().write("Acción no válida.");
-                Log.ficheroLog("Acción no válida recibida: " + accion);
-            }
+	                request.setAttribute("mensajeExito", "Torneo creado correctamente.");
+	            } catch (IllegalArgumentException e) {
+	                request.setAttribute("mensajeError", "Modalidad no válida.");
+	            }
+	        } else if ("modificar".equals(accion)) {
+	            request.setAttribute("mensajeInfo", "Funcionalidad de modificación aún no implementada.");
+	        } else {
+	            request.setAttribute("mensajeError", "Acción no válida.");
+	        }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.getWriter().write("Se ha producido un error en el servidor. Por favor, inténtelo más tarde." + e.getMessage());
-            Log.ficheroLog("Error en el procesamiento de la acción POST en /torneo: " + e.getMessage() );
-        }
-    }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        request.setAttribute("mensajeError", "Error en el servidor: " + e.getMessage());
+	        Log.ficheroLog("Error en POST /torneo: " + e.getMessage());
+	    }
 
-    @Override
+	    // Siempre volver al formulario con mensaje
+	    request.getRequestDispatcher("/EventoInstalacion.jsp").forward(request, response);
+	}
+
+
+	@Override
+	/**
+	 * Metodo GET que se encarga de mostrar una lista de todos los torneos
+	 */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
         try {
-            ArrayList<TorneoDto> listaTorneos = servicio.listaTorneos();
+            String idParam = request.getParameter("instalacionId");
+            List<TorneoDto> torneos;
 
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
+            if (idParam != null && !idParam.isEmpty()) {
+                Long instalacionId = Long.parseLong(idParam);
+                torneos = servicio.obtenerTorneosPorInstalacion(instalacionId);
+            } else {
+                torneos = servicio.obtenerTodosLosTorneos();
+            }
 
-            // Convertir la lista a JSON
-            ObjectMapper objectMapper = new ObjectMapper();
-            String json = objectMapper.writeValueAsString(listaTorneos);
-
-            // Escribir la respuesta JSON
+            String json = new Gson().toJson(torneos);
             response.getWriter().write(json);
 
-            // Log de acceso
-            Log.ficheroLog("Lista de torneos consultada correctamente. Número de torneos: " + listaTorneos.size());
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.ficheroLog("Error en TorneoControlador: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("Error al recuperar la lista de torneos.");
-            Log.ficheroLog("Error al obtener lista de torneos: " + e.getMessage());
+            response.getWriter().write("{\"error\": \"Error al obtener torneos\"}");
         }
     }
+	
+	@Override
+    /**
+     * Metodo DELETE que se encarga de eliminar un usuario
+     */
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
+	    try {
+	        // Obtener la sesión y comprobar el tipo de usuario
+	        HttpSession session = request.getSession(false);
+	        String tipoInstalacion = (session != null) ? (String) session.getAttribute("tipoInstalacion") : null;
+
+	       
+
+	        // Obtener el ID del torneo desde los parámetros de la URL
+	        String idTorneoParam = request.getParameter("idTorneo");
+	        if (idTorneoParam == null || idTorneoParam.isEmpty()) {
+	            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	            response.getWriter().write("ID de torneo no proporcionado.");
+	            Log.ficheroLog("Eliminación fallida: ID no proporcionado");
+	            return;
+	        }
+
+	        Long idTorneo = Long.parseLong(idTorneoParam);  // Convertir a Long
+	        boolean eliminado = servicio.eliminarTorneo(idTorneo);  // Llamada al servicio para eliminar el torneo
+
+	        if (eliminado) {
+	            Log.ficheroLog("Torneo eliminado: id=" + idTorneo);
+	            response.setStatus(HttpServletResponse.SC_OK);
+	            response.getWriter().write("Torneo eliminado correctamente.");
+	        } else {
+	            Log.ficheroLog("Error al eliminar torneo: id=" + idTorneo);
+	            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	            response.getWriter().write("Error al eliminar el torneo.");
+	        }
+	    } catch (NumberFormatException e) {
+	        Log.ficheroLog("Error de formato en ID de torneo para eliminar: " + e.getMessage());
+	        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	        response.getWriter().write("ID de torneo no válido.");
+	    } catch (Exception e) {
+	        Log.ficheroLog("Error en DELETE /torneo: " + e.getMessage());
+	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	        response.getWriter().write("Error en el servidor: " + e.getMessage());
+	    }
+	}
+
+
 }

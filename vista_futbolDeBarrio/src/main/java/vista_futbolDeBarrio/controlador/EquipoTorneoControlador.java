@@ -17,6 +17,9 @@ import vista_futbolDeBarrio.log.Log;
 import vista_futbolDeBarrio.servicios.EquipoTorneoServicio;
 
 @WebServlet("/equipoTorneo")
+/**
+ * Clase controlador que se encarga de los metodos CRUD de la tabla equipoTorneo
+ */
 public class EquipoTorneoControlador extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -29,6 +32,9 @@ public class EquipoTorneoControlador extends HttpServlet {
     }
 
     @Override
+    /**
+     * Metodo POST que se encarga de guardar un equipo en un torneo
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -37,26 +43,25 @@ public class EquipoTorneoControlador extends HttpServlet {
             Log.ficheroLog("Acción recibida desde el formulario: " + accion );
 
             if ("aniadir".equals(accion)) {
-                // Obtener los datos del formulario
+               
                 long torneoId = Long.parseLong(request.getParameter("torneoId"));
                 long clubId = Long.parseLong(request.getParameter("clubId"));
-                Date fechaInicioParticipacion = new Date(); // Asignar la fecha actual
-                EstadoParticipacion estadoParticipacion = EstadoParticipacion.Activo; // Estado por defecto
+                Date fechaInicioParticipacion = new Date(); 
+                EstadoParticipacion estadoParticipacion = EstadoParticipacion.Activo; 
 
-                // Crear el objeto EquipoTorneoDto
+                
                 EquipoTorneoDto nuevoEquipoTorneo = new EquipoTorneoDto();
                 nuevoEquipoTorneo.setTorneoId(torneoId);
                 nuevoEquipoTorneo.setClubId(clubId);
                 nuevoEquipoTorneo.setFechaInicioParticipacion(fechaInicioParticipacion);
                 nuevoEquipoTorneo.setEstadoParticipacion(estadoParticipacion);
 
-                // Guardar el equipo en el servicio
+                
                 servicio.guardarEquipoTorneo(nuevoEquipoTorneo);
                 Log.ficheroLog("Equipo-Torneo creado correctamente. Torneo ID: " + torneoId + ", Club ID: " + clubId );
                 response.getWriter().write("Equipo-Torneo creado correctamente.");
             } else if ("modificar".equals(accion)) {
-                // Lógica para modificar el equipo-torneo
-                // Puedes implementar este bloque según tus necesidades.
+               
                 Log.ficheroLog("Modificar equipo-torneo. Acción no implementada aún." );
             } else {
                 response.getWriter().write("Acción no válida.");
@@ -71,16 +76,19 @@ public class EquipoTorneoControlador extends HttpServlet {
     }
 
     @Override
+    /**
+     * Metodo GET que se encarga de mostrar listas de los torneos y equipos que participan
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            // Obtener la lista de equipos-torneo a través del servicio
+            
             ArrayList<EquipoTorneoDto> listaEquiposTorneo = servicio.listaEquiposTorneo();
 
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
 
-            // Convertir la lista a JSON y escribir la respuesta
+            
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(listaEquiposTorneo);
             Log.ficheroLog("Lista de equipos-torneo solicitada. Número de equipos: " + listaEquiposTorneo.size());

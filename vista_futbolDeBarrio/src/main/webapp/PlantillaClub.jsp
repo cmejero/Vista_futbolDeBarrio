@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+String tipoUsuario = (String) session.getAttribute("tipoUsuario");
+if (tipoUsuario == null) {
+	tipoUsuario = "club";
+}
+%>
+	<%
+Long clubId = (Long) session.getAttribute("clubId");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +23,8 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
 	rel="stylesheet">
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <title>FUTBOL DE BARRIO</title>
 </head>
@@ -22,8 +34,10 @@
 		<div class="container-fluid ">
 			<div class="row ">
 
+
 				<div class="col-sm-12 col-md-12  d-sm-block d-md-block d-none">
 					<div class="row">
+
 						<!-- columna logo -->
 						<div class="col-sm-1 col-md-1 logo"
 							style="background-color: white; border-top: 2px solid black; border-left: 1px solid black">
@@ -132,8 +146,8 @@
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="" class="letraCabeceraMedio">BIENVENIDO: Los
-												Corrales</a>
+											<a href="" class="letraCabeceraMedio">BIENVENIDO: San
+												Diego FC</a>
 										</div>
 
 									</div>
@@ -149,13 +163,13 @@
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="Instalacion.jsp" class="letraCabeceraAbajo" style="color: #d4af37;">INICIO</a>
+											<a href="Club.jsp" class="letraCabeceraAbajo">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">RESERVAS</a>
+											<a href="" class="letraCabeceraAbajo">ALQUILERES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo">EVENTOS</a>
+											<a href="EventoClub.jsp" class="letraCabeceraAbajo">EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -167,14 +181,15 @@
 
 									<div class="row">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
-										<div class="col-sm-2 col-md-2 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">FINANZAS</a>
-										</div>
-										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">ESTADISTICAS</a>
+										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
+											<a href="PlantillaClub.jsp" class="letraCabeceraAbajo"
+												style="color: #d4af37;">PLANTILLA</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">NOTIFICACIONES</a>
+											<a href="" class="letraCabeceraAbajo">MARCADORES</a>
+										</div>
+										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
+											<a href="" class="letraCabeceraAbajo">DESAFIOS</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraAbajo">
 											<div class="dropdown">
@@ -213,6 +228,7 @@
 						</div>
 					</div>
 				</div>
+
 
 				<!-- HEADER COL -->
 
@@ -297,16 +313,16 @@
 											style="min-width: 12vw; font-size: 2.2vw; background-color: #003300; border-radius: 5px; width: 25vw">
 
 
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Reservas </a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
+											<li><a class="dropdown-item " href="Club.jsp"
+												style="color: white;">Alquileres </a></li>
+											<li><a class="dropdown-item " href="EventoClub.jsp"
 												style="color: white;">Eventos </a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Finanzas </a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Estadisticas </a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Notificaciones </a></li>
+											<li><a class="dropdown-item " href="PlantillaClub.jsp"
+												style="color: #d4af37;">Plantilla </a></li>
+											<li><a class="dropdown-item " href="Club.jsp"
+												style="color: white;">Marcadores </a></li>
+											<li><a class="dropdown-item " href="Club.jsp"
+												style="color: white;">Desafios </a></li>
 
 
 											<li>
@@ -335,11 +351,69 @@
 				</div>
 
 
+
 			</div>
 		</div>
 	</header>
 
-	<main style="background-color: rgba(223, 234, 213, 0.5);"></main>
+	<main style="background-color: rgba(223, 234, 213, 0.5);">
+
+		<div class="container-fluid " id="jugadorContainer">
+			<div class="row">
+				<!-- Contenedor para los botones de volver y mostrar filtros -->
+				<div class="col-md-12 col-sm-12 col-12 mx-auto  pt-3 m-1"
+					style="display: flex; align-items: center; gap: 10px;">
+					<button id="mostrarFiltrosJugadores"
+						class="mb-2 mr-auto botonFiltrar" style="background-color: black">
+						Mostrar Filtros</button>
+				</div>
+
+				<!-- Filtros de búsqueda (inicialmente ocultos) -->
+				<div id="filtrosJugadores" class="filaFiltrar" style="background-color:black; display: none;">
+
+					<div class="filtroItem">
+						<input type="text" id="buscarPosicionJugador" class="inputFiltrar"
+							placeholder="Buscar por posición">
+					</div>
+					<div class="filtroItem">
+						<input type="text" id="buscarNombreJugador" class="inputFiltrar"
+							placeholder="Buscar por Nombre">
+					</div>
+
+					<input type="text" id="buscarVictoriasJugador" class="inputFiltrar"
+						placeholder="Buscar por Victorias">
+				</div>
+
+				<!-- Tabla de jugadores -->
+				<table class="tablaDatosListaMarcadores mb-4">
+					<thead style="background-color: black;">
+						<tr>
+							<th style="border: 1.5px solid red; width: 7.5%">POS</th>
+							<th style="border: 1.5px solid red; width: 37%">JUGADOR</th>
+
+							<th style="border: 1.5px solid red; width: 25.5%">ALIAS</th>
+							<th style="border: 1.5px solid red; width: 5%">PJ</th>
+							<th style="border: 1.5px solid red; width: 5%">V</th>
+							<th style="border: 1.5px solid red; width: 5%">E</th>
+							<th style="border: 1.5px solid red; width: 5%">D</th>
+							<th style="border: 1.5px solid red; width: 10%">ELIMINAR</th>
+							
+
+						</tr>
+					</thead>
+					<tbody id="tablaCuerpoJugador"></tbody>
+				</table>
+			</div>
+		</div>
+
+
+
+
+
+
+
+
+	</main>
 
 
 	<footer>
@@ -527,12 +601,134 @@ Avenida mujer trabajadora
 
 
 
-
-
 	<script>
-		
-	</script>
+	
+	   // Guardamos el tipo en sessionStorage para uso en JS
+    sessionStorage.setItem('tipoUsuario', '<%= tipoUsuario %>');
+    const clubId = <%= clubId != null ? clubId : "null" %>; // Si es null, asignamos "null" a la variable
+    console.log("Club: " + clubId);
 
+    // Verificamos si el usuario es jugador
+    const tipo = sessionStorage.getItem('tipoUsuario');
+    if (tipo !== 'club') {
+        // Si no es jugador, lo redirigimos
+        window.location.href = 'acceso_denegado.jsp';
+    }
+    sessionStorage.setItem("clubId", "<%= clubId %>");
+    
+    
+ // Función para mostrar u ocultar filtros
+	function toggleFiltros(filtros, boton) {
+		if (filtros.style.display === "none") {
+			filtros.style.display = "flex"; // Mostrar los filtros
+			boton.textContent = "Ocultar Filtros"; // Cambiar el texto del botón
+		} else {
+			filtros.style.display = "none"; // Ocultar los filtros
+			boton.textContent = "Mostrar Filtros"; // Cambiar el texto del botón
+		}
+	}
+	document.getElementById("mostrarFiltrosJugadores").addEventListener("click", function() {
+	    const filtros = document.getElementById("filtrosJugadores");
+	    toggleFiltros(filtros, this);
+	});
+ 
+ 
+    
+    $(document)
+	.ready(
+			function() {
+				$
+						.ajax({
+							url : 'usuario',
+							method : 'GET',
+							dataType : 'json',
+							success : function(data) {
+								console.log(data);
+								$('#tablaCuerpoJugador').empty(); // ID corregido
+
+								let contadorPosicion = 1;
+
+								$
+										.each(
+												data,
+												function(index,
+														usuario) {
+													var row = '<tr id="fila-' + usuario.idUsuario + '" style=" font-size: 1vw; text-align: center; vertical-align: middle;">'
+															+ '<td style="border:0.5px solid #8a210b;font-weight: bold; text-align: center;">'
+															+ contadorPosicion
+															+ '</td>'
+															+ '<td style="border:0.5px solid #8a210b;text-align: center;">'
+															+ usuario.nombreCompletoUsuario
+															+ '</td>'
+															+ '<td style="border:0.5px solid #8a210b;text-align: center;">'
+															+ usuario.aliasUsuario
+															+ '</td>'
+															+ '<td style="border:0.5px solid #8a210b;text-align: center;">0</td>'
+															+ '<td style="border:0.5px solid #8a210b;text-align: center;">0</td>'
+															+ '<td style="border:0.5px solid #8a210b;text-align: center;">0</td>'
+															
+															+ '<td style="border:0.5px solid #8a210b;text-align: center;">0</td>'
+															+ '<td style="display: flex; justify-content: center; align-items: center; border:0.5px solid #8a210b;">'
+															+ '<button class="btnEliminar" data-id="' + usuario.idUsuario + '" '
+															+ 'style="border: 1px solid red; height: 1.8vw; width: 2.5vw; display: flex; align-items: center; justify-content: center;">'
+															+ '<i class="bi bi-trash3-fill" style="color: #c33214; font-size: 1.2vw;"></i>'
+															+ '</button></td>'
+
+															
+															+ '</tr>';
+
+													$(
+															'#tablaCuerpoJugador')
+															.append(
+																	row);
+													contadorPosicion++;
+												});
+							},
+							error : function(xhr, status, error) {
+								console
+										.error(
+												'Error en la solicitud AJAX:',
+												error);
+							}
+						});
+			});
+    
+    
+ // Función para filtrar la tabla
+	function filtrarTabla(idFiltro, columnaIndex) {
+		const valorFiltro = document.getElementById(idFiltro).value
+				.toLowerCase();
+		const filas = document
+				.querySelectorAll(".tablaDatosListaMarcadores tbody tr");
+
+		filas.forEach(function(fila) {
+			const celdas = fila.getElementsByTagName("td");
+			const textoCelda = celdas[columnaIndex].textContent
+					.toLowerCase();
+			if (textoCelda.includes(valorFiltro)) {
+				fila.style.display = "";
+			} else {
+				fila.style.display = "none";
+			}
+		});
+	}
+
+	// Agregar evento de filtro para cada campo
+	document.getElementById("buscarPosicionJugador").addEventListener(
+			"input", function() {
+				filtrarTabla("buscarPosicionJugador", 0); // Filtro por columna ID (columna 0)
+			});
+
+	document.getElementById("buscarNombreJugador").addEventListener(
+			"input", function() {
+				filtrarTabla("buscarNombreJugador", 1); // Filtro por columna Nombre (columna 1)
+			});
+	document.getElementById("buscarVictoriasJugador").addEventListener(
+			"input", function() {
+				filtrarTabla("buscarVictoriasJugador", 3); // Filtro por columna Nombre (columna 1)
+			});
+	
+	</script>
 
 
 	<script

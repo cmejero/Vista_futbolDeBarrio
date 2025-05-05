@@ -22,6 +22,9 @@ import vista_futbolDeBarrio.servicios.InstalacionServicio;
 
 @WebServlet("/instalacion")
 @MultipartConfig
+/**
+ * Clase controlador que se encarga de los metodos CRUD de la tabla instalacion
+ */
 public class InstalacionControlador extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -34,6 +37,9 @@ public class InstalacionControlador extends HttpServlet {
     }
 
     @Override
+    /**
+     * Metodo POST que se encarga de guardar una nueva instalacion
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -41,7 +47,7 @@ public class InstalacionControlador extends HttpServlet {
             Log.ficheroLog("Acción recibida desde el formulario: " + accion );
 
             if ("aniadir".equals(accion)) {
-                // Obtener los datos del formulario
+                
                 String nombreInstalacionForm = request.getParameter("nombreInstalacion");
                 String direccionInstalacionForm = request.getParameter("direccionInstalacion");
                 String telefonoInstalacionForm = request.getParameter("telefonoInstalacion");
@@ -53,7 +59,7 @@ public class InstalacionControlador extends HttpServlet {
                 String estadoInstalacionForm = request.getParameter("estadoInstalacion"); // Debe coincidir con un valor de Estado
                 String passwordInstalacionForm = request.getParameter("passwordInstalacion");
 
-                // Procesar la imagen de la instalación
+                
                 Part imagenPart = request.getPart("imagenInstalacion");
                 byte[] imagenBytes = null;
                 if (imagenPart != null && imagenPart.getSize() > 0) {
@@ -62,14 +68,14 @@ public class InstalacionControlador extends HttpServlet {
                     inputStream.read(imagenBytes);
                 }
 
-                // Crear el objeto InstalacionDto y asignar los valores
+                
                 InstalacionDto nuevaInstalacion = new InstalacionDto();
                 nuevaInstalacion.setNombreInstalacion(nombreInstalacionForm);
                 nuevaInstalacion.setDireccionInstalacion(direccionInstalacionForm);
                 nuevaInstalacion.setTelefonoInstalacion(telefonoInstalacionForm);
                 nuevaInstalacion.setEmailInstalacion(emailInstalacionForm);
 
-                // Convertir las cadenas recibidas a los enum correspondientes (si no están vacíos)
+                
                 if (tipoCampo1Form != null && !tipoCampo1Form.isEmpty()) {
                     nuevaInstalacion.setTipoCampo1(Modalidad.valueOf(tipoCampo1Form));
                 }
@@ -88,24 +94,22 @@ public class InstalacionControlador extends HttpServlet {
                 
                 nuevaInstalacion.setPasswordInstalacion(passwordInstalacionForm);
 
-                // Asignar la imagen convertida a String (o bien utilizar otro método, por ejemplo, Base64)
+                
                 if (imagenBytes != null) {
                     nuevaInstalacion.setImagenInstalacion(new String(imagenBytes));
                 } else {
                     nuevaInstalacion.setImagenInstalacion("");
                 }
 
-                // Inicializar las listas de IDs para torneos (si aplica)
                 nuevaInstalacion.setTorneoId(new ArrayList<>());
 
-                // Guardar la instalación a través del servicio
+
                 servicio.guardarInstalacion(nuevaInstalacion);
                 Log.ficheroLog("Instalación creada correctamente: " + nombreInstalacionForm );
                 response.getWriter().write("Instalación creada correctamente.");
 
             } else if ("modificar".equals(accion)) {
-                // Lógica para modificar la instalación (similar a la de añadir, obteniendo el ID y actualizando los campos)
-                // Puedes implementar este bloque según tus necesidades.
+
                 Log.ficheroLog("Modificar instalación. Acción no implementada aún." );
             } else {
                 response.getWriter().write("Acción no válida.");
@@ -120,16 +124,19 @@ public class InstalacionControlador extends HttpServlet {
     }
 
     @Override
+    /**
+     * Metodo GET que se encarga para mostrar una lista de las instalaciones
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            // Obtener la lista de instalaciones a través del servicio
+            
             List<InstalacionDto> listaInstalaciones = servicio.listaInstalaciones();
 
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
 
-            // Convertir la lista a JSON y escribir la respuesta
+            
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(listaInstalaciones);
             Log.ficheroLog("Lista de instalaciones solicitada. Número de instalaciones: " + listaInstalaciones.size());

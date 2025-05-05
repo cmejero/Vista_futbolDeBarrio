@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%
+Long clubId = (Long) session.getAttribute("clubId");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +16,9 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
 	rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+	
 
 <title>FUTBOL DE BARRIO</title>
 </head>
@@ -22,8 +28,10 @@
 		<div class="container-fluid ">
 			<div class="row ">
 
+
 				<div class="col-sm-12 col-md-12  d-sm-block d-md-block d-none">
 					<div class="row">
+
 						<!-- columna logo -->
 						<div class="col-sm-1 col-md-1 logo"
 							style="background-color: white; border-top: 2px solid black; border-left: 1px solid black">
@@ -132,8 +140,8 @@
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="" class="letraCabeceraMedio">BIENVENIDO: Los
-												Corrales</a>
+											<a href="" class="letraCabeceraMedio">BIENVENIDO: San
+												Diego FC</a>
 										</div>
 
 									</div>
@@ -149,13 +157,13 @@
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="Instalacion.jsp" class="letraCabeceraAbajo" style="color: #d4af37;">INICIO</a>
+											<a href="Club.jsp" class="letraCabeceraAbajo" >INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">RESERVAS</a>
+											<a href="" class="letraCabeceraAbajo">ALQUILERES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo">EVENTOS</a>
+											<a href="EventoClub.jsp" class="letraCabeceraAbajo" style="color: #d4af37;">EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -167,14 +175,14 @@
 
 									<div class="row">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
-										<div class="col-sm-2 col-md-2 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">FINANZAS</a>
-										</div>
-										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">ESTADISTICAS</a>
+										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
+											<a href="" class="letraCabeceraAbajo">PLANTILLA</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">NOTIFICACIONES</a>
+											<a href="" class="letraCabeceraAbajo">MARCADORES</a>
+										</div>
+										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
+											<a href="" class="letraCabeceraAbajo">DESAFIOS</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraAbajo">
 											<div class="dropdown">
@@ -213,7 +221,8 @@
 						</div>
 					</div>
 				</div>
-
+				
+				
 				<!-- HEADER COL -->
 
 				<div class="  d-sm-none d-md-none col-12 d-block ">
@@ -297,16 +306,16 @@
 											style="min-width: 12vw; font-size: 2.2vw; background-color: #003300; border-radius: 5px; width: 25vw">
 
 
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Reservas </a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Eventos </a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Finanzas </a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Estadisticas </a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Notificaciones </a></li>
+											<li><a class="dropdown-item " href="Club.jsp"
+												style="color: white;">Alquileres </a></li>
+											<li><a class="dropdown-item " href="EventoClub.jsp"
+												style="color: #d4af37; ">Eventos </a></li>
+											<li><a class="dropdown-item " href="Club.jsp"
+												style="color: white;">Plantilla </a></li>
+											<li><a class="dropdown-item " href="Club.jsp"
+												style="color: white;">Marcadores </a></li>
+											<li><a class="dropdown-item " href="Club.jsp"
+												style="color: white;">Desafios </a></li>
 
 
 											<li>
@@ -333,13 +342,144 @@
 						</div>
 					</div>
 				</div>
-
-
+				
+				
+				
 			</div>
 		</div>
 	</header>
 
-	<main style="background-color: rgba(223, 234, 213, 0.5);"></main>
+	<main style="background-color: rgba(223, 234, 213, 0.5);">
+		<div class="container-fluid mt-3 pt-1">
+			<div class="row">
+				<!-- CONTENIDO -->
+				<div class="col-md-12 col-sm-12 col-12">
+				
+
+					<!-- CONTENEDOR TORNEOS -->
+					<div class="container-fluid " id="marcadorContainer">
+						<div class="row">
+							<div class="col-md-12 col-sm-12 col-12 mx-auto">
+								<div class="row">
+
+									<div class="col-md-2 col-sm-2 col-2 mx-auto"></div>
+									<div class="col-md-3 col-sm-3 col-3 mx-auto "
+										style="margin-bottom: 16vh; margin-top: 20vh; display: flex; justify-content: flex-end; align-items: center;">
+										<button id="botonLiga" class="botonMarcadores p-4">
+											<img class="imagenMarcadores" src="Imagenes/Liga.JPG"
+												alt="Imagen la liga"> LIGA
+										</button>
+									</div>
+
+									<!-- Espacio vacío entre los dos botones -->
+									<div class="col-md-1 col-sm-1 col-1 mx-auto "></div>
+
+									<!-- Columna para el botón de JUGADORES alineado a la derecha -->
+									<div class="col-md-3 col-sm-3 col-3"
+										style="margin-bottom: 16vh; margin-top: 20vh; display: flex; justify-content: flex-start; align-items: center;">
+										<button class="botonMarcadores p-4" id="botonTorneo">
+											<img class="imagenMarcadores" src="Imagenes/copa.JPG"
+												alt="Imagen torneo"> TORNEO
+										</button>
+									</div>
+									<div class="col-md-2 col-sm-2 col-2 mx-auto "></div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+
+
+
+
+					<!-- EVENTO Torneo -->
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-12 col-sm-12 col-12 mx-auto"
+								id="torneoContainer" style="display: none;">
+								<!-- Botones de control -->
+								<div
+									class="d-flex justify-content-between align-items-center mb-3">
+									<div class="col-md-11 col-sm-12 col-12 mx-auto   m-1"
+										style="display: flex; align-items: center; gap: 10px;">
+										<button id="volverAContenidoC" class=" mr-auto botonFiltrar"
+											style="background-color: red">Volver</button>
+										<button id="mostrarFiltrosTorneo"
+											class=" mr-auto botonFiltrar" style="background-color: black">Mostrar
+											Filtros</button>
+
+										
+
+									</div>
+								</div>
+
+								
+								<!-- Filtros de búsqueda -->
+								<div id="filtrosTorneo" class="filaFiltrar mb-4"
+									style="display: none;">
+
+									<div class="filtroItem">
+										<label for="buscarNombre" class="labelFiltrar"><b>-Buscar
+												por Nombre:</b></label> <input type="text" id="buscarNombre"
+											class="inputFiltrar" placeholder="Buscar por Nombre">
+									</div>
+
+									<div class="filtroItem">
+										<label for="buscarModalidad" class="labelFiltrar"><b>-Buscar
+												por Modalidad:</b></label> <input type="text" id="buscarModalidad"
+											class="inputFiltrar" placeholder="Buscar por Modalidad">
+									</div>
+									<div class="filtroItem">
+										<label for="buscarFechaInicio" class="labelFiltrar"><b>-Buscar
+												por fecha inicio:</b></label> <input type="text" id="buscarFechaInicio"
+											class="inputFiltrar" placeholder="Buscar por Fecha Inicio">
+									</div>
+								</div>
+
+								<!-- Tabla de torneo -->
+								<table class="tablaDatos w-100 mb-3 mx-auto ">
+									<thead style="background-color: #c33214;">
+										<tr>
+											<th style="border: 1.8px solid #8a210b; width: 35%">NOMBRE
+												TORNEO</th>
+											<th style="border: 1.8px solid #8a210b; width: 23%">MODALIDAD</th>
+											<th style="border: 1.8px solid #8a210b; width: 21%">FECHA
+												INICIO</th>
+											<th style="border: 1.8px solid #8a210b; width: 21%">FECHA
+												FIN</th>
+											<th style="border: 1.8px solid #8a210b; width: 10%">OPCIONES</th>
+										</tr>
+									</thead>
+									<tbody id="tablaCuerpoTorneo">
+									</tbody>
+								</table>
+
+								<!-- Paginación -->
+								<div
+									class="contenedorPaginacion mb-4 d-flex justify-content-center">
+									<button id="botonAnterior" class=""
+										style="font-size: 1.3vw; padding: 0.3vw 1vw; border: 1px solid #007bff; background-color: #ffffff; color: #007bff; border-radius: 5px; transition: all 0.3s ease;"
+										onmouseover="this.style.backgroundColor='#007bff'; this.style.color='#ffffff';"
+										onmouseout="this.style.backgroundColor='#ffffff'; this.style.color='#007bff';"
+										onclick="cambiarPagina(-1)">&lt; Anterior</button>
+									<span id="paginaActual" class="align-self-center"> <b>1</b>
+									</span>
+									<button id="botonSiguiente" class=""
+										style="font-size: 1.3vw; padding: 0.3vw 1vw; border: 1px solid #007bff; background-color: #ffffff; color: #007bff; border-radius: 5px; transition: all 0.3s ease;"
+										onmouseover="this.style.backgroundColor='#007bff'; this.style.color='#ffffff';"
+										onmouseout="this.style.backgroundColor='#ffffff'; this.style.color='#007bff';"
+										onclick="cambiarPagina(1)">Siguiente &gt;</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</main>
 
 
 	<footer>
@@ -525,15 +665,158 @@ Avenida mujer trabajadora
 	</footer>
 
 
+<script>
+
+const clubId = <%=clubId%>;
+
+
+
+window.onload = function () {
+    setTimeout(function () {
+        const mensajes = document.querySelectorAll('.fade-message');
+        mensajes.forEach(function (el) {
+            el.style.transition = "opacity 1s ease-out";
+            el.style.opacity = '0';
+            setTimeout(() => el.remove(), 1000); // elimina el elemento del DOM tras ocultarlo
+        });
+    }, 2000); // Espera 4 segundos antes de ocultarlo
+};
+
+document
+		.getElementById("botonTorneo")
+		.addEventListener(
+				"click",
+				function() {
+					// Oculta los botones principales
+					document.getElementById("botonLiga").parentElement.style.display = "none";
+					document.getElementById("botonTorneo").parentElement.style.display = "none";
+
+					// Muestra el contenedor del torneo correctamente
+					document.getElementById("torneoContainer").style.display = "block";
+				});
+
+
+
+// Mostrar u ocultar filtros
+document.getElementById("mostrarFiltrosTorneo").addEventListener(
+		"click", function() {
+			const filtros = document.getElementById("filtrosTorneo");
+			if (filtros.style.display === "none") {
+				filtros.style.display = "flex";
+				this.textContent = "Ocultar Filtros";
+			} else {
+				filtros.style.display = "none";
+				this.textContent = "Mostrar Filtros";
+			}
+		});
+
+
+// Función para filtrar la tabla
+function filtrarTabla(idFiltro, columnaIndex) {
+const valorFiltro = document.getElementById(idFiltro).value.toLowerCase();
+const filas = document.querySelectorAll(".tablaDatos tbody tr");
+
+filas.forEach(function(fila) {
+const celdas = fila.getElementsByTagName("td");
+const textoCelda = celdas[columnaIndex].textContent.toLowerCase();
+if (textoCelda.includes(valorFiltro)) {
+    fila.style.display = "";
+} else {
+    fila.style.display = "none";
+}
+});
+}
+
+//Agregar evento de filtro para cada campo
+document.getElementById("buscarNombre").addEventListener("input", function() {
+filtrarTabla("buscarNombre", 0); // Filtro por columna ID (columna 0)
+});
+
+document.getElementById("buscarModalidad").addEventListener("input", function() {
+filtrarTabla("buscarModalidad", 1); // Filtro por columna Modalidad (columna 1)
+});
+document.getElementById("buscarFechaInicio").addEventListener("input", function() {
+filtrarTabla("buscarFechaInicio", 2); // Filtro por columna Modalidad (columna 1)
+});
 
 
 
 
-	<script>
-		
-	</script>
+
+// Volver a la vista anterior
+document
+		.getElementById("volverAContenidoC")
+		.addEventListener(
+				"click",
+				function() {
+					// Aquí puedes ocultar el contenedor actual y volver a mostrar los botones principales
+					document.getElementById("torneoContainer").style.display = "none";
+
+					// Si usaste display: none para los botones principales, vuelve a mostrarlos:
+					document.getElementById("botonTorneo").parentElement.style.display = "flex";
+					document.getElementById("botonLiga").parentElement.style.display = "flex";
+				});
 
 
+$(document).ready(function() {
+	   
+    cargarTorneos(); 
+});
+
+function cargarTorneos() {
+    $.ajax({
+        url: 'torneo',
+        method: 'GET',
+        dataType: 'json',
+        xhrFields: {
+            withCredentials: true 
+        }, 
+       
+        success: function(data) {
+        	 console.log("Datos recibidos:", data);  // Verifica lo que devuelve el servidor
+
+        	    if (data && Array.isArray(data) && data.length > 0) {
+        	        $('#tablaCuerpoTorneo').empty();  // Limpiar la tabla
+
+        	        $.each(data, function(index, torneo) {
+        	        	var fechaInicio = new Date(torneo.fechaInicioTorneo);
+        	        	var fechaFin = new Date(torneo.fechaFinTorneo);
+
+        	        	if (isNaN(fechaInicio)) {
+        	        	    console.error('Fecha de inicio inválida:', torneo.fechaInicioTorneo);
+        	        	}
+
+        	        	if (isNaN(fechaFin)) {
+        	        	    console.error('Fecha de fin inválida:', torneo.fechaFinTorneo);
+        	        	}
+
+
+        	            var fechaInicioFormateada = (fechaInicio.getDate() < 10 ? '0' : '') + fechaInicio.getDate() + '/' + 
+        	                (fechaInicio.getMonth() + 1 < 10 ? '0' : '') + (fechaInicio.getMonth() + 1) + '/' + fechaInicio.getFullYear();
+        	            var fechaFinFormateada = (fechaFin.getDate() < 10 ? '0' : '') + fechaFin.getDate() + '/' + 
+        	                (fechaFin.getMonth() + 1 < 10 ? '0' : '') + (fechaFin.getMonth() + 1) + '/' + fechaFin.getFullYear();
+
+        	            var row = '<tr id="fila-' + torneo.idTorneo + '" style="font-size: 1vw; text-align: center; vertical-align: middle;">' +
+        	                '<td>' + torneo.nombreTorneo + '</td>' +
+        	                '<td>' + torneo.modalidad + '</td>' +
+        	                '<td>' + fechaInicioFormateada + '</td>' +
+        	                '<td>' + fechaFinFormateada + '</td>' 
+        	                + '<td style="border:0.5px solid #0d6ba1; text-align: center; color: green;">' +
+        	                '<i class="fas fa-right-to-bracket icono-unirse" style="font-size: 1.5vw; cursor: pointer;" title="Unirse al torneo"></i>' +
+        	                '</td></tr>';
+
+        	            $('#tablaCuerpoTorneo').append(row);
+        	        });
+        	    } else {
+        	        console.log("No hay torneos para mostrar");
+        	        $('#tablaCuerpoTorneo').html('<tr><td colspan="5">No hay torneos disponibles</td></tr>');
+        	    }
+        }
+    });
+}
+
+
+</script>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

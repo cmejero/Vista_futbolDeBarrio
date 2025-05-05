@@ -1,5 +1,11 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+Long instalacionId = (Long) session.getAttribute("instalacionId");
+%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +19,8 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
 	rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 <title>FUTBOL DE BARRIO</title>
 </head>
@@ -149,13 +157,14 @@
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="Instalacion.jsp" class="letraCabeceraAbajo" style="color: #d4af37;">INICIO</a>
+											<a href="Instalacion.jsp" class="letraCabeceraAbajo"">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo">RESERVAS</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo">EVENTOS</a>
+											<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo"
+												style="color: #d4af37;">EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -339,9 +348,208 @@
 		</div>
 	</header>
 
-	<main style="background-color: rgba(223, 234, 213, 0.5);"></main>
+	<main style="background-color: rgba(223, 234, 213, 0.5);">
+		<div class="container-fluid mt-3 pt-1">
+			<div class="row">
+				<!-- CONTENIDO -->
+				<div class="col-md-12 col-sm-12 col-12">
+				
+
+					<!-- CONTENEDOR TORNEOS -->
+					<div class="container-fluid " id="marcadorContainer">
+						<div class="row">
+							<div class="col-md-12 col-sm-12 col-12 mx-auto">
+								<div class="row">
+
+									<div class="col-md-2 col-sm-2 col-2 mx-auto"></div>
+									<div class="col-md-3 col-sm-3 col-3 mx-auto "
+										style="margin-bottom: 16vh; margin-top: 20vh; display: flex; justify-content: flex-end; align-items: center;">
+										<button id="botonLiga" class="botonMarcadores p-4">
+											<img class="imagenMarcadores" src="Imagenes/Liga.JPG"
+												alt="Imagen la liga"> LIGA
+										</button>
+									</div>
+
+									<!-- Espacio vacío entre los dos botones -->
+									<div class="col-md-1 col-sm-1 col-1 mx-auto "></div>
+
+									<!-- Columna para el botón de JUGADORES alineado a la derecha -->
+									<div class="col-md-3 col-sm-3 col-3"
+										style="margin-bottom: 16vh; margin-top: 20vh; display: flex; justify-content: flex-start; align-items: center;">
+										<button class="botonMarcadores p-4" id="botonTorneo">
+											<img class="imagenMarcadores" src="Imagenes/copa.JPG"
+												alt="Imagen torneo"> TORNEO
+										</button>
+									</div>
+									<div class="col-md-2 col-sm-2 col-2 mx-auto "></div>
+								</div>
+							</div>
+						</div>
+					</div>
 
 
+
+
+
+
+					<!-- EVENTO Torneo -->
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-md-12 col-sm-12 col-12 mx-auto"
+								id="torneoContainer" style="display: none;">
+								<!-- Botones de control -->
+								<div
+									class="d-flex justify-content-between align-items-center mb-3">
+									<div class="col-md-11 col-sm-12 col-12 mx-auto   m-1"
+										style="display: flex; align-items: center; gap: 10px;">
+										<button id="volverAContenidoC" class=" mr-auto botonFiltrar"
+											style="background-color: red">Volver</button>
+										<button id="mostrarFiltrosTorneo"
+											class=" mr-auto botonFiltrar" style="background-color: black">Mostrar
+											Filtros</button>
+
+										<button id="crearEventoTorneo" class=" mr-auto botonFiltrar"
+											style="background-color: green">Crear Torneo</button>
+
+									</div>
+								</div>
+
+								<!-- Formulario crear torneo -->
+								<div class="container-fluid">
+									<div class="row  mb-1" id="crearTorneoContainer"
+										style="display: none;">
+										<div class=" col-md-12 col-sm-12 col-12  mx-auto ">
+
+											<div class="registrarFormulario ">
+												<form action="torneo" method="POST"
+													enctype="multipart/form-data">
+													<input type="hidden" name="accion" value="aniadir">
+													<input type="hidden" name="instalacionId"
+														value="${sessionScope.instalacionId}" />
+
+													<table class="tablaFormulario "
+														style="width: 50vw; background-color: #dedede; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
+
+														<tbody>
+															<tr>
+
+																<td><label for="nombreTorneo"
+																	class="formularioLabel ">Nombre Torneo: </label> <input
+																	type="text"
+																	style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+																	class="form-control" id="nombreTorneo"
+																	name="nombreTorneo" required></td>
+
+																<td><label for="modalidad" class="formularioLabel">
+																		Modalidad: </label> <select class="form-select" id="modalidad"
+																	name="modalidad" required
+																	style="font-size: 1vw; border: 1px solid #818181;">
+																		<option style="font-size: 1.2vw" value="Futbol5">Fútbol
+																			5</option>
+																		<option style="font-size: 1.2vw" value="Futbol7">Fútbol
+																			7</option>
+																		<option style="font-size: 1.2vw" value="Futbol11">Fútbol
+																			11</option>
+																</select></td>
+
+
+															</tr>
+															<tr>
+																<td><label for="fechaInicioTorneo"
+																	class="formularioLabel ">Fecha inicio: </label> <input
+																	type="date"
+																	style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+																	class="form-control" id="fechaInicioTorneo"
+																	name="fechaInicioTorneo" required></td>
+																<td><label for="descripcionUsuario"
+																	class="formularioLabel ">Descripción torneo</label> <textarea
+																		class="form-control"
+																		style="font-size: 1vw; border: 1px solid #818181;"
+																		id="descripcionUsuario" name="descripcionUsuario"
+																		rows="3"></textarea></td>
+															</tr>
+
+														</tbody>
+													</table>
+
+													<div class="text-center mt-4  mb-4">
+														<button type="submit" class=" botonRegistrarCabecera">
+															<i>Nuevo torneo</i>
+														</button>
+
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+								<!-- Filtros de búsqueda -->
+								<div id="filtrosTorneo" class="filaFiltrar mb-4"
+									style="display: none;">
+
+									<div class="filtroItem">
+										<label for="buscarNombre" class="labelFiltrar"><b>-Buscar
+												por Nombre:</b></label> <input type="text" id="buscarNombre"
+											class="inputFiltrar" placeholder="Buscar por Nombre">
+									</div>
+
+									<div class="filtroItem">
+										<label for="buscarModalidad" class="labelFiltrar"><b>-Buscar
+												por Modalidad:</b></label> <input type="text" id="buscarModalidad"
+											class="inputFiltrar" placeholder="Buscar por Modalidad">
+									</div>
+									<div class="filtroItem">
+										<label for="buscarFechaInicio" class="labelFiltrar"><b>-Buscar
+												por fecha inicio:</b></label> <input type="text" id="buscarFechaInicio"
+											class="inputFiltrar" placeholder="Buscar por Fecha Inicio">
+									</div>
+								</div>
+
+								<!-- Tabla de torneo -->
+								<table class="tablaDatos w-100 mb-3 mx-auto ">
+									<thead style="background-color: #c33214;">
+										<tr>
+											<th style="border: 1.8px solid #8a210b; width: 35%">NOMBRE
+												TORNEO</th>
+											<th style="border: 1.8px solid #8a210b; width: 23%">MODALIDAD</th>
+											<th style="border: 1.8px solid #8a210b; width: 21%">FECHA
+												INICIO</th>
+											<th style="border: 1.8px solid #8a210b; width: 21%">FECHA
+												FIN</th>
+											<th style="border: 1.8px solid #8a210b; width: 10%">OPCIONES</th>
+										</tr>
+									</thead>
+									<tbody id="tablaCuerpoTorneo">
+									</tbody>
+								</table>
+
+								<!-- Paginación -->
+								<div
+									class="contenedorPaginacion mb-4 d-flex justify-content-center">
+									<button id="botonAnterior" class=""
+										style="font-size: 1.3vw; padding: 0.3vw 1vw; border: 1px solid #007bff; background-color: #ffffff; color: #007bff; border-radius: 5px; transition: all 0.3s ease;"
+										onmouseover="this.style.backgroundColor='#007bff'; this.style.color='#ffffff';"
+										onmouseout="this.style.backgroundColor='#ffffff'; this.style.color='#007bff';"
+										onclick="cambiarPagina(-1)">&lt; Anterior</button>
+									<span id="paginaActual" class="align-self-center"> <b>1</b>
+									</span>
+									<button id="botonSiguiente" class=""
+										style="font-size: 1.3vw; padding: 0.3vw 1vw; border: 1px solid #007bff; background-color: #ffffff; color: #007bff; border-radius: 5px; transition: all 0.3s ease;"
+										onmouseover="this.style.backgroundColor='#007bff'; this.style.color='#ffffff';"
+										onmouseout="this.style.backgroundColor='#ffffff'; this.style.color='#007bff';"
+										onclick="cambiarPagina(1)">Siguiente &gt;</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</main>
 	<footer>
 
 		<div class="container-fluid ">
@@ -530,8 +738,191 @@ Avenida mujer trabajadora
 
 
 	<script>
+	
+	 const instalacionId = <%=instalacionId%>;
+	 console.log("instalacionId que se envía:", instalacionId);
+	
+	 window.onload = function () {
+	        setTimeout(function () {
+	            const mensajes = document.querySelectorAll('.fade-message');
+	            mensajes.forEach(function (el) {
+	                el.style.transition = "opacity 1s ease-out";
+	                el.style.opacity = '0';
+	                setTimeout(() => el.remove(), 1000); // elimina el elemento del DOM tras ocultarlo
+	            });
+	        }, 2000); // Espera 4 segundos antes de ocultarlo
+	    };
+	    
+		document
+				.getElementById("botonTorneo")
+				.addEventListener(
+						"click",
+						function() {
+							// Oculta los botones principales
+							document.getElementById("botonLiga").parentElement.style.display = "none";
+							document.getElementById("botonTorneo").parentElement.style.display = "none";
+
+							// Muestra el contenedor del torneo correctamente
+							document.getElementById("torneoContainer").style.display = "block";
+						});
+
 		
+
+		// Mostrar u ocultar filtros
+		document.getElementById("mostrarFiltrosTorneo").addEventListener(
+				"click", function() {
+					const filtros = document.getElementById("filtrosTorneo");
+					if (filtros.style.display === "none") {
+						filtros.style.display = "flex";
+						this.textContent = "Ocultar Filtros";
+					} else {
+						filtros.style.display = "none";
+						this.textContent = "Mostrar Filtros";
+					}
+				});
+		
+		
+		// Función para filtrar la tabla
+		function filtrarTabla(idFiltro, columnaIndex) {
+    const valorFiltro = document.getElementById(idFiltro).value.toLowerCase();
+    const filas = document.querySelectorAll(".tablaDatos tbody tr");
+
+    filas.forEach(function(fila) {
+        const celdas = fila.getElementsByTagName("td");
+        const textoCelda = celdas[columnaIndex].textContent.toLowerCase();
+        if (textoCelda.includes(valorFiltro)) {
+            fila.style.display = "";
+        } else {
+            fila.style.display = "none";
+        }
+    });
+}
+
+// Agregar evento de filtro para cada campo
+document.getElementById("buscarNombre").addEventListener("input", function() {
+    filtrarTabla("buscarNombre", 0); // Filtro por columna ID (columna 0)
+});
+
+document.getElementById("buscarModalidad").addEventListener("input", function() {
+    filtrarTabla("buscarModalidad", 1); // Filtro por columna Modalidad (columna 1)
+});
+document.getElementById("buscarFechaInicio").addEventListener("input", function() {
+    filtrarTabla("buscarFechaInicio", 2); // Filtro por columna Modalidad (columna 1)
+});
+		
+		
+
+		document.addEventListener("DOMContentLoaded", function () {
+	        const btnCrear = document.getElementById("crearEventoTorneo");
+	        const contenedorFormulario = document.getElementById("crearTorneoContainer");
+
+	        btnCrear.addEventListener("click", function () {
+	            if (contenedorFormulario.style.display === "none" || contenedorFormulario.style.display === "") {
+	                contenedorFormulario.style.display = "block";
+	            } else {
+	                contenedorFormulario.style.display = "none";
+	            }
+	        });
+	    });
+
+		// Volver a la vista anterior
+		document
+				.getElementById("volverAContenidoC")
+				.addEventListener(
+						"click",
+						function() {
+							// Aquí puedes ocultar el contenedor actual y volver a mostrar los botones principales
+							document.getElementById("torneoContainer").style.display = "none";
+
+							// Si usaste display: none para los botones principales, vuelve a mostrarlos:
+							document.getElementById("botonTorneo").parentElement.style.display = "flex";
+							document.getElementById("botonLiga").parentElement.style.display = "flex";
+						});
+		$(document).ready(function() {
+		   
+		    cargarTorneos(); 
+		});
+		function cargarTorneos() {
+		    $.ajax({
+		        url: 'torneo',
+		        method: 'GET',
+		        dataType: 'json',
+		        data: {
+		        	 
+		             instalacionId: instalacionId 
+		        },
+		        success: function(data) {
+		        	 console.log("Datos recibidos:", data);  // Verifica lo que devuelve el servidor
+
+		        	    if (data && Array.isArray(data) && data.length > 0) {
+		        	        $('#tablaCuerpoTorneo').empty();  // Limpiar la tabla
+
+		        	        $.each(data, function(index, torneo) {
+		        	        	var fechaInicio = new Date(torneo.fechaInicioTorneo);
+		        	        	var fechaFin = new Date(torneo.fechaFinTorneo);
+
+		        	        	if (isNaN(fechaInicio)) {
+		        	        	    console.error('Fecha de inicio inválida:', torneo.fechaInicioTorneo);
+		        	        	}
+
+		        	        	if (isNaN(fechaFin)) {
+		        	        	    console.error('Fecha de fin inválida:', torneo.fechaFinTorneo);
+		        	        	}
+
+
+		        	            var fechaInicioFormateada = (fechaInicio.getDate() < 10 ? '0' : '') + fechaInicio.getDate() + '/' + 
+		        	                (fechaInicio.getMonth() + 1 < 10 ? '0' : '') + (fechaInicio.getMonth() + 1) + '/' + fechaInicio.getFullYear();
+		        	            var fechaFinFormateada = (fechaFin.getDate() < 10 ? '0' : '') + fechaFin.getDate() + '/' + 
+		        	                (fechaFin.getMonth() + 1 < 10 ? '0' : '') + (fechaFin.getMonth() + 1) + '/' + fechaFin.getFullYear();
+
+		        	            var row = '<tr id="fila-' + torneo.idTorneo + '" style="font-size: 1vw; text-align: center; vertical-align: middle;">' +
+		        	                '<td>' + torneo.nombreTorneo + '</td>' +
+		        	                '<td>' + torneo.modalidad + '</td>' +
+		        	                '<td>' + fechaInicioFormateada + '</td>' +
+		        	                '<td>' + fechaFinFormateada + '</td>' +
+		        	                '<td>' +
+		        	                '<div style="display: flex; justify-content: center; gap: 1vw;">' +
+		        	                '<button class="btnEliminar" data-id="' + torneo.idTorneo + '" ' +
+		        	                'style="border: 1px solid red; height: 1.8vw; width: 1.8vw;">' +
+		        	                '<i class="bi bi-trash3-fill" style="color: #c33214; font-size: 1vw;"></i></button>' +
+		        	                '<button class="btnEditar" data-usuario=\'' + JSON.stringify(torneo) + '\' ' +
+		        	                'style="border: 1px solid orange; height: 1.8vw; width: 1.8vw;">' +
+		        	                '<i class="bi bi-pencil-square" style="font-size: 1vw; color: orange;"></i></button>' +
+		        	                '</div></td></tr>';
+
+		        	            $('#tablaCuerpoTorneo').append(row);
+		        	        });
+		        	    } else {
+		        	        console.log("No hay torneos para mostrar");
+		        	        $('#tablaCuerpoTorneo').html('<tr><td colspan="5">No hay torneos disponibles</td></tr>');
+		        	    }
+		        }
+		    });
+		}
+		
+		// Delegación de evento para eliminar
+		$('#tablaCuerpoTorneo').on('click', '.btnEliminar', function () {
+			var idTorneo = $(this).data('id');
+			if (confirm("¿Seguro que deseas eliminar este torneo?")) {
+				$.ajax({
+					url: 'torneo?idTorneo=' + idTorneo,
+					method: 'DELETE',
+					success: function (response) {
+						console.log(response);
+						$('#fila-' + idTorneo).remove();
+					},
+					error: function (xhr, status, error) {
+						console.error('Error al eliminar torneo:', error);
+					}
+				});
+			}
+		});
+
+
+
 	</script>
+
+
 
 
 

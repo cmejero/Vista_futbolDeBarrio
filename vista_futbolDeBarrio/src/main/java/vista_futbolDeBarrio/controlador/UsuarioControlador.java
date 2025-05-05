@@ -23,6 +23,9 @@ import vista_futbolDeBarrio.log.Log;
 
 @WebServlet("/usuario")
 @MultipartConfig
+/**
+ * Clase controlador que se encarga de los metodos CRUD de la tabla usuario
+ */
 public class UsuarioControlador extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -34,6 +37,9 @@ public class UsuarioControlador extends HttpServlet {
     }
 
     @Override
+    /**
+     * Metodo POST que se encarga de guardar o modificar un usuario
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -56,6 +62,13 @@ public class UsuarioControlador extends HttpServlet {
         }
     }
 
+    /**
+     * Metodo que se encarga de de crear un usuario
+     * @param request
+     * @param response
+     * @throws IOException
+     * @throws ServletException
+     */
     private void crearUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         ServletContext context = request.getServletContext();
 
@@ -106,6 +119,13 @@ public class UsuarioControlador extends HttpServlet {
         response.getWriter().write("Usuario creado correctamente.");
     }
 
+    /**
+     * Metodo que se encarga de modificar un usuario
+     * @param request
+     * @param response
+     * @throws IOException
+     * @throws ServletException
+     */
     private void modificarUsuario(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
@@ -166,20 +186,28 @@ public class UsuarioControlador extends HttpServlet {
     }
 
     @Override
+    /**
+     * Metodo GET que se encarga de mostrar una lista de todos los usuarios
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             HttpSession session = request.getSession(false);
             String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
 
-            if (!"administrador".equals(tipoUsuario)) {
+            // Verificar si hay sesión activa y si el usuario tiene algún tipo definido
+            if (tipoUsuario == null || tipoUsuario.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                response.getWriter().write("Acceso denegado. Solo los administradores pueden ver la lista de usuarios.");
-                Log.ficheroLog("Intento de acceso no autorizado a GET /usuario");
+                response.getWriter().write("Acceso denegado. Debe iniciar sesión para acceder.");
+                Log.ficheroLog("Intento de acceso no autorizado sin sesión a GET /usuario");
                 return;
             }
 
+            // Puedes agregar validaciones específicas aquí si en el futuro quieres restringir más
+            // Por ejemplo: solo ciertos tipos de usuarios
+
             ArrayList<UsuarioDto> listaUsuario = servicio.listausuario();
+
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
 
@@ -193,7 +221,11 @@ public class UsuarioControlador extends HttpServlet {
         }
     }
 
+
     @Override
+    /**
+     * Metodo DELETE que se encarga de eliminar un usuario
+     */
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {

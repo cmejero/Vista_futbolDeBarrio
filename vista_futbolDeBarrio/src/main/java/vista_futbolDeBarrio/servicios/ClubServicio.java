@@ -1,8 +1,6 @@
 package vista_futbolDeBarrio.servicios;
 
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -62,13 +60,12 @@ public class ClubServicio {
         }
     }
 
-    // Obtener la lista de clubes
     public ArrayList<ClubDto> listaClub() {
-        ArrayList<ClubDto> lista = new ArrayList<ClubDto>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        ArrayList<ClubDto> lista = new ArrayList<>();
+        StringBuilder response = new StringBuilder();
 
         try {
-            String urlApi = "http://localhost:9527/api/club"; // Cambia esta URL según tu configuración
+            String urlApi = "http://localhost:9527/api/mostrarClubes";
             URL url = new URL(urlApi);
 
             HttpURLConnection conex = (HttpURLConnection) url.openConnection();
@@ -78,33 +75,22 @@ public class ClubServicio {
             int responseCode = conex.getResponseCode();
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                // Leer la respuesta
                 BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
                 String inputLine;
-                StringBuilder response = new StringBuilder();
-
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
                 in.close();
-
-                // Procesar la respuesta JSON
-                JSONArray jsonlista = new JSONArray(response.toString());
-                System.out.println(jsonlista);
-
-                for (int i = 0; i < jsonlista.length(); i++) {
-                    JSONObject jsonClub = jsonlista.getJSONObject(i);
+                
+                JSONArray jsonLista = new JSONArray(response.toString());
+                for (int i = 0; i < jsonLista.length(); i++) {
+                    JSONObject jsonClub = jsonLista.getJSONObject(i);
                     ClubDto club = new ClubDto();
 
                     club.setIdClub(jsonClub.getLong("idClub"));
                     club.setNombreClub(jsonClub.getString("nombreClub"));
                     club.setAbreviaturaClub(jsonClub.getString("abreviaturaClub"));
                     club.setDescripcionClub(jsonClub.getString("descripcionClub"));
-                    String fechaCreacionStr = jsonClub.getString("fechaCreacionClub");
-                    if (fechaCreacionStr != null && !fechaCreacionStr.isEmpty()) {
-                        LocalDate fechaCreacion = LocalDate.parse(fechaCreacionStr, formatter);
-                        club.setFechaCreacionClub(fechaCreacion);
-                    }
                     club.setFechaFundacionClub(jsonClub.getString("fechaFundacionClub"));
                     club.setLocalidadClub(jsonClub.getString("localidadClub"));
                     club.setPaisClub(jsonClub.getString("paisClub"));
@@ -112,17 +98,18 @@ public class ClubServicio {
                     club.setPasswordClub(jsonClub.getString("passwordClub"));
                     club.setTelefonoClub(jsonClub.getString("telefonoClub"));
 
-                    // Manejar la imagen del logo
-                    String logoBase64 = jsonClub.getString("logoClub");
-                    if (logoBase64 != null && !logoBase64.isEmpty()) {
-                        String fileName = "club_" + club.getIdClub() + ".jpg"; // Nombre del archivo
-                        byte[] imageBytes = Base64.getDecoder().decode(logoBase64);
-                        try (FileOutputStream fos = new FileOutputStream(fileName)) {
-                            fos.write(imageBytes);
-                            System.out.println("Logo guardado como: " + fileName);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            System.out.println("Error al guardar la imagen: " + e.getMessage());
+                    // Asignar fecha de creación como String (ya viene como String en la API)
+                    String fechaCreacionStr = jsonClub.optString("fechaCreacionClub");
+                    if (fechaCreacionStr != null && !fechaCreacionStr.isEmpty()) {
+                        club.setFechaCreacionClub(fechaCreacionStr);  // Simplemente asignamos el valor como String
+                    }
+
+                    // Procesar logo si existe
+                    if (jsonClub.has("logoClub") && !jsonClub.isNull("logoClub")) {
+                        String logoBase64 = jsonClub.getString("logoClub");
+                        if (logoBase64 != null && !logoBase64.isEmpty()) {
+                            byte[] imageBytes = Base64.getDecoder().decode(logoBase64);
+                            club.setLogoClub(imageBytes); // Asegúrate que ClubDto tenga este campo
                         }
                     }
 
@@ -133,13 +120,14 @@ public class ClubServicio {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("ERROR- ServiciosClub-ListaClub: " + e.getMessage());
+            System.out.println("ERROR - ServiciosClub - listaClub: " + e.getMessage());
         }
 
-        // Imprimir la lista de clubes
         System.out.println(lista);
         return lista;
     }
+
+
 
     // Modificar un club
     public boolean modificarClub(String idClub, ClubDto club) {

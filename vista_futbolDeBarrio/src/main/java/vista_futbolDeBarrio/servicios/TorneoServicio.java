@@ -5,14 +5,16 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import vista_futbolDeBarrio.dtos.TorneoDto;
-import vista_futbolDeBarrio.enums.Modalidad;
 
 public class TorneoServicio {
 
@@ -57,57 +59,37 @@ public class TorneoServicio {
         }
     }
 
-    // Método para obtener la lista de torneos
-    public ArrayList<TorneoDto> listaTorneos() {
-        ArrayList<TorneoDto> lista = new ArrayList<>();
+    private static final String API_URL_ID = "http://localhost:9527/api/torneo";
+    private static final String API_URL = "http://localhost:9527/api/mostrarTorneo";
 
-        try {
-            // Definir la URL de la API para obtener los torneos
-            String urlApi = "http://localhost:9527/api/torneos";
-            URL url = new URL(urlApi);
+    public List<TorneoDto> obtenerTorneosPorInstalacion(Long instalacionId) throws Exception {
+        String endpoint = API_URL_ID + "?instalacionId=" + instalacionId;
+        return hacerLlamadaApi(endpoint);
+    }
 
-            // Abrir la conexión HTTP
-            HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-            conex.setRequestMethod("GET");
-            conex.setRequestProperty("Accept", "application/json");
+    public List<TorneoDto> obtenerTodosLosTorneos() throws Exception {
+        return hacerLlamadaApi(API_URL);
+    }
 
-            // Verificar la respuesta del servidor
-            int responseCode = conex.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                // Leer la respuesta
-                BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
-                String inputLine;
-                StringBuilder response = new StringBuilder();
+    private List<TorneoDto> hacerLlamadaApi(String urlStr) throws Exception {
+        URL url = new URL(urlStr);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
 
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
-
-                // Procesar la respuesta JSON
-                JSONArray jsonLista = new JSONArray(response.toString());
-                for (int i = 0; i < jsonLista.length(); i++) {
-                    JSONObject jsonTorneo = jsonLista.getJSONObject(i);
-                    TorneoDto torneo = new TorneoDto();
-                    torneo.setIdTorneo(jsonTorneo.getLong("idTorneo"));
-                    torneo.setNombreTorneo(jsonTorneo.getString("nombreTorneo"));
-                    torneo.setFechaInicioTorneo(LocalDate.parse(jsonTorneo.getString("fechaInicioTorneo")));
-                    torneo.setFechaFinTorneo(LocalDate.parse(jsonTorneo.getString("fechaFinTorneo")));
-                    torneo.setDescripcionTorneo(jsonTorneo.getString("descripcionTorneo"));
-                    torneo.setModalidad(Modalidad.valueOf(jsonTorneo.getString("modalidad").toUpperCase()));
-                    torneo.setInstalacionId(jsonTorneo.getLong("instalacionId"));
-
-                    lista.add(torneo);
-                }
-            } else {
-                System.out.println("Error al obtener torneos: " + responseCode);
+        int status = conn.getResponseCode();
+        if (status == 200) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder respuesta = new StringBuilder();
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                respuesta.append(inputLine);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("ERROR- [TorneoServicio] listaTorneos: " + e.getMessage());
-        }
+            in.close();
 
-        return lista;
+            return new Gson().fromJson(respuesta.toString(), new TypeToken<List<TorneoDto>>(){}.getType());
+        } else {
+            throw new RuntimeException("Error en la llamada a la API: código " + status);
+        }
     }
 
     // Método para modificar un torneo existente
@@ -150,4 +132,37 @@ public class TorneoServicio {
             return false; // Error
         }
     }
+    
+    public boolean eliminarTorneo(Long idTorneo) {
+        try {
+       
+            
+            // Construir la URL para la solicitud DELETE
+            String urlApi = "http://localhost:9527/api/eliminarTorneo/" + idTorneo;  // Ajustar URL según tu API
+            URL url = new URL(urlApi);
+
+            // Abrir la conexión HTTP
+            HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+            conex.setRequestMethod("DELETE");
+            conex.setRequestProperty("Accept", "application/json");
+
+            // Obtener el código de respuesta
+            int responseCode = conex.getResponseCode();
+
+            // Verificar si la eliminación fue exitosa
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                System.out.println("Torneo eliminado correctamente.");
+                return true;
+            } else {
+                System.out.println("Error al eliminar torneo: " + responseCode);
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("ERROR- [Servicio.eliminarTorneo]: " + e.getMessage());
+            return false;
+        }
+    }
+
+
 }

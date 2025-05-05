@@ -8,11 +8,11 @@ public class ClubDto {
 	private String nombreClub;
 	private String abreviaturaClub;
 	private String descripcionClub;
-	private LocalDate fechaCreacionClub;
+	private String fechaCreacionClub;
 	private String fechaFundacionClub;
 	private String localidadClub;
 	private String paisClub;
-	private String logoClub;
+	private byte[] logoClub;
 	private String emailClub;
 	private String passwordClub;
 	private String telefonoClub;
@@ -50,11 +50,11 @@ public class ClubDto {
 		this.descripcionClub = descripcionClub;
 	}
 
-	public LocalDate getFechaCreacionClub() {
+	public String getFechaCreacionClub() {
 		return fechaCreacionClub;
 	}
 
-	public void setFechaCreacionClub(LocalDate fechaCreacionClub) {
+	public void setFechaCreacionClub(String fechaCreacionClub) {
 		this.fechaCreacionClub = fechaCreacionClub;
 	}
 
@@ -82,11 +82,11 @@ public class ClubDto {
 		this.paisClub = paisClub;
 	}
 
-	public String getLogoClub() {
+	public byte[] getLogoClub() {
 		return logoClub;
 	}
 
-	public void setLogoClub(String logoClub) {
+	public void setLogoClub(byte[] logoClub) {
 		this.logoClub = logoClub;
 	}
 

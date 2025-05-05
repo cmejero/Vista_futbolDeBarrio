@@ -35,8 +35,10 @@ public class AuthFilter implements Filter {
         if (requestedURI.contains("InicioSesion.jsp") ||
             requestedURI.contains("Registrar.jsp") ||
             requestedURI.contains("Index.jsp") ||
+            requestedURI.contains("PlantillaClub.jsp") ||
             requestedURI.contains("/usuario") ||
             requestedURI.contains("/club") ||
+            requestedURI.contains("/torneo") ||
             requestedURI.contains("/instalacion") ||
             requestedURI.contains("/Css") ||
             requestedURI.contains("/Imagenes/") ||
@@ -51,6 +53,19 @@ public class AuthFilter implements Filter {
             httpResponse.sendRedirect("InicioSesion.jsp");
             return;
         }
+
+        // Permitir solicitudes DELETE a /torneo solo si es una instalación
+        if (httpRequest.getMethod().equals("DELETE") && requestedURI.contains("/torneo")) {
+            if ("instalacion".equals(tipoUsuario)) {
+                chain.doFilter(request, response);
+                return;
+            } else {
+                httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                httpResponse.getWriter().write("Solo las instalaciones pueden eliminar torneos.");
+                return;
+            }
+        }
+        
 
         // Autorización según tipo de usuario
         if (requestedURI.contains("Administrador.jsp")) {
@@ -71,11 +86,26 @@ public class AuthFilter implements Filter {
             } else {
                 httpResponse.sendRedirect("InicioSesion.jsp");
             }
-        } else if (requestedURI.contains("Instalacion.jsp")) {
-            if ("instalacion".equals(tipoUsuario) || "administrador".equals(tipoUsuario)) {
+        } else if (requestedURI.contains("EventoClub.jsp")) {
+            if ("club".equals(tipoUsuario) || "administrador".equals(tipoUsuario)) {
                 chain.doFilter(request, response);
             } else {
                 httpResponse.sendRedirect("InicioSesion.jsp");
+            }
+        
+        } else if (requestedURI.contains("Instalacion.jsp")) {
+            if ("instalacion".equals(tipoUsuario)) {
+                chain.doFilter(request, response);
+            } else {
+                httpResponse.sendRedirect("InicioSesion.jsp");
+            }
+
+            if (requestedURI.contains("EventoInstalacion.jsp")) {
+                if ("instalacion".equals(tipoUsuario)) {
+                    chain.doFilter(request, response);
+                } else {
+                    httpResponse.sendRedirect("InicioSesion.jsp");
+                }
             }
         } else {
             // Otros recursos
