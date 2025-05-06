@@ -48,11 +48,7 @@ public class AuthFilter implements Filter {
             return;
         }
 
-        // Usuario no autenticado
-        if (token == null || token.isEmpty()) {
-            httpResponse.sendRedirect("InicioSesion.jsp");
-            return;
-        }
+     
 
         // Permitir solicitudes DELETE a /torneo solo si es una instalación
         if (httpRequest.getMethod().equals("DELETE") && requestedURI.contains("/torneo")) {

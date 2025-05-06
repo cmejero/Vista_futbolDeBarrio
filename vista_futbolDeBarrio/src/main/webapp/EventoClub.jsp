@@ -176,7 +176,7 @@ Long clubId = (Long) session.getAttribute("clubId");
 									<div class="row">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">PLANTILLA</a>
+											<a href="PlantillaClub.jsp" class="letraCabeceraAbajo">PLANTILLA</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo">MARCADORES</a>
@@ -310,7 +310,7 @@ Long clubId = (Long) session.getAttribute("clubId");
 												style="color: white;">Alquileres </a></li>
 											<li><a class="dropdown-item " href="EventoClub.jsp"
 												style="color: #d4af37; ">Eventos </a></li>
-											<li><a class="dropdown-item " href="Club.jsp"
+											<li><a class="dropdown-item " href="PlantillaClub.jsp"
 												style="color: white;">Plantilla </a></li>
 											<li><a class="dropdown-item " href="Club.jsp"
 												style="color: white;">Marcadores </a></li>

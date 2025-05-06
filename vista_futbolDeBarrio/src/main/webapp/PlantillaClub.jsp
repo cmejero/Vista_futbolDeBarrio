@@ -6,7 +6,7 @@ if (tipoUsuario == null) {
 	tipoUsuario = "club";
 }
 %>
-	<%
+<%
 Long clubId = (Long) session.getAttribute("clubId");
 %>
 
@@ -23,8 +23,8 @@ Long clubId = (Long) session.getAttribute("clubId");
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
 	rel="stylesheet">
-	
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <title>FUTBOL DE BARRIO</title>
 </head>
@@ -369,7 +369,8 @@ Long clubId = (Long) session.getAttribute("clubId");
 				</div>
 
 				<!-- Filtros de búsqueda (inicialmente ocultos) -->
-				<div id="filtrosJugadores" class="filaFiltrar" style="background-color:black; display: none;">
+				<div id="filtrosJugadores" class="filaFiltrar"
+					style="background-color: black; display: none;">
 
 					<div class="filtroItem">
 						<input type="text" id="buscarPosicionJugador" class="inputFiltrar"
@@ -379,9 +380,10 @@ Long clubId = (Long) session.getAttribute("clubId");
 						<input type="text" id="buscarNombreJugador" class="inputFiltrar"
 							placeholder="Buscar por Nombre">
 					</div>
-
-					<input type="text" id="buscarVictoriasJugador" class="inputFiltrar"
-						placeholder="Buscar por Victorias">
+					<div class="filtroItem">
+						<input type="text" id="buscarAliasJugador" class="inputFiltrar"
+							placeholder="Buscar por Alias">
+					</div>
 				</div>
 
 				<!-- Tabla de jugadores -->
@@ -397,7 +399,7 @@ Long clubId = (Long) session.getAttribute("clubId");
 							<th style="border: 1.5px solid red; width: 5%">E</th>
 							<th style="border: 1.5px solid red; width: 5%">D</th>
 							<th style="border: 1.5px solid red; width: 10%">ELIMINAR</th>
-							
+
 
 						</tr>
 					</thead>
@@ -405,14 +407,6 @@ Long clubId = (Long) session.getAttribute("clubId");
 				</table>
 			</div>
 		</div>
-
-
-
-
-
-
-
-
 	</main>
 
 
@@ -604,8 +598,8 @@ Avenida mujer trabajadora
 	<script>
 	
 	   // Guardamos el tipo en sessionStorage para uso en JS
-    sessionStorage.setItem('tipoUsuario', '<%= tipoUsuario %>');
-    const clubId = <%= clubId != null ? clubId : "null" %>; // Si es null, asignamos "null" a la variable
+    sessionStorage.setItem('tipoUsuario', '<%=tipoUsuario%>');
+    const clubId = <%=clubId != null ? clubId : "null"%>; // Si es null, asignamos "null" a la variable
     console.log("Club: " + clubId);
 
     // Verificamos si el usuario es jugador
@@ -614,120 +608,126 @@ Avenida mujer trabajadora
         // Si no es jugador, lo redirigimos
         window.location.href = 'acceso_denegado.jsp';
     }
-    sessionStorage.setItem("clubId", "<%= clubId %>");
-    
-    
- // Función para mostrar u ocultar filtros
-	function toggleFiltros(filtros, boton) {
-		if (filtros.style.display === "none") {
-			filtros.style.display = "flex"; // Mostrar los filtros
-			boton.textContent = "Ocultar Filtros"; // Cambiar el texto del botón
-		} else {
-			filtros.style.display = "none"; // Ocultar los filtros
-			boton.textContent = "Mostrar Filtros"; // Cambiar el texto del botón
-		}
-	}
-	document.getElementById("mostrarFiltrosJugadores").addEventListener("click", function() {
-	    const filtros = document.getElementById("filtrosJugadores");
-	    toggleFiltros(filtros, this);
-	});
- 
- 
-    
-    $(document)
-	.ready(
-			function() {
-				$
-						.ajax({
-							url : 'usuario',
-							method : 'GET',
-							dataType : 'json',
-							success : function(data) {
-								console.log(data);
-								$('#tablaCuerpoJugador').empty(); // ID corregido
+    sessionStorage.setItem("clubId", "<%=clubId%>");
 
+
+		// Función para mostrar u ocultar filtros
+		function toggleFiltros(filtros, boton) {
+			if (filtros.style.display === "none") {
+				filtros.style.display = "flex"; // Mostrar los filtros
+				boton.textContent = "Ocultar Filtros"; // Cambiar el texto del botón
+			} else {
+				filtros.style.display = "none"; // Ocultar los filtros
+				boton.textContent = "Mostrar Filtros"; // Cambiar el texto del botón
+			}
+		}
+		document.getElementById("mostrarFiltrosJugadores")
+				.addEventListener(
+						"click",
+						function() {
+							const filtros = document
+									.getElementById("filtrosJugadores");
+							toggleFiltros(filtros, this);
+						});
+
+		$(document).ready(function() {
+			cargarPlantilla();
+		});
+
+		function cargarPlantilla() {
+			const clubId = sessionStorage.getItem("clubId");
+			$
+					.ajax({
+						url : 'http://localhost:9527/api/miembroClub/porClub/'
+								+ clubId,
+						method : 'GET',
+						dataType : 'json',
+						data : {
+							clubId : clubId
+						},
+						success : function(data) {
+							console.log("Datos recibidos:", data);
+							if (Array.isArray(data) && data.length > 0) {
+								$('#tablaCuerpoJugador').empty();
 								let contadorPosicion = 1;
 
 								$
 										.each(
 												data,
-												function(index,
-														usuario) {
-													var row = '<tr id="fila-' + usuario.idUsuario + '" style=" font-size: 1vw; text-align: center; vertical-align: middle;">'
+												function(index, miembroClub) {
+													console
+															.log(
+																	"Miembro recibido:",
+																	miembroClub); // Verifica la estructura del objeto
+
+													// Accede correctamente a las propiedades dentro de 'usuario'
+													var row = '<tr id="fila-' + miembroClub.usuarioId + '" style=" font-size: 1vw; text-align: center; vertical-align: middle;">'
 															+ '<td style="border:0.5px solid #8a210b;font-weight: bold; text-align: center;">'
-															+ contadorPosicion
+															+ contadorPosicion++
 															+ '</td>'
 															+ '<td style="border:0.5px solid #8a210b;text-align: center;">'
-															+ usuario.nombreCompletoUsuario
+															+ miembroClub.usuario.nombreCompletoUsuario // Accede correctamente
 															+ '</td>'
 															+ '<td style="border:0.5px solid #8a210b;text-align: center;">'
-															+ usuario.aliasUsuario
+															+ miembroClub.usuario.aliasUsuario // Accede correctamente
 															+ '</td>'
 															+ '<td style="border:0.5px solid #8a210b;text-align: center;">0</td>'
 															+ '<td style="border:0.5px solid #8a210b;text-align: center;">0</td>'
 															+ '<td style="border:0.5px solid #8a210b;text-align: center;">0</td>'
-															
 															+ '<td style="border:0.5px solid #8a210b;text-align: center;">0</td>'
 															+ '<td style="display: flex; justify-content: center; align-items: center; border:0.5px solid #8a210b;">'
-															+ '<button class="btnEliminar" data-id="' + usuario.idUsuario + '" '
-															+ 'style="border: 1px solid red; height: 1.8vw; width: 2.5vw; display: flex; align-items: center; justify-content: center;">'
-															+ '<i class="bi bi-trash3-fill" style="color: #c33214; font-size: 1.2vw;"></i>'
+															+ '<button class="btnEliminar" data-id="' + miembroClub.usuarioId + '" '
+	                        + 'style="border: 1px solid red; height: 1.8vw; width: 2.2vw; display: flex; align-items: center; justify-content: center;">'
+															+ '<i class="bi bi-trash3-fill icono-unirse" style="color: #c33214; font-size: 1.2vw;"></i>'
 															+ '</button></td>'
-
-															
 															+ '</tr>';
 
-													$(
-															'#tablaCuerpoJugador')
-															.append(
-																	row);
-													contadorPosicion++;
+													$('#tablaCuerpoJugador')
+															.append(row);
 												});
-							},
-							error : function(xhr, status, error) {
-								console
-										.error(
-												'Error en la solicitud AJAX:',
-												error);
+							} else {
+								console.log("No hay miembros disponibles");
+								$('#tablaCuerpoJugador')
+										.html(
+												'<tr><td colspan="8">No hay miembros disponibles</td></tr>');
 							}
-						});
-			});
-    
-    
- // Función para filtrar la tabla
-	function filtrarTabla(idFiltro, columnaIndex) {
-		const valorFiltro = document.getElementById(idFiltro).value
-				.toLowerCase();
-		const filas = document
-				.querySelectorAll(".tablaDatosListaMarcadores tbody tr");
+						}
+					});
+		}
 
-		filas.forEach(function(fila) {
-			const celdas = fila.getElementsByTagName("td");
-			const textoCelda = celdas[columnaIndex].textContent
+		// Función para filtrar la tabla
+		function filtrarTabla(idFiltro, columnaIndex) {
+			const valorFiltro = document.getElementById(idFiltro).value
 					.toLowerCase();
-			if (textoCelda.includes(valorFiltro)) {
-				fila.style.display = "";
-			} else {
-				fila.style.display = "none";
-			}
-		});
-	}
+			const filas = document
+					.querySelectorAll(".tablaDatosListaMarcadores tbody tr");
 
-	// Agregar evento de filtro para cada campo
-	document.getElementById("buscarPosicionJugador").addEventListener(
-			"input", function() {
-				filtrarTabla("buscarPosicionJugador", 0); // Filtro por columna ID (columna 0)
+			filas.forEach(function(fila) {
+				const celdas = fila.getElementsByTagName("td");
+				const textoCelda = celdas[columnaIndex].textContent
+						.toLowerCase();
+				if (textoCelda.includes(valorFiltro)) {
+					fila.style.display = "";
+				} else {
+					fila.style.display = "none";
+				}
 			});
+		}
 
-	document.getElementById("buscarNombreJugador").addEventListener(
-			"input", function() {
-				filtrarTabla("buscarNombreJugador", 1); // Filtro por columna Nombre (columna 1)
-			});
-	document.getElementById("buscarVictoriasJugador").addEventListener(
-			"input", function() {
-				filtrarTabla("buscarVictoriasJugador", 3); // Filtro por columna Nombre (columna 1)
-			});
-	
+		// Agregar evento de filtro para cada campo
+		document.getElementById("buscarPosicionJugador").addEventListener(
+				"input", function() {
+					filtrarTabla("buscarPosicionJugador", 0); // Filtro por columna ID (columna 0)
+				});
+
+		document.getElementById("buscarNombreJugador").addEventListener(
+				"input", function() {
+					filtrarTabla("buscarNombreJugador", 1); // Filtro por columna Nombre (columna 1)
+				});
+		document.getElementById("buscarAliasJugador").addEventListener("input",
+				function() {
+					filtrarTabla("buscarAliasJugador", 2); // Filtro por columna Nombre (columna 1)
+				});
 	</script>
 
 

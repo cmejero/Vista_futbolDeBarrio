@@ -4,13 +4,15 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import vista_futbolDeBarrio.dtos.MiembroClubDto;
 import vista_futbolDeBarrio.log.Log;
 import vista_futbolDeBarrio.servicios.MiembroClubServicio;
@@ -43,7 +45,7 @@ public class MiembroClubControlador extends HttpServlet {
 				// Obtener los datos del formulario
 				String fechaAltaUsuarioForm = LocalDate.now().toString();
 				String fechaBajaUsuarioForm = ("9999-01-01");
-				long clubIdForm = Long.parseLong(request.getParameter("clubId"));
+				long clubIdForm = Long.parseLong(request.getParameter("idClub"));
 				long usuarioIdForm = Long.parseLong(request.getParameter("usuarioId"));
 
 				// Crear el objeto MiembroClubDto
@@ -51,7 +53,7 @@ public class MiembroClubControlador extends HttpServlet {
 				nuevoMiembro.setFechaAltaUsuario(fechaAltaUsuarioForm);
 				nuevoMiembro.setFechaBajaUsuario(fechaBajaUsuarioForm);
 
-				nuevoMiembro.setClubId(clubIdForm);
+				nuevoMiembro.setIdClub(clubIdForm);
 				nuevoMiembro.setUsuarioId(usuarioIdForm);
 
 				// Guardar el miembro en el servicio
@@ -83,27 +85,69 @@ public class MiembroClubControlador extends HttpServlet {
 	 * Metodo GET que se encarga de mostrar una lista de clubes con sus jugadores
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		try {
-			ArrayList<MiembroClubDto> listaMiembros = servicio.listarMiembrosClub();
+	        throws ServletException, IOException {
+	    try {
+	        HttpSession session = request.getSession(false);
+	        if (session == null || session.getAttribute("clubId") == null) {
+	            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+	            response.getWriter().write("Usuario no logueado como club.");
+	            return;
+	        }
 
-			response.setContentType("application/json");
-			response.setCharacterEncoding("UTF-8");
+	        Long clubId = (Long) session.getAttribute("clubId");
+	        Long usuarioId = Long.parseLong(request.getParameter("usuarioId"));  // Obtener usuarioId desde la solicitud
 
-			// Convertir la lista a JSON
-			ObjectMapper objectMapper = new ObjectMapper();
-			String json = objectMapper.writeValueAsString(listaMiembros);
+	        // Verificar si el usuario ya es miembro del club
+	        boolean esMiembro = servicio.esMiembroDelClub(clubId, usuarioId);
 
-			// Escribir la respuesta JSON
-			response.getWriter().write(json);
+	        // Lista de miembros del club
+	        ArrayList<MiembroClubDto> listaMiembros = servicio.listarMiembrosClub(clubId);
 
-			// Log de acceso
-			Log.ficheroLog("Lista de miembros del club consultada correctamente. Total: " + listaMiembros.size());
-		} catch (Exception e) {
-			e.printStackTrace();
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.getWriter().write("Error al recuperar la lista de miembros.");
-			Log.ficheroLog("Error al obtener lista de miembros del club: " + e.getMessage());
-		}
+	        // Preparar la respuesta JSON
+	        response.setContentType("application/json");
+	        response.setCharacterEncoding("UTF-8");
+
+	        JSONArray jsonArray = new JSONArray();
+	        
+	        // Iterar sobre la lista de miembros y agregar cada uno al JSON
+	        for (MiembroClubDto miembro : listaMiembros) {
+	            JSONObject json = new JSONObject();
+	            json.put("idMiembroClub", miembro.getIdMiembroClub());
+	            json.put("fechaAltaUsuario", miembro.getFechaAltaUsuario());
+	            json.put("fechaBajaUsuario", miembro.getFechaBajaUsuario());
+	            json.put("clubId", miembro.getIdClub());
+	            json.put("usuarioId", miembro.getUsuarioId());
+
+	            // Incluir detalles del usuario si están disponibles
+	            if (miembro.getUsuario() != null) {
+	                JSONObject jsonUsuario = new JSONObject();
+	                jsonUsuario.put("idUsuario", miembro.getUsuario().getIdUsuario());
+	                jsonUsuario.put("nombreCompletoUsuario", miembro.getUsuario().getNombreCompletoUsuario());
+	                jsonUsuario.put("aliasUsuario", miembro.getUsuario().getAliasUsuario());
+	                json.put("usuario", jsonUsuario);
+	            }
+
+	            jsonArray.put(json);
+	        }
+
+	        // Agregar la información sobre si el usuario ya es miembro
+	        JSONObject jsonResponse = new JSONObject();
+	        jsonResponse.put("esMiembro", esMiembro);  // Si el usuario ya es miembro, se indica en la respuesta
+	        jsonResponse.put("miembros", jsonArray);   // Agregar la lista de miembros del club
+
+	        // Enviar la respuesta al cliente
+	        response.getWriter().write(jsonResponse.toString());
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	        response.getWriter().write("Error al recuperar la lista de miembros.");
+	    }
 	}
+
+	
+	
+	
+
+
 }

@@ -1,14 +1,13 @@
 package vista_futbolDeBarrio.dtos;
 
-import java.time.LocalDate;
-
 public class MiembroClubDto {
 
     private long idMiembroClub;
     private String fechaAltaUsuario;
     private String fechaBajaUsuario;
-    private long clubId;  
-    private long usuarioId;  
+    private long idClub;  
+    private long usuarioId; 
+    private UsuarioDto usuario;
 
     // Getters and Setters
     public long getIdMiembroClub() {
@@ -35,12 +34,12 @@ public class MiembroClubDto {
         this.fechaBajaUsuario = fechaBajaUsuario;
     }
 
-    public long getClubId() {
-        return clubId;
+    public long getIdClub() {
+        return idClub;
     }
 
-    public void setClubId(long clubId) {
-        this.clubId = clubId;
+    public void setIdClub(long idClub) {
+        this.idClub = idClub;
     }
 
     public long getUsuarioId() {
@@ -49,5 +48,13 @@ public class MiembroClubDto {
 
     public void setUsuarioId(long usuarioId) {
         this.usuarioId = usuarioId;
+    }
+    
+    public UsuarioDto getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioDto usuario) {
+        this.usuario = usuario;
     }
 }

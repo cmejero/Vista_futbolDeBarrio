@@ -926,7 +926,7 @@ Avenida mujer trabajadora
 		
 		$(document).on('click', '.icono-unirse', function () {
 		    const fila = $(this).closest('tr');
-		    const clubId = fila.attr('id').split('-')[1];
+		    const idClub = fila.attr('id').split('-')[1];
 
 		    // Ahora obtenemos correctamente el usuarioId desde sessionStorage
 		    const usuarioId = sessionStorage.getItem("usuarioId");
@@ -940,7 +940,7 @@ Avenida mujer trabajadora
 		        type: 'POST',
 		        data: {
 		            accion: 'aniadir',
-		            clubId: clubId,
+		            idClub: idClub,
 		            usuarioId: usuarioId,
 		            fechaAltaUsuario: fechaActual,
 		            fechaBajaUsuario: '' // puedes dejarlo vacío si aún no hay baja
