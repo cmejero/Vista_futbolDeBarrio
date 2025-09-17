@@ -28,85 +28,114 @@ public class LoginControlador extends HttpServlet {
 
     @Override
     /**
-     * Metodo POST que se encarga de enviar los datos necesarios para iniciar sesion
+     * Método POST que maneja el inicio de sesión de un usuario.
+     *
+     * @param request  Objeto HttpServletRequest que contiene los parámetros del formulario.
+     * @param response Objeto HttpServletResponse para enviar la respuesta.
+     * @throws ServletException En caso de error en la solicitud.
+     * @throws IOException      En caso de error en la respuesta.
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            
             String email = request.getParameter("email");
             String password = request.getParameter("password");
 
-            
-            Log.ficheroLog("Recibido intento de login. Email: " + email );
+            Log.ficheroLog("Recibido intento de login. Email: " + email);
 
-            
             RespuestaLoginDto respuestaLogin = servicioLogin.login(email, password);
 
             if (respuestaLogin != null && respuestaLogin.getToken() != null) {
-                String token = respuestaLogin.getToken();
-                String tipoUsuario = respuestaLogin.getTipoUsuario();
-                Object datosUsuario = respuestaLogin.getDatosUsuario();
-
-                
-                Log.ficheroLog("Login exitoso para el usuario: " + email + ", Tipo de usuario: " + tipoUsuario );
-
-                HttpSession session = request.getSession();
-                session.setAttribute("token", token);
-                session.setAttribute("tipoUsuario", tipoUsuario);
-                session.setAttribute("datosUsuario", datosUsuario); 
-
-                
-                if ("instalacion".equals(tipoUsuario)) {
-                    if (datosUsuario instanceof InstalacionDto) {
-                        InstalacionDto instalacion = (InstalacionDto) datosUsuario;
-                        session.setAttribute("instalacionId", instalacion.getIdInstalacion()); 
-                    }
-                }
-                
-                if ("club".equals(tipoUsuario)) {
-                    if (datosUsuario instanceof ClubDto) {
-                        ClubDto club = (ClubDto) datosUsuario;
-                        session.setAttribute("clubId", club.getIdClub()); 
-                    }
-                }
-
-                if ("jugador".equals(tipoUsuario)) {
-                    if (datosUsuario instanceof UsuarioDto) {
-                        UsuarioDto club = (UsuarioDto) datosUsuario;
-                        session.setAttribute("usuarioId", club.getIdUsuario()); 
-                    }
-                }
-                
-                
-                switch (tipoUsuario) {
-                    case "administrador":
-                        response.sendRedirect("Administrador.jsp");
-                        break;
-                    case "jugador":
-                        response.sendRedirect("Jugador.jsp");
-                        break;
-                    case "club":
-                        response.sendRedirect("Club.jsp");
-                        break;
-                    case "instalacion":
-                        response.sendRedirect("Instalacion.jsp");
-                        break;
-                    default:
-                        
-                        Log.ficheroLog("Tipo de usuario desconocido: " + tipoUsuario );
-                        response.sendRedirect("InicioSesion.jsp?error=tipoDesconocido");
-                }
+                procesarLoginExitoso(request, response, email, respuestaLogin);
             } else {
-                
-                Log.ficheroLog("Credenciales incorrectas para el email: " + email );
+                Log.ficheroLog("Credenciales incorrectas para el email: " + email);
                 response.sendRedirect("InicioSesion.jsp?error=credenciales");
             }
         } catch (Exception e) {
             e.printStackTrace();
-           
-            Log.ficheroLog("Error en el proceso de login: " + e.getMessage() );
+            Log.ficheroLog("Error en el proceso de login: " + e.getMessage());
             response.sendRedirect("InicioSesion.jsp?error=servidor");
         }
     }
+
+    /**
+     * Procesa el inicio de sesión exitoso, guardando los datos en sesión y redirigiendo según el tipo de usuario.
+     *
+     * @param request         La solicitud HTTP.
+     * @param response        La respuesta HTTP.
+     * @param email           El correo electrónico del usuario.
+     * @param respuestaLogin  Objeto que contiene el token, tipo de usuario y datos del usuario.
+     * @throws IOException Si ocurre un error al redirigir.
+     */
+    private void procesarLoginExitoso(HttpServletRequest request, HttpServletResponse response, String email, RespuestaLoginDto respuestaLogin) throws IOException {
+        String token = respuestaLogin.getToken();
+        String tipoUsuario = respuestaLogin.getTipoUsuario();
+        Object datosUsuario = respuestaLogin.getDatosUsuario();
+
+        Log.ficheroLog("Login exitoso para el usuario: " + email + ", Tipo de usuario: " + tipoUsuario);
+
+        HttpSession session = request.getSession();
+        session.setAttribute("token", token);
+        session.setAttribute("tipoUsuario", tipoUsuario);
+        session.setAttribute("datosUsuario", datosUsuario);
+
+        asignarIdUsuarioASesion(session, tipoUsuario, datosUsuario);
+        redirigirPorTipoUsuario(response, tipoUsuario);
+    }
+
+    /**
+     * Asigna a la sesión el ID correspondiente del usuario según su tipo.
+     *
+     * @param session      La sesión HTTP del usuario.
+     * @param tipoUsuario  El tipo de usuario (jugador, club, instalacion).
+     * @param datosUsuario El objeto con los datos del usuario.
+     */
+    private void asignarIdUsuarioASesion(HttpSession session, String tipoUsuario, Object datosUsuario) {
+        switch (tipoUsuario) {
+            case "instalacion":
+                if (datosUsuario instanceof InstalacionDto) {
+                    session.setAttribute("instalacionId", ((InstalacionDto) datosUsuario).getIdInstalacion());
+                }
+                break;
+            case "club":
+                if (datosUsuario instanceof ClubDto) {
+                    session.setAttribute("clubId", ((ClubDto) datosUsuario).getIdClub());
+                }
+                break;
+            case "jugador":
+                if (datosUsuario instanceof UsuarioDto) {
+                    session.setAttribute("usuarioId", ((UsuarioDto) datosUsuario).getIdUsuario());
+                }
+                break;
+        }
+    }
+
+    /**
+     * Redirige al usuario a la página correspondiente según su tipo.
+     *
+     * @param response     La respuesta HTTP.
+     * @param tipoUsuario  El tipo de usuario autenticado.
+     * @throws IOException Si ocurre un error al redirigir.
+     */
+    private void redirigirPorTipoUsuario(HttpServletResponse response, String tipoUsuario) throws IOException {
+        switch (tipoUsuario) {
+            case "administrador":
+                response.sendRedirect("Administrador.jsp");
+                break;
+            case "jugador":
+                response.sendRedirect("Jugador.jsp");
+                break;
+            case "club":
+                response.sendRedirect("Club.jsp");
+                break;
+            case "instalacion":
+                response.sendRedirect("Instalacion.jsp");
+                break;
+            default:
+                Log.ficheroLog("Tipo de usuario desconocido: " + tipoUsuario);
+                response.sendRedirect("InicioSesion.jsp?error=tipoDesconocido");
+        }
+    }
+
+
 }

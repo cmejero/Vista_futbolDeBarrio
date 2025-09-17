@@ -5,72 +5,120 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import vista_futbolDeBarrio.dtos.EquipoTorneoDto;
+import vista_futbolDeBarrio.dtos.PartidoTorneoDto;
 import vista_futbolDeBarrio.dtos.TorneoDto;
+import vista_futbolDeBarrio.log.Log;
+import vista_futbolDeBarrio.utilidades.Utilidades;
 
+/**
+ * Clase que se encarga de la logica de los metodos CRUD de torneo
+ */
 public class TorneoServicio {
+	
+	EquipoTorneoServicio equipoTorneoServicio = new EquipoTorneoServicio();
+	PartidoTorneoServicio partidoTorneoServicio = new PartidoTorneoServicio();
 
-    // Método para guardar un nuevo torneo
+	   /**
+     * Guarda un nuevo torneo.
+     * 
+     * @param torneo El torneo a guardar.
+     */
     public void guardarTorneo(TorneoDto torneo) {
         try {
-            // Crear el objeto JSON a partir del TorneoDto
             JSONObject json = new JSONObject();
             json.put("nombreTorneo", torneo.getNombreTorneo());
             json.put("fechaInicioTorneo", torneo.getFechaInicioTorneo().toString());
             json.put("fechaFinTorneo", torneo.getFechaFinTorneo().toString());
             json.put("descripcionTorneo", torneo.getDescripcionTorneo());
+            json.put("clubesInscritos", torneo.getClubesInscritos());
             json.put("modalidad", torneo.getModalidad().name());
+            json.put("estaActivo", torneo.isEstaActivo());
             json.put("instalacionId", torneo.getInstalacionId());
 
-            // Definir la URL de la API para guardar el torneo
             String urlApi = "http://localhost:9527/api/guardarTorneo";
             URL url = new URL(urlApi);
 
-            // Abrir la conexión HTTP
             HttpURLConnection conex = (HttpURLConnection) url.openConnection();
             conex.setRequestMethod("POST");
             conex.setRequestProperty("Content-Type", "application/json");
             conex.setDoOutput(true);
 
-            // Enviar el JSON en la solicitud
             try (OutputStream os = conex.getOutputStream()) {
                 byte[] input = json.toString().getBytes("utf-8");
                 os.write(input, 0, input.length);
             }
 
-            // Verificar la respuesta del servidor
             int responseCode = conex.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                System.out.println("Torneo guardado correctamente.");
+                // System.out.println("Torneo guardado correctamente.");
             } else {
-                System.out.println("Error al guardar torneo: " + responseCode);
+                // System.out.println("Error al guardar torneo: " + responseCode);
             }
 
         } catch (Exception e) {
-            System.out.println("ERROR- [TorneoServicio] " + e);
+            // System.out.println("ERROR- [TorneoServicio] " + e);
         }
     }
 
     private static final String API_URL_ID = "http://localhost:9527/api/torneo";
     private static final String API_URL = "http://localhost:9527/api/mostrarTorneo";
 
+    /**
+     * Obtiene todos los torneos asociados a una instalación.
+     * 
+     * @param instalacionId El ID de la instalación.
+     * @return Lista de torneos de la instalación.
+     * @throws Exception Si ocurre un error en la llamada a la API.
+     */
     public List<TorneoDto> obtenerTorneosPorInstalacion(Long instalacionId) throws Exception {
         String endpoint = API_URL_ID + "?instalacionId=" + instalacionId;
         return hacerLlamadaApi(endpoint);
     }
 
+    /**
+     * Obtiene todos los torneos.
+     * 
+     * @return Lista de todos los torneos.
+     * @throws Exception Si ocurre un error en la llamada a la API.
+     */
     public List<TorneoDto> obtenerTodosLosTorneos() throws Exception {
         return hacerLlamadaApi(API_URL);
     }
+    
+    public Long obtenerInstalacionDeTorneo(Long torneoId) throws Exception {
+        List<TorneoDto> torneos = obtenerTodosLosTorneos();
+        TorneoDto torneo = torneos.stream()
+                .filter(t -> t.getIdTorneo() == torneoId)
+                .findFirst()
+                .orElse(null);
 
+        if (torneo == null) {
+            throw new RuntimeException("Torneo no encontrado con ID " + torneoId);
+        }
+        return torneo.getInstalacionId();
+    }
+
+
+    /**
+     * Realiza la llamada a la API para obtener los torneos.
+     * 
+     * @param urlStr La URL de la API.
+     * @return Lista de torneos.
+     * @throws Exception Si ocurre un error en la llamada a la API.
+     */
     private List<TorneoDto> hacerLlamadaApi(String urlStr) throws Exception {
         URL url = new URL(urlStr);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -92,75 +140,237 @@ public class TorneoServicio {
         }
     }
 
-    // Método para modificar un torneo existente
+    /**
+     * Modifica un torneo existente.
+     * 
+     * @param idTorneo El ID del torneo a modificar.
+     * @param torneo El objeto con los nuevos datos del torneo.
+     * @return true si el torneo fue modificado con éxito, false en caso contrario.
+     */
     public boolean modificarTorneo(long idTorneo, TorneoDto torneo) {
         try {
-            // Crear el objeto JSON a partir del TorneoDto
             JSONObject json = new JSONObject();
             json.put("nombreTorneo", torneo.getNombreTorneo());
             json.put("fechaInicioTorneo", torneo.getFechaInicioTorneo().toString());
             json.put("fechaFinTorneo", torneo.getFechaFinTorneo().toString());
             json.put("descripcionTorneo", torneo.getDescripcionTorneo());
+            json.put("clubesInscritos", torneo.getClubesInscritos());
             json.put("modalidad", torneo.getModalidad().name());
+            json.put("estaActivo", torneo.isEstaActivo());
             json.put("instalacionId", torneo.getInstalacionId());
 
-            // Definir la URL de la API para modificar el torneo
             String urlApi = "http://localhost:9527/api/modificarTorneo/" + idTorneo;
             URL url = new URL(urlApi);
 
-            // Abrir la conexión HTTP
             HttpURLConnection conex = (HttpURLConnection) url.openConnection();
             conex.setRequestMethod("PUT");
             conex.setRequestProperty("Content-Type", "application/json");
             conex.setDoOutput(true);
 
-            // Enviar el JSON en la solicitud
             try (OutputStream os = conex.getOutputStream()) {
                 byte[] input = json.toString().getBytes("utf-8");
                 os.write(input, 0, input.length);
             }
 
-            // Verificar la respuesta del servidor
             int responseCode = conex.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                return true; // Torneo actualizado correctamente
+                return true; 
             } else {
-                return false; // Error al actualizar
+                return false; 
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return false; // Error
+            return false; 
         }
     }
     
+    /**
+     * Elimina un torneo por su ID.
+     * 
+     * @param idTorneo El ID del torneo a eliminar.
+     * @return true si el torneo fue eliminado con éxito, false en caso contrario.
+     */
     public boolean eliminarTorneo(Long idTorneo) {
         try {
        
-            
-            // Construir la URL para la solicitud DELETE
             String urlApi = "http://localhost:9527/api/eliminarTorneo/" + idTorneo;  // Ajustar URL según tu API
             URL url = new URL(urlApi);
 
-            // Abrir la conexión HTTP
             HttpURLConnection conex = (HttpURLConnection) url.openConnection();
             conex.setRequestMethod("DELETE");
             conex.setRequestProperty("Accept", "application/json");
 
-            // Obtener el código de respuesta
             int responseCode = conex.getResponseCode();
 
-            // Verificar si la eliminación fue exitosa
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                System.out.println("Torneo eliminado correctamente.");
+                // System.out.println("Torneo eliminado correctamente.");
                 return true;
             } else {
-                System.out.println("Error al eliminar torneo: " + responseCode);
+                // System.out.println("Error al eliminar torneo: " + responseCode);
                 return false;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("ERROR- [Servicio.eliminarTorneo]: " + e.getMessage());
+            // System.out.println("ERROR- [Servicio.eliminarTorneo]: " + e.getMessage());
             return false;
+        }
+    }
+
+    // -------------------------
+    // BRACKET Y PARTIDOS
+    // -------------------------
+    public void generarBracket(Long torneoId, List<EquipoTorneoDto> equipos, PartidoTorneoServicio partidoServicio) throws Exception {
+      
+    	 System.out.println(">>> generarBracket INICIO");
+    	    System.out.println("Torneo ID recibido: " + torneoId);
+    	    System.out.println("Cantidad de equipos recibida: " + (equipos == null ? "null" : equipos.size()));
+
+    	    if (equipos == null) {
+    	        throw new RuntimeException("La lista de equipos es null al generar bracket");
+    	    }
+
+    	    if (equipos.size() != 16) {
+    	        throw new IllegalArgumentException("Actualmente solo se soportan torneos de 16 equipos.");
+    	    }
+    	if (equipos.size() != 16) {
+            throw new IllegalArgumentException("Actualmente solo se soportan torneos de 16 equipos.");
+        }
+
+        Collections.shuffle(equipos);
+
+        Map<Long, Long> flujoPartidos = new HashMap<>();
+        List<PartidoTorneoDto> partidosOctavos = new ArrayList<>();
+
+        // 🔹 Octavos
+        for (int i = 0; i < 16; i += 2) {
+            EquipoTorneoDto local = equipos.get(i);
+            EquipoTorneoDto visitante = equipos.get(i + 1);
+
+            PartidoTorneoDto partido = new PartidoTorneoDto();
+            partido.setTorneoId(torneoId);
+            partido.setEquipoLocalId(local.getIdEquipoTorneo()); 
+            partido.setClubLocalId(local.getClubId());           
+            partido.setEquipoVisitanteId(visitante.getIdEquipoTorneo()); 
+            partido.setClubVisitanteId(visitante.getClubId()); 
+            partido.setInstalacionId(obtenerInstalacionDeTorneo(torneoId));
+            partido.setFechaPartido(LocalDate.now().toString());
+            partido.setRonda("octavos");
+            partido.setEstado("pendiente");
+
+            // 🔹 Siempre inicializar actaPartidoId
+            partido.setActaPartidoId(null);
+
+            System.out.println(">>> JSON que se enviará al backend:");
+            System.out.println(partidoTorneoServicio.mapearPartidoAJSON(partido).toString());
+
+            Long idGuardado = partidoServicio.guardarPartido(partido);
+            if (idGuardado == null) throw new RuntimeException("No se pudo guardar partido de octavos");
+
+            partido.setIdPartidoTorneo(idGuardado);
+            partidosOctavos.add(partido);
+
+            flujoPartidos.put(idGuardado, null);
+        }
+
+    }
+
+
+    public void avanzarGanador(PartidoTorneoDto partido, Long idGanador, PartidoTorneoServicio partidoServicio) throws Exception {
+        // 1️⃣ Marcar el partido actual como finalizado
+        partido.setEstado("finalizado");
+        partidoServicio.modificarPartido(partido.getIdPartidoTorneo(), partido);
+
+        // 2️⃣ Obtener flujo del torneo
+        Map<Long, Long> flujo = Utilidades.obtenerMapa(partido.getTorneoId());
+        if (flujo == null) return;
+
+        Long idSiguientePartido = flujo.get(partido.getIdPartidoTorneo());
+
+        PartidoTorneoDto siguientePartido;
+        if (idSiguientePartido == null) {
+            // Crear partido de la siguiente ronda
+            siguientePartido = new PartidoTorneoDto();
+            siguientePartido.setTorneoId(partido.getTorneoId());
+            siguientePartido.setEstado("pendiente");
+            siguientePartido.setRonda(rondaSiguiente(partido.getRonda())); // Método que retorna "cuartos", "semifinal", etc.
+            
+            // Guardar en DB
+            idSiguientePartido = partidoServicio.guardarPartido(siguientePartido);
+            if (idSiguientePartido == null) throw new RuntimeException("No se pudo crear siguiente partido");
+
+            siguientePartido.setIdPartidoTorneo(idSiguientePartido);
+            flujo.put(partido.getIdPartidoTorneo(), idSiguientePartido);
+            Utilidades.guardarMapa(partido.getTorneoId(), flujo);
+        } else {
+        	final Long idSiguiente = idSiguientePartido;
+
+        	siguientePartido = partidoServicio.listaPartidos().stream()
+        	        .filter(p -> p.getIdPartidoTorneo().equals(idSiguiente))
+        	        .findFirst()
+        	        .orElseThrow(() -> new RuntimeException("Siguiente partido no encontrado"));
+        }
+
+        // 3️⃣ Asignar ganador al siguiente partido
+        EquipoTorneoDto equipoGanador = equipoTorneoServicio.listaEquiposTorneo().stream()
+            .filter(e -> e.getIdEquipoTorneo() == idGanador)
+            .findFirst().orElse(null);
+
+        if (equipoGanador != null) {
+            Long clubGanador = equipoGanador.getClubId();
+            if (siguientePartido.getEquipoLocalId() == null) {
+                siguientePartido.setEquipoLocalId(idGanador);
+                siguientePartido.setClubLocalId(clubGanador);
+            } else if (siguientePartido.getEquipoVisitanteId() == null) {
+                siguientePartido.setEquipoVisitanteId(idGanador);
+                siguientePartido.setClubVisitanteId(clubGanador);
+            }
+        }
+
+        partidoServicio.modificarPartido(siguientePartido.getIdPartidoTorneo(), siguientePartido);
+    }
+
+    
+    public String progresoEquipos(Long torneoId) {
+        int inscritos = equipoTorneoServicio.contarEquiposPorTorneo(torneoId);
+        int maxEquipos = 16; // fijo
+
+        return inscritos + " / " + maxEquipos;
+    }
+    
+    public void actualizarClubesInscritos(Long torneoId) {
+        try {
+            // Obtener número de equipos inscritos
+            int inscritos = equipoTorneoServicio.contarEquiposPorTorneo(torneoId);
+
+            // Obtener el torneo actual
+            List<TorneoDto> torneos = obtenerTodosLosTorneos();
+            TorneoDto torneo = torneos.stream()
+                                      .filter(t -> t.getIdTorneo() == torneoId)
+                                      .findFirst()
+                                      .orElse(null);
+
+            if (torneo != null) {
+                // Actualizar el campo
+                torneo.setClubesInscritos(inscritos + " / 16");
+                // Guardar cambios en la API
+                modificarTorneo(torneo.getIdTorneo(), torneo);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.ficheroLog("Error al actualizar clubesInscritos: " + e.getMessage());
+        }
+    }
+    private String rondaSiguiente(String rondaActual) {
+        switch (rondaActual.toLowerCase()) {
+            case "octavos":
+                return "cuartos";
+            case "cuartos":
+                return "semifinal";
+            case "semifinal":
+                return "final";
+            default:
+                return null; // No hay siguiente ronda después de final o tercer puesto
         }
     }
 

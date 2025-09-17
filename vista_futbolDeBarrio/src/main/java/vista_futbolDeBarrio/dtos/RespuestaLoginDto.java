@@ -1,11 +1,14 @@
 package vista_futbolDeBarrio.dtos;
 
+/**
+ * Clase que se encarga de los campos de la respuesta del login
+ */
 public class RespuestaLoginDto {
 	private String token;
     private String tipoUsuario;
-    private Object datosUsuario; // Puede ser un Usuario, Club o Instalacion
+    private Object datosUsuario; 
 
-    // Constructores
+   
     public RespuestaLoginDto(String tipoUsuario, String token, Object datosUsuario) {
         this.token = token;
         this.tipoUsuario = tipoUsuario;
@@ -15,7 +18,7 @@ public class RespuestaLoginDto {
     public RespuestaLoginDto() {
     }
 
-    // Getters y setters
+ 
     public String getToken() {
         return token;
     }

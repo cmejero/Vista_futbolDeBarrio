@@ -179,7 +179,7 @@ Long usuarioId = (Long) session.getAttribute("usuarioId");
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo" style="color: #d4af37;">INICIO</a>
+											<a href="" class="letraCabeceraAbajo" style="color: #d4af37;" >INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo">ALQUILERES</a>
@@ -201,7 +201,7 @@ Long usuarioId = (Long) session.getAttribute("usuarioId");
 											<a href="" class="letraCabeceraAbajo">MI CLUB</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">MARCADORES</a>
+											<a href="MarcadoresJugador.jsp" class="letraCabeceraAbajo" >MARCADORES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo">DESAFIOS</a>
@@ -231,8 +231,8 @@ Long usuarioId = (Long) session.getAttribute("usuarioId");
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
 													</li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Cerrar sesión </a></li>
+													<li><a class="dropdown-item" href="logout" style="color: white;">Cerrar sesión</a></li>
+
 												</ul>
 											</div>
 										</div>
@@ -288,7 +288,7 @@ Long usuarioId = (Long) session.getAttribute("usuarioId");
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-4 ">
 									<a href="Index.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">INICIO</a>
+										style="text-decoration: none; font-size: 2.5vw; color: #d4af37; ">INICIO</a>
 								</div>
 
 								<!-- columna medio: buscador -->
@@ -330,8 +330,8 @@ Long usuarioId = (Long) session.getAttribute("usuarioId");
 												style="color: white;">Eventos </a></li>
 												<li><a class="dropdown-item " href="Jugador.jsp"
 												style="color: white;">Mi club </a></li>
-											<li><a class="dropdown-item " href="Jugador.jsp"
-												style="color: white;">Marcadores </a></li>
+											<li><a class="dropdown-item " href="MarcadoresJugador.jsp"
+												style="color: white; color: #d4af37;">Marcadores </a></li>
 											<li><a class="dropdown-item " href="Jugador.jsp"
 												style="color: white;">Desafios </a></li>
 
@@ -349,8 +349,8 @@ Long usuarioId = (Long) session.getAttribute("usuarioId");
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item " href="InicioSesion.jsp"
-												style="color: white;">Cerrar sesión </a></li>
+											
+													<li><a class="dropdown-item" href="logout" style="color: white;">Cerrar sesión</a></li>
 											
 										</ul>
 									</div>
@@ -365,149 +365,48 @@ Long usuarioId = (Long) session.getAttribute("usuarioId");
 	</header>
 
 	<main style="background-color: rgba(223, 234, 213, 0.5);">
+	<% 
+    String mensaje = request.getParameter("mensaje");
+    if ("sesion_cerrada".equals(mensaje)) {
+        out.println("<div class='alert alert-success'>Sesión cerrada correctamente.</div>");
+    }
+%>
+
+<div class="tarjeta-contenedor">
+    <div class="tarjeta-header">
+        <div class="tarjeta-nombre-alias">
+            <p class="tarjeta-nombre">Juan Pérez</p>
+            <p class="tarjeta-alias">"El Rayo"</p>
+        </div>
+        <img src="Imagenes/futbolista.PNG" alt="Foto" class="tarjeta-imagen">
+        <p class="tarjeta-estado activo">Activo</p>
+    </div>
+
+    <div class="tarjeta-estadisticas">
+        <div class="tarjeta-estadistica"><strong>0</strong>Goles</div>
+        <div class="tarjeta-estadistica"><strong>0</strong>Partidos</div>
+        <div class="tarjeta-estadistica"><strong>0</strong>Eventos</div>
+        <div class="tarjeta-estadistica"><strong>0</strong>Amarillas</div>
+        <div class="tarjeta-estadistica"><strong>0</strong>Rojas</div>
+        <div class="tarjeta-estadistica"><strong>0</strong>Autogoles</div>
+        <div class="tarjeta-estadistica"><strong>0</strong>Ganados</div>
+        <div class="tarjeta-estadistica"><strong>0</strong>Perdidos</div>
+    </div>
+
+    <div class="tarjeta-iconos">
+        <img src="Imagenes/icono1.png" alt="Icono 1" class="tarjeta-icono">
+        <img src="Imagenes/icono2.png" alt="Icono 2" class="tarjeta-icono">
+        <img src="Imagenes/icono3.png" alt="Icono 3" class="tarjeta-icono">
+        <img src="Imagenes/icono4.png" alt="Icono 4" class="tarjeta-icono">
+        <img src="Imagenes/icono5.png" alt="Icono 5" class="tarjeta-icono">
+    </div>
+</div>
 
 
 
 
 
-		<!-- CONTENEDOR MARCADORES -->
-		<div class="container-fluid" id="marcadorContainer">
-			<div class="row">
-				<div class="col-md-12 col-sm-12 col-12 mx-auto">
-					<div class="row">
-
-						<div class="col-md-2 col-sm-2 col-2 mx-auto"></div>
-						<div class="col-md-3 col-sm-3 col-3 mx-auto "
-							style="margin-bottom: 16vh; margin-top: 20vh; display: flex; justify-content: flex-end; align-items: center;">
-							<button id="botonMarcadoresClubes" class="botonMarcadores p-4">
-								<img class="imagenMarcadores" src="Imagenes/clubes.PNG"
-									alt="Clubes"> MARCADORES CLUBES
-							</button>
-						</div>
-
-						<!-- Espacio vacío entre los dos botones -->
-						<div class="col-md-1 col-sm-1 col-1 mx-auto "></div>
-
-						<!-- Columna para el botón de JUGADORES alineado a la derecha -->
-						<div class="col-md-3 col-sm-3 col-3"
-							style="margin-bottom: 16vh; margin-top: 20vh; display: flex; justify-content: flex-start; align-items: center;">
-							<button class="botonMarcadores p-4" id="botonMarcadoresJugadores">
-								<img class="imagenMarcadores" src="Imagenes/futbolista.PNG"
-									alt="Jugadores"> MARCADORES JUGADORES
-							</button>
-						</div>
-						<div class="col-md-2 col-sm-2 col-2 mx-auto "></div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- TABLA CLUBES -->
-		<div class="container-fluid " id="clubContainer"
-			style="display: none;">
-			<div class="row">
-
-				<div class="col-md-11 col-sm-12 col-12 mx-auto  pt-3 m-1"
-					style="display: flex; align-items: center; gap: 10px;">
-					<button id="volverAContenidoC" class="mb-2 mr-auto botonFiltrar"
-						style="background-color: red">Volver</button>
-					<button id="mostrarFiltrosClubes" class="mb-2 mr-auto botonFiltrar"
-						style="background-color: black">Mostrar Filtros</button>
-
-				</div>
-
-				<!-- Filtros de búsqueda (inicialmente ocultos) -->
-				<div id="filtrosClubes" class="filaFiltrar "
-					style="display: none; background-color: black;">
-					<div class="filtroItem">
-						<input type="text" id="buscarPosicionClub" class="inputFiltrar"
-							placeholder="Buscar por posicion">
-					</div>
-					<div class="filtroItem">
-						<input type="text" id="buscarNombreClub" class="inputFiltrar"
-							placeholder="Buscar por Nombre">
-					</div>
-
-					<input type="text" id="buscarLocalidadClub" class="inputFiltrar"
-						placeholder="Buscar por Localidad">
-
-				</div>
-
-				<table class="tablaDatosListaMarcadores mb-4">
-					<thead style="background-color: black;">
-						<tr>
-							<th style="border: 1.5px solid blue; width: 10.5%">POS</th>
-							<th style="border: 1.5px solid blue; width: 30%">CLUB</th>
-							<th style="border: 1.5px solid blue; width: 22.5%">LOCALIDAD</th>
-							<th style="border: 1.5px solid blue; width: 5%">PJ</th>
-							<th style="border: 1.5px solid blue; width: 5%">V</th>
-							<th style="border: 1.5px solid blue; width: 5%">E</th>
-							<th style="border: 1.5px solid blue; width: 5%">D</th>
-							<th style="border: 1.5px solid blue; width: 5%">GF</th>
-							<th style="border: 1.5px solid blue; width: 5%">GC</th>
-							<th style="border: 1.5px solid blue; width: 7%">UNIRSE</th>
-						</tr>
-					</thead>
-					<tbody id="tablaClubes"></tbody>
-				</table>
-			</div>
-		</div>
-
-
-
-
-		<!-- TABLA JUGADORES -->
-
-		<div class="container-fluid " id="jugadorContainer"
-			style="display: none;">
-			<div class="row">
-				<!-- Contenedor para los botones de volver y mostrar filtros -->
-				<div class="col-md-12 col-sm-12 col-12 mx-auto  pt-3 m-1"
-					style="display: flex; align-items: center; gap: 10px;">
-					<button id="volverAContenidoJ" class="mb-2 mr-auto botonFiltrar"
-						style="background-color: red">Volver</button>
-					<button id="mostrarFiltrosJugadores"
-						class="mb-2 mr-auto botonFiltrar" style="background-color: black">
-						Mostrar Filtros</button>
-				</div>
-
-				<!-- Filtros de búsqueda (inicialmente ocultos) -->
-				<div id="filtrosJugadores" class="filaFiltrar"
-					style="display: none; background-color: black;">
-					<div class="filtroItem">
-						<input type="text" id="buscarPosicionJugador" class="inputFiltrar"
-							placeholder="Buscar por posición">
-					</div>
-					<div class="filtroItem">
-						<input type="text" id="buscarNombreJugador" class="inputFiltrar"
-							placeholder="Buscar por Nombre">
-					</div>
-
-					<input type="text" id="buscarLocalidadJugador" class="inputFiltrar"
-						placeholder="Buscar por Localidad">
-				</div>
-
-				<!-- Tabla de jugadores -->
-				<table class="tablaDatosListaMarcadores mb-4">
-					<thead style="background-color: black;">
-						<tr>
-							<th style="border: 1.5px solid red; width: 7.5%">POS</th>
-							<th style="border: 1.5px solid red; width: 37%">JUGADOR</th>
-
-							<th style="border: 1.5px solid red; width: 25.5%">ALIAS</th>
-							<th style="border: 1.5px solid red; width: 5%">PJ</th>
-							<th style="border: 1.5px solid red; width: 5%">V</th>
-							<th style="border: 1.5px solid red; width: 5%">E</th>
-							<th style="border: 1.5px solid red; width: 5%">D</th>
-							<th style="border: 1.5px solid red; width: 5%">GF</th>
-							<th style="border: 1.5px solid red; width: 5%">GC</th>
-
-						</tr>
-					</thead>
-					<tbody id="tablaCuerpoJugador"></tbody>
-				</table>
-			</div>
-		</div>
+		
 	</main>
 
 
@@ -701,309 +600,7 @@ Avenida mujer trabajadora
 
 
 	<script>
-	   // Guardamos el tipo en sessionStorage para uso en JS
-    sessionStorage.setItem('tipoUsuario', '<%= tipoUsuario %>');
-    const usuarioId = <%= usuarioId != null ? usuarioId : "null" %>; // Si es null, asignamos "null" a la variable
-    console.log("Usuario: " + usuarioId);
-
-    // Verificamos si el usuario es jugador
-    const tipo = sessionStorage.getItem('tipoUsuario');
-    if (tipo !== 'jugador') {
-        // Si no es jugador, lo redirigimos
-        window.location.href = 'acceso_denegado.jsp';
-    }
-    sessionStorage.setItem("usuarioId", "<%= usuarioId %>");
-
-		document.addEventListener("DOMContentLoaded", function() {
-			// Función para mostrar u ocultar secciones
-			function toggleSection(seccionMostrar, seccionOcultar) {
-				// Ocultar la sección indicada
-				seccionOcultar.style.display = 'none';
-
-				// Mostrar la sección indicada
-				seccionMostrar.style.display = 'block';
-			}
-
-			// Función para mostrar u ocultar filtros
-			function toggleFiltros(filtros, boton) {
-				if (filtros.style.display === "none") {
-					filtros.style.display = "flex"; // Mostrar los filtros
-					boton.textContent = "Ocultar Filtros"; // Cambiar el texto del botón
-				} else {
-					filtros.style.display = "none"; // Ocultar los filtros
-					boton.textContent = "Mostrar Filtros"; // Cambiar el texto del botón
-				}
-			}
-
-			// Función para cambiar el color de los enlaces
-			function resaltarEnlace(event) {
-				event.preventDefault(); // Evita que la página se recargue
-				const enlaces = document.querySelectorAll("a");
-
-				enlaces.forEach(function(enlace) {
-					enlace.style.color = ""; // Restablece el color original
-				});
-
-				this.style.color = "#d4af37"; // Resalta el enlace clicado con color amarillo
-			}
-
-			// Asignamos la función de resaltar enlaces
-			const enlaces = document.querySelectorAll("a");
-			enlaces.forEach(function(enlace) {
-				enlace.addEventListener("click", resaltarEnlace);
-			});
-
-			// Obtener contenedores y botones
-			const marcadorContainer = document
-					.getElementById('marcadorContainer');
-			const botonMarcadoresClubes = document
-					.getElementById('botonMarcadoresClubes');
-			const clubContainer = document.getElementById('clubContainer');
-			const volverAContenidoC = document
-					.getElementById('volverAContenidoC');
-			const botonMarcadoresJugadores = document
-					.getElementById('botonMarcadoresJugadores');
-			const jugadorContainer = document
-					.getElementById('jugadorContainer');
-			const volverAContenidoJ = document
-					.getElementById('volverAContenidoJ');
-
-			// Lógica para mostrar/ocultar contenedor de clubes
-			botonMarcadoresClubes.addEventListener('click', function() {
-				toggleSection(clubContainer, marcadorContainer);
-			});
-
-			// Función para volver al contenido principal de clubes
-			volverAContenidoC.addEventListener('click', function() {
-				toggleSection(marcadorContainer, clubContainer);
-			});
-
-			// Lógica para mostrar/ocultar contenedor de jugadores
-			botonMarcadoresJugadores.addEventListener('click', function() {
-				toggleSection(jugadorContainer, marcadorContainer);
-			});
-
-			// Función para volver al contenido principal de jugadores
-			volverAContenidoJ.addEventListener('click', function() {
-				toggleSection(marcadorContainer, jugadorContainer);
-			});
-
-			// Lógica para mostrar/ocultar los filtros de clubes
-			document.getElementById("mostrarFiltrosClubes").addEventListener(
-					"click",
-					function() {
-						const filtros = document
-								.getElementById("filtrosClubes");
-						toggleFiltros(filtros, this);
-					});
-
-			// Lógica para mostrar/ocultar los filtros de jugadores
-			document.getElementById("mostrarFiltrosJugadores")
-					.addEventListener(
-							"click",
-							function() {
-								const filtrosJ = document
-										.getElementById("filtrosJugadores");
-								toggleFiltros(filtrosJ, this);
-							});
-
-			// Inicializar el contenedor de marcadores al cargar la página
-			toggleSection(marcadorContainer, jugadorContainer); // Esto asegurará que el marcadorContainer se muestre al inicio
-		});
-
-		const cuerpoTabla = document.getElementById("cuerpoTabla");
-
-		$(document)
-				.ready(
-						function() {
-							$
-									.ajax({
-										url : 'usuario',
-										method : 'GET',
-										dataType : 'json',
-										success : function(data) {
-											console.log(data);
-											$('#tablaCuerpoJugador').empty(); // ID corregido
-
-											let contadorPosicion = 1;
-
-											$
-													.each(
-															data,
-															function(index,
-																	usuario) {
-																var row = '<tr id="fila-' + usuario.idUsuario + '" style=" font-size: 1vw; text-align: center; vertical-align: middle;">'
-																		+ '<td style="border:0.5px solid #8a210b;font-weight: bold; text-align: center;">'
-																		+ contadorPosicion
-																		+ '</td>'
-																		+ '<td style="border:0.5px solid #8a210b;text-align: center;">'
-																		+ usuario.nombreCompletoUsuario
-																		+ '</td>'
-																		+ '<td style="border:0.5px solid #8a210b;text-align: center;">'
-																		+ usuario.aliasUsuario
-																		+ '</td>'
-																		+ '<td style="border:0.5px solid #8a210b;text-align: center;">0</td>'
-																		+ '<td style="border:0.5px solid #8a210b;text-align: center;">0</td>'
-																		+ '<td style="border:0.5px solid #8a210b;text-align: center;">0</td>'
-																		+ '<td style="border:0.5px solid #8a210b;text-align: center;">0</td>'
-																		+ '<td style="border:0.5px solid #8a210b;text-align: center;">0</td>'
-																		+ '<td style="border:0.5px solid #8a210b;text-align: center;">0</td>'
-																		+ '</tr>';
-
-																$(
-																		'#tablaCuerpoJugador')
-																		.append(
-																				row);
-																contadorPosicion++;
-															});
-										},
-										error : function(xhr, status, error) {
-											console
-													.error(
-															'Error en la solicitud AJAX:',
-															error);
-										}
-									});
-						});
-
-		$(document)
-				.ready(
-						function() {
-							$
-									.ajax({
-										url : 'club',
-										method : 'GET',
-										dataType : 'json',
-										success : function(data) {
-											console.log(data);
-											$('#tablaClubes').empty(); // ID corregido
-
-											let contadorPosicion = 1;
-
-											$
-													.each(
-															data,
-															function(index,
-																	club) {
-																var row = '<tr id="fila-' + club.idClub + '" style="font-size: 1vw; text-align: center; vertical-align: middle;">'
-																		+ '<td style="border:0.5px solid #0d6ba1;font-weight: bold; text-align: center;">'
-																		+ contadorPosicion
-																		+ '</td>'
-																		+ '<td style="border:0.5px solid #0d6ba1;text-align: center;">'
-																		+ club.nombreClub
-																		+ '</td>'
-																		+ '<td style="border:0.5px solid #0d6ba1;text-align: center;">'
-																		+ club.localidadClub
-																		+ '</td>'
-																		+ '<td style="border:0.5px solid #0d6ba1;text-align: center;">0</td>'
-																		+ '<td style="border:0.5px solid #0d6ba1;text-align: center;">0</td>'
-																		+ '<td style="border:0.5px solid #0d6ba1;text-align: center;">0</td>'
-																		+ '<td style="border:0.5px solid #0d6ba1;text-align: center;">0</td>'
-																		+ '<td style="border:0.5px solid #0d6ba1;text-align: center;">0</td>'
-																		+ '<td style="border:0.5px solid #0d6ba1;text-align: center;">0</td>'
-																		// Nueva columna con ícono verde para unirse
-																		+ '<td style="border:0.5px solid #0d6ba1;text-align: center; color: green;">'
-																		+ '<i class="fas fa-handshake icono-unirse" style="font-size: 1.5vw; cursor: pointer;" title="Unirse al club"></i>'
-																		+ '</td>'
-																		+ '</tr>';
-
-																$(
-																		'#tablaClubes')
-																		.append(
-																				row);
-																contadorPosicion++;
-															});
-										},
-										error : function(xhr, status, error) {
-											console
-													.error(
-															'Error en la solicitud AJAX:',
-															error);
-										}
-									});
-						});
-		
-		
-		$(document).on('click', '.icono-unirse', function () {
-		    const fila = $(this).closest('tr');
-		    const idClub = fila.attr('id').split('-')[1];
-
-		    // Ahora obtenemos correctamente el usuarioId desde sessionStorage
-		    const usuarioId = sessionStorage.getItem("usuarioId");
-
-		   
-
-		    const fechaActual = new Date().toISOString().split('T')[0]; // formato YYYY-MM-DD
-
-		    $.ajax({
-		        url: 'miembroClub',
-		        type: 'POST',
-		        data: {
-		            accion: 'aniadir',
-		            idClub: idClub,
-		            usuarioId: usuarioId,
-		            fechaAltaUsuario: fechaActual,
-		            fechaBajaUsuario: '' // puedes dejarlo vacío si aún no hay baja
-		        },
-		        success: function (response) {
-		            alert("Te has unido al club exitosamente.");
-		            console.log("Respuesta del servidor:", response);
-		        },
-		        error: function (xhr, status, error) {
-		            alert("Ocurrió un error al unirse al club.");
-		            console.error("Error AJAX:", error);
-		        }
-		    });
-		});
-
-
-		// Función para filtrar la tabla
-		function filtrarTabla(idFiltro, columnaIndex) {
-			const valorFiltro = document.getElementById(idFiltro).value
-					.toLowerCase();
-			const filas = document
-					.querySelectorAll(".tablaDatosListaMarcadores tbody tr");
-
-			filas.forEach(function(fila) {
-				const celdas = fila.getElementsByTagName("td");
-				const textoCelda = celdas[columnaIndex].textContent
-						.toLowerCase();
-				if (textoCelda.includes(valorFiltro)) {
-					fila.style.display = "";
-				} else {
-					fila.style.display = "none";
-				}
-			});
-		}
-
-		// Agregar evento de filtro para cada campo
-		document.getElementById("buscarPosicionJugador").addEventListener(
-				"input", function() {
-					filtrarTabla("buscarPosicionJugador", 0); // Filtro por columna ID (columna 0)
-				});
-
-		document.getElementById("buscarNombreJugador").addEventListener(
-				"input", function() {
-					filtrarTabla("buscarNombreJugador", 1); // Filtro por columna Nombre (columna 1)
-				});
-		document.getElementById("buscarLocalidadJugador").addEventListener(
-				"input", function() {
-					filtrarTabla("buscarLocalidadJugador", 2); // Filtro por columna Nombre (columna 1)
-				});
-
-		document.getElementById("buscarPosicionClub").addEventListener("input",
-				function() {
-					filtrarTabla("buscarPosicionClub", 0); // Filtro por columna ID (columna 0)
-				});
-
-		document.getElementById("buscarNombreClub").addEventListener("input",
-				function() {
-					filtrarTabla("buscarNombreClub", 1); // Filtro por columna Nombre (columna 1)
-				});
-		document.getElementById("buscarLocalidadClub").addEventListener(
-				"input", function() {
-					filtrarTabla("buscarLocalidadClub", 2); // Filtro por columna Nombre (columna 1)
-				});
+	   
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

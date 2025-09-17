@@ -203,8 +203,7 @@
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
 													</li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Cerrar sesión </a></li>
+													<li><a class="dropdown-item" href="logout" style="color: white;">Cerrar sesión</a></li>
 												</ul>
 											</div>
 										</div>
@@ -325,8 +324,7 @@
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item " href="InicioSesion.jsp">Cerrar
-													sesión </a></li>
+											<li><a class="dropdown-item" href="logout" style="color: white;">Cerrar sesión</a></li>
 											<li>
 										</ul>
 									</div>
@@ -343,16 +341,43 @@
 		</div>
 	</header>
 
-	<main style="background-color: rgba(223, 234, 213, 0.5);">
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		<main style="background-color: rgba(223, 234, 213, 0.5);">
+
+<div class="tarjeta-contenedor" style=" box-shadow:
+    0 0.3vw 0.6vw rgba(13, 107, 161, 0.6),
+    0 1vw 2vw rgba(13, 107, 161, 0.45),
+    0 0 0 0.2vw rgba(13, 107, 161, 0.35);">
+
+    <div class="tarjeta-header">
+        <div class="tarjeta-nombre-alias">
+            <p class="tarjeta-nombre">Calavera CF</p>
+            <p class="tarjeta-alias">"CCF"</p>
+        </div>
+        <img src="Imagenes/calavera.jpg" alt="Foto" class="tarjeta-imagen" style="border: 0.4vw solid #0d6ba1;">
+        <p class="tarjeta-estado activo">Activo</p>
+    </div>
+
+    <div class="tarjeta-estadisticas">
+        
+        <div class="tarjeta-estadistica"><strong>0</strong>Partidos</div>
+        <div class="tarjeta-estadistica"><strong>0</strong>Eventos</div>
+        <div class="tarjeta-estadistica"><strong>0</strong>Ganados</div>
+        <div class="tarjeta-estadistica"><strong>0</strong>Empatados</div>
+        <div class="tarjeta-estadistica"><strong>0</strong>Perdidos</div>
+        <div class="tarjeta-estadistica"><strong>0</strong>GF</div>
+        <div class="tarjeta-estadistica"><strong>0</strong>GC</div>
+        <div class="tarjeta-estadistica"><strong>0</strong>DG</div>
+        
+    </div>
+
+    <div class="tarjeta-iconos">
+        <img src="Imagenes/icono1.png" alt="Icono 1" class="tarjeta-icono">
+        <img src="Imagenes/icono2.png" alt="Icono 2" class="tarjeta-icono">
+        <img src="Imagenes/icono3.png" alt="Icono 3" class="tarjeta-icono">
+        <img src="Imagenes/icono4.png" alt="Icono 4" class="tarjeta-icono">
+        <img src="Imagenes/icono5.png" alt="Icono 5" class="tarjeta-icono">
+    </div>
+</div>
 	
 	</main>
 

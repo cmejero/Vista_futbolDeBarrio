@@ -15,12 +15,18 @@ import vista_futbolDeBarrio.dtos.UsuarioDto;
 import vista_futbolDeBarrio.enums.Estado;
 import vista_futbolDeBarrio.enums.RolUsuario;
 
+/**
+ * Clase que se encarga de la logica de los metodos CRUD de miembro club
+ */
 public class MiembroClubServicio {
 
-	// Método para guardar un nuevo miembro del club
+	/**
+     * Guarda un nuevo miembro en el club.
+     * 
+     * @param miembro El objeto que contiene los datos del miembro del club a guardar.
+     */
 	public void guardarMiembroClub(MiembroClubDto miembro) {
 		try {
-			// Crear el objeto JSON a partir del DTO
 			JSONObject json = new JSONObject();
 			json.put("fechaAltaUsuario", miembro.getFechaAltaUsuario().toString());
 			json.put("fechaBajaUsuario",
@@ -28,35 +34,37 @@ public class MiembroClubServicio {
 			json.put("idClub", miembro.getIdClub());
 			json.put("usuarioId", miembro.getUsuarioId());
 
-			// Definir la URL de la API para guardar el miembro
 			String urlApi = "http://localhost:9527/api/guardarMiembroClub";
 			URL url = new URL(urlApi);
 
-			// Establecer la conexión HTTP
 			HttpURLConnection conex = (HttpURLConnection) url.openConnection();
 			conex.setRequestMethod("POST");
 			conex.setRequestProperty("Content-Type", "application/json");
 			conex.setDoOutput(true);
 
-			// Enviar el JSON en la solicitud
 			try (OutputStream os = conex.getOutputStream()) {
 				byte[] input = json.toString().getBytes("utf-8");
 				os.write(input, 0, input.length);
 			}
 
-			// Verificar la respuesta del servidor
 			int responseCode = conex.getResponseCode();
 			if (responseCode == HttpURLConnection.HTTP_OK) {
-				System.out.println("Miembro del club guardado correctamente.");
+				// System.out.println("Miembro del club guardado correctamente.");
 			} else {
-				System.out.println("Error al guardar miembro del club: " + responseCode);
+				// System.out.println("Error al guardar miembro del club: " + responseCode);
 			}
 
 		} catch (Exception e) {
-			System.out.println("ERROR- [MiembroClubServicio] " + e);
+			// System.out.println("ERROR- [MiembroClubServicio] " + e);
 		}
 	}
 
+	/**
+     * Lista todos los miembros de un club.
+     * 
+     * @param clubId El ID del club cuyos miembros se desean obtener.
+     * @return Una lista de objetos `MiembroClubDto` que contienen la información de los miembros.
+     */
 	public ArrayList<MiembroClubDto> listarMiembrosClub(Long clubId) {
 	    ArrayList<MiembroClubDto> lista = new ArrayList<>();
 
@@ -78,37 +86,33 @@ public class MiembroClubServicio {
 	            }
 	            in.close();
 
-	            // Convertir la respuesta JSON a una lista de objetos MiembroClubDto
 	            JSONArray jsonLista = new JSONArray(response.toString());
 	            for (int i = 0; i < jsonLista.length(); i++) {
 	                JSONObject jsonMiembro = jsonLista.getJSONObject(i);
 	                MiembroClubDto miembro = new MiembroClubDto();
 
 	                miembro.setIdMiembroClub(jsonMiembro.getLong("idMiembroClub"));
-	                miembro.setFechaAltaUsuario(jsonMiembro.optString("fechaAltaUsuario", "N/A"));  // Asignar valor predeterminado
+	                miembro.setFechaAltaUsuario(jsonMiembro.optString("fechaAltaUsuario", "N/A"));  
 	                miembro.setFechaBajaUsuario(jsonMiembro.optString("fechaBajaUsuario", "N/A"));
-	                miembro.setIdClub(jsonMiembro.optLong("idClub", -1));  // Valor predeterminado si no existe
-	                miembro.setUsuarioId(jsonMiembro.optLong("usuarioId", -1));  // Valor predeterminado si no existe
+	                miembro.setIdClub(jsonMiembro.optLong("idClub", -1));  
+	                miembro.setUsuarioId(jsonMiembro.optLong("usuarioId", -1));  
 
-	                // Si el objeto usuario tiene valores nulos, se asignan valores predeterminados
 	                if (jsonMiembro.has("usuario") && !jsonMiembro.isNull("usuario")) {
 	                    JSONObject jsonUsuario = jsonMiembro.getJSONObject("usuario");
 	                    UsuarioDto usuario = new UsuarioDto();
-	                    
-	                    // Aseguramos que cada campo de UsuarioDto tiene un valor predeterminado si es null
-	                    usuario.setIdUsuario(jsonUsuario.optLong("idUsuario", 0));  // 0 como valor por defecto
+
+	                    usuario.setIdUsuario(jsonUsuario.optLong("idUsuario", 0));  
 	                    usuario.setNombreCompletoUsuario(jsonUsuario.optString("nombreCompletoUsuario", "Desconocido"));
 	                    usuario.setAliasUsuario(jsonUsuario.optString("aliasUsuario", "sin alias"));
 	                    usuario.setFechaNacimientoUsuario(jsonUsuario.optString("fechaNacimientoUsuario", "N/A"));
 	                    usuario.setEmailUsuario(jsonUsuario.optString("emailUsuario", "no-email@dominio.com"));
 	                    usuario.setTelefonoUsuario(jsonUsuario.optString("telefonoUsuario", "Sin teléfono"));
-	                    usuario.setRolUsuario(RolUsuario.valueOf(jsonUsuario.optString("rolUsuario", "USUARIO")));  // Valor predeterminado si es null
+	                    usuario.setRolUsuario(RolUsuario.valueOf(jsonUsuario.optString("rolUsuario", "USUARIO")));  
 	                    usuario.setDescripcionUsuario(jsonUsuario.optString("descripcionUsuario", "Sin descripción"));
-	                    
-	                    // Convierte la URL de la imagen (o el nombre del archivo) en un array de bytes
+
 	                    usuario.setImagenUsuario(jsonUsuario.optString("imagenUsuario", "default.jpg").getBytes());
 
-	                    usuario.setEstadoUsuario(Estado.valueOf(jsonUsuario.optString("estadoUsuario", "INACTIVO")));  // Valor predeterminado si es null
+	                    usuario.setEstadoUsuario(Estado.valueOf(jsonUsuario.optString("estadoUsuario", "INACTIVO"))); 
 
 	                    miembro.setUsuario(usuario);
 	                }
@@ -119,19 +123,19 @@ public class MiembroClubServicio {
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
-
 	    return lista;
 	}
 
 
-
-
-
-
-	// Método para modificar un miembro del club existente
+	   /**
+     * Modifica un miembro existente del club.
+     * 
+     * @param idMiembroClub El ID del miembro que se desea modificar.
+     * @param miembro El objeto que contiene los nuevos datos del miembro.
+     * @return `true` si la modificación fue exitosa, `false` en caso contrario.
+     */
 	public boolean modificarMiembroClub(long idMiembroClub, MiembroClubDto miembro) {
 		try {
-			// Crear el objeto JSON a partir del DTO
 			JSONObject json = new JSONObject();
 			json.put("fechaAltaUsuario", miembro.getFechaAltaUsuario().toString());
 			json.put("fechaBajaUsuario",
@@ -139,37 +143,39 @@ public class MiembroClubServicio {
 			json.put("clubId", miembro.getIdClub());
 			json.put("usuarioId", miembro.getUsuarioId());
 
-			// Definir la URL de la API para modificar el miembro
 			String urlApi = "http://localhost:9527/api/modificarMiembroClub/" + idMiembroClub;
 			URL url = new URL(urlApi);
 
-			// Establecer la conexión HTTP
 			HttpURLConnection conex = (HttpURLConnection) url.openConnection();
 			conex.setRequestMethod("PUT");
 			conex.setRequestProperty("Content-Type", "application/json");
 			conex.setDoOutput(true);
 
-			// Enviar el JSON en la solicitud
 			try (OutputStream os = conex.getOutputStream()) {
 				byte[] input = json.toString().getBytes("utf-8");
 				os.write(input, 0, input.length);
 			}
 
-			// Verificar la respuesta del servidor
 			int responseCode = conex.getResponseCode();
 			if (responseCode == HttpURLConnection.HTTP_OK) {
-				return true; // Miembro actualizado correctamente
+				return true; 
 			} else {
-				System.out.println("Error al modificar miembro del club: " + responseCode);
-				return false; // Error al actualizar
+				// System.out.println("Error al modificar miembro del club: " + responseCode);
+				return false; 
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false; // Error
+			return false; 
 		}
 	}
 	
-	
+	/**
+     * Verifica si un usuario es miembro de un club específico.
+     * 
+     * @param clubId El ID del club a verificar.
+     * @param usuarioId El ID del usuario a verificar.
+     * @return `true` si el usuario es miembro del club, `false` en caso contrario.
+     */
 	public boolean esMiembroDelClub(long clubId, long usuarioId) {
 	    try {
 	        String urlApi = "http://localhost:9527/api/miembroClub/porUsuarioYClub/" + clubId + "/" + usuarioId;
@@ -189,10 +195,9 @@ public class MiembroClubServicio {
 	            }
 	            in.close();
 
-	            // Si la respuesta no está vacía, el usuario ya es miembro
 	            return !response.toString().isEmpty();
 	        } else {
-	            System.out.println("Error al verificar si es miembro: " + responseCode);
+	            // System.out.println("Error al verificar si es miembro: " + responseCode);
 	            return false;
 	        }
 	    } catch (Exception e) {

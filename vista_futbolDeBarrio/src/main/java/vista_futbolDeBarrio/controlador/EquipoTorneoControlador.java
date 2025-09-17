@@ -1,8 +1,8 @@
 package vista_futbolDeBarrio.controlador;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -15,6 +15,7 @@ import vista_futbolDeBarrio.dtos.EquipoTorneoDto;
 import vista_futbolDeBarrio.enums.EstadoParticipacion;
 import vista_futbolDeBarrio.log.Log;
 import vista_futbolDeBarrio.servicios.EquipoTorneoServicio;
+import vista_futbolDeBarrio.servicios.TorneoServicio;
 
 @WebServlet("/equipoTorneo")
 /**
@@ -22,18 +23,25 @@ import vista_futbolDeBarrio.servicios.EquipoTorneoServicio;
  */
 public class EquipoTorneoControlador extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
-    
-    private EquipoTorneoServicio servicio;
+	private static final long serialVersionUID = 1L;
 
-    @Override
-    public void init() throws ServletException {
-        this.servicio = new EquipoTorneoServicio();
-    }
+	private EquipoTorneoServicio servicio;
+	private TorneoServicio torneoServicio;
+	
+	
 
-    @Override
-    /**
+	@Override
+	public void init() throws ServletException {
+		this.servicio = new EquipoTorneoServicio();
+		this.torneoServicio = new TorneoServicio();
+	}
+
+	  /**
      * Metodo POST que se encarga de guardar un equipo en un torneo
+     * @param request La solicitud HTTP que contiene los datos del formulario.
+     * @param response La respuesta HTTP que se enviará al cliente.
+     * @throws ServletException Si ocurre un error durante la manipulación de la solicitud o respuesta.
+     * @throws IOException Si ocurre un error de entrada/salida.
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -46,19 +54,36 @@ public class EquipoTorneoControlador extends HttpServlet {
                
                 long torneoId = Long.parseLong(request.getParameter("torneoId"));
                 long clubId = Long.parseLong(request.getParameter("clubId"));
-                Date fechaInicioParticipacion = new Date(); 
+                
+                if (!servicio.puedeInscribirse(torneoId)) {
+                    response.getWriter().write("El torneo ya alcanzó el máximo de 16 equipos.");
+                    Log.ficheroLog("Intento de inscripción fallido. Torneo ID " + torneoId + " lleno.");
+                    return;
+                }
+                if (servicio.estaInscrito(torneoId, clubId)) {
+                    response.getWriter().write("El club ya está inscrito en este torneo.");
+                    Log.ficheroLog("Intento de inscripción duplicada. Torneo ID " + torneoId + ", Club ID: " + clubId);
+                    return;
+                }
+
+                String fechaInicioParticipacion = LocalDate.now().toString();
                 EstadoParticipacion estadoParticipacion = EstadoParticipacion.Activo; 
 
                 
                 EquipoTorneoDto nuevoEquipoTorneo = new EquipoTorneoDto();
                 nuevoEquipoTorneo.setTorneoId(torneoId);
                 nuevoEquipoTorneo.setClubId(clubId);
-                nuevoEquipoTorneo.setFechaInicioParticipacion(fechaInicioParticipacion);
+                nuevoEquipoTorneo.setFechaInicioParticipacion(fechaInicioParticipacion.toString());
+                nuevoEquipoTorneo.setFechaFinParticipacion("9999-01-01");
                 nuevoEquipoTorneo.setEstadoParticipacion(estadoParticipacion);
 
                 
                 servicio.guardarEquipoTorneo(nuevoEquipoTorneo);
                 Log.ficheroLog("Equipo-Torneo creado correctamente. Torneo ID: " + torneoId + ", Club ID: " + clubId );
+
+                // Actualizar el progreso de inscripción
+                torneoServicio.actualizarClubesInscritos(torneoId);
+
                 response.getWriter().write("Equipo-Torneo creado correctamente.");
             } else if ("modificar".equals(accion)) {
                
@@ -75,28 +100,31 @@ public class EquipoTorneoControlador extends HttpServlet {
         }
     }
 
-    @Override
-    /**
+	@Override
+	 /**
      * Metodo GET que se encarga de mostrar listas de los torneos y equipos que participan
+     * @param request La solicitud HTTP que contiene los parámetros de la consulta.
+     * @param response La respuesta HTTP que se enviará al cliente.
+     * @throws ServletException Si ocurre un error durante la manipulación de la solicitud o respuesta.
+     * @throws IOException Si ocurre un error de entrada/salida.
      */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            
-            ArrayList<EquipoTorneoDto> listaEquiposTorneo = servicio.listaEquiposTorneo();
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
 
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
+			ArrayList<EquipoTorneoDto> listaEquiposTorneo = servicio.listaEquiposTorneo();
 
-            
-            ObjectMapper objectMapper = new ObjectMapper();
-            String json = objectMapper.writeValueAsString(listaEquiposTorneo);
-            Log.ficheroLog("Lista de equipos-torneo solicitada. Número de equipos: " + listaEquiposTorneo.size());
-            response.getWriter().write(json);
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.getWriter().write("Se ha producido un error al obtener los equipos-torneo. " + e.getMessage());
-            Log.ficheroLog("Error al obtener lista de equipos-torneo: " + e.getMessage() );
-        }
-    }
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+
+			ObjectMapper objectMapper = new ObjectMapper();
+			String json = objectMapper.writeValueAsString(listaEquiposTorneo);
+			Log.ficheroLog("Lista de equipos-torneo solicitada. Número de equipos: " + listaEquiposTorneo.size());
+			response.getWriter().write(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.getWriter().write("Se ha producido un error al obtener los equipos-torneo. " + e.getMessage());
+			Log.ficheroLog("Error al obtener lista de equipos-torneo: " + e.getMessage());
+		}
+	}
 }

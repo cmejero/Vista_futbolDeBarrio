@@ -18,11 +18,18 @@ import vista_futbolDeBarrio.dtos.InstalacionDto;
 import vista_futbolDeBarrio.enums.Estado;
 import vista_futbolDeBarrio.enums.Modalidad;
 
+/**
+ * Clase que se encarga de la logica de los metodos CRUD de equipo torneo
+ */
 public class InstalacionServicio {
 
+	 /**
+     * Guarda una nueva instalación en el sistema.
+     * 
+     * @param instalacion El objeto InstalacionDto que contiene los datos de la instalación a guardar.
+     */
     public void guardarInstalacion(InstalacionDto instalacion) {
         try {
-            // Construir el JSON a partir del objeto InstalacionDto
             JSONObject json = new JSONObject();
             json.put("nombreInstalacion", instalacion.getNombreInstalacion());
             json.put("direccionInstalacion", instalacion.getDireccionInstalacion());
@@ -40,13 +47,11 @@ public class InstalacionServicio {
             String urlApi = "http://localhost:9527/api/guardarInstalacion";
             URL url = new URL(urlApi);
 
-            // Abrir la conexión a la API
             HttpURLConnection conex = (HttpURLConnection) url.openConnection();
             conex.setRequestMethod("POST");
             conex.setRequestProperty("Content-Type", "application/json");
             conex.setDoOutput(true);
 
-            // Enviar el JSON en la solicitud
             try (OutputStream os = conex.getOutputStream()) {
                 byte[] input = json.toString().getBytes("utf-8");
                 os.write(input, 0, input.length);
@@ -54,47 +59,42 @@ public class InstalacionServicio {
 
             int responseCode = conex.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                System.out.println("Instalación guardada correctamente.");
+                // System.out.println("Instalación guardada correctamente.");
             } else {
-                System.out.println("Error al guardar instalación: " + responseCode);
+                // System.out.println("Error al guardar instalación: " + responseCode);
             }
 
         } catch (Exception e) {
-            System.out.println("ERROR - [InstalacionServicio] " + e);
+            // System.out.println("ERROR - [InstalacionServicio] " + e);
         }
     }
 
+    /**
+     * Obtiene la lista de todas las instalaciones.
+     * 
+     * @return Una lista de objetos InstalacionDto con los datos de las instalaciones.
+     */
     public List<InstalacionDto> listaInstalaciones() {
         List<InstalacionDto> lista = new ArrayList<>();
-
         try {
             String urlApi = "http://localhost:9527/api/instalaciones";
             URL url = new URL(urlApi);
-
             HttpURLConnection conex = (HttpURLConnection) url.openConnection();
             conex.setRequestMethod("GET");
             conex.setRequestProperty("Accept", "application/json");
-
             int responseCode = conex.getResponseCode();
-
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                // Leer la respuesta
                 BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
                 String inputLine;
                 StringBuilder response = new StringBuilder();
-
                 while ((inputLine = in.readLine()) != null) {
                     response.append(inputLine);
                 }
                 in.close();
-
-                // Procesar la respuesta JSON
                 JSONArray jsonLista = new JSONArray(response.toString());
-
                 for (int i = 0; i < jsonLista.length(); i++) {
                     JSONObject jsonInstalacion = jsonLista.getJSONObject(i);
                     InstalacionDto instalacion = new InstalacionDto();
-
                     instalacion.setIdInstalacion(jsonInstalacion.getLong("idInstalacion"));
                     instalacion.setNombreInstalacion(jsonInstalacion.getString("nombreInstalacion"));
                     instalacion.setDireccionInstalacion(jsonInstalacion.getString("direccionInstalacion"));
@@ -107,23 +107,16 @@ public class InstalacionServicio {
                     instalacion.setEstadoInstalacion(Estado.valueOf(jsonInstalacion.getString("estadoInstalacion").toUpperCase()));
                     instalacion.setPasswordInstalacion(jsonInstalacion.getString("passwordInstalacion"));
                     instalacion.setImagenInstalacion(jsonInstalacion.getString("imagenInstalacion"));
-
-                    // Manejar la imagen si está presente
                     String imagenBase64 = jsonInstalacion.getString("imagenInstalacion");
                     if (imagenBase64 != null && !imagenBase64.isEmpty()) {
-                        // Guardar la imagen en un archivo
                         String fileName = "instalacion_" + instalacion.getIdInstalacion() + ".jpg";
                         byte[] imageBytes = Base64.getDecoder().decode(imagenBase64);
                         try (FileOutputStream fos = new FileOutputStream(fileName)) {
-                            fos.write(imageBytes);
-                            System.out.println("Imagen guardada como: " + fileName);
+                            fos.write(imageBytes);                           
                         } catch (IOException e) {
-                            e.printStackTrace();
-                            System.out.println("Error al guardar la imagen: " + e.getMessage());
+                            e.printStackTrace();                         
                         }
                     }
-
-                    // Manejar la lista de torneos asociados
                     JSONArray torneosArray = jsonInstalacion.getJSONArray("torneoId");
                     List<Long> torneoIds = new ArrayList<>();
                     for (int j = 0; j < torneosArray.length(); j++) {
@@ -134,20 +127,24 @@ public class InstalacionServicio {
                     lista.add(instalacion);
                 }
             } else {
-                System.out.println("Error al obtener instalaciones: " + responseCode);
+                // System.out.println("Error al obtener instalaciones: " + responseCode);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("ERROR - [InstalacionServicio] - listarInstalaciones: " + e.getMessage());
+            // System.out.println("ERROR - [InstalacionServicio] - listarInstalaciones: " + e.getMessage());
         }
-
         return lista;
     }
     
-    
+    /**
+     * Modifica una instalación existente.
+     * 
+     * @param idInstalacion El ID de la instalación a modificar.
+     * @param instalacion El objeto InstalacionDto con los nuevos datos de la instalación.
+     * @return true si la modificación fue exitosa, false en caso contrario.
+     */
     public boolean modificarInstalacion(String idInstalacion, InstalacionDto instalacion) {
         try {
-            // Crear JSON del objeto InstalacionDto
             JSONObject json = new JSONObject();
             json.put("nombreInstalacion", instalacion.getNombreInstalacion());
             json.put("direccionInstalacion", instalacion.getDireccionInstalacion());
@@ -162,7 +159,6 @@ public class InstalacionServicio {
             json.put("imagenInstalacion", instalacion.getImagenInstalacion());
             json.put("torneoId", instalacion.getTorneoId());
 
-            // URL para hacer la solicitud PUT. Aquí estamos usando el idInstalacion en la URL
             String urlApi = "http://localhost:9527/api/modificarInstalacion/" + idInstalacion;
             URL url = new URL(urlApi);
 
@@ -171,25 +167,23 @@ public class InstalacionServicio {
             conex.setRequestProperty("Content-Type", "application/json");
             conex.setDoOutput(true);
 
-            // Enviar JSON en la solicitud PUT
             try (OutputStream os = conex.getOutputStream()) {
                 byte[] input = json.toString().getBytes("utf-8");
                 os.write(input, 0, input.length);
             }
 
-            // Verificar la respuesta
             int responseCode = conex.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                System.out.println("Instalación modificada correctamente.");
-                return true; // Instalación actualizada correctamente
+                // System.out.println("Instalación modificada correctamente.");
+                return true; 
             } else {
-                System.out.println("Error al modificar instalación: " + responseCode);
-                return false; // Error al actualizar
+                // System.out.println("Error al modificar instalación: " + responseCode);
+                return false; 
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("ERROR- [InstalacionServicio] " + e.getMessage());
-            return false; // Error
+            // System.out.println("ERROR- [InstalacionServicio] " + e.getMessage());
+            return false;
         }
     }
 }

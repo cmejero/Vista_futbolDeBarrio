@@ -204,12 +204,7 @@
 														style="color: white;">Ayuda </a></li>
 													<li><a class="dropdown-item" href="#"
 														style="color: white;">Configuración </a></li>
-													<li>
-														<hr class="dropdown-divider"
-															style="border-color: #006600;">
-													</li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Cerrar sesión </a></li>
+													
 												</ul>
 											</div>
 										</div>
@@ -249,7 +244,8 @@
 										<div
 											class="d-sm-none d-md-none col-4 d-block cabeceraMedio  d-flex justify-content-center align-items-center">
 											<a href="Registrar.jsp">
-												<button type="button" class="botonRegistrarCabecera" style="background-color: #d4af37;">REGISTRARSE</button>
+												<button type="button" class="botonRegistrarCabecera"
+													style="background-color: #d4af37;">REGISTRARSE</button>
 											</a>
 										</div>
 
@@ -266,7 +262,7 @@
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-4 ">
 									<a href="Index.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">INICIO</a>
+										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
 								</div>
 
 								<!-- columna medio: buscador -->
@@ -324,7 +320,7 @@
 												style="color: white;">Ayuda </a></li>
 											<li><a class="dropdown-item" href="#"
 												style="color: white;">Configuración </a></li>
-											
+
 										</ul>
 									</div>
 								</div>
@@ -413,315 +409,75 @@
 			<!-- FORMULARIO USUARIO -->
 			<div class="row mt-3 mb-5" style="display: none;"
 				id="usuarioContainer">
-				<div class=" col-md-10 col-sm-10  mx-auto "
-					style="background-color: #dfead5; border-radius: 12px">
-					<h2 class=" text-center mt-4 mb-5 pt-4 "
-						style="font-size: 3.5vw; text-decoration: underline;">
-						<i>Formulario de Registro: Usuario</i>
-					</h2>
-					<div class="registrarFormulario ">
-						<form action="usuario" method="POST" enctype="multipart/form-data">
-							<input type="hidden" name="accion" value="aniadir">
-
-							<table class="tablaFormulario "
-								style="background-color: #dedede; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
-
-								<tbody>
-									<tr>
-
-										<td><label for="nombreCompletoUsuario"
-											class="formularioLabel ">Nombre Completo</label> <input
-											type="text"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="nombreCompletoUsuario"
-											name="nombreCompletoUsuario" required></td>
-
-										<td><label for="aliasUsuario" class="formularioLabel ">Alias</label>
-											<input type="text"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="aliasUsuario" name="aliasUsuario"
-											required></td>
-
-
-									</tr>
-									<tr>
-										<td><label for="fechaNacimientoUsuario"
-											class="formularioLabel ">Fecha de Nacimiento</label> <input
-											type="date"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="fechaNacimientoUsuario"
-											name="fechaNacimientoUsuario" required></td>
-										<td><label for="emailUsuario" class="formularioLabel ">Correo
-												Electrónico</label> <input type="email"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="emailUsuario" name="emailUsuario"
-											required></td>
-
-									</tr>
-									<tr>
-										<td><label for="telefonoUsuario" class="formularioLabel ">Teléfono</label>
-											<input type="tel"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="telefonoUsuario"
-											name="telefonoUsuario" required></td>
-
-										<td><label for="rolUsuario" class="formularioLabel">Rol
-												usuario</label> <select class="form-select"
-											style="font-size: 1vw; border: 1px solid #818181;"
-											id="rolUsuario" name="rolUsuario" required>
-												<option style="font-size: 1.2vw" value="Jugador">Jugador</option>
-												<option style="font-size: 1.2vw" value="Administrador">Administrador</option>
-										</select></td>
-
-
-									</tr>
-									<tr>
-										<td><label for="passwordUsuario" class="formularioLabel ">Contraseña</label>
-											<input type="password"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="passwordUsuario"
-											name="passwordUsuario" required></td>
-										<td><label for="passwordUsuario2"
-											class="formularioLabel ">Repetir contraseña</label> <input
-											type="password"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											style="font-size: 1vw;" class="form-control"
-											id="passwordUsuario2" name="passwordUsuario2" required></td>
-
-
-
-									</tr>
-									<tr>
-										<td><label for="imagenUsuario" class="formularioLabel ">Imagen
-												del Usuario</label> <input type="file"
-											style="font-size: 1vw; border: 1px solid #818181;"
-											class="form-control" id="imagenUsuario" name="imagenUsuario">
-										</td>
-										<td><label for="descripcionUsuario"
-											class="formularioLabel ">Descripción</label> <textarea
-												class="form-control"
-												style="font-size: 1vw; border: 1px solid #818181;"
-												id="descripcionUsuario" name="descripcionUsuario" rows="3"></textarea>
-
-										</td>
-									</tr>
-
-
-								</tbody>
-							</table>
-
-							<div class="text-center mt-4  mb-5">
-								<button type="submit" class=" botonRegistrarCabecera">REGISTRARSE</button>
-
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-
-
-
-
-
-			<!-- FORMULARIO CLUB -->
-			<div class="row mt-3 mb-5" style="display: none;" id="clubContainer">
-				<div class=" col-md-10 col-sm-10  mx-auto "
-					style="background-color: #dfead5; border-radius: 12px">
-					<h2 class=" text-center mt-4 mb-5 pt-4"
-						style="font-size: 3.5vw; text-decoration: underline;">
-						<i>Formulario de Registro: Club </i>
-					</h2>
-					<div class="registrarFormulario">
-						<form action="club" method="POST" enctype="multipart/form-data">
-							<input type="hidden" name="accion" value="aniadir">
-							<table class="tablaFormulario "
-								style="background-color: #d8d8d8; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
-								<tbody>
-									<tr>
-										<td><label for="nombreClub" class="formularioLabel">Nombre
-												del Club</label> <input type="text"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="nombreClub" name="nombreClub"
-											required></td>
-										<td><label for="abreviaturaClub" class="formularioLabel">Abreviatura</label>
-											<input type="text"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="abreviaturaClub"
-											name="abreviaturaClub" required></td>
-									</tr>
-									<tr>
-										<td><label for="emailClub" class="formularioLabel">Correo
-												Electrónico</label> <input type="email"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="emailClub" name="emailClub" required></td>
-
-										<td><label for="telefonoClub" class="formularioLabel">Teléfono</label>
-											<input type="tel"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="telefonoClub" name="telefonoClub"
-											required></td>
-									</tr>
-									<tr>
-										<td><label for="paisClub" class="formularioLabel">País</label>
-											<input type="text"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="paisClub" name="paisClub" required>
-										</td>
-										<td><label for="localidadClub" class="formularioLabel">Localidad</label>
-											<input type="text"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="localidadClub" name="localidadClub"
-											required></td>
-									</tr>
-									<tr>
-										<td><label for="passwordClub" class="formularioLabel">Contraseña</label>
-											<input type="password"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="passwordClub" name="passwordClub"
-											required></td>
-										<td><label for="repasswordClub" class="formularioLabel">Repetir
-												Contraseña</label> <input type="password"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="repasswordClub"
-											name="repasswordClub" required></td>
-									</tr>
-									<tr>
-										<td><label for="logoClub" class="formularioLabel">Escudo
-												del Club</label> <input type="file"
-											style="font-size: 1vw; border: 1px solid #818181;"
-											class="form-control" id="logoClub" name="logoClub"></td>
-										<td><label for="descripcionClub" class="formularioLabel">Descripción</label>
-											<textarea class="form-control"
-												style="font-size: 1vw; border: 1px solid #818181; border-bottom: 1px solid #818181;"
-												id="descripcionClub" name="descripcionClub" rows="3"></textarea>
-										</td>
-									</tr>
-
-								</tbody>
-							</table>
-							<div class="text-center mt-4 mb-5">
-								<button type="submit" class="botonRegistrarCabecera">REGISTRARSE</button>
-							</div>
-						</form>
-					</div>
-
-				</div>
-			</div>
-
-
-
-			<!-- FORMULARIO INSTALACIÓN -->
-			<div class="row mt-3 mb-5" style="display: none;"
-				id="instalacionContainer">
 				<div class="col-md-10 col-sm-10 mx-auto"
 					style="background-color: #dfead5; border-radius: 12px">
 					<h2 class="text-center mt-4 mb-5 pt-4"
 						style="font-size: 3.5vw; text-decoration: underline;">
-						<i>Formulario de Registro: Instalación</i>
+						<i>Formulario de Registro: Usuario</i>
 					</h2>
 					<div class="registrarFormulario">
-						<form action="instalacion" method="POST"
-							enctype="multipart/form-data">
+						<form action="usuario" method="POST" enctype="multipart/form-data"
+							onsubmit="return validarFormulario()">
 							<input type="hidden" name="accion" value="aniadir">
 							<table class="tablaFormulario"
-								style="background-color: #d1d1d1; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
+								style="background-color: #dedede; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
 								<tbody>
 									<tr>
-										<td><label for="nombreInstalacion"
-											class="formularioLabel">Nombre de la Instalación</label> <input
-											type="text" class="form-control" id="nombreInstalacion"
-											name="nombreInstalacion" required
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
+										<td><label for="nombreCompletoUsuario"
+											class="formularioLabel">Nombre Completo</label> <input
+											type="text" class="form-control" id="nombreCompletoUsuario"
+											name="nombreCompletoUsuario" style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,50}"
+											title="Solo letras y espacios, mínimo 2 caracteres" required>
 										</td>
-										<td><label for="direccionInstalacion"
-											class="formularioLabel">Dirección</label> <input type="text"
-											class="form-control" id="direccionInstalacion"
-											name="direccionInstalacion" required
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
-										</td>
+										<td><label for="aliasUsuario" class="formularioLabel">Alias</label>
+											<input type="text" class="form-control" id="aliasUsuario" style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											name="aliasUsuario" required></td>
 									</tr>
 									<tr>
-										<td><label for="emailInstalacion" class="formularioLabel">Correo
-												Electrónico</label> <input type="email" class="form-control"
-											id="emailInstalacion" name="emailInstalacion" required
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
-										</td>
-										<td><label for="telefonoInstalacion"
-											class="formularioLabel">Teléfono</label> <input type="tel"
-											class="form-control" id="telefonoInstalacion"
-											name="telefonoInstalacion" required
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
-										</td>
+										<td><label for="fechaNacimientoUsuario"
+											class="formularioLabel">Fecha de Nacimiento</label> <input
+											type="date"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											class="form-control" id="fechaNacimientoUsuario"
+											name="fechaNacimientoUsuario"
+											max="<%=new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date())%>"
+											required></td>
+										<td><label for="emailUsuario" class="formularioLabel">Correo
+												Electrónico</label> <input type="email" class="form-control" style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											id="emailUsuario" name="emailUsuario" required></td>
 									</tr>
 									<tr>
-										<td><label for="passwordInstalacion"
-											class="formularioLabel">Contraseña</label> <input
-											type="password" class="form-control" id="passwordInstalacion"
-											name="passwordInstalacion" required
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
-										</td>
-										<td><label for="repasswordInstalacion"
-											class="formularioLabel">Repetir Contraseña</label> <input
-											type="password" class="form-control"
-											id="repasswordInstalacion" name="repasswordInstalacion"
-											required
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
-										</td>
-									</tr>
-									<tr>
-										<td><label for="tipoCampo1" class="formularioLabel">
-												Pista deportiva principal</label> <select class="form-select"
-											id="tipoCampo1" name="tipoCampo1" required
-											style="font-size: 1vw; border: 1px solid #818181;">
-												<option style="font-size: 1.2vw" value="Futbol5">Fútbol 5</option>
-												<option style="font-size: 1.2vw" value="Futbol7">Fútbol 7</option>
-												<option style="font-size: 1.2vw" value="Futbol11">Fútbol 11</option>
-										</select></td>
-										<td><label for="tipoCampo2" class="formularioLabel">Pista
-												deportiva secundaria</label> <select class="form-select"
-											id="tipoCampo2" name="tipoCampo2"
-											style="font-size: 1vw; border: 1px solid #818181;">
-												<option style="font-size: 1.2vw" value="">Ninguno</option>
-												<option style="font-size: 1.2vw" value="Futbol5">Fútbol 5</option>
-												<option style="font-size: 1.2vw" value="Futbol7">Fútbol 7</option>
-												<option style="font-size: 1.2vw" value="Futbol11">Fútbol 11</option>
+										<td><label for="telefonoUsuario" class="formularioLabel">Teléfono</label>
+											<input type="tel" class="form-control" id="telefonoUsuario"
+											name="telefonoUsuario" pattern="[0-9]{9}" style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											title="Debe tener exactamente 9 dígitos" required></td>
+										<td><label for="rolUsuario" class="formularioLabel">Rol
+												usuario</label> <select class="form-select" id="rolUsuario" style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											name="rolUsuario" required>
+												<option value="Jugador">Jugador</option>
+												<option value="Administrador">Administrador</option>
 										</select></td>
 									</tr>
 									<tr>
-										<td><label for="tipoCampo3" class="formularioLabel">Pista
-												deportiva adicional</label> <select class="form-select"
-											id="tipoCampo3" name="tipoCampo3"
-											style="font-size: 1vw; border: 1px solid #818181;">
-												<option value="">Ninguno</option>
-												<option style="font-size: 1.2vw" value="Futbol5">Fútbol 5</option>
-												<option style="font-size: 1.2vw" value="Futbol7">Fútbol 7</option>
-												<option style="font-size: 1.2vw" value="Futbol11">Fútbol 11</option>
-										</select></td>
-										<td><label for="estadoInstalacion"
-											class="formularioLabel" >Estado de la Instalación</label> <select
-											class="form-select" id="estadoInstalacion"
-											name="estadoInstalacion" required
-											style="font-size: 1vw; border: 1px solid #818181;">
-												<option style="font-size: 1.2vw" value="Activo">Activo</option>
-												<option style="font-size: 1.2vw" value="Inactivo">Inactivo</option>
-										</select></td>
+										<td><label for="passwordUsuario" class="formularioLabel">Contraseña</label>
+											<input type="password" class="form-control" style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											id="passwordUsuario" name="passwordUsuario" minlength="8"
+											title="Mínimo 8 caracteres" required></td>
+										<td><label for="passwordUsuario2" class="formularioLabel">Repetir
+												contraseña</label> <input type="password" class="form-control" style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											id="passwordUsuario2" name="passwordUsuario2" minlength="8"
+											required></td>
 									</tr>
 									<tr>
-										<td><label for="imagenInstalacion"
-											class="formularioLabel">Imagen de la Instalación</label> <input
-											type="file" class="form-control" id="imagenInstalacion"
-											name="imagenInstalacion"
-											style="font-size: 1vw; border: 1px solid #818181;"></td>
-
-										<td><label for="serviciosInstalacion"
-											class="formularioLabel">Servicios</label> <textarea
-												class="form-control" id="serviciosInstalacion"
-												name="serviciosInstalacion" rows="3"
-												style="font-size: 1vw; border: 1px solid #818181;"></textarea>
-										</td>
+										<td><label for="imagenUsuario" class="formularioLabel">Imagen
+												del Usuario</label> <input type="file" class="form-control" style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+											id="imagenUsuario" name="imagenUsuario"></td>
+										<td><label for="descripcionUsuario"
+											class="formularioLabel">Descripción</label> <textarea style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+												class="form-control" id="descripcionUsuario"
+												name="descripcionUsuario" rows="3"></textarea></td>
 									</tr>
-
-
 								</tbody>
 							</table>
 							<div class="text-center mt-4 mb-5">
@@ -731,6 +487,164 @@
 					</div>
 				</div>
 			</div>
+
+
+
+
+<!-- FORMULARIO CLUB -->
+<div class="row mt-3 mb-5" style="display: none;" id="clubContainer">
+    <div class="col-md-10 col-sm-10 mx-auto" style="background-color: #dfead5; border-radius: 12px">
+        <h2 class="text-center mt-4 mb-5 pt-4" style="font-size: 3.5vw; text-decoration: underline;">
+            <i>Formulario de Registro: Club</i>
+        </h2>
+        <div class="registrarFormulario">
+            <form action="club" method="POST" enctype="multipart/form-data" onsubmit="return validarFormulario()">
+                <input type="hidden" name="accion" value="aniadir">
+                <table class="tablaFormulario" style="background-color: #d8d8d8; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
+                    <tbody>
+                        <tr>
+                            <td><label for="nombreClub" class="formularioLabel">Nombre del Club</label>
+                                <input type="text" style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+                                       class="form-control" id="nombreClub" name="nombreClub" required pattern="^[A-Za-zÁáÉéÍíÓóÚúÑñ ]+$" title="El nombre no puede contener números ni caracteres especiales"></td>
+
+                            <td><label for="abreviaturaClub" class="formularioLabel">Abreviatura</label>
+                                <input type="text" style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+                                       class="form-control" id="abreviaturaClub" name="abreviaturaClub" required
+                                       pattern="^[A-Za-zÁáÉéÍíÓóÚúÑñ]+$" title="La abreviatura no puede contener números ni caracteres especiales"
+                                       maxlength="3" oninput="this.value = this.value.toUpperCase()"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="emailClub" class="formularioLabel">Correo Electrónico</label>
+                                <input type="email" style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+                                       class="form-control" id="emailClub" name="emailClub" required></td>
+
+                            <td><label for="telefonoClub" class="formularioLabel">Teléfono</label>
+                                <input type="tel" style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+                                       class="form-control" id="telefonoClub" name="telefonoClub" required pattern="^\+?[0-9]{9,15}$" title="El teléfono debe tener entre 9 y 15 dígitos"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="paisClub" class="formularioLabel">País</label>
+                                <input type="text" style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+                                       class="form-control" id="paisClub" name="paisClub" required pattern="^[A-Za-zÁáÉéÍíÓóÚúÑñ ]+$" title="El país no puede contener números ni caracteres especiales"></td>
+
+                            <td><label for="localidadClub" class="formularioLabel">Localidad</label>
+                                <input type="text" style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+                                       class="form-control" id="localidadClub" name="localidadClub" required pattern="^[A-Za-zÁáÉéÍíÓóÚúÑñ ]+$" title="La localidad no puede contener números ni caracteres especiales"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="passwordClub" class="formularioLabel">Contraseña</label>
+                                <input type="password" style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+                                       class="form-control" id="passwordClub" name="passwordClub" required minlength="8" title="La contraseña debe tener al menos 8 caracteres"></td>
+
+                            <td><label for="repasswordClub" class="formularioLabel">Repetir Contraseña</label>
+                                <input type="password" style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+                                       class="form-control" id="repasswordClub" name="repasswordClub" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="logoClub" class="formularioLabel">Escudo del Club</label>
+                                <input type="file" style="font-size: 1vw; border: 1px solid #818181;" class="form-control"
+                                       id="logoClub" name="logoClub"></td>
+
+                            <td><label for="descripcionClub" class="formularioLabel">Descripción</label>
+                                <textarea class="form-control" style="font-size: 1vw; border: 1px solid #818181; border-bottom: 1px solid #818181;"
+                                          id="descripcionClub" name="descripcionClub" rows="3"></textarea></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="text-center mt-4 mb-5">
+                    <button type="submit" class="botonRegistrarCabecera ">REGISTRARSE</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+			<!-- FORMULARIO INSTALACIÓN -->
+<div class="row mt-3 mb-5" style="display: none;" id="instalacionContainer">
+    <div class="col-md-10 col-sm-10 mx-auto" style="background-color: #dfead5; border-radius: 12px">
+        <h2 class="text-center mt-4 mb-5 pt-4" style="font-size: 3.5vw; text-decoration: underline;">
+            <i>Formulario de Registro: Instalación</i>
+        </h2>
+        <div class="registrarFormulario">
+            <form action="instalacion" method="POST" enctype="multipart/form-data" onsubmit="return validarFormulario()">
+                <input type="hidden" name="accion" value="aniadir">
+                <table class="tablaFormulario" style="background-color: #d1d1d1; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
+                    <tbody>
+                        <tr>
+                            <td><label for="nombreInstalacion" class="formularioLabel">Nombre de la Instalación</label>
+                                <input type="text" class="form-control" id="nombreInstalacion" name="nombreInstalacion" required style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
+                            </td>
+                            <td><label for="direccionInstalacion" class="formularioLabel">Dirección</label>
+                                <input type="text" class="form-control" id="direccionInstalacion" name="direccionInstalacion" required style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="emailInstalacion" class="formularioLabel">Correo Electrónico</label>
+                                <input type="email" class="form-control" id="emailInstalacion" name="emailInstalacion" required style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Introduce un correo electrónico válido.">
+                            </td>
+                            <td><label for="telefonoInstalacion" class="formularioLabel">Teléfono</label>
+                                <input type="tel" class="form-control" id="telefonoInstalacion" name="telefonoInstalacion" required style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;" pattern="^\+?[0-9]{9,15}$" title="El teléfono debe tener entre 9 y 15 dígitos.">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="passwordInstalacion" class="formularioLabel">Contraseña</label>
+                                <input type="password" class="form-control" id="passwordInstalacion" name="passwordInstalacion" required style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;" minlength="8" title="La contraseña debe tener al menos 8 caracteres.">
+                            </td>
+                            <td><label for="repasswordInstalacion" class="formularioLabel">Repetir Contraseña</label>
+                                <input type="password" class="form-control" id="repasswordInstalacion" name="repasswordInstalacion" required style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="tipoCampo1" class="formularioLabel">Pista deportiva principal</label>
+                                <select class="form-select" id="tipoCampo1" name="tipoCampo1" required style="font-size: 1vw; border: 1px solid #818181;">
+                                    <option style="font-size: 1.2vw" value="Futbol5">Fútbol 5</option>
+                                    <option style="font-size: 1.2vw" value="Futbol7">Fútbol 7</option>
+                                    <option style="font-size: 1.2vw" value="Futbol11">Fútbol 11</option>
+                                </select>
+                            </td>
+                            <td><label for="tipoCampo2" class="formularioLabel">Pista deportiva secundaria</label>
+                                <select class="form-select" id="tipoCampo2" name="tipoCampo2" style="font-size: 1vw; border: 1px solid #818181;">
+                                    <option style="font-size: 1.2vw" value="">Ninguno</option>
+                                    <option style="font-size: 1.2vw" value="Futbol5">Fútbol 5</option>
+                                    <option style="font-size: 1.2vw" value="Futbol7">Fútbol 7</option>
+                                    <option style="font-size: 1.2vw" value="Futbol11">Fútbol 11</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="tipoCampo3" class="formularioLabel">Pista deportiva adicional</label>
+                                <select class="form-select" id="tipoCampo3" name="tipoCampo3" style="font-size: 1vw; border: 1px solid #818181;">
+                                    <option value="">Ninguno</option>
+                                    <option style="font-size: 1.2vw" value="Futbol5">Fútbol 5</option>
+                                    <option style="font-size: 1.2vw" value="Futbol7">Fútbol 7</option>
+                                    <option style="font-size: 1.2vw" value="Futbol11">Fútbol 11</option>
+                                </select>
+                            </td>
+                            <td><label for="estadoInstalacion" class="formularioLabel">Estado de la Instalación</label>
+                                <select class="form-select" id="estadoInstalacion" name="estadoInstalacion" required style="font-size: 1vw; border: 1px solid #818181;">
+                                    <option style="font-size: 1.2vw" value="Activo">Activo</option>
+                                    <option style="font-size: 1.2vw" value="Inactivo">Inactivo</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="imagenInstalacion" class="formularioLabel">Imagen de la Instalación</label>
+                                <input type="file" class="form-control" id="imagenInstalacion" name="imagenInstalacion" style="font-size: 1vw; border: 1px solid #818181;" accept="image/*">
+                            </td>
+                            <td><label for="serviciosInstalacion" class="formularioLabel">Servicios</label>
+                                <textarea class="form-control" id="serviciosInstalacion" name="serviciosInstalacion" rows="3" style="font-size: 1vw; border: 1px solid #818181;"></textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="text-center mt-4 mb-5">
+                    <button type="submit" class="botonRegistrarCabecera">REGISTRARSE</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 
@@ -985,8 +899,7 @@ Avenida mujer trabajadora
 
 
 				</div>
-				<div
-					class="col-12 d-block d-md-none d-sm-none  pieDePagina p-1 "
+				<div class="col-12 d-block d-md-none d-sm-none  pieDePagina p-1 "
 					style="border-top: 1px solid white;">
 					<p style="font-size: 2.4vw; margin-top: 1.4vw; color: #d4af37">©
 						2024 futboldebarrio.com | Todos los derechos reservados</p>
@@ -1112,6 +1025,16 @@ Avenida mujer trabajadora
 	        }
 	    });
 	});
+	
+	  window.onload = function() {
+	        var today = new Date();
+	        var dd = String(today.getDate()).padStart(2, '0');
+	        var mm = String(today.getMonth() + 1).padStart(2, '0');
+	        var yyyy = today.getFullYear();
+	        today = yyyy + '-' + mm + '-' + dd;
+
+	        document.getElementById('fechaNacimientoUsuario').setAttribute('max', today);
+	    }
 
 </script>
 

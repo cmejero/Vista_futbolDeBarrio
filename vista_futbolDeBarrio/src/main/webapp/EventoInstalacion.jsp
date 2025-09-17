@@ -210,8 +210,8 @@ Long instalacionId = (Long) session.getAttribute("instalacionId");
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
 													</li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Cerrar sesión </a></li>
+													<li><a class="dropdown-item" href="logout"
+														style="color: white;">Cerrar sesión</a></li>
 												</ul>
 											</div>
 										</div>
@@ -269,7 +269,7 @@ Long instalacionId = (Long) session.getAttribute("instalacionId");
 								<!-- columna izquierda: INICIO -->
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-4 ">
-									<a href="Index.jsp" class="letraCabeceraAbajo "
+									<a href="Instalacion.jsp" class="letraCabeceraAbajo "
 										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
 								</div>
 
@@ -309,7 +309,7 @@ Long instalacionId = (Long) session.getAttribute("instalacionId");
 											<li><a class="dropdown-item " href="Instalacion.jsp"
 												style="color: white;">Reservas </a></li>
 											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Eventos </a></li>
+												style="color: #d4af37;">Eventos </a></li>
 											<li><a class="dropdown-item " href="Instalacion.jsp"
 												style="color: white;">Finanzas </a></li>
 											<li><a class="dropdown-item " href="Instalacion.jsp"
@@ -331,8 +331,8 @@ Long instalacionId = (Long) session.getAttribute("instalacionId");
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item " href="InicioSesion.jsp">Cerrar
-													sesión </a></li>
+											<li><a class="dropdown-item" href="logout"
+												style="color: white;">Cerrar sesión</a></li>
 											<li>
 										</ul>
 									</div>
@@ -353,7 +353,7 @@ Long instalacionId = (Long) session.getAttribute("instalacionId");
 			<div class="row">
 				<!-- CONTENIDO -->
 				<div class="col-md-12 col-sm-12 col-12">
-				
+
 
 					<!-- CONTENEDOR TORNEOS -->
 					<div class="container-fluid " id="marcadorContainer">
@@ -511,19 +511,23 @@ Long instalacionId = (Long) session.getAttribute("instalacionId");
 								<table class="tablaDatos w-100 mb-3 mx-auto ">
 									<thead style="background-color: #c33214;">
 										<tr>
-											<th style="border: 1.8px solid #8a210b; width: 35%">NOMBRE
+											<th style="border: 1.8px solid #8a210b; width: 30%">NOMBRE
 												TORNEO</th>
-											<th style="border: 1.8px solid #8a210b; width: 23%">MODALIDAD</th>
-											<th style="border: 1.8px solid #8a210b; width: 21%">FECHA
+											<th style="border: 1.8px solid #8a210b; width: 20%">MODALIDAD</th>
+											<th style="border: 1.8px solid #8a210b; width: 15%">FECHA
 												INICIO</th>
-											<th style="border: 1.8px solid #8a210b; width: 21%">FECHA
+											<th style="border: 1.8px solid #8a210b; width: 15%">FECHA
 												FIN</th>
+											<th style="border: 1.8px solid #8a210b; width: 10%">NºCLUBES</th>
+											<!-- Nueva columna para el botón Activar (separada de OPCIONES) -->
+											<th style="border: 1.8px solid #8a210b; width: 10%">ACTIVAR</th>
 											<th style="border: 1.8px solid #8a210b; width: 10%">OPCIONES</th>
 										</tr>
 									</thead>
 									<tbody id="tablaCuerpoTorneo">
 									</tbody>
 								</table>
+
 
 								<!-- Paginación -->
 								<div
@@ -738,190 +742,254 @@ Avenida mujer trabajadora
 
 
 	<script>
-	
-	 const instalacionId = <%=instalacionId%>;
-	 console.log("instalacionId que se envía:", instalacionId);
-	
-	 window.onload = function () {
-	        setTimeout(function () {
-	            const mensajes = document.querySelectorAll('.fade-message');
-	            mensajes.forEach(function (el) {
-	                el.style.transition = "opacity 1s ease-out";
-	                el.style.opacity = '0';
-	                setTimeout(() => el.remove(), 1000); // elimina el elemento del DOM tras ocultarlo
-	            });
-	        }, 2000); // Espera 4 segundos antes de ocultarlo
-	    };
-	    
-		document
-				.getElementById("botonTorneo")
-				.addEventListener(
-						"click",
-						function() {
-							// Oculta los botones principales
-							document.getElementById("botonLiga").parentElement.style.display = "none";
-							document.getElementById("botonTorneo").parentElement.style.display = "none";
+const instalacionId = <%=instalacionId%>;
 
-							// Muestra el contenedor del torneo correctamente
-							document.getElementById("torneoContainer").style.display = "block";
-						});
+// Mensajes que desaparecen solos
+window.onload = function () {
+    setTimeout(function () {
+        const mensajes = document.querySelectorAll('.fade-message');
+        mensajes.forEach(function (el) {
+            el.style.transition = "opacity 1s ease-out";
+            el.style.opacity = '0';
+            setTimeout(() => el.remove(), 1000);
+        });
+    }, 2000);
+};
 
-		
+// Al pulsar TORNEO: oculta recuadros y muestra contenedor
+document.getElementById("botonTorneo").addEventListener("click", function() {
+    document.getElementById("botonLiga").parentElement.style.display = "none";
+    document.getElementById("botonTorneo").parentElement.style.display = "none";
+    document.getElementById("torneoContainer").style.display = "block";
+});
 
-		// Mostrar u ocultar filtros
-		document.getElementById("mostrarFiltrosTorneo").addEventListener(
-				"click", function() {
-					const filtros = document.getElementById("filtrosTorneo");
-					if (filtros.style.display === "none") {
-						filtros.style.display = "flex";
-						this.textContent = "Ocultar Filtros";
-					} else {
-						filtros.style.display = "none";
-						this.textContent = "Mostrar Filtros";
-					}
-				});
-		
-		
-		// Función para filtrar la tabla
-		function filtrarTabla(idFiltro, columnaIndex) {
+// Mostrar u ocultar filtros
+document.getElementById("mostrarFiltrosTorneo").addEventListener("click", function() {
+    const filtros = document.getElementById("filtrosTorneo");
+    if (filtros.style.display === "none") {
+        filtros.style.display = "flex";
+        this.textContent = "Ocultar Filtros";
+    } else {
+        filtros.style.display = "none";
+        this.textContent = "Mostrar Filtros";
+    }
+});
+
+// Filtrar tabla
+function filtrarTabla(idFiltro, columnaIndex) {
     const valorFiltro = document.getElementById(idFiltro).value.toLowerCase();
     const filas = document.querySelectorAll(".tablaDatos tbody tr");
-
-    filas.forEach(function(fila) {
+    filas.forEach(fila => {
         const celdas = fila.getElementsByTagName("td");
-        const textoCelda = celdas[columnaIndex].textContent.toLowerCase();
-        if (textoCelda.includes(valorFiltro)) {
-            fila.style.display = "";
-        } else {
-            fila.style.display = "none";
+        fila.style.display = celdas[columnaIndex].textContent.toLowerCase().includes(valorFiltro) ? "" : "none";
+    });
+}
+document.getElementById("buscarNombre").addEventListener("input", () => filtrarTabla("buscarNombre", 0));
+document.getElementById("buscarModalidad").addEventListener("input", () => filtrarTabla("buscarModalidad", 1));
+document.getElementById("buscarFechaInicio").addEventListener("input", () => filtrarTabla("buscarFechaInicio", 2));
+
+// Mostrar/ocultar formulario de crear torneo
+document.addEventListener("DOMContentLoaded", function () {
+    const btnCrear = document.getElementById("crearEventoTorneo");
+    const contenedorFormulario = document.getElementById("crearTorneoContainer");
+    btnCrear.addEventListener("click", function () {
+        contenedorFormulario.style.display = (contenedorFormulario.style.display === "none" || contenedorFormulario.style.display === "") ? "block" : "none";
+    });
+});
+
+// Volver a vista principal (oculta contenedor y muestra recuadros)
+document.getElementById("volverAContenidoC").addEventListener("click", function() {
+    document.getElementById("torneoContainer").style.display = "none";
+    document.getElementById("botonLiga").parentElement.style.display = "flex";
+    document.getElementById("botonTorneo").parentElement.style.display = "flex";
+});
+
+// Cargar torneos
+$(document).ready(function() {
+    cargarTorneos();
+});
+
+function cargarTorneos() {
+    $.ajax({
+        url: 'torneo',
+        method: 'GET',
+        dataType: 'json',
+        xhrFields: { withCredentials: true },
+        success: function (data) {
+            if (data && Array.isArray(data) && data.length > 0) {
+                $('#tablaCuerpoTorneo').empty();
+
+                function inscritosCount(str) {
+                    if (!str) return 0;
+                    var m = str.match(/(\d+)/);
+                    return m ? parseInt(m[0], 10) : 0;
+                }
+
+                $.each(data, function (index, torneo) {
+                    var fechaInicio = torneo.fechaInicioTorneo ? new Date(torneo.fechaInicioTorneo) : null;
+                    var fechaFin = torneo.fechaFinTorneo ? new Date(torneo.fechaFinTorneo) : null;
+
+                    var fechaInicioFormateada = fechaInicio ? fechaInicio.toLocaleDateString() : '';
+                    var fechaFinFormateada = fechaFin ? fechaFin.toLocaleDateString() : '';
+
+                    var inscritosTexto = torneo.clubesInscritos || torneo.progresoEquipos || '0 / 16';
+                    var inscritosNum = inscritosCount(inscritosTexto);
+
+                    var estaActivo = (torneo.estaActivo === true || torneo.estaActivo === 'true');
+
+                    // ✅ Nombre clicable si el torneo está activo
+                    var nombreHtml = estaActivo
+                        ? '<span class="nombre-torneo-link" data-torneo-id="' + torneo.idTorneo + '" ' +
+                          'style="color:#007bff;cursor:pointer;text-decoration:underline;">' + (torneo.nombreTorneo || '') + '</span>'
+                        : (torneo.nombreTorneo || '');
+
+                    // ✅ Botón Activar
+                    var botonActivarHtml = '';
+                    if (estaActivo) {
+                        botonActivarHtml = '<button class="btn-activar" data-torneo-id="' + torneo.idTorneo +
+                            '" disabled style="background:gray;color:white;border:none;padding:5px 8px;border-radius:5px;">Activo</button>';
+                    } else if (inscritosNum === 16) {
+                        botonActivarHtml = '<button class="btn-activar" data-torneo-id="' + torneo.idTorneo +
+                            '" style="background:#28a745;color:white;border:none;padding:5px 8px;border-radius:5px;cursor:pointer;">Activar</button>';
+                    } else {
+                        botonActivarHtml = '<button class="btn-activar" data-torneo-id="' + torneo.idTorneo +
+                            '" disabled style="background:lightgray;color:#666;border:none;padding:5px 8px;border-radius:5px;">Activar</button>';
+                    }
+
+                    // ✅ Botones opciones (Unirse + Modificar + Borrar)
+                    var opcionesHtml =
+                    	  '<div style="display:flex;justify-content:center;gap:1vw;">'+
+                          '<button class="btnEliminar" data-id="'+torneo.idTorneo+'" style="border:1px solid red;height:1.8vw;width:1.8vw;">'+
+                          '<i class="bi bi-trash3-fill" style="color:#c33214;font-size:1vw;"></i></button>'+
+                          '<button class="btnEditar" data-usuario=\''+JSON.stringify(torneo)+'\' style="border:1px solid orange;height:1.8vw;width:1.8vw;">'+
+                          '<i class="bi bi-pencil-square" style="font-size:1vw;color:orange;"></i></button>'+
+                          '</div>'
+                    // ✅ Fila completa
+                    var row =
+                        '<tr id="fila-' + torneo.idTorneo + '" style="font-size: 1vw; text-align: center; vertical-align: middle;">' +
+                        '<td>' + nombreHtml + '</td>' +
+                        '<td>' + (torneo.modalidad || '') + '</td>' +
+                        '<td>' + fechaInicioFormateada + '</td>' +
+                        '<td>' + fechaFinFormateada + '</td>' +
+                        '<td style="color:green;">' + inscritosTexto + '</td>' +
+                        '<td>' + botonActivarHtml + '</td>' +
+                        '<td>' + opcionesHtml + '</td>' +
+                        '</tr>';
+
+                    $('#tablaCuerpoTorneo').append(row);
+                });
+
+                // ✅ Evento: Unirse al torneo
+                $(document).off('click', '.icono-unirse').on('click', '.icono-unirse', function () {
+                    const torneoId = $(this).data('torneo-id');
+                    const clubId = document.getElementById("clubId").value; // recogido del input hidden
+                    console.log("Unirse → Torneo:", torneoId, "Club:", clubId);
+                    // Aquí tu lógica AJAX para unirse
+                });
+
+                // ✅ Evento: Activar torneo
+                $(document).off('click', '.btn-activar').on('click', '.btn-activar', function () {
+                    var $btn = $(this);
+                    var torneoId = $btn.data('torneo-id');
+                    if ($btn.prop('disabled')) return;
+
+                    $.ajax({
+                        url: 'torneo', // mismo servlet
+                        method: 'POST',
+                        data: {
+                            accion: 'activar',
+                            idTorneo: torneoId
+                        },
+                        success: function () {
+                            alert("Torneo activado");
+                            cargarTorneos(); // refresca la tabla
+                        },
+                        error: function (xhr) {
+                            console.error("Error al activar torneo:", xhr.status, xhr.responseText);
+                            alert("Error al activar torneo: " + xhr.status);
+                        }
+                    });
+
+                });
+
+                // ✅ Evento: Nombre clicable → redirección a torneoInstalacion.jsp
+                $(document).off('click', '.nombre-torneo-link').on('click', '.nombre-torneo-link', function () {
+                    var torneoId = $(this).data('torneo-id');
+                    window.location.href = "TorneoInstalacion.jsp?id=" + torneoId;
+                });
+
+                // ✅ Evento: Modificar torneo
+                $(document).off('click', '.btn-modificar').on('click', '.btn-modificar', function () {
+                    var torneoId = $(this).data('torneo-id');
+                    console.log("Modificar torneo:", torneoId);
+                    // Aquí va tu lógica de modificar
+                });
+
+                // ✅ Evento: Borrar torneo
+                $(document).off('click', '.btn-borrar').on('click', '.btn-borrar', function () {
+                    var torneoId = $(this).data('torneo-id');
+                    if (confirm("¿Seguro que deseas borrar este torneo?")) {
+                        $.ajax({
+                            url: 'torneo/' + torneoId,
+                            method: 'DELETE',
+                            success: function () {
+                                alert("Torneo eliminado");
+                                cargarTorneos();
+                            }
+                        });
+                    }
+                });
+
+            } else {
+                $('#tablaCuerpoTorneo').html('<tr><td colspan="7">No hay torneos disponibles</td></tr>');
+            }
         }
     });
 }
 
-// Agregar evento de filtro para cada campo
-document.getElementById("buscarNombre").addEventListener("input", function() {
-    filtrarTabla("buscarNombre", 0); // Filtro por columna ID (columna 0)
+
+// Crear torneo vía AJAX (sin recargar página)
+$('#crearTorneoContainer form').submit(function(e){
+    e.preventDefault(); // evita redireccionar
+    const formData = $(this).serialize();
+    $.ajax({
+        url: 'torneo',
+        method: 'POST',
+        data: formData,
+        success: function() {
+            $('#crearTorneoContainer form')[0].reset();
+            $('#crearTorneoContainer').hide();
+            cargarTorneos(); // recargar tabla
+        },
+        error: function(xhr, status, error){
+            console.error('Error al crear torneo:', error);
+        }
+    });
 });
 
-document.getElementById("buscarModalidad").addEventListener("input", function() {
-    filtrarTabla("buscarModalidad", 1); // Filtro por columna Modalidad (columna 1)
+// Eliminar torneo
+$('#tablaCuerpoTorneo').on('click', '.btnEliminar', function () {
+    const idTorneo = $(this).data('id');
+    if (confirm("¿Seguro que deseas eliminar este torneo?")) {
+        $.ajax({
+            url: 'torneo?idTorneo=' + idTorneo,
+            method: 'DELETE',
+            success: function () {
+                $('#fila-' + idTorneo).remove();
+            },
+            error: function (xhr, status, error) {
+                console.error('Error al eliminar torneo:', error);
+            }
+        });
+    }
 });
-document.getElementById("buscarFechaInicio").addEventListener("input", function() {
-    filtrarTabla("buscarFechaInicio", 2); // Filtro por columna Modalidad (columna 1)
+
+// Click en nombre de torneo -> redirige a detalle
+$('#tablaCuerpoTorneo').on('click', '.nombreTorneo', function() {
+    const idTorneo = $(this).data('id');
+    window.location.href = "TorneoInstalacion.jsp?torneoId=" + idTorneo;
 });
-		
-		
-
-		document.addEventListener("DOMContentLoaded", function () {
-	        const btnCrear = document.getElementById("crearEventoTorneo");
-	        const contenedorFormulario = document.getElementById("crearTorneoContainer");
-
-	        btnCrear.addEventListener("click", function () {
-	            if (contenedorFormulario.style.display === "none" || contenedorFormulario.style.display === "") {
-	                contenedorFormulario.style.display = "block";
-	            } else {
-	                contenedorFormulario.style.display = "none";
-	            }
-	        });
-	    });
-
-		// Volver a la vista anterior
-		document
-				.getElementById("volverAContenidoC")
-				.addEventListener(
-						"click",
-						function() {
-							// Aquí puedes ocultar el contenedor actual y volver a mostrar los botones principales
-							document.getElementById("torneoContainer").style.display = "none";
-
-							// Si usaste display: none para los botones principales, vuelve a mostrarlos:
-							document.getElementById("botonTorneo").parentElement.style.display = "flex";
-							document.getElementById("botonLiga").parentElement.style.display = "flex";
-						});
-		$(document).ready(function() {
-		   
-		    cargarTorneos(); 
-		});
-		function cargarTorneos() {
-		    $.ajax({
-		        url: 'torneo',
-		        method: 'GET',
-		        dataType: 'json',
-		        data: {
-		        	 
-		             instalacionId: instalacionId 
-		        },
-		        success: function(data) {
-		        	 console.log("Datos recibidos:", data);  // Verifica lo que devuelve el servidor
-
-		        	    if (data && Array.isArray(data) && data.length > 0) {
-		        	        $('#tablaCuerpoTorneo').empty();  // Limpiar la tabla
-
-		        	        $.each(data, function(index, torneo) {
-		        	        	var fechaInicio = new Date(torneo.fechaInicioTorneo);
-		        	        	var fechaFin = new Date(torneo.fechaFinTorneo);
-
-		        	        	if (isNaN(fechaInicio)) {
-		        	        	    console.error('Fecha de inicio inválida:', torneo.fechaInicioTorneo);
-		        	        	}
-
-		        	        	if (isNaN(fechaFin)) {
-		        	        	    console.error('Fecha de fin inválida:', torneo.fechaFinTorneo);
-		        	        	}
-
-
-		        	            var fechaInicioFormateada = (fechaInicio.getDate() < 10 ? '0' : '') + fechaInicio.getDate() + '/' + 
-		        	                (fechaInicio.getMonth() + 1 < 10 ? '0' : '') + (fechaInicio.getMonth() + 1) + '/' + fechaInicio.getFullYear();
-		        	            var fechaFinFormateada = (fechaFin.getDate() < 10 ? '0' : '') + fechaFin.getDate() + '/' + 
-		        	                (fechaFin.getMonth() + 1 < 10 ? '0' : '') + (fechaFin.getMonth() + 1) + '/' + fechaFin.getFullYear();
-
-		        	            var row = '<tr id="fila-' + torneo.idTorneo + '" style="font-size: 1vw; text-align: center; vertical-align: middle;">' +
-		        	                '<td>' + torneo.nombreTorneo + '</td>' +
-		        	                '<td>' + torneo.modalidad + '</td>' +
-		        	                '<td>' + fechaInicioFormateada + '</td>' +
-		        	                '<td>' + fechaFinFormateada + '</td>' +
-		        	                '<td>' +
-		        	                '<div style="display: flex; justify-content: center; gap: 1vw;">' +
-		        	                '<button class="btnEliminar" data-id="' + torneo.idTorneo + '" ' +
-		        	                'style="border: 1px solid red; height: 1.8vw; width: 1.8vw;">' +
-		        	                '<i class="bi bi-trash3-fill" style="color: #c33214; font-size: 1vw;"></i></button>' +
-		        	                '<button class="btnEditar" data-usuario=\'' + JSON.stringify(torneo) + '\' ' +
-		        	                'style="border: 1px solid orange; height: 1.8vw; width: 1.8vw;">' +
-		        	                '<i class="bi bi-pencil-square" style="font-size: 1vw; color: orange;"></i></button>' +
-		        	                '</div></td></tr>';
-
-		        	            $('#tablaCuerpoTorneo').append(row);
-		        	        });
-		        	    } else {
-		        	        console.log("No hay torneos para mostrar");
-		        	        $('#tablaCuerpoTorneo').html('<tr><td colspan="5">No hay torneos disponibles</td></tr>');
-		        	    }
-		        }
-		    });
-		}
-		
-		// Delegación de evento para eliminar
-		$('#tablaCuerpoTorneo').on('click', '.btnEliminar', function () {
-			var idTorneo = $(this).data('id');
-			if (confirm("¿Seguro que deseas eliminar este torneo?")) {
-				$.ajax({
-					url: 'torneo?idTorneo=' + idTorneo,
-					method: 'DELETE',
-					success: function (response) {
-						console.log(response);
-						$('#fila-' + idTorneo).remove();
-					},
-					error: function (xhr, status, error) {
-						console.error('Error al eliminar torneo:', error);
-					}
-				});
-			}
-		});
-
-
-
-	</script>
-
+</script>
 
 
 

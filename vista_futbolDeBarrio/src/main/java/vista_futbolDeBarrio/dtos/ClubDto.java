@@ -1,7 +1,8 @@
 package vista_futbolDeBarrio.dtos;
 
-import java.time.LocalDate;
-
+/**
+ * Clase que se encarga de los campos de club
+ */
 public class ClubDto {
 
 	private long idClub;

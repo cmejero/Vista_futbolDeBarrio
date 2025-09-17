@@ -13,84 +13,106 @@ import vista_futbolDeBarrio.dtos.InstalacionDto;
 import vista_futbolDeBarrio.dtos.RespuestaLoginDto;
 import vista_futbolDeBarrio.dtos.UsuarioDto;
 
+/**
+ * Clase que se encarga de la logica del login
+ */
 public class LoginServicio {
 
-    public RespuestaLoginDto login(String email, String password) {
-        try {
-            JSONObject json = new JSONObject();
-            json.put("email", email);
-            json.put("password", password);
+	/**
+     * Realiza el proceso de login enviando las credenciales del usuario y obteniendo la respuesta del servidor.
+     * 
+     * @param email El correo electrónico del usuario.
+     * @param password La contraseña del usuario.
+     * @return Un objeto RespuestaLoginDto con los datos de la respuesta del login, incluyendo un token y los detalles del usuario.
+     */
+	/**
+	 * Realiza el proceso de inicio de sesión enviando una solicitud HTTP POST a la API externa
+	 * y devuelve un objeto RespuestaLoginDto con los datos del usuario autenticado.
+	 *
+	 * @param email    Correo electrónico del usuario.
+	 * @param password Contraseña del usuario.
+	 * @return Objeto RespuestaLoginDto con token, tipo y datos del usuario si el login es exitoso; null en caso contrario.
+	 */
+	public RespuestaLoginDto login(String email, String password) {
+	    try {
+	        // Crear el JSON de solicitud con email y password
+	        JSONObject json = new JSONObject();
+	        json.put("email", email);
+	        json.put("password", password);
 
-            System.out.println("JSON de solicitud: " + json.toString());
+	        // Establecer conexión con la API
+	        String urlApi = "http://localhost:9527/api/login";
+	        HttpURLConnection conex = (HttpURLConnection) new URL(urlApi).openConnection();
+	        conex.setRequestMethod("POST");
+	        conex.setRequestProperty("Content-Type", "application/json");
+	        conex.setDoOutput(true);
 
-            String urlApi = "http://localhost:9527/api/login";
-            URL url = new URL(urlApi);
-            HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-            conex.setRequestMethod("POST");
-            conex.setRequestProperty("Content-Type", "application/json");
-            conex.setDoOutput(true);
+	        // Enviar el JSON en el cuerpo de la solicitud
+	        try (OutputStream os = conex.getOutputStream()) {
+	            byte[] input = json.toString().getBytes("utf-8");
+	            os.write(input, 0, input.length);
+	        }
 
-            try (OutputStream os = conex.getOutputStream()) {
-                byte[] input = json.toString().getBytes("utf-8");
-                os.write(input, 0, input.length);
-            }
+	        int codigoRespuesta = conex.getResponseCode();
 
-            int codigoRespuesta = conex.getResponseCode();
-            System.out.println("Código de respuesta: " + codigoRespuesta);
+	        if (codigoRespuesta == HttpURLConnection.HTTP_OK) {
+	            // Leer la respuesta del servidor
+	            StringBuilder respuesta = new StringBuilder();
+	            try (BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()))) {
+	                String linea;
+	                while ((linea = in.readLine()) != null) {
+	                    respuesta.append(linea);
+	                }
+	            }
 
-            if (codigoRespuesta == HttpURLConnection.HTTP_OK) {
-                BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
-                StringBuilder respuesta = new StringBuilder();
-                String linea;
-                while ((linea = in.readLine()) != null) {
-                    respuesta.append(linea);
-                }
-                in.close();
+	            // Parsear respuesta JSON y construir DTO de login
+	            return construirRespuestaLogin(new JSONObject(respuesta.toString()));
+	        }
 
-                System.out.println("Respuesta del servidor: " + respuesta.toString());
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
 
-                try {
-                    JSONObject jsonRespuesta = new JSONObject(respuesta.toString());
+	/**
+	 * Construye y retorna un objeto RespuestaLoginDto a partir del JSON recibido.
+	 *
+	 * @param jsonRespuesta Objeto JSON recibido del servidor tras el login.
+	 * @return Objeto RespuestaLoginDto con los datos del usuario autenticado.
+	 */
+	private RespuestaLoginDto construirRespuestaLogin(JSONObject jsonRespuesta) {
+	    RespuestaLoginDto respuestaLogin = new RespuestaLoginDto();
+	    respuestaLogin.setToken(jsonRespuesta.getString("token"));
+	    respuestaLogin.setTipoUsuario(jsonRespuesta.getString("tipoUsuario"));
 
-                    RespuestaLoginDto respuestaLogin = new RespuestaLoginDto();
-                    respuestaLogin.setToken(jsonRespuesta.getString("token"));
-                    respuestaLogin.setTipoUsuario(jsonRespuesta.getString("tipoUsuario"));
+	    String tipoUsuario = respuestaLogin.getTipoUsuario();
+	    JSONObject datos = jsonRespuesta.getJSONObject("datosUsuario");
 
-                    String tipoUsuario = respuestaLogin.getTipoUsuario();
-                    JSONObject datos = jsonRespuesta.getJSONObject("datosUsuario");
+	    switch (tipoUsuario) {
+	        case "administrador":
+	        case "jugador":
+	            UsuarioDto usuario = new UsuarioDto();
+	            usuario.setIdUsuario(datos.getLong("idUsuario"));
+	            usuario.setNombreCompletoUsuario(datos.getString("nombreCompletoUsuario"));
+	            usuario.setEmailUsuario(datos.getString("emailUsuario"));
+	            respuestaLogin.setDatosUsuario(usuario);
+	            break;
+	        case "club":
+	            ClubDto club = new ClubDto();
+	            club.setIdClub(datos.getLong("idClub"));
+	            club.setNombreClub(datos.getString("nombreClub"));
+	            respuestaLogin.setDatosUsuario(club);
+	            break;
+	        case "instalacion":
+	            InstalacionDto instalacion = new InstalacionDto();
+	            instalacion.setIdInstalacion(datos.getLong("idInstalacion"));
+	            instalacion.setNombreInstalacion(datos.getString("nombreInstalacion"));
+	            respuestaLogin.setDatosUsuario(instalacion);
+	            break;
+	    }
 
-                    if ("administrador".equals(tipoUsuario) || "jugador".equals(tipoUsuario)) {
-                        UsuarioDto usuarioDto = new UsuarioDto();
-                        usuarioDto.setIdUsuario(datos.getLong("idUsuario"));
-                        usuarioDto.setNombreCompletoUsuario(datos.getString("nombreCompletoUsuario"));
-                        usuarioDto.setEmailUsuario(datos.getString("emailUsuario"));
-                        respuestaLogin.setDatosUsuario(usuarioDto);
-                    } else if ("club".equals(tipoUsuario)) {
-                        ClubDto clubDto = new ClubDto();
-                        clubDto.setIdClub(datos.getLong("idClub"));
-                        clubDto.setNombreClub(datos.getString("nombreClub"));
-                        respuestaLogin.setDatosUsuario(clubDto);
-                    } else if ("instalacion".equals(tipoUsuario)) {
-                        InstalacionDto instalacionDto = new InstalacionDto();
-                        instalacionDto.setIdInstalacion(datos.getLong("idInstalacion"));
-                        instalacionDto.setNombreInstalacion(datos.getString("nombreInstalacion"));
-                        respuestaLogin.setDatosUsuario(instalacionDto);
-                    }
+	    return respuestaLogin;
+	}
 
-                    return respuestaLogin;
-
-                } catch (Exception e) {
-                    System.out.println("La respuesta no es un JSON válido. Respuesta: " + respuesta.toString());
-                    e.printStackTrace();
-                }
-            } else {
-                System.out.println("Error al hacer login: " + codigoRespuesta);
-            }
-
-        } catch (Exception e) {
-            System.out.println("ERROR - [ServiciosLogin] " + e);
-            e.printStackTrace();
-        }
-        return null;
-    }
 }

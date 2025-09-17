@@ -15,14 +15,19 @@ import org.json.JSONObject;
 
 import vista_futbolDeBarrio.dtos.ClubDto;
 
+/**
+ * Clase que se encarga de la logica de los metodos CRUD de club
+ */
 public class ClubServicio {
 
-    // Guardar un nuevo club
+	  /**
+     * Guarda un nuevo club en el sistema.
+     * 
+     * @param club El objeto ClubDto que contiene los datos del club a guardar.
+     */
     public void guardarClub(ClubDto club) {
         try {
-            // Crear el JSON del objeto ClubDto
             JSONObject json = new JSONObject();
-
             json.put("nombreClub", club.getNombreClub());
             json.put("abreviaturaClub", club.getAbreviaturaClub());
             json.put("descripcionClub", club.getDescripcionClub());
@@ -35,7 +40,7 @@ public class ClubServicio {
             json.put("telefonoClub", club.getTelefonoClub());
             json.put("logoClub", club.getLogoClub());
 
-            String urlApi = "http://localhost:9527/api/guardarClub"; // Cambia esta URL según tu configuración
+            String urlApi = "http://localhost:9527/api/guardarClub";
             URL url = new URL(urlApi);
             
             HttpURLConnection conex = (HttpURLConnection) url.openConnection();
@@ -43,7 +48,6 @@ public class ClubServicio {
             conex.setRequestProperty("Content-Type", "application/json");
             conex.setDoOutput(true);
 
-            // Enviar el JSON en la solicitud POST
             try (OutputStream os = conex.getOutputStream()) {
                 byte[] input = json.toString().getBytes("utf-8");
                 os.write(input, 0, input.length);
@@ -51,15 +55,20 @@ public class ClubServicio {
 
             int responseCode = conex.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                System.out.println("Club guardado correctamente.");
+                // System.out.println("Club guardado correctamente.");
             } else {
-                System.out.println("Error al guardar el club: " + responseCode);
+                // System.out.println("Error al guardar el club: " + responseCode);
             }
         } catch (Exception e) {
-            System.out.println("ERROR- [ServiciosClub]" + e);
+            // System.out.println("ERROR- [ServiciosClub]" + e);
         }
     }
 
+    /**
+     * Obtiene una lista de clubes desde el servicio web.
+     * 
+     * @return Una lista de objetos ClubDto con los datos de los clubes.
+     */
     public ArrayList<ClubDto> listaClub() {
         ArrayList<ClubDto> lista = new ArrayList<>();
         StringBuilder response = new StringBuilder();
@@ -97,42 +106,39 @@ public class ClubServicio {
                     club.setEmailClub(jsonClub.getString("emailClub"));
                     club.setPasswordClub(jsonClub.getString("passwordClub"));
                     club.setTelefonoClub(jsonClub.getString("telefonoClub"));
-
-                    // Asignar fecha de creación como String (ya viene como String en la API)
                     String fechaCreacionStr = jsonClub.optString("fechaCreacionClub");
                     if (fechaCreacionStr != null && !fechaCreacionStr.isEmpty()) {
-                        club.setFechaCreacionClub(fechaCreacionStr);  // Simplemente asignamos el valor como String
+                        club.setFechaCreacionClub(fechaCreacionStr);  
                     }
-
-                    // Procesar logo si existe
                     if (jsonClub.has("logoClub") && !jsonClub.isNull("logoClub")) {
                         String logoBase64 = jsonClub.getString("logoClub");
                         if (logoBase64 != null && !logoBase64.isEmpty()) {
                             byte[] imageBytes = Base64.getDecoder().decode(logoBase64);
-                            club.setLogoClub(imageBytes); // Asegúrate que ClubDto tenga este campo
+                            club.setLogoClub(imageBytes); 
                         }
                     }
-
                     lista.add(club);
                 }
             } else {
-                System.out.println("Error al obtener clubes: " + responseCode);
+                // System.out.println("Error al obtener clubes: " + responseCode);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("ERROR - ServiciosClub - listaClub: " + e.getMessage());
+            // System.out.println("ERROR - ServiciosClub - listaClub: " + e.getMessage());
         }
-
-        System.out.println(lista);
+        // System.out.println(lista);
         return lista;
     }
 
-
-
-    // Modificar un club
+    /**
+     * Modifica los datos de un club existente.
+     * 
+     * @param idClub El identificador del club que se va a modificar.
+     * @param club El objeto ClubDto con los nuevos datos del club.
+     * @return true si la modificación fue exitosa, false en caso contrario.
+     */
     public boolean modificarClub(String idClub, ClubDto club) {
         try {
-            // Crear JSON del objeto ClubDto
             JSONObject json = new JSONObject();
             json.put("nombreClub", club.getNombreClub());
             json.put("abreviaturaClub", club.getAbreviaturaClub());
@@ -146,7 +152,6 @@ public class ClubServicio {
             json.put("telefonoClub", club.getTelefonoClub());
             json.put("logoClub", club.getLogoClub());
 
-            // URL para hacer la solicitud PUT. Usamos el idClub en la URL
             String urlApi = "http://localhost:9527/api/modificarClub/" + idClub;
             URL url = new URL(urlApi);
 
@@ -155,22 +160,20 @@ public class ClubServicio {
             conex.setRequestProperty("Content-Type", "application/json");
             conex.setDoOutput(true);
 
-            // Enviar JSON en la solicitud PUT
             try (OutputStream os = conex.getOutputStream()) {
                 byte[] input = json.toString().getBytes();
                 os.write(input, 0, input.length);
             }
 
-            // Verificar la respuesta
             int responseCode = conex.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                return true; // Club actualizado correctamente
+                return true;
             } else {
-                return false; // Error al actualizar
+                return false; 
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return false; // Error
+            return false;
         }
     }
 }

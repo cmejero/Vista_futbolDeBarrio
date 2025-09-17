@@ -38,7 +38,12 @@ public class UsuarioControlador extends HttpServlet {
 
     @Override
     /**
-     * Metodo POST que se encarga de guardar o modificar un usuario
+     * Maneja la creación o modificación de un usuario.
+     * 
+     * @param request La solicitud HTTP.
+     * @param response La respuesta HTTP.
+     * @throws ServletException Si ocurre un error durante la ejecución del servlet.
+     * @throws IOException Si ocurre un error al leer o escribir datos.
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -63,11 +68,12 @@ public class UsuarioControlador extends HttpServlet {
     }
 
     /**
-     * Metodo que se encarga de de crear un usuario
-     * @param request
-     * @param response
-     * @throws IOException
-     * @throws ServletException
+     * Crea un nuevo usuario.
+     * 
+     * @param request La solicitud HTTP.
+     * @param response La respuesta HTTP.
+     * @throws IOException Si ocurre un error al escribir en la respuesta.
+     * @throws ServletException Si ocurre un error durante la ejecución del servlet.
      */
     private void crearUsuario(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         ServletContext context = request.getServletContext();
@@ -82,8 +88,9 @@ public class UsuarioControlador extends HttpServlet {
         String rolString = request.getParameter("rolUsuario");
 
         if (!password.equals(password2)) {
-            response.getWriter().write("Las contraseñas no coinciden.");
-            Log.ficheroLog("Error al crear usuario - contraseñas no coinciden (alias=" + alias + ") " );
+            // Redirigir con mensaje de error
+            response.sendRedirect("InicioSesion.jsp?mensaje=error_password");
+            Log.ficheroLog("Error al crear usuario - contraseñas no coinciden (alias=" + alias + ")");
             return;
         }
 
@@ -115,16 +122,20 @@ public class UsuarioControlador extends HttpServlet {
 
         servicio.guardarUsuario(usuario);
 
-        Log.ficheroLog("Usuario creado: alias=" + alias );
-        response.getWriter().write("Usuario creado correctamente.");
+        Log.ficheroLog("Usuario creado: alias=" + alias);
+
+        response.sendRedirect("InicioSesion.jsp?mensajeAlta=registro_exitoso");
+
     }
 
+
     /**
-     * Metodo que se encarga de modificar un usuario
-     * @param request
-     * @param response
-     * @throws IOException
-     * @throws ServletException
+     * Modifica un usuario existente.
+     * 
+     * @param request La solicitud HTTP.
+     * @param response La respuesta HTTP.
+     * @throws IOException Si ocurre un error al escribir en la respuesta.
+     * @throws ServletException Si ocurre un error durante la ejecución del servlet.
      */
     private void modificarUsuario(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
@@ -187,7 +198,12 @@ public class UsuarioControlador extends HttpServlet {
 
     @Override
     /**
-     * Metodo GET que se encarga de mostrar una lista de todos los usuarios
+     * Recupera una lista de todos los usuarios en formato JSON.
+     * 
+     * @param request La solicitud HTTP.
+     * @param response La respuesta HTTP.
+     * @throws ServletException Si ocurre un error durante la ejecución del servlet.
+     * @throws IOException Si ocurre un error al leer o escribir datos.
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -195,17 +211,12 @@ public class UsuarioControlador extends HttpServlet {
             HttpSession session = request.getSession(false);
             String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
 
-            // Verificar si hay sesión activa y si el usuario tiene algún tipo definido
             if (tipoUsuario == null || tipoUsuario.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.getWriter().write("Acceso denegado. Debe iniciar sesión para acceder.");
                 Log.ficheroLog("Intento de acceso no autorizado sin sesión a GET /usuario");
                 return;
             }
-
-            // Puedes agregar validaciones específicas aquí si en el futuro quieres restringir más
-            // Por ejemplo: solo ciertos tipos de usuarios
-
             ArrayList<UsuarioDto> listaUsuario = servicio.listausuario();
 
             response.setContentType("application/json");
@@ -224,7 +235,12 @@ public class UsuarioControlador extends HttpServlet {
 
     @Override
     /**
-     * Metodo DELETE que se encarga de eliminar un usuario
+     * Elimina un usuario por su ID.
+     * 
+     * @param request La solicitud HTTP.
+     * @param response La respuesta HTTP.
+     * @throws ServletException Si ocurre un error durante la ejecución del servlet.
+     * @throws IOException Si ocurre un error al leer o escribir datos.
      */
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -269,4 +285,5 @@ public class UsuarioControlador extends HttpServlet {
             response.getWriter().write("Error en el servidor: " + e.getMessage());
         }
     }
+
 }

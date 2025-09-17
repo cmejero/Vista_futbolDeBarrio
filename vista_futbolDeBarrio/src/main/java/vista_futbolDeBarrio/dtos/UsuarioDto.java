@@ -1,8 +1,11 @@
-package vista_futbolDeBarrio.dtos;
+	package vista_futbolDeBarrio.dtos;
 
 import vista_futbolDeBarrio.enums.Estado;
 import vista_futbolDeBarrio.enums.RolUsuario;
 
+/**
+ * Clase que se encarga de los campos de usuario
+ */
 public class UsuarioDto {
 
 	long idUsuario;

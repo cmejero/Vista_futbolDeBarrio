@@ -202,12 +202,7 @@
 														style="color: white;">Ayuda </a></li>
 													<li><a class="dropdown-item" href="#"
 														style="color: white;">Configuración </a></li>
-													<li>
-														<hr class="dropdown-divider"
-															style="border-color: #006600;">
-													</li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Cerrar sesión </a></li>
+
 												</ul>
 											</div>
 										</div>
@@ -218,9 +213,9 @@
 						</div>
 					</div>
 				</div>
-				
-				
-				
+
+
+
 				<!-- HEADER COL -->
 
 				<div class="  d-sm-none d-md-none col-12 d-block ">
@@ -248,7 +243,7 @@
 										<div
 											class="d-sm-none d-md-none col-4 d-block cabeceraMedio  d-flex justify-content-center align-items-center">
 											<a href="Registrar.jsp">
-												<button type="button" class="botonRegistrarCabecera" 	>REGISTRARSE</button>
+												<button type="button" class="botonRegistrarCabecera">REGISTRARSE</button>
 											</a>
 										</div>
 
@@ -265,7 +260,7 @@
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-4 ">
 									<a href="Index.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">INICIO</a>
+										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
 								</div>
 
 								<!-- columna medio: buscador -->
@@ -323,7 +318,7 @@
 												style="color: white;">Ayuda </a></li>
 											<li><a class="dropdown-item" href="#"
 												style="color: white;">Configuración </a></li>
-											
+
 										</ul>
 									</div>
 								</div>
@@ -333,27 +328,55 @@
 					</div>
 				</div>
 
-				
-				
-				
-				
+
+
+
+
 			</div>
 		</div>
 	</header>
 
-	<main 
-		style="background-color: rgba(223, 234, 213, 0.5);">
+	<main style="background-color: rgba(223, 234, 213, 0.5);">
+
+		<!-- Mensaje cerrar sesion -->
+		<%
+		String mensaje = request.getParameter("mensaje");
+		if ("sesion_cerrada".equals(mensaje)) {
+		%>
+		<!-- Este mensaje se mostrará solo cuando el parámetro mensaje sea "sesion_cerrada" -->
+		<div id="mensajeSesionCerrada" class="alert alert-success"
+			style="text-align: center; font-size: 1.5vw; margin-bottom: -2vw">Sesión
+			cerrada correctamente.</div>
+		<%
+		}
+		%>
+
+		<!-- Mensaje Alta -->
+		<%
+		String mensajeAlta = request.getParameter("mensajeAlta");
+		if ("registro_exitoso".equals(mensajeAlta)) {
+		%>
+		<div id="mensajeAltaString" class="alert alert-success text-center">
+			¡Usuario registrado correctamente! Ahora puedes iniciar sesión.</div>
+		<%
+		} else if ("error_password".equals(mensajeAlta)) {
+		%>
+		<div class="alert alert-danger text-center">Las contraseñas no
+			coinciden. Por favor, inténtalo de nuevo.</div>
+		<%
+		}
+		%>
+
+
 		<div
 			class="d-flex justify-content-center align-items-center pt-4 mt-5 mb-5">
-			<div class="formularioInicioSesion mb-4"
-				>
+			<div class="formularioInicioSesion mb-4">
 				<h2 class="text-center mb-4"
 					style="text-decoration: underline; font-size: 2.2vw">
 					<i>Iniciar Sesión</i>
 				</h2>
 
-				<form action="login" method="POST" enctype="multipart/form-data"
-					action="login">
+				<form action="login" method="POST" enctype="multipart/form-data">
 					<div class="mb-1">
 						<label for="email" class="etiquetaFormulario">Correo
 							Electrónico</label> <input type="email" class="campoFormulario"
@@ -375,7 +398,7 @@
 							<input type="checkbox" id="recordarSesion"> <label
 								for="recordarSesion">Recordar sesión</label>
 						</div>
-						<a href="#" class="enlaceContraseniaOlvidada">¿Olvidaste tu
+						<a href="PedirEmail.jsp" class="enlaceContraseniaOlvidada">¿Olvidaste tu
 							contraseña?</a>
 					</div>
 
@@ -571,8 +594,7 @@ Avenida mujer trabajadora
 
 
 				</div>
-				<div
-					class="col-12 d-block d-md-none d-sm-none  pieDePagina p-1 "
+				<div class="col-12 d-block d-md-none d-sm-none  pieDePagina p-1 "
 					style="border-top: 1px solid white;">
 					<p style="font-size: 2.4vw; margin-top: 1.4vw; color: #d4af37">©
 						2024 futboldebarrio.com | Todos los derechos reservados</p>
@@ -589,42 +611,7 @@ Avenida mujer trabajadora
 
 
 
-	<!-- CODIDO PARA BUSCADOR
-<script>
-  // Lista de sugerencias (puedes personalizar los valores)
-  const datosSugerencias = ["Inicio", "Acerca de", "Servicios", "Eventos", "Contacto", "Marcadores", "Desafíos"];
 
-  // Función para mostrar las sugerencias
-  function mostrarSugerencias() {
-    const entrada = document.getElementById("entradaBusqueda");
-    const contenedorSugerencias = document.getElementById("sugerencias");
-    const consulta = entrada.value.toLowerCase();
-
-    // Limpia las sugerencias previas
-    contenedorSugerencias.innerHTML = "";
-
-    // Filtra las sugerencias según el texto ingresado
-    const sugerenciasFiltradas = datosSugerencias.filter(item => 
-      item.toLowerCase().includes(consulta)
-    );
-
-    // Genera la lista de sugerencias
-    sugerenciasFiltradas.forEach(sugerencia => {
-      const li = document.createElement("li");
-      li.textContent = sugerencia;
-      li.onclick = () => {
-        entrada.value = sugerencia; // Rellena el campo con la sugerencia seleccionada
-        contenedorSugerencias.innerHTML = ""; // Limpia las sugerencias
-      };
-      contenedorSugerencias.appendChild(li);
-    });
-
-    // Muestra u oculta el contenedor de sugerencias
-    contenedorSugerencias.style.display = sugerenciasFiltradas.length > 0 ? "block" : "none";
-  }
-</script>
-
- -->
 	<script>
 		function mostrarContrasena() {
 			var input = document.getElementById("password");
@@ -634,7 +621,28 @@ Avenida mujer trabajadora
 				input.type = "password";
 			}
 		}
+
+		window.onload = function() {
+			// Verificamos si el mensaje de "sesion_cerrada" existe
+			var mensaje = document.getElementById("mensajeSesionCerrada");
+			if (mensaje) {
+				// Ocultamos el mensaje después de 2 segundos (2000 milisegundos)
+				setTimeout(function() {
+					mensaje.style.display = "none";
+				}, 2500); // 2000ms = 2 segundos
+			}
+		};
+
+		document.addEventListener("DOMContentLoaded", function() {
+			var mensaje = document.getElementById("mensajeAltaString");
+			if (mensaje) {
+				setTimeout(function() {
+					mensaje.style.display = "none";
+				}, 3000);
+			}
+		});
 	</script>
+
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

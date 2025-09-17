@@ -1,145 +1,240 @@
 package vista_futbolDeBarrio.servicios;
 
 import java.io.BufferedReader;
-import java.io.OutputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import vista_futbolDeBarrio.dtos.EquipoTorneoDto;
 import vista_futbolDeBarrio.enums.EstadoParticipacion;
 
+/**
+ * Clase que se encarga de la logica de los metodos CRUD de equipo torneo
+ */
 public class EquipoTorneoServicio {
 
-    // Método para guardar un nuevo EquipoTorneo
-    public void guardarEquipoTorneo(EquipoTorneoDto equipoTorneo) {
-        try {
-            // Crear el objeto JSON a partir del DTO
-            JSONObject json = new JSONObject();
-            json.put("fechaInicioParticipacion", equipoTorneo.getFechaInicioParticipacion().toString());
-            json.put("fechaFinParticipacion", equipoTorneo.getFechaFinParticipacion().toString());
-            json.put("estadoParticipacion", equipoTorneo.getEstadoParticipacion().name());
-            json.put("torneoId", equipoTorneo.getTorneoId());
-            json.put("clubId", equipoTorneo.getClubId());
+	/**
+	 * Guarda un nuevo equipo en un torneo.
+	 * 
+	 * @param equipoTorneo El objeto EquipoTorneoDto que contiene los datos del
+	 *                     equipo a guardar.
+	 */
+	public void guardarEquipoTorneo(EquipoTorneoDto equipoTorneo) {
+		try {
+			JSONObject json = new JSONObject();
+			json.put("fechaInicioParticipacion", equipoTorneo.getFechaInicioParticipacion().toString());
+			json.put("fechaFinParticipacion", equipoTorneo.getFechaFinParticipacion().toString());
+			json.put("estadoParticipacion", equipoTorneo.getEstadoParticipacion().name());
+			json.put("torneoId", equipoTorneo.getTorneoId());
+			json.put("clubId", equipoTorneo.getClubId());
 
-            // Definir la URL de la API para guardar el EquipoTorneo
-            String urlApi = "http://localhost:9527/api/guardarEquipoTorneo";
-            URL url = new URL(urlApi);
+			String urlApi = "http://localhost:9527/api/guardarEquipoTorneo";
+			URL url = new URL(urlApi);
 
-            // Abrir la conexión HTTP
-            HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-            conex.setRequestMethod("POST");
-            conex.setRequestProperty("Content-Type", "application/json");
-            conex.setDoOutput(true);
+			HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+			conex.setRequestMethod("POST");
+			conex.setRequestProperty("Content-Type", "application/json");
+			conex.setDoOutput(true);
+			try (OutputStream os = conex.getOutputStream()) {
+				byte[] input = json.toString().getBytes("utf-8");
+				os.write(input, 0, input.length);
+			}
 
-            // Enviar el JSON en la solicitud
-            try (OutputStream os = conex.getOutputStream()) {
-                byte[] input = json.toString().getBytes("utf-8");
-                os.write(input, 0, input.length);
-            }
+			int responseCode = conex.getResponseCode();
+			if (responseCode == HttpURLConnection.HTTP_OK) {
+				// System.out.println("EquipoTorneo guardado correctamente.");
+			} else {
+				// System.out.println("Error al guardar EquipoTorneo: " + responseCode);
+			}
 
-            // Verificar la respuesta del servidor
-            int responseCode = conex.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                System.out.println("EquipoTorneo guardado correctamente.");
-            } else {
-                System.out.println("Error al guardar EquipoTorneo: " + responseCode);
-            }
+		} catch (Exception e) {
+			// System.out.println("ERROR- [EquipoTorneoServicio] " + e);
+		}
+	}
 
-        } catch (Exception e) {
-            System.out.println("ERROR- [EquipoTorneoServicio] " + e);
-        }
-    }
+	/**
+	 * Obtiene la lista de equipos que están participando en torneos.
+	 * 
+	 * @return Una lista de objetos EquipoTorneoDto con los datos de los equipos.
+	 */
+	public ArrayList<EquipoTorneoDto> listaEquiposTorneo() {
+		ArrayList<EquipoTorneoDto> lista = new ArrayList<>();
 
-    // Método para obtener la lista de EquiposTorneo
-    public ArrayList<EquipoTorneoDto> listaEquiposTorneo() {
-        ArrayList<EquipoTorneoDto> lista = new ArrayList<>();
+		try {
+			String urlApi = "http://localhost:9527/api/mostrarEquipoTorneo";
+			URL url = new URL(urlApi);
 
-        try {
-            // Definir la URL de la API para obtener los EquiposTorneo
-            String urlApi = "http://localhost:9527/api/equiposTorneo";
-            URL url = new URL(urlApi);
+			HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+			conex.setRequestMethod("GET");
+			conex.setRequestProperty("Accept", "application/json");
 
-            // Abrir la conexión HTTP
-            HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-            conex.setRequestMethod("GET");
-            conex.setRequestProperty("Accept", "application/json");
+			int responseCode = conex.getResponseCode();
+			if (responseCode == HttpURLConnection.HTTP_OK) {
+				BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
+				String inputLine;
+				StringBuilder response = new StringBuilder();
 
-            // Verificar la respuesta del servidor
-            int responseCode = conex.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                // Leer la respuesta
-                BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
-                String inputLine;
-                StringBuilder response = new StringBuilder();
+				while ((inputLine = in.readLine()) != null) {
+					response.append(inputLine);
+				}
+				in.close();
 
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
+				JSONArray jsonArray = new JSONArray(response.toString());
 
-                // Procesar la respuesta JSON
-                JSONArray jsonArray = new JSONArray(response.toString());
+				for (int i = 0; i < jsonArray.length(); i++) {
+					JSONObject jsonEquipoTorneo = jsonArray.getJSONObject(i);
+					EquipoTorneoDto equipoTorneo = new EquipoTorneoDto();
 
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonEquipoTorneo = jsonArray.getJSONObject(i);
-                    EquipoTorneoDto equipoTorneo = new EquipoTorneoDto();
+					equipoTorneo.setIdEquipoTorneo(jsonEquipoTorneo.getLong("idEquipoTorneo"));
+					equipoTorneo.setFechaInicioParticipacion(jsonEquipoTorneo.getString("fechaInicioParticipacion"));
+					equipoTorneo.setFechaFinParticipacion(jsonEquipoTorneo.getString("fechaFinParticipacion"));
+					equipoTorneo.setEstadoParticipacion(
+							EstadoParticipacion.valueOf(jsonEquipoTorneo.getString("estadoParticipacion")));
+					equipoTorneo.setTorneoId(jsonEquipoTorneo.getLong("torneoId"));
+					equipoTorneo.setClubId(jsonEquipoTorneo.getLong("clubId"));
 
-                    equipoTorneo.setIdEquipoTorneo(jsonEquipoTorneo.getLong("idEquipoTorneo"));
-                    equipoTorneo.setFechaInicioParticipacion(java.sql.Date.valueOf(jsonEquipoTorneo.getString("fechaInicioParticipacion")));
-                    equipoTorneo.setFechaFinParticipacion(java.sql.Date.valueOf(jsonEquipoTorneo.getString("fechaFinParticipacion")));
-                    equipoTorneo.setEstadoParticipacion(EstadoParticipacion.valueOf(jsonEquipoTorneo.getString("estadoParticipacion")));
-                    equipoTorneo.setTorneoId(jsonEquipoTorneo.getLong("torneoId"));
-                    equipoTorneo.setClubId(jsonEquipoTorneo.getLong("clubId"));
+					lista.add(equipoTorneo);
+				}
+			} else {
+				// System.out.println("Error al obtener la lista de EquiposTorneo: " +
+				// responseCode);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			// System.out.println("ERROR- [EquipoTorneoServicio] listaEquiposTorneo: " +
+			// e.getMessage());
+		}
 
-                    lista.add(equipoTorneo);
-                }
-            } else {
-                System.out.println("Error al obtener la lista de EquiposTorneo: " + responseCode);
-            }
-        } catch (Exception e) {
-            System.out.println("ERROR- [EquipoTorneoServicio] listaEquiposTorneo: " + e.getMessage());
-        }
+		return lista;
+	}
 
-        return lista;
-    }
+	/**
+	 * Obtiene la lista de equipos que están participando en un torneo específico.
+	 * 
+	 * @param torneoId El ID del torneo del que se quieren obtener los equipos.
+	 * @return Una lista de objetos EquipoTorneoDto con los datos de los equipos
+	 *         inscritos en el torneo.
+	 */
+	public ArrayList<EquipoTorneoDto> obtenerEquiposPorTorneo(Long torneoId) {
+		ArrayList<EquipoTorneoDto> equipos = new ArrayList<>();
 
-    // Método para modificar un EquipoTorneo existente
-    public boolean modificarEquipoTorneo(long idEquipoTorneo, EquipoTorneoDto equipoTorneo) {
-        try {
-            // Crear el objeto JSON a partir del DTO
-            JSONObject json = new JSONObject();
-            json.put("fechaInicioParticipacion", equipoTorneo.getFechaInicioParticipacion().toString());
-            json.put("fechaFinParticipacion", equipoTorneo.getFechaFinParticipacion().toString());
-            json.put("estadoParticipacion", equipoTorneo.getEstadoParticipacion().name());
-            json.put("torneoId", equipoTorneo.getTorneoId());
-            json.put("clubId", equipoTorneo.getClubId());
+		try {
+			// Construye la URL para obtener los equipos del torneo
+			String urlApi = "http://localhost:9527/api/equipoTorneo/torneo/" + torneoId;
+			URL url = new URL(urlApi);
 
-            // Definir la URL de la API para modificar el EquipoTorneo
-            String urlApi = "http://localhost:9527/api/modificarEquipoTorneo/" + idEquipoTorneo;
-            URL url = new URL(urlApi);
+			// Crea la conexión HTTP
+			HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+			conex.setRequestMethod("GET");
+			conex.setRequestProperty("Accept", "application/json");
 
-            // Abrir la conexión HTTP
-            HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-            conex.setRequestMethod("PUT");
-            conex.setRequestProperty("Content-Type", "application/json");
-            conex.setDoOutput(true);
+			int responseCode = conex.getResponseCode();
+			if (responseCode == HttpURLConnection.HTTP_OK) {
+				// Lee la respuesta de la API
+				BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
+				StringBuilder response = new StringBuilder();
+				String line;
+				while ((line = in.readLine()) != null) {
+					response.append(line);
+				}
+				in.close();
 
-            // Enviar el JSON en la solicitud
-            try (OutputStream os = conex.getOutputStream()) {
-                byte[] input = json.toString().getBytes("utf-8");
-                os.write(input, 0, input.length);
-            }
+				// Convierte la respuesta JSON en objetos EquipoTorneoDto
+				JSONArray jsonArray = new JSONArray(response.toString());
+				for (int i = 0; i < jsonArray.length(); i++) {
+					JSONObject jsonEquipoTorneo = jsonArray.getJSONObject(i);
+					EquipoTorneoDto equipoTorneo = new EquipoTorneoDto();
 
-            // Verificar la respuesta del servidor
-            int responseCode = conex.getResponseCode();
-            return responseCode == HttpURLConnection.HTTP_OK;
+					equipoTorneo.setIdEquipoTorneo(jsonEquipoTorneo.getLong("idEquipoTorneo"));
+					equipoTorneo.setFechaInicioParticipacion(jsonEquipoTorneo.getString("fechaInicioParticipacion"));
+					equipoTorneo.setFechaFinParticipacion(jsonEquipoTorneo.getString("fechaFinParticipacion"));
+					equipoTorneo.setEstadoParticipacion(
+							EstadoParticipacion.valueOf(jsonEquipoTorneo.getString("estadoParticipacion")));
+					equipoTorneo.setTorneoId(jsonEquipoTorneo.getLong("torneoId"));
+					equipoTorneo.setClubId(jsonEquipoTorneo.getLong("clubId"));
 
-        } catch (Exception e) {
-            System.out.println("ERROR- [EquipoTorneoServicio] modificarEquipoTorneo: " + e.getMessage());
-            return false;
-        }
-    }
+					equipos.add(equipoTorneo);
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return equipos;
+	}
+
+	/**
+	 * Modifica los detalles de un equipo que participa en un torneo.
+	 * 
+	 * @param idEquipoTorneo El ID del equipo en el torneo que se va a modificar.
+	 * @param equipoTorneo   El objeto EquipoTorneoDto que contiene los nuevos datos
+	 *                       del equipo.
+	 * @return true si la modificación fue exitosa, false en caso contrario.
+	 */
+	public boolean modificarEquipoTorneo(long idEquipoTorneo, EquipoTorneoDto equipoTorneo) {
+		try {
+
+			JSONObject json = new JSONObject();
+			json.put("fechaInicioParticipacion", equipoTorneo.getFechaInicioParticipacion().toString());
+			json.put("fechaFinParticipacion", equipoTorneo.getFechaFinParticipacion().toString());
+			json.put("estadoParticipacion", equipoTorneo.getEstadoParticipacion().name());
+			json.put("torneoId", equipoTorneo.getTorneoId());
+			json.put("clubId", equipoTorneo.getClubId());
+
+			String urlApi = "http://localhost:9527/api/modificarEquipoTorneo/" + idEquipoTorneo;
+			URL url = new URL(urlApi);
+
+			HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+			conex.setRequestMethod("PUT");
+			conex.setRequestProperty("Content-Type", "application/json");
+			conex.setDoOutput(true);
+
+			try (OutputStream os = conex.getOutputStream()) {
+				byte[] input = json.toString().getBytes("utf-8");
+				os.write(input, 0, input.length);
+			}
+
+			int responseCode = conex.getResponseCode();
+			return responseCode == HttpURLConnection.HTTP_OK;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			// System.out.println("ERROR- [EquipoTorneoServicio] modificarEquipoTorneo: " +
+			// e.getMessage());
+			return false;
+		}
+	}
+
+	public int contarEquiposPorTorneo(long torneoId) {
+		int contador = 0;
+		for (EquipoTorneoDto equipo : listaEquiposTorneo()) {
+			System.out.println("Equipo torneoId: " + equipo.getTorneoId() + ", Buscando: " + torneoId);
+			if (equipo.getTorneoId() == torneoId) {
+				contador++;
+			}
+		}
+		return contador;
+	}
+
+	public boolean puedeInscribirse(Long torneoId) {
+		return contarEquiposPorTorneo(torneoId) < 16;
+	}
+
+	public boolean estaInscrito(Long torneoId, Long clubId) {
+	    for (EquipoTorneoDto equipo : obtenerEquiposPorTorneo(torneoId)) {
+	        if (equipo.getClubId() == clubId) { // funciona, autounboxing convierte clubId a long
+	            return true; // ya está inscrito
+	        }
+	    }
+	    return false;
+	}
+
+
+
 }

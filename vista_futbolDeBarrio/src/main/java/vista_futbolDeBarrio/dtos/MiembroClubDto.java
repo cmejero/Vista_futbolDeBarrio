@@ -1,5 +1,8 @@
 package vista_futbolDeBarrio.dtos;
 
+/**
+ * Clase que se encarga de los campos de miembro club
+ */
 public class MiembroClubDto {
 
     private long idMiembroClub;

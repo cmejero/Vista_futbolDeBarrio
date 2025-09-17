@@ -201,8 +201,7 @@
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
 													</li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Cerrar sesión </a></li>
+													<li><a class="dropdown-item" href="logout" style="color: white;">Cerrar sesión</a></li>
 												</ul>
 											</div>
 										</div>
@@ -260,8 +259,8 @@
 								<!-- columna izquierda: INICIO -->
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-4 ">
-									<a href="Index.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
+									<a href="Instalacion.jsp" class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">INICIO</a>
 								</div>
 
 								<!-- columna medio: buscador -->
@@ -299,7 +298,7 @@
 
 											<li><a class="dropdown-item " href="Instalacion.jsp"
 												style="color: white;">Reservas </a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
+											<li><a class="dropdown-item " href="EventoInstalacion.jsp"
 												style="color: white;">Eventos </a></li>
 											<li><a class="dropdown-item " href="Instalacion.jsp"
 												style="color: white;">Finanzas </a></li>
@@ -322,8 +321,7 @@
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item " href="InicioSesion.jsp">Cerrar
-													sesión </a></li>
+											<li><a class="dropdown-item" href="logout" style="color: white;">Cerrar sesión</a></li>
 											<li>
 										</ul>
 									</div>
@@ -339,7 +337,46 @@
 		</div>
 	</header>
 
-	<main style="background-color: rgba(223, 234, 213, 0.5);"></main>
+	<main style="background-color: rgba(223, 234, 213, 0.5);">
+	
+	<div class="tarjeta-contenedor" style="box-shadow: 
+    0 0.3vw 0.6vw rgba(26, 188, 91, 0.6),
+    0 1vw 2vw rgba(26, 188, 91, 0.45),
+    0 0 0 0.2vw rgba(26, 188, 91, 0.35);">
+    <!-- Imagen destacada -->
+    <img src="Imagenes/instalacion.jpg" alt="Imagen Instalación" class="tarjeta-imagen-grande" style="border: 0.3vw solid  #1abc5b;">
+
+    <!-- Cabecera: Nombre + contacto -->
+    <div class="tarjeta-header-instalacion">
+        <h2 class="tarjeta-nombre">Instalación Deportiva Europa</h2>
+        <p class="tarjeta-info"><strong>📍 Dirección:</strong> Calle Fútbol, 123 - Madrid</p>
+        <p class="tarjeta-info"><strong>📧 Email:</strong> contacto@instalacion.com</p>
+        <p class="tarjeta-info"><strong>📞 Teléfono:</strong> +34 600 123 456</p>
+    </div>
+
+    <!-- Estadísticas -->
+    <div class="tarjeta-estadisticas">
+        <div class="tarjeta-estadistica"><strong>3</strong>Torneos Activos</div>
+        <div class="tarjeta-estadistica"><strong>✔</strong>Fútbol 5</div>
+        <div class="tarjeta-estadistica"><strong>✔</strong>Fútbol 7</div>
+        <div class="tarjeta-estadistica"><strong>✖</strong>Fútbol 11</div>
+        <div class="tarjeta-estadistica tarjeta-servicios">
+            <strong style="text-align:center">Servicios</strong>
+            Bar, vestuarios, parking gratuito, duchas, alquiler de material.
+        </div>
+    </div>
+
+    <!-- Iconos -->
+    <div class="tarjeta-iconos">
+        <img src="Imagenes/icono1.png" alt="Icono 1" class="tarjeta-icono">
+        <img src="Imagenes/icono2.png" alt="Icono 2" class="tarjeta-icono">
+        <img src="Imagenes/icono3.png" alt="Icono 3" class="tarjeta-icono">
+        <img src="Imagenes/icono4.png" alt="Icono 4" class="tarjeta-icono">
+        <img src="Imagenes/icono5.png" alt="Icono 5" class="tarjeta-icono">
+    </div>
+</div>
+
+	</main>
 
 
 	<footer>

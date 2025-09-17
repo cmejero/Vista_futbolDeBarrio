@@ -1,9 +1,10 @@
 package vista_futbolDeBarrio.dtos;
 
-import java.time.LocalDate;
-
 import vista_futbolDeBarrio.enums.Modalidad;
 
+/**
+ * Clase que se encarga de los campos de torneo
+ */
 public class TorneoDto {
 
     private long idTorneo;
@@ -11,10 +12,12 @@ public class TorneoDto {
     private String fechaInicioTorneo;
     private String fechaFinTorneo;
     private String descripcionTorneo;
+    private String clubesInscritos;
     private Modalidad modalidad;
+    private boolean estaActivo = false;
     private long instalacionId;
 
-    // Getters and Setters
+
     public long getIdTorneo() {
         return idTorneo;
     }
@@ -54,16 +57,33 @@ public class TorneoDto {
     public void setDescripcionTorneo(String descripcionTorneo) {
         this.descripcionTorneo = descripcionTorneo;
     }
+    
+    public String getClubesInscritos() {
+		return clubesInscritos;
+	}
 
-    public Modalidad getModalidad() {
+	public void setClubesInscritos(String clubesInscritos) {
+		this.clubesInscritos = clubesInscritos;
+	}
+
+	public Modalidad getModalidad() {
         return modalidad;
     }
 
     public void setModalidad(Modalidad modalidad) {
         this.modalidad = modalidad;
     }
+    
 
-    public long getInstalacionId() {
+    public boolean isEstaActivo() {
+		return estaActivo;
+	}
+
+	public void setEstaActivo(boolean estaActivo) {
+		this.estaActivo = estaActivo;
+	}
+
+	public long getInstalacionId() {
         return instalacionId;
     }
 

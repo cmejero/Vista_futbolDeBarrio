@@ -216,8 +216,7 @@ Long clubId = (Long) session.getAttribute("clubId");
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
 													</li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Cerrar sesión </a></li>
+													<li><a class="dropdown-item" href="logout" style="color: white;">Cerrar sesión</a></li>
 												</ul>
 											</div>
 										</div>
@@ -338,8 +337,7 @@ Long clubId = (Long) session.getAttribute("clubId");
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item " href="InicioSesion.jsp">Cerrar
-													sesión </a></li>
+											<li><a class="dropdown-item" href="logout" style="color: white;">Cerrar sesión</a></li>
 											<li>
 										</ul>
 									</div>
@@ -600,7 +598,7 @@ Avenida mujer trabajadora
 	   // Guardamos el tipo en sessionStorage para uso en JS
     sessionStorage.setItem('tipoUsuario', '<%=tipoUsuario%>');
     const clubId = <%=clubId != null ? clubId : "null"%>; // Si es null, asignamos "null" a la variable
-    console.log("Club: " + clubId);
+    // console.log("Club: " + clubId);
 
     // Verificamos si el usuario es jugador
     const tipo = sessionStorage.getItem('tipoUsuario');
@@ -646,7 +644,7 @@ Avenida mujer trabajadora
 							clubId : clubId
 						},
 						success : function(data) {
-							console.log("Datos recibidos:", data);
+							// console.log("Datos recibidos:", data);
 							if (Array.isArray(data) && data.length > 0) {
 								$('#tablaCuerpoJugador').empty();
 								let contadorPosicion = 1;
@@ -686,7 +684,7 @@ Avenida mujer trabajadora
 															.append(row);
 												});
 							} else {
-								console.log("No hay miembros disponibles");
+								// console.log("No hay miembros disponibles");
 								$('#tablaCuerpoJugador')
 										.html(
 												'<tr><td colspan="8">No hay miembros disponibles</td></tr>');

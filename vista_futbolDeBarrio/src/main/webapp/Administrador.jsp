@@ -327,8 +327,8 @@
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item" href="#"
-												style="color: white;">Cerrar sesión </a></li>
+											<li><a class="dropdown-item" href="logout" style="color: white;">Cerrar sesión</a></li>
+
 
 
 
@@ -390,9 +390,7 @@
 </svg>Promociones</span></b>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Descuentos</a>
  - <a href="" style="text-decoration: none;" class="letraMenuLateral">Boletines</a>
-<b><span style="text-decoration: underline"><a href=""
-								style="text-decoration: none; font-size: 1.35vw"
-								class="letraMenuLateral">Cerrar sesión</a></span></b>
+<b><span style="text-decoration: underline"><a class="dropdown-item" href="logout" style="text-decoration: none; font-size: 1.35vw">Cerrar sesión</a></span></b>
 	
 					</pre>
 				</div>
@@ -643,7 +641,7 @@ canvas {
 							aria-labelledby="modalEditarUsuarioLabel" aria-hidden="true">
 							<div class="modal-dialog modal-lg">
 								<!-- Tamaño grande para más espacio -->
-								<div class="modal-c	ontent">
+								<div class="modal-content">
 									<div class="modal-header">
 										<h5 class="modal-title w-100 text-center"
 											id="modalEditarUsuarioLabel">
@@ -1377,7 +1375,7 @@ Avenida mujer trabajadora
 					method: 'GET',
 					dataType: 'json',
 					success: function (data) {
-						console.log(data);
+						// console.log(data);
 						$('#tablaCuerpoUsuario').empty();
 
 						$.each(data, function (index, usuario) {
@@ -1416,7 +1414,7 @@ Avenida mujer trabajadora
 						url: 'usuario?idUsuario=' + idUsuario,
 						method: 'DELETE',
 						success: function (response) {
-							console.log(response);
+							// console.log(response);
 							$('#fila-' + idUsuario).remove();
 						},
 						error: function (xhr, status, error) {
@@ -1555,14 +1553,19 @@ Avenida mujer trabajadora
 
 			// Función para resaltar el enlace clicado y restablecer los demás
 			function resaltarEnlace(event) {
-				event.preventDefault(); // Evita que la página se recargue
+	const href = this.getAttribute("href");
 
-				enlaces.forEach(function(enlace) {
-					enlace.style.color = ""; // Restablece el color original
-				});
+	// Solo prevenir si el enlace apunta a "#" o es un ancla interna
+	if (!href || href === "#" || href.startsWith("#")) {
+		event.preventDefault();
+	}
 
-				this.style.color = "#d4af37"; // Resalta el enlace clicado con color amarillo
-			}
+	enlaces.forEach(function(enlace) {
+		enlace.style.color = "";
+	});
+	this.style.color = "#d4af37";
+}
+
 
 			// Añadir el evento de clic a cada enlace
 			enlaces.forEach(function(enlace) {

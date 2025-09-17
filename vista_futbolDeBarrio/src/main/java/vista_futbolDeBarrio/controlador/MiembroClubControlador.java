@@ -34,7 +34,11 @@ public class MiembroClubControlador extends HttpServlet {
 
 	@Override
 	/**
-	 * Metodo POST que se necarga de guardar un jugador en un club
+	 * Método POST que maneja la creación de un miembro en el club.
+	 * @param request Objeto HttpServletRequest que contiene los parámetros de la solicitud.
+	 * @param response Objeto HttpServletResponse para enviar la respuesta.
+	 * @throws ServletException En caso de error en la solicitud.
+	 * @throws IOException En caso de error en la respuesta.
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -42,36 +46,27 @@ public class MiembroClubControlador extends HttpServlet {
 			String accion = request.getParameter("accion");
 
 			if ("aniadir".equals(accion)) {
-				// Obtener los datos del formulario
 				String fechaAltaUsuarioForm = LocalDate.now().toString();
 				String fechaBajaUsuarioForm = ("9999-01-01");
 				long clubIdForm = Long.parseLong(request.getParameter("idClub"));
 				long usuarioIdForm = Long.parseLong(request.getParameter("usuarioId"));
-
-				// Crear el objeto MiembroClubDto
 				MiembroClubDto nuevoMiembro = new MiembroClubDto();
 				nuevoMiembro.setFechaAltaUsuario(fechaAltaUsuarioForm);
 				nuevoMiembro.setFechaBajaUsuario(fechaBajaUsuarioForm);
 
 				nuevoMiembro.setIdClub(clubIdForm);
 				nuevoMiembro.setUsuarioId(usuarioIdForm);
-
-				// Guardar el miembro en el servicio
 				servicio.guardarMiembroClub(nuevoMiembro);
-
-				// Log de creación
 				Log.ficheroLog("Miembro del club añadido: Usuario ID " + usuarioIdForm + ", Club ID " + clubIdForm);
 
 				response.getWriter().write("Miembro del club creado correctamente.");
 			} else if ("modificar".equals(accion)) {
-				// Lógica para modificar el miembro del club
 				response.getWriter().write("Funcionalidad de modificación aún no implementada.");
 				Log.ficheroLog("Intento de modificar miembro del club, pero funcionalidad aún no implementada.");
 			} else {
 				response.getWriter().write("Acción no válida.");
 				Log.ficheroLog("Acción no válida recibida: " + accion);
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.getWriter()
@@ -82,7 +77,11 @@ public class MiembroClubControlador extends HttpServlet {
 
 	@Override
 	/**
-	 * Metodo GET que se encarga de mostrar una lista de clubes con sus jugadores
+	 * Método GET que obtiene una lista de clubes con sus jugadores.
+	 * @param request Objeto HttpServletRequest que contiene los parámetros de la solicitud.
+	 * @param response Objeto HttpServletResponse para enviar la respuesta.
+	 * @throws ServletException En caso de error en la solicitud.
+	 * @throws IOException En caso de error en la respuesta.
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException {
@@ -95,21 +94,13 @@ public class MiembroClubControlador extends HttpServlet {
 	        }
 
 	        Long clubId = (Long) session.getAttribute("clubId");
-	        Long usuarioId = Long.parseLong(request.getParameter("usuarioId"));  // Obtener usuarioId desde la solicitud
-
-	        // Verificar si el usuario ya es miembro del club
+	        Long usuarioId = Long.parseLong(request.getParameter("usuarioId"));
 	        boolean esMiembro = servicio.esMiembroDelClub(clubId, usuarioId);
-
-	        // Lista de miembros del club
 	        ArrayList<MiembroClubDto> listaMiembros = servicio.listarMiembrosClub(clubId);
-
-	        // Preparar la respuesta JSON
 	        response.setContentType("application/json");
 	        response.setCharacterEncoding("UTF-8");
 
 	        JSONArray jsonArray = new JSONArray();
-	        
-	        // Iterar sobre la lista de miembros y agregar cada uno al JSON
 	        for (MiembroClubDto miembro : listaMiembros) {
 	            JSONObject json = new JSONObject();
 	            json.put("idMiembroClub", miembro.getIdMiembroClub());
@@ -118,7 +109,6 @@ public class MiembroClubControlador extends HttpServlet {
 	            json.put("clubId", miembro.getIdClub());
 	            json.put("usuarioId", miembro.getUsuarioId());
 
-	            // Incluir detalles del usuario si están disponibles
 	            if (miembro.getUsuario() != null) {
 	                JSONObject jsonUsuario = new JSONObject();
 	                jsonUsuario.put("idUsuario", miembro.getUsuario().getIdUsuario());
@@ -126,16 +116,11 @@ public class MiembroClubControlador extends HttpServlet {
 	                jsonUsuario.put("aliasUsuario", miembro.getUsuario().getAliasUsuario());
 	                json.put("usuario", jsonUsuario);
 	            }
-
 	            jsonArray.put(json);
 	        }
-
-	        // Agregar la información sobre si el usuario ya es miembro
 	        JSONObject jsonResponse = new JSONObject();
-	        jsonResponse.put("esMiembro", esMiembro);  // Si el usuario ya es miembro, se indica en la respuesta
-	        jsonResponse.put("miembros", jsonArray);   // Agregar la lista de miembros del club
-
-	        // Enviar la respuesta al cliente
+	        jsonResponse.put("esMiembro", esMiembro);  
+	        jsonResponse.put("miembros", jsonArray);
 	        response.getWriter().write(jsonResponse.toString());
 
 	    } catch (Exception e) {

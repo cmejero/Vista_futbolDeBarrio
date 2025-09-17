@@ -5,14 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="Css/Estilo.css">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-	crossorigin="anonymous">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
-	rel="stylesheet">
+
+  <!-- Bootstrap CSS (solo una vez) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
+
+
 
 <title>FUTBOL DE BARRIO</title>
 </head>
@@ -201,13 +201,8 @@
 													<li><a class="dropdown-item" href="#"
 														style="color: white;">Ayuda </a></li>
 													<li><a class="dropdown-item" href="#"
-														style="color: white;">ConfiguraciÃ³n </a></li>
-													<li>
-														<hr class="dropdown-divider"
-															style="border-color: #006600;">
-													</li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Cerrar sesiÃ³n </a></li>
+														style="color: white;">Configuración </a></li>
+													
 												</ul>
 											</div>
 										</div>
@@ -322,7 +317,7 @@
 												style="color: white;">Ayuda </a></li>
 											<li><a class="dropdown-item" href="#"
 												style="color: white;">Configuración </a></li>
-											
+
 										</ul>
 									</div>
 								</div>
@@ -331,17 +326,90 @@
 						</div>
 					</div>
 				</div>
-				
-				
-				
-				
-				
-				
+
+
+
+
+
+
 			</div>
 		</div>
 	</header>
 
-	<main style="background-color: rgba(223, 234, 213, 0.5);"></main>
+	<main style="background-color: rgba(223, 234, 213, 0.5);">
+
+		<div class="container-fluid  mt-3"
+			style="display: flex; justify-content: center; align-items: center;">
+			<div class="row carousel-container  " style="">
+				<div
+					class="col-md-12 col-sm-12 col-12  border-1 border-light  border-2 carouselCMR"
+					style="width: 98%">
+					<div id="demo" class="carousel slide" data-bs-ride="carousel" data-bs-wrap="true">
+						<div class="carousel-indicators">
+							<button type="button" data-bs-target="#demo" data-bs-slide-to="0"
+								class="active"></button>
+							<button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+							<button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+						</div>
+
+						<div class="carousel-inner" style="border: 2px solid black;">
+							<!-- Item 1 -->
+							<div class="carousel-item active" data-bs-interval="3000">
+								<a href="Registrar.jsp"> <img src="Imagenes/carousel1.PNG"
+									alt="imagen carousel 1, registrase" class="d-block w-100">
+								</a>
+							</div>
+
+							<!-- Item 2 -->
+							<div class="carousel-item" data-bs-interval="3000">
+								<a href="Registrar.jsp"><img src="Imagenes/carousel2.png"
+									alt="imagen carousel 2, registrase como instalacion"
+									class="d-block w-100"></a>
+							</div>
+
+							<!-- Item 3 -->
+							<div class="carousel-item" data-bs-interval="3000">
+								<a href="Registrar.jsp"><img src="Imagenes/carousel3.png"
+									alt="imagen carousel 3, unirse a eventos"
+									class="d-block w-100"></a>
+							</div>
+						</div>
+
+						<!-- Controles de navegación -->
+						<button class="carousel-control-prev" type="button"
+							data-bs-target="#demo" data-bs-slide="prev">
+							<span class="carousel-control-prev-icon"></span>
+						</button>
+						<button class="carousel-control-next" type="button"
+							data-bs-target="#demo" data-bs-slide="next">
+							<span class="carousel-control-next-icon"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container-fluid mt-5">
+			<img src="Imagenes/index1.png" alt="Nueva York" class="d-block w-100">
+		</div>
+
+
+		<div class="container-fluid">
+			<img src="Imagenes/index2.png" alt="Nueva York" class="d-block w-100">
+
+		</div>
+
+
+		<div class="container-fluid">
+			<img src="Imagenes/index3.png" alt="Nueva York" class="d-block w-100">
+		</div>
+
+
+		<div class="container-fluid mt-3">
+			<img src="Imagenes/index4.png" alt="Nueva York" class="d-block w-100">
+		</div>
+
+	</main>
 
 
 	<footer>
@@ -515,8 +583,7 @@ Avenida mujer trabajadora
 
 
 				</div>
-				<div
-					class="col-12 d-block d-md-none d-sm-none  pieDePagina p-1 "
+				<div class="col-12 d-block d-md-none d-sm-none  pieDePagina p-1 "
 					style="border-top: 1px solid white;">
 					<p style="font-size: 2.4vw; margin-top: 1.4vw; color: #d4af37">©
 						2024 futboldebarrio.com | Todos los derechos reservados</p>
@@ -529,46 +596,8 @@ Avenida mujer trabajadora
 
 
 
-	<!-- CODIDO PARA BUSCADOR
-<script>
-  // Lista de sugerencias (puedes personalizar los valores)
-  const datosSugerencias = ["Inicio", "Acerca de", "Servicios", "Eventos", "Contacto", "Marcadores", "DesafÃ­os"];
-
-  // FunciÃ³n para mostrar las sugerencias
-  function mostrarSugerencias() {
-    const entrada = document.getElementById("entradaBusqueda");
-    const contenedorSugerencias = document.getElementById("sugerencias");
-    const consulta = entrada.value.toLowerCase();
-
-    // Limpia las sugerencias previas
-    contenedorSugerencias.innerHTML = "";
-
-    // Filtra las sugerencias segÃºn el texto ingresado
-    const sugerenciasFiltradas = datosSugerencias.filter(item => 
-      item.toLowerCase().includes(consulta)
-    );
-
-    // Genera la lista de sugerencias
-    sugerenciasFiltradas.forEach(sugerencia => {
-      const li = document.createElement("li");
-      li.textContent = sugerencia;
-      li.onclick = () => {
-        entrada.value = sugerencia; // Rellena el campo con la sugerencia seleccionada
-        contenedorSugerencias.innerHTML = ""; // Limpia las sugerencias
-      };
-      contenedorSugerencias.appendChild(li);
-    });
-
-    // Muestra u oculta el contenedor de sugerencias
-    contenedorSugerencias.style.display = sugerenciasFiltradas.length > 0 ? "block" : "none";
-  }
-</script>
-
- -->
-
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-		crossorigin="anonymous"></script>
+	
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+	
 </body>
 </html>

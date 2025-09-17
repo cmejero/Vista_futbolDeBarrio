@@ -5,6 +5,9 @@ import java.util.List;
 import vista_futbolDeBarrio.enums.Estado;
 import vista_futbolDeBarrio.enums.Modalidad;
 
+/**
+ * Clase que se encarga de los campos de instalacion
+ */
 public class InstalacionDto {
 
     private long idInstalacion;

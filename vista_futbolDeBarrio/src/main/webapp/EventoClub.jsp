@@ -209,8 +209,7 @@ Long clubId = (Long) session.getAttribute("clubId");
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
 													</li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Cerrar sesión </a></li>
+													<li><a class="dropdown-item" href="logout" style="color: white;">Cerrar sesión</a></li>
 												</ul>
 											</div>
 										</div>
@@ -331,8 +330,7 @@ Long clubId = (Long) session.getAttribute("clubId");
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item " href="InicioSesion.jsp">Cerrar
-													sesión </a></li>
+											<li><a class="dropdown-item" href="logout" style="color: white;">Cerrar sesión</a></li>
 											<li>
 										</ul>
 									</div>
@@ -668,6 +666,7 @@ Avenida mujer trabajadora
 <script>
 
 const clubId = <%=clubId%>;
+// console.log("Club ID: ", clubId); 
 
 
 
@@ -770,50 +769,82 @@ function cargarTorneos() {
         dataType: 'json',
         xhrFields: {
             withCredentials: true 
-        }, 
-       
+        },
         success: function(data) {
-        	 console.log("Datos recibidos:", data);  // Verifica lo que devuelve el servidor
+            if (data && Array.isArray(data) && data.length > 0) {
+                $('#tablaCuerpoTorneo').empty();
 
-        	    if (data && Array.isArray(data) && data.length > 0) {
-        	        $('#tablaCuerpoTorneo').empty();  // Limpiar la tabla
+                $.each(data, function(index, torneo) {
+                    var fechaInicio = new Date(torneo.fechaInicioTorneo);
+                    var fechaFin = new Date(torneo.fechaFinTorneo);
 
-        	        $.each(data, function(index, torneo) {
-        	        	var fechaInicio = new Date(torneo.fechaInicioTorneo);
-        	        	var fechaFin = new Date(torneo.fechaFinTorneo);
+                    var fechaInicioFormateada = fechaInicio.toLocaleDateString();
+                    var fechaFinFormateada = fechaFin.toLocaleDateString();
 
-        	        	if (isNaN(fechaInicio)) {
-        	        	    console.error('Fecha de inicio inválida:', torneo.fechaInicioTorneo);
-        	        	}
+                    var row = '<tr id="fila-' + torneo.idTorneo + '" style="font-size: 1vw; text-align: center; vertical-align: middle;">' +
+                    '<td>' + torneo.nombreTorneo + '</td>' +
+                    '<td>' + torneo.modalidad + '</td>' +
+                    '<td>' + fechaInicioFormateada + '</td>' +
+                    '<td>' + fechaFinFormateada + '</td>' +
+                    '<td style="border:0.5px solid #0d6ba1; text-align: center; color: green;">' +
+                    '<i class="fas fa-right-to-bracket icono-unirse" data-torneo-id="' + torneo.idTorneo + '" style="font-size: 1.5vw; cursor: pointer;" title="Unirse al torneo"></i>' +
+                    '</td></tr>';
 
-        	        	if (isNaN(fechaFin)) {
-        	        	    console.error('Fecha de fin inválida:', torneo.fechaFinTorneo);
-        	        	}
+	            $('#tablaCuerpoTorneo').append(row);
+	        });
+
+                // Asignar el evento click después de cargar las filas
+                $('.icono-unirse').click(function() {
+                    const torneoId = $(this).data('torneo-id');
+                    const clubId = <%=clubId%>; // ID del club desde el JSP
+
+                    if (!clubId) {
+                        alert("No se pudo obtener el ID del club.");
+                        return;
+                    }
+
+                    const datos = {
+                        torneoId: torneoId,
+                        clubId: clubId,
+                        fechaInicioParticipacion: new Date().toISOString().split('T')[0], // YYYY-MM-DD
+                        fechaFinParticipacion: "9999-01-01",
+                        estadoParticipacion: "Activo"
+                    };
+
+                    $.ajax({
+                        url: 'http://localhost:9527/api/guardarEquipoTorneo', // URL de tu API
+                        method: 'POST',
+                        data: JSON.stringify(datos),
+                        contentType: "application/json",
+                        success: function(response) {
+                            // Mensaje de éxito enviado desde la API
+                            alert(response);
+                            console.log("Éxito:", response);
+                        },
+                        error: function(xhr) {
+                            // Mensaje de error enviado desde la API
+                            if (xhr.status === 409) {
+                                alert("No puedes inscribirte: " + xhr.responseText); // Club ya inscrito
+                            } else if (xhr.status === 403) {
+                                alert("No puedes inscribirte: " + xhr.responseText); // Torneo lleno
+                            } else {
+                                alert("Error al inscribirse: " + xhr.responseText);
+                            }
+                            console.error("Error:", xhr.status, xhr.responseText);
+                        }
+                    });
+                });
 
 
-        	            var fechaInicioFormateada = (fechaInicio.getDate() < 10 ? '0' : '') + fechaInicio.getDate() + '/' + 
-        	                (fechaInicio.getMonth() + 1 < 10 ? '0' : '') + (fechaInicio.getMonth() + 1) + '/' + fechaInicio.getFullYear();
-        	            var fechaFinFormateada = (fechaFin.getDate() < 10 ? '0' : '') + fechaFin.getDate() + '/' + 
-        	                (fechaFin.getMonth() + 1 < 10 ? '0' : '') + (fechaFin.getMonth() + 1) + '/' + fechaFin.getFullYear();
 
-        	            var row = '<tr id="fila-' + torneo.idTorneo + '" style="font-size: 1vw; text-align: center; vertical-align: middle;">' +
-        	                '<td>' + torneo.nombreTorneo + '</td>' +
-        	                '<td>' + torneo.modalidad + '</td>' +
-        	                '<td>' + fechaInicioFormateada + '</td>' +
-        	                '<td>' + fechaFinFormateada + '</td>' 
-        	                + '<td style="border:0.5px solid #0d6ba1; text-align: center; color: green;">' +
-        	                '<i class="fas fa-right-to-bracket icono-unirse" style="font-size: 1.5vw; cursor: pointer;" title="Unirse al torneo"></i>' +
-        	                '</td></tr>';
-
-        	            $('#tablaCuerpoTorneo').append(row);
-        	        });
-        	    } else {
-        	        console.log("No hay torneos para mostrar");
-        	        $('#tablaCuerpoTorneo').html('<tr><td colspan="5">No hay torneos disponibles</td></tr>');
-        	    }
+ 	
+            } else {
+                $('#tablaCuerpoTorneo').html('<tr><td colspan="5">No hay torneos disponibles</td></tr>');
+            }
         }
     });
 }
+
 
 
 </script>
