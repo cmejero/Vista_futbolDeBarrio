@@ -1,11 +1,13 @@
 package vista_futbolDeBarrio.controlador;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,7 +25,6 @@ public class TorneoBracketControlador extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private TorneoServicio torneoServicio;
     private PartidoTorneoServicio partidoServicio;
-   
 
     @Override
     public void init() throws ServletException {
@@ -37,47 +38,74 @@ public class TorneoBracketControlador extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         try {
-            Long torneoId = Long.parseLong(request.getParameter("torneoId"));
-            Map<String, List<PartidoTorneoDto>> brackets = new LinkedHashMap<>();
-            String[] rondas = {"octavos", "cuartos", "semifinal", "final"};
+            String torneoIdParam = request.getParameter("torneoId");
 
-            for (String ronda : rondas) {
-                List<PartidoTorneoDto> partidosRonda = partidoServicio.obtenerPartidosPorRonda(torneoId, ronda);
-
-                int expected = 0;
-                switch (ronda) {
-                    case "octavos":
-                        expected = 8;
-                        break;
-                    case "cuartos":
-                        expected = 4;
-                        break;
-                    case "semifinal":
-                        expected = 2;
-                        break;
-                    case "final":
-                        expected = 1;
-                        break;
-                }
-
-                while (partidosRonda.size() < expected) partidosRonda.add(new PartidoTorneoDto());
-                brackets.put(ronda, partidosRonda);
+            if (torneoIdParam == null || torneoIdParam.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"error\":\"torneoId no proporcionado\"}");
+                Log.ficheroLog("GET /torneo/bracket falló: torneoId no proporcionado");
+                return;
             }
 
-             
+            Long torneoId;
+            try {
+                torneoId = Long.parseLong(torneoIdParam);
+            } catch (NumberFormatException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"error\":\"torneoId inválido\"}");
+                Log.ficheroLog("GET /torneo/bracket falló: torneoId inválido: " + torneoIdParam);
+                return;
+            }
 
-            ObjectMapper mapper = new ObjectMapper();
+            Log.ficheroLog("TorneoBracketControlador: Recibiendo torneoId=" + torneoId);
+
+            Map<String, Object> resp = new LinkedHashMap<>();
+
+            // Obtener datos del torneo
+            try {
+                resp.put("torneo", torneoServicio.obtenerTorneo(torneoId));
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.getWriter().write("{\"error\":\"Torneo no encontrado\"}");
+                Log.ficheroLog("TorneoBracketControlador: Torneo no encontrado id=" + torneoId);
+                return;
+            }
+
+            // Rondas y cantidad esperada de partidos
+            String[] rondas = {"octavos", "cuartos", "semifinal", "partidoFinal", "tercerpuesto"};
+            int[] expected = {8, 4, 2, 1, 1};
+
+            for (int r = 0; r < rondas.length; r++) {
+                String ronda = rondas[r];
+                int expCount = expected[r];
+
+                List<PartidoTorneoDto> partidos = partidoServicio.obtenerPartidosPorRonda(torneoId, ronda);
+
+                // Completar con placeholders si faltan partidos
+                while (partidos.size() < expCount) partidos.add(new PartidoTorneoDto());
+
+                // Ordenar por ubicacionRonda para que el HTML muestre correctamente
+                Collections.sort(partidos, Comparator.comparingInt(p -> p.getUbicacionRonda()));
+
+                resp.put(ronda, partidos);
+            }
+
+            // Devolver JSON
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(mapper.writeValueAsString(brackets));
+            response.getWriter().write(new Gson().toJson(resp));
+
         } catch (Exception e) {
+            Log.ficheroLog("Error en GET /torneo/bracket: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("Error generando brackets: " + e.getMessage());
+            response.getWriter().write("{\"error\": \"Error interno del servidor: " + e.getMessage() + "\"}");
         }
     }
+
     // ==========================
-    // AVANZAR GANADOR DE UN PARTIDO
+    // REGISTRAR RESULTADO / AVANZAR GANADOR
     // ==========================
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -87,20 +115,25 @@ public class TorneoBracketControlador extends HttpServlet {
             String partidoIdParam = request.getParameter("partidoId");
             String ganadorIdParam = request.getParameter("ganadorId");
 
-            if (partidoIdParam == null || ganadorIdParam == null ||
-                partidoIdParam.isEmpty() || ganadorIdParam.isEmpty()) {
-
+            if (partidoIdParam == null || partidoIdParam.isEmpty() ||
+                ganadorIdParam == null || ganadorIdParam.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("{\"error\": \"Parámetros partidoId o ganadorId no proporcionados\"}");
                 return;
             }
 
-            Long partidoId = Long.parseLong(partidoIdParam);
-            Long ganadorId = Long.parseLong(ganadorIdParam);
+            Long partidoId, ganadorId;
+            try {
+                partidoId = Long.parseLong(partidoIdParam);
+                ganadorId = Long.parseLong(ganadorIdParam);
+            } catch (NumberFormatException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"error\": \"partidoId o ganadorId inválidos\"}");
+                return;
+            }
 
-            // Obtener el partido actual
             PartidoTorneoDto partido = partidoServicio.listaPartidos().stream()
-                    .filter(p -> p.getIdPartidoTorneo().equals(partidoId))
+                    .filter(p -> p.getIdPartidoTorneo() != null && p.getIdPartidoTorneo().equals(partidoId))
                     .findFirst()
                     .orElse(null);
 
@@ -110,7 +143,7 @@ public class TorneoBracketControlador extends HttpServlet {
                 return;
             }
 
-            // Avanzar ganador usando TorneoServicio
+            // Avanzar ganador
             torneoServicio.avanzarGanador(partido, ganadorId, partidoServicio);
 
             response.setStatus(HttpServletResponse.SC_OK);
@@ -119,7 +152,7 @@ public class TorneoBracketControlador extends HttpServlet {
         } catch (Exception e) {
             Log.ficheroLog("Error en POST /torneo/bracket: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("{\"error\": \"Error al registrar el resultado\"}");
+            response.getWriter().write("{\"error\": \"Error al registrar el resultado: " + e.getMessage() + "\"}");
         }
     }
 }

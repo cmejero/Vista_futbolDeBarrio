@@ -49,6 +49,8 @@ public class ActaPartidoServicio {
                     acta.setEquipoLocalId(jsonActa.getLong("equipoLocalId"));
                     acta.setEquipoVisitanteId(jsonActa.getLong("equipoVisitanteId"));
                     acta.setGolesLocal(jsonActa.getInt("golesLocal"));
+                    acta.setGolesPenaltisLocal(jsonActa.getInt("golesPenaltisLocal"));
+                    acta.setGolesPenaltisVisitante(jsonActa.getInt("golesPenaltisVisitante"));
                     acta.setGolesVisitante(jsonActa.getInt("golesVisitante"));
                     acta.setFechaPartido(LocalDateTime.parse(jsonActa.getString("fechaPartido"), formatter));
                     acta.setCerrado(jsonActa.getBoolean("cerrado"));
@@ -61,6 +63,8 @@ public class ActaPartidoServicio {
         }
         return lista;
     }
+    
+    
 
     public Long guardarActaPartido(ActaPartidoDto acta) {
         try {
@@ -175,6 +179,8 @@ public class ActaPartidoServicio {
         json.put("equipoVisitanteId", acta.getEquipoVisitanteId());
         json.put("golesLocal", acta.getGolesLocal());
         json.put("golesVisitante", acta.getGolesVisitante());
+        json.put("golesPenaltiLocal", acta.getGolesPenaltisLocal());
+        json.put("golesPenaltiVisitante", acta.getGolesPenaltisVisitante());
         json.put("fechaPartido", acta.getFechaPartido().toString());
         json.put("cerrado", acta.estaCerrado());
         return json;

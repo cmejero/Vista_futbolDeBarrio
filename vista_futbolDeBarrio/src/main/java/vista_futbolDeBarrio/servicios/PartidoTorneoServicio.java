@@ -47,6 +47,28 @@ public class PartidoTorneoServicio {
         }
         return lista;
     }
+    
+    public PartidoTorneoDto obtenerPartidoPorId(Long partidoId) {
+        try {
+            String urlApi = "http://localhost:9527/api/partidoTorneo/" + partidoId; 
+            HttpURLConnection conex = crearConexion(urlApi, "GET");
+
+            if (conex.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String inputLine;
+                while ((inputLine = in.readLine()) != null) response.append(inputLine);
+                in.close();
+
+                JSONObject jsonPartido = new JSONObject(response.toString());
+                return mapearJSONAPartido(jsonPartido);
+            }
+        } catch (Exception e) {
+            Log.ficheroLog("Error obteniendo partido por ID: " + e.getMessage());
+        }
+        return null;
+    }
+
 
     // -------------------------
     // LISTAR PARTIDOS POR TORNEO
@@ -78,6 +100,7 @@ public class PartidoTorneoServicio {
         return lista;
     }
 
+
     // -------------------------
     // GUARDAR PARTIDO
     // -------------------------
@@ -90,6 +113,8 @@ public class PartidoTorneoServicio {
         conex.setRequestMethod("POST");
         conex.setRequestProperty("Content-Type", "application/json");
         conex.setDoOutput(true);
+
+        System.out.println("JSON a enviar: " + json.toString(4));
 
         // Enviamos el JSON completo
         try (OutputStream os = conex.getOutputStream()) {
@@ -211,21 +236,45 @@ public class PartidoTorneoServicio {
 
     private PartidoTorneoDto mapearJSONAPartido(JSONObject json) {
         PartidoTorneoDto partido = new PartidoTorneoDto();
-        partido.setIdPartidoTorneo(json.getLong("idPartidoTorneo"));
-        partido.setTorneoId(json.getLong("torneoId"));
+
+        // IDs
+        partido.setIdPartidoTorneo(json.optLong("idPartidoTorneo", 0));
+        partido.setTorneoId(json.optLong("torneoId", 0));
         partido.setInstalacionId(json.optLong("instalacionId", 0));
         partido.setClubLocalId(json.optLong("clubLocalId", 0));
         partido.setClubVisitanteId(json.optLong("clubVisitanteId", 0));
         partido.setEquipoLocalId(json.optLong("equipoLocalId", 0));
         partido.setEquipoVisitanteId(json.optLong("equipoVisitanteId", 0));
+        partido.setActaPartidoId(json.has("actaPartidoId") ? json.optLong("actaPartidoId") : null);
+        partido.setClubLocalNombre(json.optString("clubLocalNombre", "Local"));
+        partido.setClubVisitanteNombre(json.optString("clubVisitanteNombre", "Visitante"));
+        partido.setClubLocalAbreviatura(json.optString("clubLocalAbreviatura", ""));
+        partido.setClubVisitanteAbreviatura(json.optString("clubVisitanteAbreviatura", ""));
         partido.setGolesLocal(json.optInt("golesLocal", 0));
         partido.setGolesVisitante(json.optInt("golesVisitante", 0));
-        partido.setFechaPartido(json.optString("fechaPartido"));
+        partido.setFechaPartido(json.optString("fechaPartido", ""));
         partido.setRonda(json.optString("ronda", ""));
         partido.setEstado(json.optString("estado", ""));
-        partido.setActaPartidoId(json.has("actaPartidoId") ? json.optLong("actaPartidoId") : null);
+        partido.setUbicacionRonda(json.optInt("ubicacionRonda", 0));
+        partido.setNombreTorneo(json.optString("nombreTorneo", ""));
+        partido.setNombreInstalacion(json.optString("nombreInstalacion", ""));
+        if (json.has("jugadoresLocal")) {
+            JSONArray jugadoresLocal = json.getJSONArray("jugadoresLocal");
+            List<String> listaLocal = new ArrayList<>();
+            for (int i = 0; i < jugadoresLocal.length(); i++) listaLocal.add(jugadoresLocal.getString(i));
+            partido.setJugadoresLocal(listaLocal);
+        }
+        if (json.has("jugadoresVisitante")) {
+            JSONArray jugadoresVisitante = json.getJSONArray("jugadoresVisitante");
+            List<String> listaVisitante = new ArrayList<>();
+            for (int i = 0; i < jugadoresVisitante.length(); i++) listaVisitante.add(jugadoresVisitante.getString(i));
+            partido.setJugadoresVisitante(listaVisitante);
+        }
+
         return partido;
     }
+
+
 
     public JSONObject mapearPartidoAJSON(PartidoTorneoDto partido) {
         JSONObject json = new JSONObject();
@@ -241,6 +290,7 @@ public class PartidoTorneoServicio {
         json.put("ronda", partido.getRonda());
         json.put("estado", partido.getEstado());
         json.put("actaPartidoId", partido.getActaPartidoId() != null ? partido.getActaPartidoId() : JSONObject.NULL);
+        json.put("ubicacionRonda", partido.getUbicacionRonda());
 
         return json;
     }

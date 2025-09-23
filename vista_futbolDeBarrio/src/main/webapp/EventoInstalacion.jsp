@@ -915,7 +915,8 @@ function cargarTorneos() {
                 // ✅ Evento: Nombre clicable → redirección a torneoInstalacion.jsp
                 $(document).off('click', '.nombre-torneo-link').on('click', '.nombre-torneo-link', function () {
                     var torneoId = $(this).data('torneo-id');
-                    window.location.href = "TorneoInstalacion.jsp?id=" + torneoId;
+                    window.location.href = '<%= request.getContextPath() %>/TorneoInstalacion.jsp?id=' + torneoId;
+
                 });
 
                 // ✅ Evento: Modificar torneo
@@ -984,11 +985,7 @@ $('#tablaCuerpoTorneo').on('click', '.btnEliminar', function () {
     }
 });
 
-// Click en nombre de torneo -> redirige a detalle
-$('#tablaCuerpoTorneo').on('click', '.nombreTorneo', function() {
-    const idTorneo = $(this).data('id');
-    window.location.href = "TorneoInstalacion.jsp?torneoId=" + idTorneo;
-});
+
 </script>
 
 

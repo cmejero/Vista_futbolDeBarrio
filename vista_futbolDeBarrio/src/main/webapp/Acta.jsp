@@ -1,15 +1,16 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" import="java.util.List,vista_futbolDeBarrio.dtos.*" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java"
+	import="java.util.List,vista_futbolDeBarrio.dtos.*"%>
 
-<%@ page import="java.util.List" %>
-<%@ page import="vista_futbolDeBarrio.dtos.*" %>
+<%@ page import="java.util.List"%>
+<%@ page import="vista_futbolDeBarrio.servicios.PartidoTorneoServicio"%>
+<%@ page import="vista_futbolDeBarrio.dtos.PartidoTorneoDto"%>
+
 <%
-    // Obtenemos el acta y partido del request (controlador web ya los puso)
-    ActaPartidoDto acta = (ActaPartidoDto) request.getAttribute("acta");
-    PartidoTorneoDto partido = (PartidoTorneoDto) request.getAttribute("partido");
-    List<UsuarioDto> jugadoresLocal = (List<UsuarioDto>) request.getAttribute("jugadoresLocal");
-    List<UsuarioDto> jugadoresVisitante = (List<UsuarioDto>) request.getAttribute("jugadoresVisitante");
+PartidoTorneoServicio partidoTorneoServicio = new PartidoTorneoServicio();
+Long partidoId = Long.parseLong(request.getParameter("partidoId"));
+PartidoTorneoDto partido = partidoTorneoServicio.obtenerPartidoPorId(partidoId);
 %>
-	
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -396,120 +397,114 @@ button.add-btn {
 }
 
 .seccion {
-	margin-bottom: 2vw;
+	margin-bottom: 2.5vw;
 }
 </style>
 
-	<div class="container col-10 mt-4 mb-5 letraActa" style="background-color: white; box-shadow: 0px 4px 8px rgba(0,0,0,0.6),0px -4px 8px rgba(0,0,0,0.15)">
-    <div class="row justify-content-center">
-        <div class="col-10 p-4">
-            <h1 class="text-center mb-4">ACTA DEL PARTIDO</h1>
+		<div class="container col-10 mt-4 mb-5 letraActa"
+			style="background-color: white; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
+			<div class="row justify-content-center">
+				<div class="col-10 p-4">
+					<h1 class="text-center mb-4">ACTA DEL PARTIDO</h1>
 
-            <form id="actaForm" method="post" action="guardarActaPartido">
-                <!-- Resultado final -->
-                <div class="seccion">
-                    <h2>Resultado Final</h2>
-                    <label>Goles <%= partido.getClubLocalId() %>:
-                        <input type="number" name="golesLocal" min="0" value="<%= acta != null ? acta.getGolesLocal() : 0 %>">
-                    </label>
-                    <label>Goles <%= partido.getClubVisitanteId() %>:
-                        <input type="number" name="golesVisitante" min="0" value="<%= acta != null ? acta.getGolesVisitante() : 0 %>">
-                    </label>
-                </div>
+					<!-- Datos del Partido -->
+					<div class="seccion">
+						<h2>Datos del Partido</h2>
+						<p>
+							<b>Fecha y hora:</b>
+							<%= partido.getFechaPartido() %></p>
+						<p>
+							<b>Lugar:</b>
+							<%= partido.getNombreInstalacion() %></p>
+						<p>
+							<b>Competición:</b>
+							<%= partido.getNombreTorneo() %></p>
+						<p>
+							<b>Club Local:</b>
+							<%= partido.getClubLocalNombre() %></p>
+						<p>
+							<b>Club Visitante:</b>
+							<%= partido.getClubVisitanteNombre() %></p>
+					</div>
 
-                <!-- Eventos dinámicos -->
-                <div class="seccion">
-                    <h2>Eventos del Partido</h2>
+					<form id="actaForm">
 
-                    <table id="tablaEventos" class="tablaActa">
-                        <thead>
-                            <tr>
-                                <th>Tipo de Evento</th>
-                                <th>Equipo</th>
-                                <th>Jugador</th>
-                                <th>Minuto</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Filas iniciales vacías, se agregan con JS -->
-                        </tbody>
-                    </table>
-                    <button type="button" onclick="agregarEvento()">+ Añadir Evento</button>
-                </div>
 
-                <div class="seccion">
-                    <h2>Observaciones</h2>
-                    <textarea name="observaciones" rows="4" style="width:100%;"><%= acta != null ? acta.getObservaciones() : "" %></textarea>
-                </div>
+						<!-- Resultado -->
+						<div class="seccion">
+							<label><b>Goles:</b> <span
+								value="<%= partido.getClubLocalId() %>"><%= partido.getClubLocalNombre() %>
+							</span></label> <input type="number" id="golesLocal" min="0"
+								value="<%= partido.getGolesLocal() %>">    <span style="margin-left: 2.5vw"></span> vs <label
+								style="margin-left: 2.5vw"><b>Goles:</b> <span
+								value="<%= partido.getClubVisitanteId() %>"><%= partido.getClubVisitanteNombre() %></span></label>
+							<input type="number" id="golesVisitante" min="0"
+								value="<%= partido.getGolesVisitante() %>">
+						</div>
 
-                <div class="text-right">
-                    <button type="submit">CERRAR ACTA</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+						<!-- Penales -->
+						<div class="seccion">
+							<label><b>¿Hubo clasificacion por penaltis?</b></label> <select id="penales">
+								<option value="no">No</option>
+								<option value="si">Sí</option>
+							</select>
+							<div id="penalesInfo" style="margin-top: 1vw; display: none;">
+								<ul>
+									<li><label><b>Goles:</b> <span
+											value="<%= partido.getClubLocalId() %>"><%= partido.getClubLocalNombre() %>
+										</span></label> <input type="number" id="penalesLocal" min="0" value="0"></li>
+									<li style="margin-top: 1vw"><label><b>Goles:</b> <span
+											value="<%= partido.getClubVisitanteId() %>"><%= partido.getClubVisitanteNombre() %></span>
+									</label> <input type="number" id="penalesVisitante" min="0" value="0"></li>
+							</div>
+							</ul>
+						</div>
 
-<script>
-    const jugadoresLocal = <%= new com.google.gson.Gson().toJson(jugadoresLocal) %>;
-    const jugadoresVisitante = <%= new com.google.gson.Gson().toJson(jugadoresVisitante) %>;
+						<!-- Equipo clasificado -->
+						<div class="seccion">
+							<label><b>Equipo Clasificado:</b></label> <select id="equipoClasificado">
+								<option value="">Seleccione...</option>
+								<option value="<%= partido.getClubLocalId() %>"><%= partido.getClubLocalNombre() %></option>
+								<option value="<%= partido.getClubVisitanteId() %>"><%= partido.getClubVisitanteNombre() %></option>
+							</select>
+						</div>
 
-    function agregarEvento() {
-        const tabla = document.getElementById("tablaEventos").getElementsByTagName("tbody")[0];
-        const fila = tabla.insertRow();
+						<!-- Eventos -->
+						<div class="seccion">
+							<h2>Eventos</h2>
+							<table id="tablaEventos"
+								style="width: 100%; table-layout: fixed;">
+								<thead>
+									<tr>
+										<th style="width: 30%;">Tipo Evento</th>
+										<th style="width: 30%;">Club</th>
+										<th style="width: 30%;">Jugador</th>
+										<th style="width: 10%;">Minuto</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- Filas dinámicas via JS -->
+								</tbody>
+							</table>
+							<button type="button" class="btn" onclick="agregarEvento()" style="margin-top: 1vw">Añadir
+								Evento</button>
+						</div>
 
-        // Tipo de evento
-        let celdaTipo = fila.insertCell();
-        celdaTipo.innerHTML = `<select class="tipoEvento">
-            <option value="GOL">Gol</option>
-            <option value="AMARILLA">Tarjeta Amarilla</option>
-            <option value="ROJA">Tarjeta Roja</option>
-        </select>`;
 
-        // Equipo
-        let celdaEquipo = fila.insertCell();
-        celdaEquipo.innerHTML = `<select class="equipoEvento" onchange="cargarJugadores(this)">
-            <option value="<%= partido.getEquipoLocalId() %>">Equipo Local</option>
-            <option value="<%= partido.getEquipoVisitanteId() %>">Equipo Visitante</option>
-        </select>`;
 
-        // Jugador
-        let celdaJugador = fila.insertCell();
-        celdaJugador.innerHTML = `<select class="jugadorEvento"></select>`;
+						<!-- Observaciones -->
+						<div class="seccion">
+							<h2>Observaciones</h2>
+							<textarea id="observaciones" rows="4" cols="50"></textarea>
+						</div>
 
-        // Minuto
-        let celdaMinuto = fila.insertCell();
-        celdaMinuto.innerHTML = `<input type="number" class="minutoEvento" min="0" max="120" value="0">`;
+						<!-- Botón Guardar -->
+						<button type="submit" class="btn">Guardar Acta</button>
 
-        // Botón eliminar
-        let celdaEliminar = fila.insertCell();
-        celdaEliminar.innerHTML = `<button type="button" onclick="eliminarFila(this)">Eliminar</button>`;
-
-        // Inicializar jugadores con equipo local por defecto
-        cargarJugadores(celdaEquipo.getElementsByTagName("select")[0]);
-    }
-
-    function cargarJugadores(selectEquipo) {
-        const fila = selectEquipo.closest("tr");
-        const jugadorSelect = fila.querySelector(".jugadorEvento");
-        jugadorSelect.innerHTML = "";
-
-        let jugadores = selectEquipo.value == "<%= partido.getEquipoLocalId() %>" ? jugadoresLocal : jugadoresVisitante;
-        jugadores.forEach(j => {
-            let opt = document.createElement("option");
-            opt.value = j.idUsuario;
-            opt.text = j.nombre;
-            jugadorSelect.add(opt);
-        });
-    }
-
-    function eliminarFila(btn) {
-        const fila = btn.closest("tr");
-        fila.remove();
-    }
-</script>
-
+					</form>
+				</div>
+			</div>
+		</div>
 	</main>
 	<footer>
 
@@ -693,178 +688,61 @@ Avenida mujer trabajadora
 
 	</footer>
 
-
-
-
-
-
 	<script>
-  // Lista de clubes y sus jugadores
-  const clubes = [
-    {
-      id: 1,
-      nombre: 'Club Deportivo Sur',
-      key: 'local', // Se mantiene para compatibilidad con nombres de campos
-      jugadores: [
-        { id: 1, alias: 'Cmejero' },
-        { id: 2, alias: 'Jmartin' },
-        { id: 3, alias: 'Pgarcia' }
-      ]
-    },
-    {
-      id: 2,
-      nombre: 'Barrio Norte FC',
-      key: 'visitante',
-      jugadores: [
-        { id: 4, alias: 'Mlopez' },
-        { id: 5, alias: 'Rdiaz' },
-        { id: 6, alias: 'Lfernandez' }
-      ]
-    }
-  ];
+document.getElementById("penales").addEventListener("change", function() {
+    document.getElementById("penalesInfo").style.display = this.value === "si" ? "block" : "none";
+});
+    // Listas de jugadores por club
+     const jugadoresLocal = <%= new org.json.JSONArray(partido.getJugadoresLocal()).toString() %>;
+    const jugadoresVisitante = <%= new org.json.JSONArray(partido.getJugadoresVisitante()).toString() %>;
 
-  const nombreLocal = 'Club Deportivo Norte';
-  const nombreVisitante = 'Atlético Sur';
+    function agregarEvento() {
+        const tabla = document.getElementById("tablaEventos").getElementsByTagName('tbody')[0];
+        const fila = tabla.insertRow();
 
-  // Asignar nombres a todos los lugares necesarios
-  document.getElementById('nombreEquipoLocal').textContent = nombreLocal;
-  document.getElementById('nombreEquipoVisitante').textContent = nombreVisitante;
-  document.getElementById('nombreEquipoLocalPenal').textContent = nombreLocal;
-  document.getElementById('nombreEquipoVisitantePenal').textContent = nombreVisitante;
+        fila.innerHTML = `
+            <td>
+                <select class="tipoEvento" style="width: 100%";>
+                <option value="" disabled selected>Elige un evento</option>
+                    <option value="Gol">Gol</option>
+                    <option value="Tarjeta Amarilla">Tarjeta Amarilla</option>
+                    <option value="Tarjeta Roja">Tarjeta Roja</option>
+                </select>
+            </td>
+            <td>
+                <select class="clubEvento" onchange="actualizarJugadores(this)" style="width: 100%";>
+                <option value="" disabled selected>Elige club</option>
+                    <option value="<%= partido.getClubLocalId() %>"><%= partido.getClubLocalNombre() %></option>
+                    <option value="<%= partido.getClubVisitanteId() %>"><%=partido.getClubVisitanteNombre()%></option>
+                </select>
+            </td>
+            <td>
+                <select class="jugadorEvento" style="width: 100%";>
+                    <!-- Se llenará según club -->
+                </select>
+            </td>
+            <td><input type="number" class="minutoEvento" min="0" style="width: 90%; height: 100%" /></td>
+        `;
 
-  function mostrarSeccionPenales(valor) {
-    const bloque = document.getElementById('bloquePenales');
-    if (valor === 'si') {
-      bloque.style.display = 'block';
-    } else {
-      bloque.style.display = 'none';
-    }
-  }
-
-
-  function crearSelectJugadores(keyEquipo) {
-    const club = clubes.find(c => c.key === keyEquipo);
-    const select = document.createElement('select');
-    select.name = `jugador_${keyEquipo}[]`;
-    select.required = true;
-
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.textContent = '-- Selecciona jugador --';
-    select.appendChild(defaultOption);
-
-    if (club) {
-      club.jugadores.forEach(j => {
-        const option = document.createElement('option');
-        option.value = j.alias;
-        option.textContent = j.alias;
-        select.appendChild(option);
-      });
+       
     }
 
-    return select;
-  }
+    function actualizarJugadores(clubSelect) {
+        const fila = clubSelect.closest('tr');
+        const jugadorSelect = fila.querySelector('.jugadorEvento');
+        jugadorSelect.innerHTML = "";
 
-  function agregarFila(idTabla) {
-    const tabla = document.getElementById(idTabla).querySelector('tbody');
-    const fila = document.createElement('tr');
+        const jugadores = clubSelect.value == "<%=partido.getClubLocalId()%>" ? jugadoresLocal : jugadoresVisitante;
 
-    // Columna equipo
-    const tdEquipo = document.createElement('td');
-    const selectEquipo = document.createElement('select');
-    selectEquipo.name = `equipo_${idTabla}[]`;
-    selectEquipo.required = true;
-
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.textContent = '-- Selecciona equipo --';
-    selectEquipo.appendChild(defaultOption);
-
-    clubes.forEach(club => {
-      const option = document.createElement('option');
-      option.value = club.key;
-      option.textContent = club.nombre;
-      selectEquipo.appendChild(option);
-    });
-
-    tdEquipo.appendChild(selectEquipo);
-    fila.appendChild(tdEquipo);
-
-    // Columna jugador (por defecto, jugadores del primer club)
-    const tdJugador = document.createElement('td');
-    tdJugador.appendChild(crearSelectJugadores(clubes[0].key));
-    fila.appendChild(tdJugador);
-
-    // Actualizar jugadores al cambiar equipo
-    selectEquipo.addEventListener('change', (e) => {
-      const selectedKey = e.target.value;
-      tdJugador.innerHTML = '';
-      tdJugador.appendChild(crearSelectJugadores(selectedKey));
-    });
-
-    // Columna cantidad
-    const tdCantidad = document.createElement('td');
-    const inputCantidad = document.createElement('input');
-    inputCantidad.type = 'number';
-    inputCantidad.name = `cantidad_${idTabla}[]`;
-    inputCantidad.min = 1;
-    inputCantidad.value = 1;
-    inputCantidad.required = true;
-    tdCantidad.appendChild(inputCantidad);
-    fila.appendChild(tdCantidad);
-
-    // Columna eliminar
-    const tdEliminar = document.createElement('td');
-    const btnEliminar = document.createElement('button');
-    btnEliminar.type = 'button';
-    btnEliminar.textContent = 'Eliminar';
-    btnEliminar.onclick = () => fila.remove();
-    tdEliminar.appendChild(btnEliminar);
-    fila.appendChild(tdEliminar);
-
-    tabla.appendChild(fila);
-  }
-
-  document.getElementById('actaForm').addEventListener('submit', function (event) {
-	  event.preventDefault();
-
-	  function recogerDatos(tablaId) {
-	    const datos = [];
-	    document.querySelectorAll(`#${tablaId} tbody tr`).forEach(tr => {
-	      const equipo = tr.querySelector(`select[name="equipo_${tablaId}[]"]`).value;
-	      const jugador = tr.querySelector(`select[name="jugador_${equipo}[]"]`).value;
-	      const cantidad = tr.querySelector(`input[name="cantidad_${tablaId}[]"]`).value;
-	      if (equipo && jugador && cantidad > 0) {
-	        datos.push({ equipo, jugador, cantidad: parseInt(cantidad) });
-	      }
-	    });
-	    return datos;
-	  }
-
-	  const goles = recogerDatos('tablaGoles');
-	  const tarjetasAmarillas = recogerDatos('tablaTarjetasAmarillas');
-	  const tarjetasRojas = recogerDatos('tablaTarjetasRojas');
-	  const observaciones = document.getElementById('observaciones').value;
-	  const golesLocal = parseInt(document.getElementById('golesLocal').value);
-	  const golesVisitante = parseInt(document.getElementById('golesVisitante').value);
-
-	  console.log({
-	    golesLocal,
-	    golesVisitante,
-	    goles,
-	    tarjetasAmarillas,
-	    tarjetasRojas,
-	    observaciones
-	  });
-
-	  alert('Acta cerrada y datos listos para enviar al backend.');
-	});
-
+        jugadores.forEach(function(jugador) {
+            const option = document.createElement('option');
+            option.value = jugador;
+            option.text = jugador;
+            jugadorSelect.appendChild(option);
+        });
+       
+    }
 </script>
-
-
-
-
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

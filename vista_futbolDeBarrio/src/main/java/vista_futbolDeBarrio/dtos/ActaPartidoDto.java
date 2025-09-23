@@ -12,14 +12,16 @@ public class ActaPartidoDto {
 	private Long clubVisitanteId;
 	private Long equipoLocalId;
 	private Long equipoVisitanteId;
+	private Long partidoTorneoId;
 	private int golesLocal;
 	private int golesVisitante;
+	private int golesPenaltisLocal;
+	private int golesPenaltisVisitante;
 	private LocalDateTime fechaPartido;
 	private String observaciones;
 	private boolean cerrado;
 	private List<EventoPartidoDto> eventos;
 
-	// Getters y setters
 
 	public Long getIdActaPartido() {
 		return idActaPartido;
@@ -77,6 +79,15 @@ public class ActaPartidoDto {
 		this.equipoVisitanteId = equipoVisitanteId;
 	}
 
+
+	public Long getPartidoTorneoId() {
+		return partidoTorneoId;
+	}
+
+	public void setPartidoTorneoId(Long partidoTorneoId) {
+		this.partidoTorneoId = partidoTorneoId;
+	}
+
 	public int getGolesLocal() {
 		return golesLocal;
 	}
@@ -91,6 +102,24 @@ public class ActaPartidoDto {
 
 	public void setGolesVisitante(int golesVisitante) {
 		this.golesVisitante = golesVisitante;
+	}
+	
+	
+
+	public int getGolesPenaltisLocal() {
+		return golesPenaltisLocal;
+	}
+
+	public void setGolesPenaltisLocal(int golesPenaltisLocal) {
+		this.golesPenaltisLocal = golesPenaltisLocal;
+	}
+
+	public int getGolesPenaltisVisitante() {
+		return golesPenaltisVisitante;
+	}
+
+	public void setGolesPenaltisVisitante(int golesPenaltisVisitante) {
+		this.golesPenaltisVisitante = golesPenaltisVisitante;
 	}
 
 	public LocalDateTime getFechaPartido() {

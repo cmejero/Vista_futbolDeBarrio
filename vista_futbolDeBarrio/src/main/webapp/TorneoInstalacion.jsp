@@ -1,7 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<% String torneoId = request.getParameter("torneoId"); %>
-	
+<%
+String torneoId = request.getParameter("torneoId");
+%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +23,8 @@
 
 
 
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 
 <title>FUTBOL DE BARRIO</title>
@@ -149,13 +156,14 @@
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="Instalacion.jsp" class="letraCabeceraAbajo" >INICIO</a>
+											<a href="Instalacion.jsp" class="letraCabeceraAbajo">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo">ALQUILERES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo" style="color: #d4af37;">EVENTOS</a>
+											<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo"
+												style="color: #d4af37;">EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -223,7 +231,7 @@
 
 				<!-- HEADER COL -->
 
-			<div class="  d-sm-none d-md-none col-12 d-block ">
+				<div class="  d-sm-none d-md-none col-12 d-block ">
 					<div class="row align-items-stretch" style="height: 55px;">
 						<!-- columna logo -->
 						<div class="d-sm-none d-md-none col-2 d-block logo  "
@@ -267,8 +275,7 @@
 								<!-- columna izquierda: INICIO -->
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-4 ">
-									<a href="Instalacion.jsp" class="letraCabeceraAbajo "
-										>INICIO</a>
+									<a href="Instalacion.jsp" class="letraCabeceraAbajo ">INICIO</a>
 								</div>
 
 								<!-- columna medio: buscador -->
@@ -306,8 +313,10 @@
 
 											<li><a class="dropdown-item " href="Instalacion.jsp"
 												style="color: white;">Reservas </a></li>
-											<li><a class="dropdown-item " href="EventoInstalacion.jsp"
-												style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">Eventos </a></li>
+											<li><a class="dropdown-item "
+												href="EventoInstalacion.jsp"
+												style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">Eventos
+											</a></li>
 											<li><a class="dropdown-item " href="Instalacion.jsp"
 												style="color: white;">Finanzas </a></li>
 											<li><a class="dropdown-item " href="Instalacion.jsp"
@@ -329,7 +338,8 @@
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item" href="logout" style="color: white;">Cerrar sesión</a></li>
+											<li><a class="dropdown-item" href="logout"
+												style="color: white;">Cerrar sesión</a></li>
 											<li>
 										</ul>
 									</div>
@@ -349,300 +359,94 @@
 	</header>
 
 	<main style="background-color: rgba(223, 234, 213, 0.5);">
-
-
-
 		<div class="contenedorTorneo">
-	<h2 class="tituloTorneo">
-    🏆 <span style="font-weight: 700; text-decoration:underline">
-        TORNEO: ${torneo.nombreTorneo}
-    </span>
-</h2>
-
+			<h2 class="tituloTorneo">
+				🏆 <span style="font-weight: 700; text-decoration: underline"
+					id="nombreTorneo"> Cargando torneo... </span>
+			</h2>
 			<div class="contenedorFlex">
-			<div class="separadorVisual"></div>
-
+				<div class="separadorVisual"></div>
 				<!-- Camino a la Copa (Bracket) -->
 				<div class="filaTorneo">
-
 					<!-- Octavos izquierda -->
 					<div class="columnaTorneo">
-						<div class="casillaPartido" data-id="octavos1">
-							<strong>Uruguay</strong><small>Sáb, 12h</small><strong>Portugal</strong>
-						</div>
+						<div class="casillaPartido" data-id="octavos1"></div>
 						<div class="celdaVacia"></div>
-						<div class="casillaPartido" data-id="octavos2">
-							<strong>Francia</strong><small>Sáb, 8h</small><strong>Argentina</strong>
-						</div>
+						<div class="casillaPartido" data-id="octavos2"></div>
 						<div class="celdaVacia"></div>
-						<div class="casillaPartido" data-id="octavos3">
-							<strong>Brasil</strong><small>Lun, 8h</small><strong>México</strong>
-						</div>
+						<div class="casillaPartido" data-id="octavos3"></div>
 						<div class="celdaVacia"></div>
-						<div class="casillaPartido" data-id="octavos4">
-							<strong>Bélgica</strong><small>Lun, 12h</small><strong>Japón</strong>
-						</div>
+						<div class="casillaPartido" data-id="octavos4"></div>
 					</div>
-
 					<!-- Cuartos izquierda -->
 					<div class="columnaTorneo">
 						<div class="celdaVacia"></div>
-						<div class="casillaPartido" data-id="cuartos1">
-							<strong>Por definir</strong><small>6 jul, 8h</small><strong>Por
-								definir</strong>
-						</div>
+						<div class="casillaPartido" data-id="cuartos1"></div>
 						<div class="celdaVacia"></div>
 						<div class="celdaVacia"></div>
 						<div class="celdaVacia"></div>
-						<div class="casillaPartido" data-id="cuartos2">
-							<strong>Por definir</strong><small>6 jul, 12h</small><strong>Por
-								definir</strong>
-						</div>
+						<div class="casillaPartido" data-id="cuartos2"></div>
 						<div class="celdaVacia"></div>
 					</div>
-
 					<!-- Semifinal izquierda -->
 					<div class="columnaTorneo">
 						<div class="celdaVacia"></div>
 						<div class="celdaVacia"></div>
 						<div class="celdaVacia"></div>
-						<div class="casillaPartido" data-id="semifinal1">
-							<strong>Por definir</strong><small>10 jul, 12h</small><strong>Por
-								definir</strong>
-						</div>
+						<div class="casillaPartido" data-id="semifinal1"></div>
 						<div class="celdaVacia"></div>
 						<div class="celdaVacia"></div>
 						<div class="celdaVacia"></div>
 					</div>
-
 					<!-- Final -->
 					<div class="columnaTorneo">
 						<div class="celdaVacia"></div>
 						<div class="celdaVacia"></div>
 						<div class="celdaVacia"></div>
-						<div class="casillaPartido" data-id="final">
-							<strong>Por definir</strong><small>15 jul, 9h</small><strong>Por
-								definir</strong>
-						</div>
+						<div class="casillaPartido" data-id="partidoFinal"></div>
 						<div class="celdaVacia"></div>
-						<div class="casillaPartido" data-id="tercerpuesto">
-							<strong>3er puesto</strong><small>14 jul, 8h</small><strong>Por
-								definir</strong>
-						</div>
+						<div class="casillaPartido" data-id="tercerpuesto"></div>
 						<div class="celdaVacia"></div>
 					</div>
-
 					<!-- Semifinal derecha -->
 					<div class="columnaTorneo">
 						<div class="celdaVacia"></div>
 						<div class="celdaVacia"></div>
 						<div class="celdaVacia"></div>
-						<div class="casillaPartido" data-id="semifinal2">
-							<strong>Por definir</strong><small>11 jul, 10h</small><strong>Por
-								definir</strong>
-						</div>
+						<div class="casillaPartido" data-id="semifinal2"></div>
 						<div class="celdaVacia"></div>
 						<div class="celdaVacia"></div>
 						<div class="celdaVacia"></div>
 					</div>
-
 					<!-- Cuartos derecha -->
 					<div class="columnaTorneo">
 						<div class="celdaVacia"></div>
-						<div class="casillaPartido" data-id="cuartos3">
-							<strong>Por definir</strong><small>7 jul, 8h</small><strong>Por
-								definir</strong>
-						</div>
+						<div class="casillaPartido" data-id="cuartos3"></div>
 						<div class="celdaVacia"></div>
 						<div class="celdaVacia"></div>
 						<div class="celdaVacia"></div>
-						<div class="casillaPartido" data-id="cuartos4">
-							<strong>Por definir</strong><small>7 jul, 12h</small><strong>Por
-								definir</strong>
-						</div>
+						<div class="casillaPartido" data-id="cuartos4"></div>
 						<div class="celdaVacia"></div>
 					</div>
-
 					<!-- Octavos derecha -->
 					<div class="columnaTorneo">
-						<div class="casillaPartido" data-id="octavos5">
-							<strong>Inglaterra</strong><small>Dom, 12h</small><strong>Senegal</strong>
-						</div>
+						<div class="casillaPartido" data-id="octavos5"></div>
 						<div class="celdaVacia"></div>
-						<div class="casillaPartido" data-id="octavos6">
-							<strong>Croacia</strong><small>Dom, 8h</small><strong>Japón</strong>
-						</div>
+						<div class="casillaPartido" data-id="octavos6"></div>
 						<div class="celdaVacia"></div>
-						<div class="casillaPartido" data-id="octavos7">
-							<strong>Suiza</strong><small>Lun, 16h</small><strong>Corea
-								del Sur</strong>
-						</div>
+						<div class="casillaPartido" data-id="octavos7"></div>
 						<div class="celdaVacia"></div>
-						<div class="casillaPartido" data-id="octavos8">
-							<strong>España</strong><small>Lun, 16h</small><strong>Portugal</strong>
-						</div>
+						<div class="casillaPartido" data-id="octavos8"></div>
 					</div>
-
 				</div>
 				<div class="separadorVisual"></div>
+				<!-- Tablas (Equipos y Goleadores) -->
 				<div class="contenedorTablas">
-					<!-- Tabla de Equipos Participantes -->
-					<div class="tablaEquipos">
-						<h3>Equipos Participantes</h3>
-						<table>
-							<thead>
-								<tr>
-									<th>Escudo</th>
-									<th>Equipo</th>
-									<th>Abrev.</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><img src="./Imagenes/uruguay.png" class="escudoEquipo" /></td>
-									<td>Uruguay</td>
-									<td>URU</td>
-								</tr>
-								<tr>
-									<td><img src="./Imagenes/portugal.png"
-										class="escudoEquipo" /></td>
-									<td>Portugal</td>
-									<td>POR</td>
-								</tr>
-								<tr>
-									<td><img src="./Imagenes/francia.png" class="escudoEquipo" /></td>
-									<td>Francia</td>
-									<td>FRA</td>
-								</tr>
-								<tr>
-									<td><img src="./Imagenes/argentina.png"
-										class="escudoEquipo" /></td>
-									<td>Argentina</td>
-									<td>ARG</td>
-								</tr>
-								<tr>
-									<td><img src="./Imagenes/brasil.png" class="escudoEquipo" /></td>
-									<td>Brasil</td>
-									<td>BRA</td>
-								</tr>
-								<tr>
-									<td><img src="./Imagenes/mexico.png" class="escudoEquipo" /></td>
-									<td>México</td>
-									<td>MEX</td>
-								</tr>
-								<tr>
-									<td><img src="./Imagenes/belgica.png" class="escudoEquipo" /></td>
-									<td>Bélgica</td>
-									<td>BEL</td>
-								</tr>
-								<tr>
-									<td><img src="./Imagenes/japon.png" class="escudoEquipo" /></td>
-									<td>Japón</td>
-									<td>JPN</td>
-								</tr>
-								<tr>
-									<td><img src="./Imagenes/espana.png" class="escudoEquipo" /></td>
-									<td>España</td>
-									<td>ESP</td>
-								</tr>
-								<tr>
-									<td><img src="./Imagenes/rusia.png" class="escudoEquipo" /></td>
-									<td>Rusia</td>
-									<td>RUS</td>
-								</tr>
-								<tr>
-									<td><img src="./Imagenes/croacia.png" class="escudoEquipo" /></td>
-									<td>Croacia</td>
-									<td>CRO</td>
-								</tr>
-								<tr>
-									<td><img src="./Imagenes/dinamarca.png"
-										class="escudoEquipo" /></td>
-									<td>Dinamarca</td>
-									<td>DEN</td>
-								</tr>
-								<tr>
-									<td><img src="./Imagenes/suecia.png" class="escudoEquipo" /></td>
-									<td>Suecia</td>
-									<td>SWE</td>
-								</tr>
-								<tr>
-									<td><img src="./Imagenes/suiza.png" class="escudoEquipo" /></td>
-									<td>Suiza</td>
-									<td>SUI</td>
-								</tr>
-								<tr>
-									<td><img src="./Imagenes/colombia.png"
-										class="escudoEquipo" /></td>
-									<td>Colombia</td>
-									<td>COL</td>
-								</tr>
-								<tr>
-									<td><img src="./Imagenes/inglaterra.png"
-										class="escudoEquipo" /></td>
-									<td>Inglaterra</td>
-									<td>ENG</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-
-					<!-- Tabla de Máximos Goleadores -->
-					<div class="tablaGoleadores">
-						<h3>Máximos Goleadores</h3>
-						<table>
-							<thead>
-								<tr>
-									<th>Jugador</th>
-									<th>Equipo</th>
-									<th>Goles</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Kylian Mbappé</td>
-									<td>Francia</td>
-									<td>6</td>
-								</tr>
-								<tr>
-									<td>Harry Kane</td>
-									<td>Inglaterra</td>
-									<td>5</td>
-								</tr>
-								<tr>
-									<td>Lionel Messi</td>
-									<td>Argentina</td>
-									<td>5</td>
-								</tr>
-								<tr>
-									<td>Cristiano Ronaldo</td>
-									<td>Portugal</td>
-									<td>4</td>
-								</tr>
-								<tr>
-									<td>Romelu Lukaku</td>
-									<td>Bélgica</td>
-									<td>4</td>
-								</tr>
-								<tr>
-									<td>Edinson Cavani</td>
-									<td>Uruguay</td>
-									<td>3</td>
-								</tr>
-								<tr>
-									<td>Phil Foden</td>
-									<td>Inglaterra</td>
-									<td>3</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+					<!-- Se puede rellenar dinámicamente más adelante -->
 				</div>
 			</div>
-
 		</div>
 	</main>
-
 
 	<footer>
 
@@ -825,6 +629,171 @@ Avenida mujer trabajadora
 		</div>
 
 	</footer>
+	<script>
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("DOM cargado correctamente");
+
+    // 🔹 URL y parámetros
+    const searchParams = new URLSearchParams(window.location.search);
+    const torneo_id = searchParams.get("id");
+    console.log("Torneo ID detectado:", torneo_id);
+
+    if (!torneo_id) {
+        console.error("No se encontró el torneoId en la URL");
+        alert("No se pudo cargar el torneo porque no se detectó el ID.");
+        return;
+    }
+
+    // 🔹 Context Path desde JSP
+    const contextPath = '<%=request.getContextPath()%>';
+    console.log("Context Path detectado:", contextPath);
+
+    const urlBracket = contextPath + '/torneo/bracket?torneoId=' + torneo_id;
+    console.log("URL para fetch del bracket:", urlBracket);
+
+    // 🔹 Función para cargar bracket
+    async function cargarBracket(url) {
+        console.log("Iniciando fetch del bracket...");
+        try {
+            const resp = await fetch(url);
+            if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+            const data = await resp.json();
+            console.log("Datos del bracket recibidos:", data);
+
+            // Nombre del torneo
+            const nombreTorneoElem = document.getElementById("nombreTorneo");
+            if (nombreTorneoElem) {
+                nombreTorneoElem.textContent = data.torneo?.nombreTorneo || "Torneo";
+            }
+
+            const rondas = [
+                { nombre: "octavos", cantidad: 8 },
+                { nombre: "cuartos", cantidad: 4 },
+                { nombre: "semifinal", cantidad: 2 },
+                { nombre: "partidoFinal", cantidad: 1 },
+                { nombre: "tercerpuesto", cantidad: 1 }
+            ];
+
+            const nombresRondaMap = {
+                octavos: "Octavos",
+                cuartos: "Cuartos",
+                semifinal: "Semifinal",
+                partidoFinal: "Final",
+                tercerpuesto: "Tercer Puesto"
+            };
+
+            rondas.forEach(function(r) {
+                const partidos = data[r.nombre] || [];
+                const divsRonda = document.querySelectorAll(".casillaPartido[data-id^='" + r.nombre + "']");
+
+                divsRonda.forEach(function(div, index) {
+                    const partido = partidos.find(function(p) { return p.ubicacionRonda === index + 1; });
+
+                    if (partido) {
+                        console.log("Renderizando partido:", partido);
+
+                        // ✅ Convertir la casilla en botón para partido activo
+                        var partidoHtml = '<button class="btnPartido" ' +
+                            'style="width:100%; height:100%; border:none; background:none; cursor:pointer; color:white" ' +
+                            'data-partido-id="' + partido.idPartidoTorneo + '" ' +
+                            'data-torneo-id="' + partido.torneoId + '" ' +
+                            'data-instalacion-id="' + partido.instalacionId + '" ' +
+                            'data-club-local-id="' + partido.clubLocalId + '" ' +
+                            'data-club-visitante-id="' + partido.clubVisitanteId + '">' +
+                            '<div style="display:flex; justify-content:space-between; flex-direction:column; text-align:center;">' +
+                            '<span><strong>' + (partido.clubLocalNombre || "-") + ' (' + (partido.clubLocalAbreviatura || "-") + ')</strong></span>' +
+                            '<span style="font-size:0.8em; color:#555;">' + (partido.fechaPartido || "-") + '</span>' +
+                            '<span><strong>' + (partido.clubVisitanteNombre || "-") + ' (' + (partido.clubVisitanteAbreviatura || "-") + ')</strong></span>' +
+                            '</div>' +
+                            '</button>';
+
+                        div.innerHTML = partidoHtml;
+                    } else {
+                        // Placeholder con nombre de la ronda
+                        div.innerHTML = '<em>' + (nombresRondaMap[r.nombre] || r.nombre) + '</em>';
+                    }
+                });
+            });
+
+        } catch (err) {
+            console.error("Error al cargar el bracket:", err);
+            alert("No se pudo cargar el bracket. Revisa la consola para más detalles.");
+        }
+    }
+
+    cargarBracket(urlBracket);
+
+    // 🔹 Listener global para botones de partido
+    document.addEventListener("click", function(e) {
+        const boton = e.target.closest(".btnPartido");
+        if (boton) {
+            const partidoId = boton.getAttribute("data-partido-id");
+            const torneoId = boton.getAttribute("data-torneo-id"); 
+            const instalacionId = boton.getAttribute("data-instalacion-id");
+            const clubLocalId = boton.getAttribute("data-club-local-id");
+            const clubVisitanteId = boton.getAttribute("data-club-visitante-id");
+
+            if (partidoId && torneoId && instalacionId && clubLocalId && clubVisitanteId) {
+            	window.location.href = contextPath + '/Acta.jsp?partidoId=' + partidoId;
+
+            }
+        }
+    });
+
+    // 🔹 jQuery: Cargar tabla de torneos
+    if (window.jQuery) {
+        $(document).ready(function() {
+            function cargarTorneos() {
+                $.ajax({
+                    url: contextPath + '/torneo',
+                    method: 'GET',
+                    dataType: 'json',
+                    xhrFields: { withCredentials: true },
+                    success: function(data) {
+                        const $tabla = $('#tablaCuerpoTorneo');
+                        $tabla.empty();
+                        console.log("Datos del bracket recibidos:", data);
+                        if (!data || !Array.isArray(data) || data.length === 0) {
+                            $tabla.html('<tr><td colspan="7">No hay torneos disponibles</td></tr>');
+                            return;
+                        }
+
+                        data.forEach(function(torneo) {
+                            const nombreHtml = torneo.estaActivo
+                                ? '<span class="nombre-torneo-link" data-torneo-id="' + torneo.idTorneo + '" style="color:#007bff;cursor:pointer;text-decoration:underline;">' + torneo.nombreTorneo + '</span>'
+                                : torneo.nombreTorneo;
+
+                            var row = '<tr id="fila-' + torneo.idTorneo + '">' +
+                                '<td>' + nombreHtml + '</td>' +
+                                '<td>' + (torneo.modalidad || '') + '</td>' +
+                                '<td>' + (torneo.fechaInicioTorneo || '') + '</td>' +
+                                '<td>' + (torneo.fechaFinTorneo || '') + '</td>' +
+                                '<td>' + (torneo.clubesInscritos || '0 / 16') + '</td>' +
+                                '<td><button class="btn-activar" data-torneo-id="' + torneo.idTorneo + '" ' + (torneo.estaActivo ? 'disabled' : '') + '>' + (torneo.estaActivo ? 'Activo' : 'Activar') + '</button></td>' +
+                                '<td><button class="btnEliminar" data-id="' + torneo.idTorneo + '">Eliminar</button></td>' +
+                                '</tr>';
+                            $tabla.append(row);
+                        });
+
+                        $(document).off('click', '.nombre-torneo-link').on('click', '.nombre-torneo-link', function() {
+                            const torneoId = $(this).data('torneo-id');
+                            window.location.href = contextPath + '/TorneoInstalacion.jsp?id=' + torneoId;
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error al cargar torneos via AJAX:", status, error);
+                    }
+                });
+            }
+
+            cargarTorneos();
+        });
+    }
+});
+</script>
+
+
+
 
 
 

@@ -81,8 +81,8 @@ public class FiltroDeAutoridad implements Filter {
 	private boolean esRutaPublica(String uri) {
 		return uri.contains("InicioSesion.jsp") || uri.contains("Registrar.jsp") || uri.contains("PedirEmail.jsp")
 				|| uri.contains("RestablecerPassword.jsp") || uri.contains("Index.jsp") || uri.contains("/usuario")
-				|| uri.contains("/club") || uri.contains("/TorneoInstalacion") || uri.contains("/instalacion")
-				|| uri.contains("/Css") || uri.contains("/Imagenes/") || uri.contains("/login")
+				|| uri.contains("/club") || uri.contains("/TorneoInstalacion.jsp") || uri.contains("/instalacion")
+				|| uri.contains("/Css") || uri.contains("/Imagenes/") || uri.contains("/login") ||  uri.contains("/torneo/bracket")
 				|| uri.contains("/recuperarPassword") || uri.contains("/restablecerPassword") || uri.contains("Acta.jsp") || uri.contains("Torneo.jsp")  ;
 
 	}

@@ -1116,7 +1116,7 @@ tr {
   background-color: #2C2C2C; /* morado elegante */
 }
 
-.casillaPartido[data-id="final"] {
+.casillaPartido[data-id="partidoFinal"] {
   background-color:#C69200;
 }
 
