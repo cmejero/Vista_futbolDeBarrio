@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import vista_futbolDeBarrio.dtos.PartidoTorneoDto;
+import vista_futbolDeBarrio.dtos.UsuarioDto;
 import vista_futbolDeBarrio.log.Log;
 
 public class PartidoTorneoServicio {
@@ -193,19 +194,7 @@ public class PartidoTorneoServicio {
         }
     }
 
-    // -------------------------
-    // CERRAR ACTA PARTIDO
-    // -------------------------
-    public boolean cerrarActa(Long idPartido) {
-        try {
-            String urlApi = "http://localhost:9527/api/cerrarActa/" + idPartido;
-            HttpURLConnection conex = crearConexion(urlApi, "PUT");
-            return conex.getResponseCode() == HttpURLConnection.HTTP_OK;
-        } catch (Exception e) {
-            Log.ficheroLog("Error cerrando acta del partido: " + e.getMessage());
-            return false;
-        }
-    }
+  
 
     // -------------------------
     // MÉTODOS ÚTILES PARA BRACKETS
@@ -258,18 +247,34 @@ public class PartidoTorneoServicio {
         partido.setUbicacionRonda(json.optInt("ubicacionRonda", 0));
         partido.setNombreTorneo(json.optString("nombreTorneo", ""));
         partido.setNombreInstalacion(json.optString("nombreInstalacion", ""));
+        
         if (json.has("jugadoresLocal")) {
             JSONArray jugadoresLocal = json.getJSONArray("jugadoresLocal");
-            List<String> listaLocal = new ArrayList<>();
-            for (int i = 0; i < jugadoresLocal.length(); i++) listaLocal.add(jugadoresLocal.getString(i));
+            List<UsuarioDto> listaLocal = new ArrayList<>();
+            for (int i = 0; i < jugadoresLocal.length(); i++) {
+                JSONObject j = jugadoresLocal.getJSONObject(i);
+                UsuarioDto jugador = new UsuarioDto();
+                jugador.setIdUsuario(j.optLong("idUsuario", 0));  // Asegúrate que venga del JSON
+                jugador.setNombreCompletoUsuario(j.optString("nombreCompletoUsuario", ""));
+                listaLocal.add(jugador);
+            }
             partido.setJugadoresLocal(listaLocal);
         }
+
+
         if (json.has("jugadoresVisitante")) {
             JSONArray jugadoresVisitante = json.getJSONArray("jugadoresVisitante");
-            List<String> listaVisitante = new ArrayList<>();
-            for (int i = 0; i < jugadoresVisitante.length(); i++) listaVisitante.add(jugadoresVisitante.getString(i));
+            List<UsuarioDto> listaVisitante = new ArrayList<>();
+            for (int i = 0; i < jugadoresVisitante.length(); i++) {
+                JSONObject j = jugadoresVisitante.getJSONObject(i);
+                UsuarioDto jugador = new UsuarioDto();
+                jugador.setIdUsuario(j.optLong("idUsuario", 0));
+                jugador.setNombreCompletoUsuario(j.optString("nombreCompletoUsuario", ""));
+                listaVisitante.add(jugador);
+            }
             partido.setJugadoresVisitante(listaVisitante);
         }
+
 
         return partido;
     }

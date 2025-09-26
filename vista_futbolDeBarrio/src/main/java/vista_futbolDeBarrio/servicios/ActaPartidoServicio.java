@@ -5,8 +5,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -36,7 +34,7 @@ public class ActaPartidoServicio {
                 in.close();
 
                 JSONArray jsonArray = new JSONArray(response.toString());
-                DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+               
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonActa = jsonArray.getJSONObject(i);
@@ -52,7 +50,8 @@ public class ActaPartidoServicio {
                     acta.setGolesPenaltisLocal(jsonActa.getInt("golesPenaltisLocal"));
                     acta.setGolesPenaltisVisitante(jsonActa.getInt("golesPenaltisVisitante"));
                     acta.setGolesVisitante(jsonActa.getInt("golesVisitante"));
-                    acta.setFechaPartido(LocalDateTime.parse(jsonActa.getString("fechaPartido"), formatter));
+                    acta.setClubGanadorId(jsonActa.getLong("clubGanadorId"));
+                    acta.setFechaPartido(jsonActa.getString("fechaPartido"));
                     acta.setCerrado(jsonActa.getBoolean("cerrado"));
                     lista.add(acta);
                 }
@@ -80,15 +79,6 @@ public class ActaPartidoServicio {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
                 Long idActa = Long.parseLong(in.readLine());
                 in.close();
-
-                // Delegar la creación de eventos al servicio de eventos
-                if (acta.getEventos() != null) {
-                    for (EventoPartidoDto evento : acta.getEventos()) {
-                        evento.setActaPartidoId(idActa);
-                        eventoServicio.guardarEventoPartido(evento);
-                    }
-                }
-
                 return idActa;
             }
 
@@ -98,6 +88,7 @@ public class ActaPartidoServicio {
         }
         return null;
     }
+
 
     public boolean modificarActaPartido(Long idActa, ActaPartidoDto acta) {
         try {
@@ -111,27 +102,7 @@ public class ActaPartidoServicio {
                 os.write(jsonActa.toString().getBytes("utf-8"));
             }
 
-            if (conex.getResponseCode() != HttpURLConnection.HTTP_OK) return false;
-
-            // Eliminar eventos antiguos
-            ArrayList<EventoPartidoDto> eventosAntiguos = eventoServicio.listaEventosPorActa(idActa);
-            for (EventoPartidoDto evento : eventosAntiguos) {
-                eventoServicio.eliminarEventoPartido(evento);
-            }
-
-            // Guardar/actualizar los nuevos eventos
-            if (acta.getEventos() != null) {
-                for (EventoPartidoDto eventoNuevo : acta.getEventos()) {
-                    eventoNuevo.setActaPartidoId(idActa);
-                    if (eventoNuevo.getIdEventoPartido() == null) {
-                        eventoServicio.guardarEventoPartido(eventoNuevo);
-                    } else {
-                        eventoServicio.modificarEventoPartido(eventoNuevo);
-                    }
-                }
-            }
-
-            return true;
+            return conex.getResponseCode() == HttpURLConnection.HTTP_OK;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -139,6 +110,7 @@ public class ActaPartidoServicio {
             return false;
         }
     }
+
 
     public boolean eliminarActaPartido(Long idActa) {
         try {
@@ -177,12 +149,43 @@ public class ActaPartidoServicio {
         json.put("clubVisitanteId", acta.getClubVisitanteId());
         json.put("equipoLocalId", acta.getEquipoLocalId());
         json.put("equipoVisitanteId", acta.getEquipoVisitanteId());
+        json.put("partidoTorneoId", acta.getPartidoTorneoId());
         json.put("golesLocal", acta.getGolesLocal());
         json.put("golesVisitante", acta.getGolesVisitante());
-        json.put("golesPenaltiLocal", acta.getGolesPenaltisLocal());
-        json.put("golesPenaltiVisitante", acta.getGolesPenaltisVisitante());
-        json.put("fechaPartido", acta.getFechaPartido().toString());
-        json.put("cerrado", acta.estaCerrado());
+        json.put("golesPenaltisLocal", acta.getGolesPenaltisLocal());
+        json.put("golesPenaltisVisitante", acta.getGolesPenaltisVisitante());
+        json.put("clubGanadorId", acta.getClubGanadorId());
+        json.put("fechaPartido", acta.getFechaPartido());
+        json.put("observaciones", acta.getObservaciones());
+        json.put("cerrado", acta.isCerrado());
+
+        // ⚠️ Agregar eventos
+        if (acta.getEventos() != null) {
+            JSONArray eventosJson = new JSONArray();
+            for (EventoPartidoDto evento : acta.getEventos()) {
+                JSONObject jsonEvento = new JSONObject();
+                jsonEvento.put("jugadorId", evento.getJugadorId());
+                jsonEvento.put("clubId", evento.getClubId());
+                jsonEvento.put("equipoTorneoId", evento.getEquipoTorneoId());
+                jsonEvento.put("tipoEvento", evento.getTipoEvento());
+                jsonEvento.put("minuto", evento.getMinuto());
+                eventosJson.put(jsonEvento);
+            }
+            json.put("eventos", eventosJson);
+        }
+
         return json;
+    }
+
+    public boolean cerrarActa(Long idPartido) {
+        try {
+            String urlApi = "http://localhost:9527/api/cerrarActa/" + idPartido;
+            HttpURLConnection conex = crearConexion(urlApi, "PUT");
+            return conex.getResponseCode() == HttpURLConnection.HTTP_OK;
+        } catch (Exception e) {
+            Log.ficheroLog("Error cerrando acta del partido: " + e.getMessage());
+            return false;
+        }
+    
     }
 }

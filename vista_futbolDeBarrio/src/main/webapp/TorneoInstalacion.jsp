@@ -733,10 +733,10 @@ document.addEventListener("DOMContentLoaded", function() {
             const clubLocalId = boton.getAttribute("data-club-local-id");
             const clubVisitanteId = boton.getAttribute("data-club-visitante-id");
 
-            if (partidoId && torneoId && instalacionId && clubLocalId && clubVisitanteId) {
-            	window.location.href = contextPath + '/Acta.jsp?partidoId=' + partidoId;
+           
+            	window.location.href = contextPath + '/Acta.jsp?idPartidoTorneo=' + partidoId;
 
-            }
+            
         }
     });
 

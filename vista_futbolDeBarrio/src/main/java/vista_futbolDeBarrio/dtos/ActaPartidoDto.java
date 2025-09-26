@@ -1,6 +1,5 @@
 package vista_futbolDeBarrio.dtos;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class ActaPartidoDto {
@@ -17,7 +16,8 @@ public class ActaPartidoDto {
 	private int golesVisitante;
 	private int golesPenaltisLocal;
 	private int golesPenaltisVisitante;
-	private LocalDateTime fechaPartido;
+	private long clubGanadorId;
+	private String fechaPartido;
 	private String observaciones;
 	private boolean cerrado;
 	private List<EventoPartidoDto> eventos;
@@ -121,12 +121,22 @@ public class ActaPartidoDto {
 	public void setGolesPenaltisVisitante(int golesPenaltisVisitante) {
 		this.golesPenaltisVisitante = golesPenaltisVisitante;
 	}
+	
+	
 
-	public LocalDateTime getFechaPartido() {
+	public long getClubGanadorId() {
+		return clubGanadorId;
+	}
+
+	public void setClubGanadorId(long clubGanadorId) {
+		this.clubGanadorId = clubGanadorId;
+	}
+
+	public String getFechaPartido() {
 		return fechaPartido;
 	}
 
-	public void setFechaPartido(LocalDateTime fechaPartido) {
+	public void setFechaPartido(String fechaPartido) {
 		this.fechaPartido = fechaPartido;
 	}
 

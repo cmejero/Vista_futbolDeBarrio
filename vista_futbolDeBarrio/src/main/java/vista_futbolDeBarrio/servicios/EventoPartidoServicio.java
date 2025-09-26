@@ -2,7 +2,6 @@ package vista_futbolDeBarrio.servicios;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -55,90 +54,9 @@ public class EventoPartidoServicio {
         return lista;
     }
 
-    /** Guarda un nuevo evento, evitando duplicados */
-    public boolean guardarEventoPartido(EventoPartidoDto evento) {
-        try {
-            // Validar duplicado opcional
-            boolean existe = listaEventosPorActa(evento.getActaPartidoId())
-                    .stream()
-                    .anyMatch(e -> e.getJugadorId().equals(evento.getJugadorId())
-                            && e.getMinuto() == evento.getMinuto()
-                            && e.getTipoEvento().equals(evento.getTipoEvento()));
+   
 
-            if (existe) {
-                System.out.println("Evento ya existe, no se guarda.");
-                return false;
-            }
-
-            JSONObject json = mapearEventoAJSON(evento);
-            HttpURLConnection conex = crearConexion("http://localhost:9527/api/guardarEventoPartido", "POST");
-
-            try (OutputStream os = conex.getOutputStream()) {
-                os.write(json.toString().getBytes("utf-8"));
-            }
-
-            if (conex.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                jugadorEstadisticaTorneoServicio.actualizarJugadorEstadisticasTorneo(evento, evento.getEquipoTorneoId());
-                jugadorEstadisticaGlobalServicio.actualizarJugadorEstadisticasGlobal(evento);
-                clubEstadisticaTorneoServicio.actualizarClubEstadisticasTorneo(evento, evento.getEquipoTorneoId());
-                clubEstadisticaGlobalServicio.actualizarClubEstadisticasGlobal(evento);
-                return true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    /** Modifica un evento existente de forma segura */
-    public boolean modificarEventoPartido(EventoPartidoDto evento) {
-        try {
-            Long idEvento = evento.getIdEventoPartido();
-
-            // 1️⃣ Modificar en API primero
-            JSONObject json = mapearEventoAJSON(evento);
-            HttpURLConnection conex = crearConexion(
-                    "http://localhost:9527/api/modificarEventoPartido/" + idEvento, "PUT");
-
-            try (OutputStream os = conex.getOutputStream()) {
-                os.write(json.toString().getBytes("utf-8"));
-            }
-
-            if (conex.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                System.out.println("Error al modificar evento en API");
-                return false;
-            }
-
-            // 2️⃣ Obtener evento anterior para restar estadísticas
-            EventoPartidoDto eventoAnterior = listaEventosPorActa(evento.getActaPartidoId())
-                    .stream()
-                    .filter(e -> e.getIdEventoPartido().equals(idEvento))
-                    .findFirst()
-                    .orElse(null);
-
-            if (eventoAnterior != null) {
-                // Asegurarse de usar el torneo correcto
-                Long torneoId = eventoAnterior.getEquipoTorneoId();
-                jugadorEstadisticaTorneoServicio.restarJugadorEstadisticasTorneo(eventoAnterior, torneoId);
-                jugadorEstadisticaGlobalServicio.restarJugadorEstadisticasGlobal(eventoAnterior);
-                clubEstadisticaTorneoServicio.restarClubEstadisticasTorneo(eventoAnterior, torneoId);
-                clubEstadisticaGlobalServicio.restarClubEstadisticasGlobal(eventoAnterior);
-            }
-
-            // 3️⃣ Sumar estadísticas con los datos nuevos
-            jugadorEstadisticaTorneoServicio.actualizarJugadorEstadisticasTorneo(evento, evento.getEquipoTorneoId());
-            jugadorEstadisticaGlobalServicio.actualizarJugadorEstadisticasGlobal(evento);
-            clubEstadisticaTorneoServicio.actualizarClubEstadisticasTorneo(evento, evento.getEquipoTorneoId());
-            clubEstadisticaGlobalServicio.actualizarClubEstadisticasGlobal(evento);
-
-            return true;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
+   
     /** Elimina un evento y resta estadísticas */
     public boolean eliminarEventoPartido(EventoPartidoDto evento) {
         try {
@@ -159,17 +77,7 @@ public class EventoPartidoServicio {
         return false;
     }
 
-    /** Mapea un EventoPartidoDto a JSONObject */
-    private JSONObject mapearEventoAJSON(EventoPartidoDto evento) {
-        JSONObject json = new JSONObject();
-        json.put("actaPartidoId", evento.getActaPartidoId());
-        json.put("jugadorId", evento.getJugadorId());
-        json.put("clubId", evento.getClubId());
-        json.put("equipoTorneoId", evento.getEquipoTorneoId());
-        json.put("tipoEvento", evento.getTipoEvento());
-        json.put("minuto", evento.getMinuto());
-        return json;
-    }
+   
 
     /** Crea conexión HTTP */
     private HttpURLConnection crearConexion(String urlApi, String metodo) throws Exception {
