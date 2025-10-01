@@ -11,16 +11,18 @@ import org.json.JSONObject;
 
 import vista_futbolDeBarrio.dtos.EventoPartidoDto;
 
+/**
+ * Clase que se encarga de la lógica de los métodos relacionados con los
+ * eventos de partidos de un acta.
+ */
 public class EventoPartidoServicio {
 
-    private JugadorEstadisticaTorneoServicio jugadorEstadisticaTorneoServicio = new JugadorEstadisticaTorneoServicio();
-    private JugadorEstadisticaGlobalServicio jugadorEstadisticaGlobalServicio = new JugadorEstadisticaGlobalServicio();
-    private ClubEstadisticaTorneoServicio clubEstadisticaTorneoServicio = new ClubEstadisticaTorneoServicio();
-    private ClubEstadisticaGlobalServicio clubEstadisticaGlobalServicio = new ClubEstadisticaGlobalServicio();
-    
-    
-
-    /** Lista todos los eventos de un acta de partido */
+    /**
+     * Obtiene la lista de eventos asociados a un acta de partido específica.
+     * 
+     * @param actaPartidoId ID del acta de partido para filtrar los eventos.
+     * @return Lista de objetos EventoPartidoDto con los datos de cada evento.
+     */
     public ArrayList<EventoPartidoDto> listaEventosPorActa(Long actaPartidoId) {
         ArrayList<EventoPartidoDto> lista = new ArrayList<>();
         try {
@@ -54,32 +56,14 @@ public class EventoPartidoServicio {
         return lista;
     }
 
-   
-
-   
-    /** Elimina un evento y resta estadísticas */
-    public boolean eliminarEventoPartido(EventoPartidoDto evento) {
-        try {
-            Long idEvento = evento.getIdEventoPartido();
-            HttpURLConnection conex = crearConexion(
-                    "http://localhost:9527/api/eliminarEventoPartido/" + idEvento, "DELETE");
-
-            if (conex.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                jugadorEstadisticaTorneoServicio.restarJugadorEstadisticasTorneo(evento, evento.getEquipoTorneoId());
-                jugadorEstadisticaGlobalServicio.restarJugadorEstadisticasGlobal(evento);
-                clubEstadisticaTorneoServicio.restarClubEstadisticasTorneo(evento, evento.getEquipoTorneoId());
-                clubEstadisticaGlobalServicio.restarClubEstadisticasGlobal(evento);
-                return true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-   
-
-    /** Crea conexión HTTP */
+    /**
+     * Crea y configura una conexión HTTP con la URL y método especificados.
+     * 
+     * @param urlApi URL del servicio web al que se desea conectar.
+     * @param metodo Método HTTP a utilizar (GET, POST, PUT, DELETE).
+     * @return HttpURLConnection configurada para su uso.
+     * @throws Exception En caso de error al crear la conexión.
+     */
     private HttpURLConnection crearConexion(String urlApi, String metodo) throws Exception {
         URL url = new URL(urlApi);
         HttpURLConnection conex = (HttpURLConnection) url.openConnection();

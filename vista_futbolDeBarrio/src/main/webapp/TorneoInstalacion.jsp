@@ -1,4 +1,5 @@
-	<%@ page language="java" contentType="text/html; charset=UTF-8"
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
 String torneoId = request.getParameter("torneoId");
@@ -34,9 +35,9 @@ String torneoId = request.getParameter("torneoId");
 		<!-- Contenedor principal de -->
 		<div class="container-fluid ">
 			<div class="row ">
+
 				<div class="col-sm-12 col-md-12  d-sm-block d-md-block d-none">
 					<div class="row">
-
 						<!-- columna logo -->
 						<div class="col-sm-1 col-md-1 logo"
 							style="background-color: white; border-top: 2px solid black; border-left: 1px solid black">
@@ -82,8 +83,8 @@ String torneoId = request.getParameter("torneoId");
 										<div class="col-sm-2 col-md-2 cabeceraArriba">
 											<a href=""> <svg xmlns="http://www.w3.org/2000/svg"
 													width="1.4vw" height="1.2vw" fill="currentColor"
-													style="margin-right: 3px; color: white;" bi bi-instagram
-													viewBox="0 0 16 16">
+													style="margin-right: 3px; color: white;" bi
+													bi-instagram" viewBox="0 0 16 16">
   <path
 														d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334" />
 </svg>
@@ -117,7 +118,6 @@ String torneoId = request.getParameter("torneoId");
 </svg>
 											</a>
 										</div>
-
 									</div>
 								</div>
 								<!-- fila medio -->
@@ -129,20 +129,27 @@ String torneoId = request.getParameter("torneoId");
 											FUTBOL DE BARRIO <span
 												style="color: #c0c0c0; margin-left: 7px;"> /</span>
 										</div>
-										<div class="col-sm-2 col-md-2 cabeceraMedio">
-											<a href="Registrar.jsp">
-												<button type="button" class=" botonRegistrarCabecera">REGISTRARSE</button>
-											</a>
+										<div class="col-sm-3 col-md-3 cabeceraMedio">
+											<svg xmlns="http://www.w3.org/2000/svg" width="1.3vw"
+												height="1.3vw" fill="currentColor"
+												style="margin-right: 0.7vw" class="bi bi-search"
+												viewBox="0 0 16 16">
+  <path
+													d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+</svg>
+											<div class="barra-busqueda ">
+												<input type="text" placeholder=""
+													style="width: 16vw; height: 1.65vw; border-radius: 50px; display: flex; justify-content: left; align-items: center; font-size: 1vw; margin-right: 0.7vw">
+											</div>
+
+
 										</div>
-										<div class="col-sm-2 col-md-2 cabeceraMedio"
+										<div class="col-sm-3 col-md-3 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="InicioSesion.jsp" class="letraCabeceraMedio">INICIAR
-												SESION</a>
+											<a href="" class="letraCabeceraMedio">BIENVENIDO: Los
+												Corrales</a>
 										</div>
-										<div class="col-sm-2 col-md-2 cabeceraMedio"
-											style="text-decoration: underline;">
-											<a href="" class="letraCabeceraMedio">¿QUIENES SOMOS?</a>
-										</div>
+
 									</div>
 								</div>
 							</div>
@@ -159,7 +166,7 @@ String torneoId = request.getParameter("torneoId");
 											<a href="Instalacion.jsp" class="letraCabeceraAbajo">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">ALQUILERES</a>
+											<a href="" class="letraCabeceraAbajo">RESERVAS</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 											<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo"
@@ -169,31 +176,20 @@ String torneoId = request.getParameter("torneoId");
 
 									</div>
 								</div>
-								<!-- columna medio = buscador -->
-								<div class="col-sm-2 col-md-2 cabeceraAbajoBusqueda g-0 p-0">
-									<svg xmlns="http://www.w3.org/2000/svg" width="1.3vw"
-										height="1.3vw" fill="currentColor" style="margin-right: 0.7vw"
-										class="bi bi-search" viewBox="0 0 16 16">
-  <path
-											d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-</svg>
-									<div class="barra-busqueda ">
-										<input type="text" placeholder=""
-											style="width: 14vw; height: 1.65vw; border-radius: 50px; display: flex; justify-content: left; align-items: center; font-size: 1vw; margin-right: 0.7vw">
-									</div>
 
-
-								</div>
 								<!-- columna derecha -->
-								<div class="col-sm-5 col-md-5 ">
+								<div class="col-sm-7 col-md-7 ">
 
 									<div class="row">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
-										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">MARCADORES</a>
+										<div class="col-sm-2 col-md-2 cabeceraAbajo ">
+											<a href="" class="letraCabeceraAbajo">FINANZAS</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">DESAFIOS</a>
+											<a href="" class="letraCabeceraAbajo">ESTADISTICAS</a>
+										</div>
+										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
+											<a href="" class="letraCabeceraAbajo">NOTIFICACIONES</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraAbajo">
 											<div class="dropdown">
@@ -216,18 +212,22 @@ String torneoId = request.getParameter("torneoId");
 														style="color: white;">Ayuda </a></li>
 													<li><a class="dropdown-item" href="#"
 														style="color: white;">Configuración </a></li>
-
+													<li>
+														<hr class="dropdown-divider"
+															style="border-color: #006600;">
+													</li>
+													<li><a class="dropdown-item" href="logout"
+														style="color: white;">Cerrar sesión</a></li>
 												</ul>
 											</div>
 										</div>
-										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
+
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-
 
 				<!-- HEADER COL -->
 
@@ -275,7 +275,8 @@ String torneoId = request.getParameter("torneoId");
 								<!-- columna izquierda: INICIO -->
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-4 ">
-									<a href="Instalacion.jsp" class="letraCabeceraAbajo ">INICIO</a>
+									<a href="Instalacion.jsp" class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">INICIO</a>
 								</div>
 
 								<!-- columna medio: buscador -->
@@ -314,8 +315,7 @@ String torneoId = request.getParameter("torneoId");
 											<li><a class="dropdown-item " href="Instalacion.jsp"
 												style="color: white;">Reservas </a></li>
 											<li><a class="dropdown-item "
-												href="EventoInstalacion.jsp"
-												style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">Eventos
+												href="EventoInstalacion.jsp" style="color: #d4af37;">Eventos
 											</a></li>
 											<li><a class="dropdown-item " href="Instalacion.jsp"
 												style="color: white;">Finanzas </a></li>
@@ -351,12 +351,10 @@ String torneoId = request.getParameter("torneoId");
 				</div>
 
 
-
-
-
 			</div>
 		</div>
 	</header>
+
 
 	<main style="background-color: rgba(223, 234, 213, 0.5);">
 		<div class="contenedorTorneo">
@@ -629,7 +627,7 @@ Avenida mujer trabajadora
 		</div>
 
 	</footer>
-	<script>
+<script>
 document.addEventListener("DOMContentLoaded", function() {
     console.log("DOM cargado correctamente");
 
@@ -692,20 +690,38 @@ document.addEventListener("DOMContentLoaded", function() {
                     if (partido) {
                         console.log("Renderizando partido:", partido);
 
-                        // ✅ Convertir la casilla en botón para partido activo
+                        // 🔹 Mostrar fecha si no está cerrado, resultado si sí
+                        let contenidoRonda;
+                        if (partido.cerrado || partido.estado === "cerrado") {
+                            // Partido cerrado → mostrar goles
+                            contenidoRonda = '<span><strong>' + (partido.clubLocalNombre || "-") + 
+                                             ' (' + (partido.clubLocalAbreviatura || "-") + ')</strong> ' +
+                                             '<span style="color:#ff0;">' + (partido.golesLocal != null ? partido.golesLocal : "-") + '</span></span>' +
+                                             '<span style="margin:0 5px;">-</span>' +
+                                             '<span><strong>' + (partido.clubVisitanteNombre || "-") + 
+                                             ' (' + (partido.clubVisitanteAbreviatura || "-") + ')</strong> ' +
+                                             '<span style="color:#ff0;">' + (partido.golesVisitante != null ? partido.golesVisitante : "-") + '</span></span>';
+                        } else {
+                            // Partido pendiente → mostrar fecha
+                            contenidoRonda = '<span><strong>' + (partido.clubLocalNombre || "-") + 
+                                             ' (' + (partido.clubLocalAbreviatura || "-") + ')</strong></span>' +
+                                             '<span style="font-size:0.8em; color:#555;">' + (partido.fechaPartido || "-") + '</span>' +
+                                             '<span><strong>' + (partido.clubVisitanteNombre || "-") + 
+                                             ' (' + (partido.clubVisitanteAbreviatura || "-") + ')</strong></span>';
+                        }
+
+                        // HTML final del botón
                         var partidoHtml = '<button class="btnPartido" ' +
-                            'style="width:100%; height:100%; border:none; background:none; cursor:pointer; color:white" ' +
-                            'data-partido-id="' + partido.idPartidoTorneo + '" ' +
-                            'data-torneo-id="' + partido.torneoId + '" ' +
-                            'data-instalacion-id="' + partido.instalacionId + '" ' +
-                            'data-club-local-id="' + partido.clubLocalId + '" ' +
-                            'data-club-visitante-id="' + partido.clubVisitanteId + '">' +
-                            '<div style="display:flex; justify-content:space-between; flex-direction:column; text-align:center;">' +
-                            '<span><strong>' + (partido.clubLocalNombre || "-") + ' (' + (partido.clubLocalAbreviatura || "-") + ')</strong></span>' +
-                            '<span style="font-size:0.8em; color:#555;">' + (partido.fechaPartido || "-") + '</span>' +
-                            '<span><strong>' + (partido.clubVisitanteNombre || "-") + ' (' + (partido.clubVisitanteAbreviatura || "-") + ')</strong></span>' +
-                            '</div>' +
-                            '</button>';
+                                          'style="width:100%; height:100%; border:none; background:none; cursor:pointer; color:white" ' +
+                                          'data-partido-id="' + partido.idPartidoTorneo + '" ' +
+                                          'data-torneo-id="' + partido.torneoId + '" ' +
+                                          'data-instalacion-id="' + partido.instalacionId + '" ' +
+                                          'data-club-local-id="' + partido.clubLocalId + '" ' +
+                                          'data-club-visitante-id="' + partido.clubVisitanteId + '">' +
+                                          '<div style="display:flex; justify-content:space-between; flex-direction:column; text-align:center;">' +
+                                          contenidoRonda +
+                                          '</div>' +
+                                          '</button>';
 
                         div.innerHTML = partidoHtml;
                     } else {
@@ -728,67 +744,9 @@ document.addEventListener("DOMContentLoaded", function() {
         const boton = e.target.closest(".btnPartido");
         if (boton) {
             const partidoId = boton.getAttribute("data-partido-id");
-            const torneoId = boton.getAttribute("data-torneo-id"); 
-            const instalacionId = boton.getAttribute("data-instalacion-id");
-            const clubLocalId = boton.getAttribute("data-club-local-id");
-            const clubVisitanteId = boton.getAttribute("data-club-visitante-id");
-
-           
-            	window.location.href = contextPath + '/Acta.jsp?idPartidoTorneo=' + partidoId;
-
-            
+            window.location.href = contextPath + '/Acta.jsp?idPartidoTorneo=' + partidoId;
         }
     });
-
-    // 🔹 jQuery: Cargar tabla de torneos
-    if (window.jQuery) {
-        $(document).ready(function() {
-            function cargarTorneos() {
-                $.ajax({
-                    url: contextPath + '/torneo',
-                    method: 'GET',
-                    dataType: 'json',
-                    xhrFields: { withCredentials: true },
-                    success: function(data) {
-                        const $tabla = $('#tablaCuerpoTorneo');
-                        $tabla.empty();
-                        console.log("Datos del bracket recibidos:", data);
-                        if (!data || !Array.isArray(data) || data.length === 0) {
-                            $tabla.html('<tr><td colspan="7">No hay torneos disponibles</td></tr>');
-                            return;
-                        }
-
-                        data.forEach(function(torneo) {
-                            const nombreHtml = torneo.estaActivo
-                                ? '<span class="nombre-torneo-link" data-torneo-id="' + torneo.idTorneo + '" style="color:#007bff;cursor:pointer;text-decoration:underline;">' + torneo.nombreTorneo + '</span>'
-                                : torneo.nombreTorneo;
-
-                            var row = '<tr id="fila-' + torneo.idTorneo + '">' +
-                                '<td>' + nombreHtml + '</td>' +
-                                '<td>' + (torneo.modalidad || '') + '</td>' +
-                                '<td>' + (torneo.fechaInicioTorneo || '') + '</td>' +
-                                '<td>' + (torneo.fechaFinTorneo || '') + '</td>' +
-                                '<td>' + (torneo.clubesInscritos || '0 / 16') + '</td>' +
-                                '<td><button class="btn-activar" data-torneo-id="' + torneo.idTorneo + '" ' + (torneo.estaActivo ? 'disabled' : '') + '>' + (torneo.estaActivo ? 'Activo' : 'Activar') + '</button></td>' +
-                                '<td><button class="btnEliminar" data-id="' + torneo.idTorneo + '">Eliminar</button></td>' +
-                                '</tr>';
-                            $tabla.append(row);
-                        });
-
-                        $(document).off('click', '.nombre-torneo-link').on('click', '.nombre-torneo-link', function() {
-                            const torneoId = $(this).data('torneo-id');
-                            window.location.href = contextPath + '/TorneoInstalacion.jsp?id=' + torneoId;
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error al cargar torneos via AJAX:", status, error);
-                    }
-                });
-            }
-
-            cargarTorneos();
-        });
-    }
 });
 </script>
 

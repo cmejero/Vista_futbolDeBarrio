@@ -16,20 +16,34 @@ import vista_futbolDeBarrio.servicios.PartidoTorneoServicio;
 import vista_futbolDeBarrio.log.Log;
 
 @WebServlet("/partidoTorneo")
+/**
+ * Clase controlador que gestiona la creación, modificación, listado y eliminación
+ * de partidos de torneo.
+ */
 public class PartidoTorneoControlador extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private PartidoTorneoServicio partidoServicio;
 
     @Override
+    /**
+     * Inicializa el servicio de partidos de torneo.
+     * 
+     * @throws ServletException Si ocurre un error durante la inicialización.
+     */
     public void init() throws ServletException {
         this.partidoServicio = new PartidoTorneoServicio();
     }
 
-    // ==============================
-    // DO GET: LISTAR PARTIDOS
-    // ==============================
     @Override
+    /**
+     * Recupera la lista de todos los partidos o los de un torneo específico en formato JSON.
+     * 
+     * @param request La solicitud HTTP que puede contener el parámetro "idTorneo".
+     * @param response La respuesta HTTP con la lista de partidos en JSON.
+     * @throws ServletException Si ocurre un error durante la ejecución del servlet.
+     * @throws IOException Si ocurre un error al leer o escribir datos.
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -57,10 +71,15 @@ public class PartidoTorneoControlador extends HttpServlet {
         }
     }
 
-    // ==============================
-    // DO POST: GUARDAR NUEVO PARTIDO
-    // ==============================
     @Override
+    /**
+     * Maneja la creación o modificación de un partido de torneo.
+     * 
+     * @param request La solicitud HTTP que contiene los datos del partido en JSON.
+     * @param response La respuesta HTTP con el resultado de la operación.
+     * @throws ServletException Si ocurre un error durante la ejecución del servlet.
+     * @throws IOException Si ocurre un error al leer o escribir datos.
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -94,10 +113,15 @@ public class PartidoTorneoControlador extends HttpServlet {
         }
     }
 
-    // ==============================
-    // DO DELETE: ELIMINAR PARTIDO
-    // ==============================
     @Override
+    /**
+     * Elimina un partido de torneo por su ID.
+     * 
+     * @param request La solicitud HTTP que contiene el parámetro "idPartidoTorneo".
+     * @param response La respuesta HTTP con el resultado de la eliminación.
+     * @throws ServletException Si ocurre un error durante la ejecución del servlet.
+     * @throws IOException Si ocurre un error al leer o escribir datos.
+     */
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {

@@ -165,13 +165,13 @@ PartidoTorneoDto partido = partidoTorneoServicio.obtenerPartidoPorId(partidoId);
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 											<a href="Instalacion.jsp" class="letraCabeceraAbajo"
-												style="color: #d4af37;">INICIO</a>
+												>INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo">RESERVAS</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo">EVENTOS</a>
+											<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo" style="color: #d4af37;">EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -316,7 +316,7 @@ PartidoTorneoDto partido = partidoTorneoServicio.obtenerPartidoPorId(partidoId);
 											<li><a class="dropdown-item " href="Instalacion.jsp"
 												style="color: white;">Reservas </a></li>
 											<li><a class="dropdown-item "
-												href="EventoInstalacion.jsp" style="color: white;">Eventos
+												href="EventoInstalacion.jsp" style="color: #d4af37;">Eventos
 											</a></li>
 											<li><a class="dropdown-item " href="Instalacion.jsp"
 												style="color: white;">Finanzas </a></li>
@@ -497,8 +497,8 @@ button.add-btn {
 									<!-- Filas dinámicas via JS -->
 								</tbody>
 							</table>
-							<button type="button" class="btn" onclick="agregarEvento()"
-								style="margin-top: 1vw">Añadir Evento</button>
+							<button type="button" class="btn " onclick="agregarEvento()"
+								style="margin-top: 1vw; font-size:1.1vw; background-color: #004000;">Añadir Evento</button>
 						</div>
 
 
@@ -510,7 +510,7 @@ button.add-btn {
 						</div>
 
 						<!-- Botón Guardar -->
-						<button type="submit" class="btn">Guardar Acta</button>
+						<button type="submit" class="btn botonRegistrarCabecera">Guardar Acta</button>
 
 
 
@@ -728,37 +728,46 @@ document.addEventListener("DOMContentLoaded", function() {
     // -------------------------
     // Función para agregar eventos a la tabla
     // -------------------------
-    window.agregarEvento = function() {
-        const tabla = document.getElementById("tablaEventos").getElementsByTagName('tbody')[0];
-        const fila = tabla.insertRow();
+  window.agregarEvento = function() {
+    const tabla = document.getElementById("tablaEventos").getElementsByTagName('tbody')[0];
+    const fila = tabla.insertRow();
 
-        fila.innerHTML = `
-            <td>
-                <select class="tipoEvento" style="width: 100%;">
-                    <option value="" disabled selected>Elige un evento</option>
-                    <option value="Gol">Gol</option>
-                    <option value="Tarjeta Amarilla">Tarjeta Amarilla</option>
-                    <option value="Tarjeta Roja">Tarjeta Roja</option>
-                </select>
-            </td>
-            <td>
-                <select class="clubEvento" onchange="actualizarJugadores(this)" style="width: 100%;">
-                    <option value="" disabled selected>Elige club</option>
-                    <option value="<%= partido.getClubLocalId() %>"><%= partido.getClubLocalNombre() %></option>
-                    <option value="<%= partido.getClubVisitanteId() %>"><%=partido.getClubVisitanteNombre()%></option>
-                </select>
-            </td>
-            <td>
-                <select class="jugadorEvento" style="width: 100%;">
-                    <option value="" disabled selected>Elige jugador</option>
-                </select>
-            </td>
-            <td>
-                <input type="number" class="minutoEvento" min="0" style="width: 90%; height: 100%" />
-            </td>
-        `;
-        console.log("Evento agregado a la tabla");
-    }
+    fila.innerHTML = `
+        <td>
+            <select class="tipoEvento" style="width: 100%;">
+                <option value="" disabled selected>Elige un evento</option>
+                <option value="Gol">Gol</option>
+                <option value="Tarjeta Amarilla">Tarjeta Amarilla</option>
+                <option value="Tarjeta Roja">Tarjeta Roja</option>
+            </select>
+        </td>
+        <td>
+            <select class="clubEvento" onchange="actualizarJugadores(this)" style="width: 100%;">
+                <option value="" disabled selected>Elige club</option>
+                <option value="<%= partido.getClubLocalId() %>"><%= partido.getClubLocalNombre() %></option>
+                <option value="<%= partido.getClubVisitanteId() %>"><%=partido.getClubVisitanteNombre()%></option>
+            </select>
+        </td>
+        <td>
+            <select class="jugadorEvento" style="width: 100%;">
+                <option value="" disabled selected>Elige jugador</option>
+            </select>
+        </td>
+        <td>
+            <input type="number" class="minutoEvento" min="0" style="width: 90%; height: 100%" />
+        </td>
+        <td>
+            <button type="button" onclick="eliminarEvento(this)">Eliminar</button>
+        </td>
+    `;
+};
+
+window.eliminarEvento = function(boton) {
+    const fila = boton.closest('tr'); // Encuentra la fila del botón
+    fila.remove(); // La elimina de la tabla
+};
+
+
 
     // -------------------------
     // Función para actualizar jugadores según club
@@ -780,8 +789,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
         jugadores.forEach(function(jugador) {
             const option = document.createElement('option');
-            option.value = jugador.idUsuario;        // <-- ID real del jugador
-            option.text = jugador.nombreCompletoUsuario;  // <-- Nombre completo
+            option.value = jugador.idUsuario;        
+            option.text = jugador.nombreCompletoUsuario;  
             jugadorSelect.appendChild(option);
         });
 

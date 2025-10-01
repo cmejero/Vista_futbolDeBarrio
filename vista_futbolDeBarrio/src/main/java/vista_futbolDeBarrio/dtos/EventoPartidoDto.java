@@ -1,5 +1,8 @@
 package vista_futbolDeBarrio.dtos;
 
+/**
+ * Clase que se encarga de los campos de los eventos de un partido
+ */
 public class EventoPartidoDto {
 
 

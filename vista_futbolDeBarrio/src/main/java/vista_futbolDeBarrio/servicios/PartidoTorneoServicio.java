@@ -15,13 +15,17 @@ import vista_futbolDeBarrio.dtos.PartidoTorneoDto;
 import vista_futbolDeBarrio.dtos.UsuarioDto;
 import vista_futbolDeBarrio.log.Log;
 
+/**
+ * Clase que se encarga de la lógica de los métodos CRUD y consultas
+ * relacionados con los partidos de torneo.
+ */
 public class PartidoTorneoServicio {
 
-    
-
-    // -------------------------
-    // LISTAR TODOS LOS PARTIDOS
-    // -------------------------
+    /**
+     * Obtiene la lista de todos los partidos de torneo.
+     * 
+     * @return Lista de objetos PartidoTorneoDto con los datos de cada partido.
+     */
     public ArrayList<PartidoTorneoDto> listaPartidos() {
         ArrayList<PartidoTorneoDto> lista = new ArrayList<>();
         try {
@@ -48,7 +52,13 @@ public class PartidoTorneoServicio {
         }
         return lista;
     }
-    
+
+    /**
+     * Obtiene un partido específico por su ID.
+     * 
+     * @param partidoId ID del partido que se desea obtener.
+     * @return Objeto PartidoTorneoDto con los datos del partido, o null si no se encuentra.
+     */
     public PartidoTorneoDto obtenerPartidoPorId(Long partidoId) {
         try {
             String urlApi = "http://localhost:9527/api/partidoTorneo/" + partidoId; 
@@ -71,9 +81,12 @@ public class PartidoTorneoServicio {
     }
 
 
-    // -------------------------
-    // LISTAR PARTIDOS POR TORNEO
-    // -------------------------
+    /**
+     * Obtiene la lista de partidos correspondientes a un torneo específico.
+     * 
+     * @param idTorneo ID del torneo.
+     * @return Lista de objetos PartidoTorneoDto correspondientes al torneo.
+     */
     public ArrayList<PartidoTorneoDto> listaPartidosPorTorneo(Long idTorneo) {
         ArrayList<PartidoTorneoDto> lista = new ArrayList<>();
         try {
@@ -101,12 +114,14 @@ public class PartidoTorneoServicio {
         return lista;
     }
 
-
-    // -------------------------
-    // GUARDAR PARTIDO
-    // -------------------------
+    /**
+     * Guarda un nuevo partido de torneo en el sistema.
+     * 
+     * @param partido Objeto PartidoTorneoDto con los datos del partido.
+     * @return ID del partido guardado si la operación fue exitosa, null en caso contrario.
+     * @throws Exception En caso de error al realizar la conexión o enviar el JSON.
+     */
     public Long guardarPartido(PartidoTorneoDto partido) throws Exception {
-        // Usamos el método que ya construye todo el JSON correctamente
         JSONObject json = mapearPartidoAJSON(partido);
 
         URL url = new URL("http://localhost:9527/api/guardarPartidoTorneo");
@@ -117,7 +132,6 @@ public class PartidoTorneoServicio {
 
         System.out.println("JSON a enviar: " + json.toString(4));
 
-        // Enviamos el JSON completo
         try (OutputStream os = conex.getOutputStream()) {
             byte[] input = json.toString().getBytes("utf-8");
             os.write(input, 0, input.length);
@@ -125,7 +139,6 @@ public class PartidoTorneoServicio {
 
         int responseCode = conex.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED) {
-            // Leer respuesta
             try (BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream(), "utf-8"))) {
                 StringBuilder respuesta = new StringBuilder();
                 String inputLine;
@@ -137,7 +150,7 @@ public class PartidoTorneoServicio {
                 Long idPartido = jsonRespuesta.optLong("idPartidoTorneo", -1);
 
                 if (idPartido != -1) {
-                    partido.setIdPartidoTorneo(idPartido); // 🔹 asignar ID al DTO
+                    partido.setIdPartidoTorneo(idPartido);
                     return idPartido;
                 } else {
                     System.err.println("No se recibió ID del partido en la respuesta");
@@ -159,9 +172,13 @@ public class PartidoTorneoServicio {
     }
 
 
-    // -------------------------
-    // MODIFICAR PARTIDO
-    // -------------------------
+    /**
+     * Modifica los datos de un partido existente.
+     * 
+     * @param idPartido ID del partido a modificar.
+     * @param partido Objeto PartidoTorneoDto con los nuevos datos.
+     * @return true si la modificación fue exitosa, false en caso contrario.
+     */
     public boolean modificarPartido(Long idPartido, PartidoTorneoDto partido) {
         try {
             JSONObject json = mapearPartidoAJSON(partido);
@@ -180,9 +197,14 @@ public class PartidoTorneoServicio {
         }
     }
 
-    // -------------------------
-    // ELIMINAR PARTIDO
-    // -------------------------
+
+
+    /**
+     * Elimina un partido del sistema.
+     * 
+     * @param idPartido ID del partido a eliminar.
+     * @return true si la eliminación fue exitosa, false en caso contrario.
+     */
     public boolean eliminarPartido(Long idPartido) {
         try {
             String urlApi = "http://localhost:9527/api/eliminarPartidoTorneo/" + idPartido;
@@ -194,11 +216,14 @@ public class PartidoTorneoServicio {
         }
     }
 
-  
 
-    // -------------------------
-    // MÉTODOS ÚTILES PARA BRACKETS
-    // -------------------------
+    /**
+     * Filtra los partidos de un torneo por la ronda específica.
+     * 
+     * @param torneoId ID del torneo.
+     * @param ronda Nombre de la ronda (ej. "Cuartos", "Semifinal").
+     * @return Lista de partidos que pertenecen a la ronda indicada.
+     */
     public List<PartidoTorneoDto> obtenerPartidosPorRonda(Long torneoId, String ronda) {
         List<PartidoTorneoDto> resultado = new ArrayList<>();
         List<PartidoTorneoDto> partidos = listaPartidosPorTorneo(torneoId);
@@ -211,9 +236,15 @@ public class PartidoTorneoServicio {
         return resultado;
     }
 
-    // -------------------------
-    // MÉTODOS PRIVADOS
-    // -------------------------
+
+    /**
+     * Crea y configura una conexión HTTP con la URL y método indicados.
+     * 
+     * @param urlApi URL del servicio web.
+     * @param metodo Método HTTP (GET, POST, PUT, DELETE).
+     * @return HttpURLConnection configurada.
+     * @throws Exception En caso de error al abrir la conexión.
+     */
     private HttpURLConnection crearConexion(String urlApi, String metodo) throws Exception {
         URL url = new URL(urlApi);
         HttpURLConnection conex = (HttpURLConnection) url.openConnection();
@@ -223,10 +254,15 @@ public class PartidoTorneoServicio {
         return conex;
     }
 
+    /**
+     * Convierte un JSONObject a un objeto PartidoTorneoDto.
+     * 
+     * @param json JSONObject con los datos del partido.
+     * @return Objeto PartidoTorneoDto mapeado.
+     */
     private PartidoTorneoDto mapearJSONAPartido(JSONObject json) {
         PartidoTorneoDto partido = new PartidoTorneoDto();
-
-        // IDs
+        // Se mantiene la lógica de mapeo original
         partido.setIdPartidoTorneo(json.optLong("idPartidoTorneo", 0));
         partido.setTorneoId(json.optLong("torneoId", 0));
         partido.setInstalacionId(json.optLong("instalacionId", 0));
@@ -254,13 +290,12 @@ public class PartidoTorneoServicio {
             for (int i = 0; i < jugadoresLocal.length(); i++) {
                 JSONObject j = jugadoresLocal.getJSONObject(i);
                 UsuarioDto jugador = new UsuarioDto();
-                jugador.setIdUsuario(j.optLong("idUsuario", 0));  // Asegúrate que venga del JSON
+                jugador.setIdUsuario(j.optLong("idUsuario", 0));
                 jugador.setNombreCompletoUsuario(j.optString("nombreCompletoUsuario", ""));
                 listaLocal.add(jugador);
             }
             partido.setJugadoresLocal(listaLocal);
         }
-
 
         if (json.has("jugadoresVisitante")) {
             JSONArray jugadoresVisitante = json.getJSONArray("jugadoresVisitante");
@@ -275,12 +310,15 @@ public class PartidoTorneoServicio {
             partido.setJugadoresVisitante(listaVisitante);
         }
 
-
         return partido;
     }
 
-
-
+    /**
+     * Convierte un objeto PartidoTorneoDto a JSONObject para enviarlo al servicio.
+     * 
+     * @param partido Objeto PartidoTorneoDto a mapear.
+     * @return JSONObject con los datos del partido.
+     */
     public JSONObject mapearPartidoAJSON(PartidoTorneoDto partido) {
         JSONObject json = new JSONObject();
         json.put("torneoId", partido.getTorneoId());
@@ -299,5 +337,4 @@ public class PartidoTorneoServicio {
 
         return json;
     }
-
 }

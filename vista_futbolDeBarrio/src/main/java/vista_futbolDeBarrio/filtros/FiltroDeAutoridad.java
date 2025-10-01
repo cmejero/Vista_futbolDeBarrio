@@ -79,12 +79,13 @@ public class FiltroDeAutoridad implements Filter {
 	 * @return true si es una ruta pública, false en caso contrario.
 	 */
 	private boolean esRutaPublica(String uri) {
-		return uri.contains("InicioSesion.jsp") || uri.contains("Registrar.jsp") || uri.contains("PedirEmail.jsp")
-				|| uri.contains("RestablecerPassword.jsp") || uri.contains("Index.jsp") || uri.contains("/usuario")
-				|| uri.contains("/club") || uri.contains("/TorneoInstalacion.jsp") || uri.contains("/instalacion")
-				|| uri.contains("/Css") || uri.contains("/Imagenes/") || uri.contains("/login") ||  uri.contains("/torneo/bracket")
-				|| uri.contains("/recuperarPassword") || uri.contains("/restablecerPassword") || uri.contains("Acta.jsp") || uri.contains("Torneo.jsp")  ;
-
+	    // Quita las rutas sensibles de ser públicas
+	    return uri.contains("InicioSesion.jsp") || uri.contains("Registrar.jsp") 
+	        || uri.contains("PedirEmail.jsp") || uri.contains("RestablecerPassword.jsp")
+	        || uri.contains("Index.jsp") || uri.contains("/usuario") || uri.contains("/club")
+	        || uri.contains("/Css") || uri.contains("/Imagenes/") || uri.contains("/login")
+	        || uri.contains("/torneo/bracket") || uri.contains("/recuperarPassword")
+	        || uri.contains("/restablecerPassword");
 	}
 
 	/**
@@ -120,19 +121,21 @@ public class FiltroDeAutoridad implements Filter {
 	 * @return true si tiene permiso, false en caso contrario.
 	 */
 	private boolean tienePermisoSegunTipoUsuario(String uri, String tipoUsuario) {
-		if (uri.contains("Jugador.jsp") || uri.contains("MarcadoresJugador.jsp")) {
-			return "jugador".equals(tipoUsuario);
-		}
-		if (uri.contains("Club.jsp") || uri.contains("EventoClub.jsp") || uri.contains("PlantillaClub.jsp")) {
-			return "club".equals(tipoUsuario);
-		}
-		if (uri.contains("Administrador.jsp")) {
-			return "administrador".equals(tipoUsuario);
-		}
-		if (uri.contains("Instalacion.jsp") || uri.contains("EventoInstalacion.jsp")) {
-			return "instalacion".equals(tipoUsuario);
-		}
-		return true; // Si no es una ruta protegida específica, se permite por defecto
+	    if (uri.contains("Jugador.jsp") || uri.contains("MarcadoresJugador.jsp")) {
+	        return "jugador".equals(tipoUsuario);
+	    }
+	    if (uri.contains("Club.jsp") || uri.contains("EventoClub.jsp") || uri.contains("PlantillaClub.jsp")) {
+	        return "club".equals(tipoUsuario);
+	    }
+	    if (uri.contains("Administrador.jsp")) {
+	        return "administrador".equals(tipoUsuario);
+	    }
+	    // Solo instalacion puede acceder a estos JSP
+	    if (uri.contains("Instalacion.jsp") || uri.contains("EventoInstalacion.jsp") 
+	        || uri.contains("TorneoInstalacion.jsp") || uri.contains("Acta.jsp")) {
+	        return "instalacion".equals(tipoUsuario);
+	    }
+	    return true; // Resto de rutas permitidas por defecto
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException {

@@ -1,5 +1,8 @@
 package vista_futbolDeBarrio.dtos;
 
+/**
+ * Clase que se encarga de los campos de las estadisticas de un torneo de club
+ */
 public class ClubEstadisticaTorneoDto {
 
 	private Long idEstadisticaTorneo;

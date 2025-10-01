@@ -1,8 +1,12 @@
 package vista_futbolDeBarrio.dtos;
 
+
+/**
+ * Clase que se encarga de los campos de las estadisticas globales de un jugador
+ */
 public class JugadorEstadisticaGlobalDto {
 
-
+	
 	private Long idGlobal;
     private Long jugadorGlobalId;
     private int golesGlobal;
@@ -10,9 +14,11 @@ public class JugadorEstadisticaGlobalDto {
     private int amarillasGlobal;
     private int rojasGlobal;
     private int partidosJugadosGlobal;
+    private int partidosGanadosGlobal;
+    private int partidosPerdidosGlobal;
     private int minutosJugadosGlobal;
     
-    
+ 
     
 	public Long getIdGlobal() {
 		return idGlobal;
@@ -56,11 +62,36 @@ public class JugadorEstadisticaGlobalDto {
 	public void setPartidosJugadosGlobal(int partidosJugadosGlobal) {
 		this.partidosJugadosGlobal = partidosJugadosGlobal;
 	}
+	
+	
+	
+	public int getPartidosGanadosGlobal() {
+		return partidosGanadosGlobal;
+	}
+
+	public void setPartidosGanadosGlobal(int partidosGanadosGlobal) {
+		this.partidosGanadosGlobal = partidosGanadosGlobal;
+	}
+
+	public int getPartidosPerdidosGlobal() {
+		return partidosPerdidosGlobal;
+	}
+
+	public void setPartidosPerdidosGlobal(int partidosPerdidosGlobal) {
+		this.partidosPerdidosGlobal = partidosPerdidosGlobal;
+	}
+
 	public int getMinutosJugadosGlobal() {
 		return minutosJugadosGlobal;
 	}
 	public void setMinutosJugadosGlobal(int minutosJugadosGlobal) {
 		this.minutosJugadosGlobal = minutosJugadosGlobal;
 	}
+
+	public JugadorEstadisticaGlobalDto() {
+		super();
+	}
+    
+    
     
 }

@@ -216,244 +216,274 @@
 	        }
 	    }
 	
-	    // -------------------------
-	    // BRACKET Y PARTIDOS
-	    // -------------------------
-	    public void generarBracket(Long torneoId, List<EquipoTorneoDto> equipos, PartidoTorneoServicio partidoServicio) throws Exception {
-	        if (equipos == null || equipos.size() != 16) {
-	            throw new IllegalArgumentException("Actualmente solo se soportan torneos de 16 equipos.");
-	        }
 
-	        Collections.shuffle(equipos);
+	 /**
+	  * Genera el bracket completo de un torneo de 16 equipos y guarda los partidos en memoria.
+	  *
+	  * @param torneoId ID del torneo.
+	  * @param equipos Lista de equipos inscritos (exactamente 16).
+	  * @param partidoServicio Servicio para manejar partidos.
+	  * @throws Exception si ocurre un error al crear los partidos.
+	  */
+	 public void generarBracket(Long torneoId, List<EquipoTorneoDto> equipos, PartidoTorneoServicio partidoServicio) throws Exception {
+	     if (equipos == null || equipos.size() != 16) {
+	         throw new IllegalArgumentException("Actualmente solo se soportan torneos de 16 equipos.");
+	     }
 
-	        Map<Long, Long> flujoPartidos = new HashMap<>();
+	     Collections.shuffle(equipos);
+	     Map<Long, Long> flujoPartidos = new HashMap<>();
 
-	        // ======================
-	        // 🔹 CREAR OCTAVOS
-	        // ======================
-	        List<PartidoTorneoDto> octavos = new ArrayList<>();
-	        for (int i = 0; i < 16; i += 2) {
-	            EquipoTorneoDto local = equipos.get(i);
-	            EquipoTorneoDto visitante = equipos.get(i + 1);
+	     List<PartidoTorneoDto> octavos = crearOctavos(torneoId, equipos, partidoServicio);
+	     List<PartidoTorneoDto> cuartos = crearCuartos(torneoId, octavos, partidoServicio, flujoPartidos);
+	     List<PartidoTorneoDto> semifinales = crearSemifinales(torneoId, cuartos, partidoServicio, flujoPartidos);
+	     crearFinal(torneoId, semifinales, partidoServicio, flujoPartidos);
+	     crearTercerPuesto(torneoId, semifinales, partidoServicio, flujoPartidos);
 
-	            PartidoTorneoDto partido = new PartidoTorneoDto();
-	            partido.setTorneoId(torneoId);
-	            partido.setInstalacionId(obtenerInstalacionDeTorneo(torneoId));
-	            partido.setEquipoLocalId(local.getIdEquipoTorneo());
-	            partido.setClubLocalId(local.getClubId());
-	            partido.setEquipoVisitanteId(visitante.getIdEquipoTorneo());
-	            partido.setClubVisitanteId(visitante.getClubId());
-	            partido.setFechaPartido(LocalDate.now().toString());
-	            partido.setRonda("octavos");
-	            partido.setEstado("pendiente");
-	            partido.setUbicacionRonda(i / 2 + 1); // octavo1 = 1, octavo2 = 2, ..., octavo8 = 8
+	     Utilidades.guardarMapa(torneoId, flujoPartidos);
+	     System.out.println(">>> Bracket generado y flujo guardado en memoria para torneo " + torneoId);
+	 }
 
-	            Long idGuardado = partidoServicio.guardarPartido(partido);
-	            partido.setIdPartidoTorneo(idGuardado);
-	            octavos.add(partido);
-	        }
+	 /**
+	  * Crea los partidos de octavos de final.
+	  */
+	 private List<PartidoTorneoDto> crearOctavos(Long torneoId, List<EquipoTorneoDto> equipos, PartidoTorneoServicio partidoServicio) throws Exception {
+	     List<PartidoTorneoDto> octavos = new ArrayList<>();
+	     for (int i = 0; i < 16; i += 2) {
+	         EquipoTorneoDto local = equipos.get(i);
+	         EquipoTorneoDto visitante = equipos.get(i + 1);
 
-	        // ======================
-	        // 🔹 CREAR CUARTOS
-	        // ======================
-	        List<PartidoTorneoDto> cuartos = new ArrayList<>();
-	        for (int i = 0; i < 8; i += 2) {
-	            PartidoTorneoDto partido = new PartidoTorneoDto();
-	            partido.setTorneoId(torneoId);
-	            partido.setInstalacionId(obtenerInstalacionDeTorneo(torneoId));
-	            partido.setFechaPartido(LocalDate.now().toString());
-	            partido.setRonda("cuartos");
-	            partido.setEstado("pendiente");
-	            partido.setUbicacionRonda(i / 2 + 1); // cuartos 1 a 4
+	         PartidoTorneoDto partido = new PartidoTorneoDto();
+	         partido.setTorneoId(torneoId);
+	         partido.setInstalacionId(obtenerInstalacionDeTorneo(torneoId));
+	         partido.setEquipoLocalId(local.getIdEquipoTorneo());
+	         partido.setClubLocalId(local.getClubId());
+	         partido.setEquipoVisitanteId(visitante.getIdEquipoTorneo());
+	         partido.setClubVisitanteId(visitante.getClubId());
+	         partido.setFechaPartido(LocalDate.now().toString());
+	         partido.setRonda("octavos");
+	         partido.setEstado("pendiente");
+	         partido.setUbicacionRonda(i / 2 + 1);
 
-	            Long idGuardado = partidoServicio.guardarPartido(partido);
-	            partido.setIdPartidoTorneo(idGuardado);
-	            cuartos.add(partido);
+	         Long idGuardado = partidoServicio.guardarPartido(partido);
+	         partido.setIdPartidoTorneo(idGuardado);
+	         octavos.add(partido);
+	     }
+	     return octavos;
+	 }
 
-	            // 🔹 ENLAZAR OCTAVOS → CUARTOS
-	            flujoPartidos.put(octavos.get(i).getIdPartidoTorneo(), idGuardado);
-	            flujoPartidos.put(octavos.get(i + 1).getIdPartidoTorneo(), idGuardado);
-	        }
+	 /**
+	  * Crea los partidos de cuartos de final y enlaza octavos → cuartos.
+	  */
+	 private List<PartidoTorneoDto> crearCuartos(Long torneoId, List<PartidoTorneoDto> octavos, PartidoTorneoServicio partidoServicio, Map<Long, Long> flujoPartidos) throws Exception {
+	     List<PartidoTorneoDto> cuartos = new ArrayList<>();
+	     for (int i = 0; i < 8; i += 2) {
+	         PartidoTorneoDto partido = new PartidoTorneoDto();
+	         partido.setTorneoId(torneoId);
+	         partido.setInstalacionId(obtenerInstalacionDeTorneo(torneoId));
+	         partido.setFechaPartido(LocalDate.now().toString());
+	         partido.setRonda("cuartos");
+	         partido.setEstado("pendiente");
+	         partido.setUbicacionRonda(i / 2 + 1);
 
-	        // ======================
-	        // 🔹 CREAR SEMIFINALES
-	        // ======================
-	        List<PartidoTorneoDto> semifinales = new ArrayList<>();
-	        for (int i = 0; i < 4; i += 2) {
-	            PartidoTorneoDto partido = new PartidoTorneoDto();
-	            partido.setTorneoId(torneoId);
-	            partido.setInstalacionId(obtenerInstalacionDeTorneo(torneoId));
-	            partido.setFechaPartido(LocalDate.now().toString());
-	            partido.setRonda("semifinal");
-	            partido.setEstado("pendiente");
-	            partido.setUbicacionRonda(i / 2 + 1); // semifinal 1 y 2
+	         Long idGuardado = partidoServicio.guardarPartido(partido);
+	         partido.setIdPartidoTorneo(idGuardado);
+	         cuartos.add(partido);
 
-	            Long idGuardado = partidoServicio.guardarPartido(partido);
-	            partido.setIdPartidoTorneo(idGuardado);
-	            semifinales.add(partido);
+	         flujoPartidos.put(octavos.get(i).getIdPartidoTorneo(), idGuardado);
+	         flujoPartidos.put(octavos.get(i + 1).getIdPartidoTorneo(), idGuardado);
+	     }
+	     return cuartos;
+	 }
 
-	            // 🔹 ENLAZAR CUARTOS → SEMIFINALES
-	            flujoPartidos.put(cuartos.get(i).getIdPartidoTorneo(), idGuardado);
-	            flujoPartidos.put(cuartos.get(i + 1).getIdPartidoTorneo(), idGuardado);
-	        }
+	 /**
+	  * Crea los partidos de semifinales y enlaza cuartos → semifinales.
+	  */
+	 private List<PartidoTorneoDto> crearSemifinales(Long torneoId, List<PartidoTorneoDto> cuartos, PartidoTorneoServicio partidoServicio, Map<Long, Long> flujoPartidos) throws Exception {
+	     List<PartidoTorneoDto> semifinales = new ArrayList<>();
+	     for (int i = 0; i < 4; i += 2) {
+	         PartidoTorneoDto partido = new PartidoTorneoDto();
+	         partido.setTorneoId(torneoId);
+	         partido.setInstalacionId(obtenerInstalacionDeTorneo(torneoId));
+	         partido.setFechaPartido(LocalDate.now().toString());
+	         partido.setRonda("semifinal");
+	         partido.setEstado("pendiente");
+	         partido.setUbicacionRonda(i / 2 + 1);
 
-	        // ======================
-	        // 🔹 CREAR FINAL
-	        // ======================
-	        PartidoTorneoDto partidoFinal = new PartidoTorneoDto();
-	        partidoFinal.setTorneoId(torneoId);
-	        partidoFinal.setInstalacionId(obtenerInstalacionDeTorneo(torneoId));
-	        partidoFinal.setFechaPartido(LocalDate.now().toString());
-	        partidoFinal.setRonda("final");
-	        partidoFinal.setEstado("pendiente");
-	        partidoFinal.setUbicacionRonda(1); // única final
+	         Long idGuardado = partidoServicio.guardarPartido(partido);
+	         partido.setIdPartidoTorneo(idGuardado);
+	         semifinales.add(partido);
 
-	        Long idFinal = partidoServicio.guardarPartido(partidoFinal);
-	        partidoFinal.setIdPartidoTorneo(idFinal);
+	         flujoPartidos.put(cuartos.get(i).getIdPartidoTorneo(), idGuardado);
+	         flujoPartidos.put(cuartos.get(i + 1).getIdPartidoTorneo(), idGuardado);
+	     }
+	     return semifinales;
+	 }
 
-	        flujoPartidos.put(semifinales.get(0).getIdPartidoTorneo(), idFinal);
-	        flujoPartidos.put(semifinales.get(1).getIdPartidoTorneo(), idFinal);
+	 /**
+	  * Crea el partido final y enlaza semifinales → final.
+	  */
+	 private void crearFinal(Long torneoId, List<PartidoTorneoDto> semifinales, PartidoTorneoServicio partidoServicio, Map<Long, Long> flujoPartidos) throws Exception {
+	     PartidoTorneoDto partidoFinal = new PartidoTorneoDto();
+	     partidoFinal.setTorneoId(torneoId);
+	     partidoFinal.setInstalacionId(obtenerInstalacionDeTorneo(torneoId));
+	     partidoFinal.setFechaPartido(LocalDate.now().toString());
+	     partidoFinal.setRonda("final");
+	     partidoFinal.setEstado("pendiente");
+	     partidoFinal.setUbicacionRonda(1);
 
-	        // ======================
-	        // 🔹 CREAR TERCER PUESTO
-	        // ======================
-	        PartidoTorneoDto tercerPuesto = new PartidoTorneoDto();
-	        tercerPuesto.setTorneoId(torneoId);
-	        tercerPuesto.setInstalacionId(obtenerInstalacionDeTorneo(torneoId));
-	        tercerPuesto.setFechaPartido(LocalDate.now().toString());
-	        tercerPuesto.setRonda("tercerpuesto");
-	        tercerPuesto.setEstado("pendiente");
-	        tercerPuesto.setUbicacionRonda(1); // único tercer puesto
+	     Long idFinal = partidoServicio.guardarPartido(partidoFinal);
+	     partidoFinal.setIdPartidoTorneo(idFinal);
 
-	        Long idTercerPuesto = partidoServicio.guardarPartido(tercerPuesto);
-	        tercerPuesto.setIdPartidoTorneo(idTercerPuesto);
+	     flujoPartidos.put(semifinales.get(0).getIdPartidoTorneo(), idFinal);
+	     flujoPartidos.put(semifinales.get(1).getIdPartidoTorneo(), idFinal);
+	 }
 
-	        flujoPartidos.put(semifinales.get(0).getIdPartidoTorneo(), idTercerPuesto);
-	        flujoPartidos.put(semifinales.get(1).getIdPartidoTorneo(), idTercerPuesto);
+	 /**
+	  * Crea el partido de tercer puesto y enlaza semifinales → tercer puesto.
+	  */
+	 private void crearTercerPuesto(Long torneoId, List<PartidoTorneoDto> semifinales, PartidoTorneoServicio partidoServicio, Map<Long, Long> flujoPartidos) throws Exception {
+	     PartidoTorneoDto tercerPuesto = new PartidoTorneoDto();
+	     tercerPuesto.setTorneoId(torneoId);
+	     tercerPuesto.setInstalacionId(obtenerInstalacionDeTorneo(torneoId));
+	     tercerPuesto.setFechaPartido(LocalDate.now().toString());
+	     tercerPuesto.setRonda("tercerpuesto");
+	     tercerPuesto.setEstado("pendiente");
+	     tercerPuesto.setUbicacionRonda(1);
 
-	        // ======================
-	        // 🔹 GUARDAR FLUJO EN MEMORIA
-	        // ======================
-	        Utilidades.guardarMapa(torneoId, flujoPartidos);
+	     Long idTercerPuesto = partidoServicio.guardarPartido(tercerPuesto);
+	     tercerPuesto.setIdPartidoTorneo(idTercerPuesto);
 
-	        System.out.println(">>> Bracket generado y flujo guardado en memoria para torneo " + torneoId);
-	    }
+	     flujoPartidos.put(semifinales.get(0).getIdPartidoTorneo(), idTercerPuesto);
+	     flujoPartidos.put(semifinales.get(1).getIdPartidoTorneo(), idTercerPuesto);
+	 }
 
-	    public void avanzarGanador(PartidoTorneoDto partido, Long idGanador, PartidoTorneoServicio partidoServicio) throws Exception {
-	        // 1️⃣ Marcar el partido actual como finalizado
-	        partido.setEstado("finalizado");
-	        partidoServicio.modificarPartido(partido.getIdPartidoTorneo(), partido);
+	 /**
+	  * Marca un partido como finalizado y asigna al ganador al siguiente partido.
+	  *
+	  * @param partido Partido actual que finalizó.
+	  * @param idGanador ID del equipo ganador.
+	  * @param partidoServicio Servicio para modificar los partidos.
+	  * @throws Exception si ocurre un error al actualizar el siguiente partido.
+	  */
+	 public void avanzarGanador(PartidoTorneoDto partido, Long idGanador, PartidoTorneoServicio partidoServicio) throws Exception {
+	     partido.setEstado("finalizado");
+	     partidoServicio.modificarPartido(partido.getIdPartidoTorneo(), partido);
 
-	        // 2️⃣ Obtener flujo del torneo
-	        Map<Long, Long> flujo = Utilidades.obtenerMapa(partido.getTorneoId());
-	        if (flujo == null) return;
+	     Map<Long, Long> flujo = Utilidades.obtenerMapa(partido.getTorneoId());
+	     if (flujo == null) return;
 
-	        Long idSiguientePartido = flujo.get(partido.getIdPartidoTorneo());
+	     Long idSiguientePartido = flujo.get(partido.getIdPartidoTorneo());
+	     PartidoTorneoDto siguientePartido;
 
-	        PartidoTorneoDto siguientePartido;
-	        if (idSiguientePartido == null) {
-	            // Crear partido de la siguiente ronda
-	            siguientePartido = new PartidoTorneoDto();
-	            siguientePartido.setTorneoId(partido.getTorneoId());
-	            siguientePartido.setEstado("pendiente");
-	            siguientePartido.setRonda(rondaSiguiente(partido.getRonda()));
+	     if (idSiguientePartido == null) {
+	         siguientePartido = new PartidoTorneoDto();
+	         siguientePartido.setTorneoId(partido.getTorneoId());
+	         siguientePartido.setEstado("pendiente");
+	         siguientePartido.setRonda(rondaSiguiente(partido.getRonda()));
 
-	            // Guardar en DB
-	            idSiguientePartido = partidoServicio.guardarPartido(siguientePartido);
-	            if (idSiguientePartido == null) throw new RuntimeException("No se pudo crear siguiente partido");
+	         idSiguientePartido = partidoServicio.guardarPartido(siguientePartido);
+	         if (idSiguientePartido == null) throw new RuntimeException("No se pudo crear siguiente partido");
 
-	            siguientePartido.setIdPartidoTorneo(idSiguientePartido);
-	            flujo.put(partido.getIdPartidoTorneo(), idSiguientePartido);
-	            Utilidades.guardarMapa(partido.getTorneoId(), flujo);
-	        } else {
-	            final Long idSiguiente = idSiguientePartido;
+	         siguientePartido.setIdPartidoTorneo(idSiguientePartido);
+	         flujo.put(partido.getIdPartidoTorneo(), idSiguientePartido);
+	         Utilidades.guardarMapa(partido.getTorneoId(), flujo);
+	     } else {
+	         final Long idSiguiente = idSiguientePartido;
+	         siguientePartido = partidoServicio.listaPartidos().stream()
+	                 .filter(p -> p.getIdPartidoTorneo().equals(idSiguiente))
+	                 .findFirst()
+	                 .orElseThrow(() -> new RuntimeException("Siguiente partido no encontrado"));
+	     }
 
-	            siguientePartido = partidoServicio.listaPartidos().stream()
-	                    .filter(p -> p.getIdPartidoTorneo().equals(idSiguiente))
-	                    .findFirst()
-	                    .orElseThrow(() -> new RuntimeException("Siguiente partido no encontrado"));
-	        }
+	     EquipoTorneoDto equipoGanador = equipoTorneoServicio.listaEquiposTorneo().stream()
+	             .filter(e -> e.getIdEquipoTorneo() == idGanador)
+	             .findFirst().orElse(null);
 
-	        // 3️⃣ Asignar ganador al siguiente partido
-	        EquipoTorneoDto equipoGanador = equipoTorneoServicio.listaEquiposTorneo().stream()
-	                .filter(e -> e.getIdEquipoTorneo() == idGanador)
-	                .findFirst().orElse(null);
+	     if (equipoGanador != null) {
+	         Long clubGanador = equipoGanador.getClubId();
+	         if (siguientePartido.getEquipoLocalId() == null) {
+	             siguientePartido.setEquipoLocalId(idGanador);
+	             siguientePartido.setClubLocalId(clubGanador);
+	         } else if (siguientePartido.getEquipoVisitanteId() == null) {
+	             siguientePartido.setEquipoVisitanteId(idGanador);
+	             siguientePartido.setClubVisitanteId(clubGanador);
+	         }
+	     }
 
-	        if (equipoGanador != null) {
-	            Long clubGanador = equipoGanador.getClubId();
-	            if (siguientePartido.getEquipoLocalId() == null) {
-	                siguientePartido.setEquipoLocalId(idGanador);
-	                siguientePartido.setClubLocalId(clubGanador);
-	            } else if (siguientePartido.getEquipoVisitanteId() == null) {
-	                siguientePartido.setEquipoVisitanteId(idGanador);
-	                siguientePartido.setClubVisitanteId(clubGanador);
-	            }
-	        }
+	     partidoServicio.modificarPartido(siguientePartido.getIdPartidoTorneo(), siguientePartido);
+	 }
 
-	        partidoServicio.modificarPartido(siguientePartido.getIdPartidoTorneo(), siguientePartido);
-	    }
+	 /**
+	  * Retorna el progreso de equipos inscritos en un torneo.
+	  *
+	  * @param torneoId ID del torneo.
+	  * @return String con formato "equipos inscritos / 16".
+	  */
+	 public String progresoEquipos(Long torneoId) {
+	     int inscritos = equipoTorneoServicio.contarEquiposPorTorneo(torneoId);
+	     int maxEquipos = 16;
+	     return inscritos + " / " + maxEquipos;
+	 }
 
-	    
-	    public String progresoEquipos(Long torneoId) {
-	        int inscritos = equipoTorneoServicio.contarEquiposPorTorneo(torneoId);
-	        int maxEquipos = 16; // fijo
-	
-	        return inscritos + " / " + maxEquipos;
-	    }
-	    
-	    public void actualizarClubesInscritos(Long torneoId) {
-	        try {
-	            // Obtener número de equipos inscritos
-	            int inscritos = equipoTorneoServicio.contarEquiposPorTorneo(torneoId);
-	
-	            // Obtener el torneo actual
-	            List<TorneoDto> torneos = obtenerTodosLosTorneos();
-	            TorneoDto torneo = torneos.stream()
-	                                      .filter(t -> t.getIdTorneo() == torneoId)
-	                                      .findFirst()
-	                                      .orElse(null);
-	
-	            if (torneo != null) {
-	                // Actualizar el campo
-	                torneo.setClubesInscritos(inscritos + " / 16");
-	                // Guardar cambios en la API
-	                modificarTorneo(torneo.getIdTorneo(), torneo);
-	            }
-	
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            Log.ficheroLog("Error al actualizar clubesInscritos: " + e.getMessage());
-	        }
-	    }
-	    private String rondaSiguiente(String rondaActual) {
-	        switch (rondaActual.toLowerCase()) {
-	            case "octavos":
-	                return "cuartos";
-	            case "cuartos":
-	                return "semifinal";
-	            case "semifinal":
-	                return "final";
-	            default:
-	                return null; // No hay siguiente ronda después de final o tercer puesto
-	        }
-	    }
-	    public TorneoDto obtenerTorneo(Long torneoId) throws Exception {
-	        // Obtener todos los torneos desde la API
-	        List<TorneoDto> torneos = obtenerTodosLosTorneos();
-	
-	        // Buscar el torneo por ID usando comparación de primitivos
-	        TorneoDto torneo = torneos.stream()
-	                .filter(t -> t.getIdTorneo() == torneoId) // getIdTorneo() devuelve long primitivo
-	                .findFirst()
-	                .orElse(null);
-	
-	        if (torneo == null) {
-	            throw new RuntimeException("Torneo no encontrado con ID " + torneoId);
-	        }
-	
-	        return torneo;
-	    }
-	
-	
+	 /**
+	  * Actualiza la información de clubes inscritos en el torneo.
+	  *
+	  * @param torneoId ID del torneo.
+	  */
+	 public void actualizarClubesInscritos(Long torneoId) {
+	     try {
+	         int inscritos = equipoTorneoServicio.contarEquiposPorTorneo(torneoId);
+	         List<TorneoDto> torneos = obtenerTodosLosTorneos();
+	         TorneoDto torneo = torneos.stream()
+	                 .filter(t -> t.getIdTorneo() == torneoId)
+	                 .findFirst()
+	                 .orElse(null);
+
+	         if (torneo != null) {
+	             torneo.setClubesInscritos(inscritos + " / 16");
+	             modificarTorneo(torneo.getIdTorneo(), torneo);
+	         }
+	     } catch (Exception e) {
+	         e.printStackTrace();
+	         Log.ficheroLog("Error al actualizar clubesInscritos: " + e.getMessage());
+	     }
+	 }
+
+	 /**
+	  * Devuelve la siguiente ronda según la ronda actual.
+	  *
+	  * @param rondaActual Ronda actual ("octavos", "cuartos", "semifinal", etc.).
+	  * @return Nombre de la siguiente ronda, o null si no existe.
+	  */
+	 private String rondaSiguiente(String rondaActual) {
+	     switch (rondaActual.toLowerCase()) {
+	         case "octavos": return "cuartos";
+	         case "cuartos": return "semifinal";
+	         case "semifinal": return "final";
+	         default: return null;
+	     }
+	 }
+
+	 /**
+	  * Obtiene un torneo por su ID.
+	  *
+	  * @param torneoId ID del torneo.
+	  * @return TorneoDto correspondiente al ID.
+	  * @throws Exception si no se encuentra el torneo.
+	  */
+	 public TorneoDto obtenerTorneo(Long torneoId) throws Exception {
+	     List<TorneoDto> torneos = obtenerTodosLosTorneos();
+	     TorneoDto torneo = torneos.stream()
+	             .filter(t -> t.getIdTorneo() == torneoId)
+	             .findFirst()
+	             .orElse(null);
+
+	     if (torneo == null) {
+	         throw new RuntimeException("Torneo no encontrado con ID " + torneoId);
+	     }
+
+	     return torneo;
+	 }
+
 	
 	}

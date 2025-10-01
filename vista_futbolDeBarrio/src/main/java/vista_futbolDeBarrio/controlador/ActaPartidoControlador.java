@@ -16,17 +16,34 @@ import vista_futbolDeBarrio.servicios.ActaPartidoServicio;
 import vista_futbolDeBarrio.log.Log;
 
 @WebServlet("/actaPartido")
+/**
+ * Clase controlador que gestiona la creación, modificación, listado y eliminación
+ * de actas de partidos.
+ */
 public class ActaPartidoControlador extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private ActaPartidoServicio actaServicio;
 
     @Override
+    /**
+     * Inicializa el servicio de actas de partido.
+     * 
+     * @throws ServletException Si ocurre un error durante la inicialización.
+     */
     public void init() throws ServletException {
         this.actaServicio = new ActaPartidoServicio();
     }
 
     @Override
+    /**
+     * Maneja la creación o modificación de un acta de partido.
+     * 
+     * @param request La solicitud HTTP que contiene los datos del acta en JSON.
+     * @param response La respuesta HTTP.
+     * @throws ServletException Si ocurre un error durante la ejecución del servlet.
+     * @throws IOException Si ocurre un error al leer o escribir datos.
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -39,15 +56,13 @@ public class ActaPartidoControlador extends HttpServlet {
                 return;
             }
 
-            // Leer JSON completo de la request (acta + eventos)
             ObjectMapper mapper = new ObjectMapper();
             ActaPartidoDto acta = mapper.readValue(request.getInputStream(), ActaPartidoDto.class);
 
-            // Llamada al servicio: guardar o modificar acta y actualizar estadísticas
             if (acta.getIdActaPartido() == null) {
                 actaServicio.guardarActaPartido(acta);
             } else {
-                actaServicio.modificarActaPartido(acta.getIdActaPartido(),acta);
+                actaServicio.modificarActaPartido(acta.getIdActaPartido(), acta);
             }
 
             response.setStatus(HttpServletResponse.SC_OK);
@@ -61,6 +76,14 @@ public class ActaPartidoControlador extends HttpServlet {
     }
 
     @Override
+    /**
+     * Recupera la lista de todas las actas de partidos en formato JSON.
+     * 
+     * @param request La solicitud HTTP.
+     * @param response La respuesta HTTP con la lista en JSON.
+     * @throws ServletException Si ocurre un error durante la ejecución del servlet.
+     * @throws IOException Si ocurre un error al leer o escribir datos.
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -77,6 +100,14 @@ public class ActaPartidoControlador extends HttpServlet {
     }
 
     @Override
+    /**
+     * Elimina un acta de partido por su ID.
+     * 
+     * @param request La solicitud HTTP que contiene el ID del acta a eliminar.
+     * @param response La respuesta HTTP con el resultado de la eliminación.
+     * @throws ServletException Si ocurre un error durante la ejecución del servlet.
+     * @throws IOException Si ocurre un error al leer o escribir datos.
+     */
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {

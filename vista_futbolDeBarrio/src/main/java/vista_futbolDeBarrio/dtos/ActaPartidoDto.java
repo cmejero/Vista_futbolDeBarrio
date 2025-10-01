@@ -2,6 +2,9 @@ package vista_futbolDeBarrio.dtos;
 
 import java.util.List;
 
+/**
+ * Clase que se encarga de los campos del Acta partido
+ */
 public class ActaPartidoDto {
 
 	private Long idActaPartido;

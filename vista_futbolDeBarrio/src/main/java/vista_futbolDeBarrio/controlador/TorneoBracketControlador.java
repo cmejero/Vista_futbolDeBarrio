@@ -20,6 +20,10 @@ import vista_futbolDeBarrio.servicios.PartidoTorneoServicio;
 import vista_futbolDeBarrio.servicios.TorneoServicio;
 
 @WebServlet("/torneo/bracket")
+/**
+ * Controlador que gestiona el bracket de un torneo: listado de partidos por ronda
+ * y avance de ganadores en el torneo.
+ */
 public class TorneoBracketControlador extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -27,15 +31,26 @@ public class TorneoBracketControlador extends HttpServlet {
     private PartidoTorneoServicio partidoServicio;
 
     @Override
+    /**
+     * Inicializa los servicios de torneo y partidos de torneo.
+     * 
+     * @throws ServletException Si ocurre un error durante la inicialización.
+     */
     public void init() throws ServletException {
         torneoServicio = new TorneoServicio();
         partidoServicio = new PartidoTorneoServicio();
     }
 
-    // ==========================
-    // LISTAR PARTIDOS DE UN TORNEO (Bracket)
-    // ==========================
     @Override
+    /**
+     * Obtiene el bracket completo de un torneo en formato JSON.
+     * Incluye todas las rondas: octavos, cuartos, semifinales, final y tercer puesto.
+     * 
+     * @param request La solicitud HTTP que debe incluir el parámetro "torneoId".
+     * @param response La respuesta HTTP con los datos del bracket en JSON.
+     * @throws ServletException Si ocurre un error durante la ejecución del servlet.
+     * @throws IOException Si ocurre un error al leer o escribir datos.
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -63,7 +78,6 @@ public class TorneoBracketControlador extends HttpServlet {
 
             Map<String, Object> resp = new LinkedHashMap<>();
 
-            // Obtener datos del torneo
             try {
                 resp.put("torneo", torneoServicio.obtenerTorneo(torneoId));
             } catch (Exception e) {
@@ -73,7 +87,6 @@ public class TorneoBracketControlador extends HttpServlet {
                 return;
             }
 
-            // Rondas y cantidad esperada de partidos
             String[] rondas = {"octavos", "cuartos", "semifinal", "partidoFinal", "tercerpuesto"};
             int[] expected = {8, 4, 2, 1, 1};
 
@@ -83,16 +96,13 @@ public class TorneoBracketControlador extends HttpServlet {
 
                 List<PartidoTorneoDto> partidos = partidoServicio.obtenerPartidosPorRonda(torneoId, ronda);
 
-                // Completar con placeholders si faltan partidos
                 while (partidos.size() < expCount) partidos.add(new PartidoTorneoDto());
 
-                // Ordenar por ubicacionRonda para que el HTML muestre correctamente
                 Collections.sort(partidos, Comparator.comparingInt(p -> p.getUbicacionRonda()));
 
                 resp.put(ronda, partidos);
             }
 
-            // Devolver JSON
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(new Gson().toJson(resp));
@@ -104,10 +114,15 @@ public class TorneoBracketControlador extends HttpServlet {
         }
     }
 
-    // ==========================
-    // REGISTRAR RESULTADO / AVANZAR GANADOR
-    // ==========================
     @Override
+    /**
+     * Registra el resultado de un partido y avanza al ganador en el bracket.
+     * 
+     * @param request La solicitud HTTP con parámetros "partidoId" y "ganadorId".
+     * @param response La respuesta HTTP indicando si la operación fue exitosa.
+     * @throws ServletException Si ocurre un error durante la ejecución del servlet.
+     * @throws IOException Si ocurre un error al leer o escribir datos.
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -143,7 +158,6 @@ public class TorneoBracketControlador extends HttpServlet {
                 return;
             }
 
-            // Avanzar ganador
             torneoServicio.avanzarGanador(partido, ganadorId, partidoServicio);
 
             response.setStatus(HttpServletResponse.SC_OK);

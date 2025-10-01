@@ -14,12 +14,18 @@ import vista_futbolDeBarrio.dtos.ActaPartidoDto;
 import vista_futbolDeBarrio.dtos.EventoPartidoDto;
 import vista_futbolDeBarrio.log.Log;
 
+/**
+ * Clase que se encarga de la lógica de los métodos CRUD de ActaPartido.
+ */
 public class ActaPartidoServicio {
-
-    private EventoPartidoServicio eventoServicio = new EventoPartidoServicio();
 
     // ------------------------- CRUD Acta -------------------------
 
+    /**
+     * Obtiene la lista de todas las actas de partidos del sistema.
+     * 
+     * @return Lista de objetos ActaPartidoDto con los datos de cada acta.
+     */
     public ArrayList<ActaPartidoDto> listaActaPartido() {
         ArrayList<ActaPartidoDto> lista = new ArrayList<>();
         try {
@@ -34,7 +40,6 @@ public class ActaPartidoServicio {
                 in.close();
 
                 JSONArray jsonArray = new JSONArray(response.toString());
-               
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonActa = jsonArray.getJSONObject(i);
@@ -62,9 +67,13 @@ public class ActaPartidoServicio {
         }
         return lista;
     }
-    
-    
 
+    /**
+     * Guarda un nuevo acta de partido en el sistema.
+     * 
+     * @param acta Objeto ActaPartidoDto con los datos del acta a guardar.
+     * @return ID del acta guardada si la operación fue exitosa, null en caso contrario.
+     */
     public Long guardarActaPartido(ActaPartidoDto acta) {
         try {
             JSONObject jsonActa = mapearActaAJSON(acta);
@@ -77,9 +86,15 @@ public class ActaPartidoServicio {
 
             if (conex.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
-                Long idActa = Long.parseLong(in.readLine());
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = in.readLine()) != null) {
+                    response.append(line);
+                }
                 in.close();
-                return idActa;
+
+                JSONObject jsonResponse = new JSONObject(response.toString());
+                return jsonResponse.getLong("idActaPartido");
             }
 
         } catch (Exception e) {
@@ -89,7 +104,13 @@ public class ActaPartidoServicio {
         return null;
     }
 
-
+    /**
+     * Modifica los datos de un acta de partido existente.
+     * 
+     * @param idActa ID del acta que se desea modificar.
+     * @param acta Objeto ActaPartidoDto con los nuevos datos.
+     * @return true si la modificación fue exitosa, false en caso contrario.
+     */
     public boolean modificarActaPartido(Long idActa, ActaPartidoDto acta) {
         try {
             JSONObject jsonActa = mapearActaAJSON(acta);
@@ -111,14 +132,14 @@ public class ActaPartidoServicio {
         }
     }
 
-
+    /**
+     * Elimina un acta de partido del sistema.
+     * 
+     * @param idActa ID del acta que se desea eliminar.
+     * @return true si la eliminación fue exitosa, false en caso contrario.
+     */
     public boolean eliminarActaPartido(Long idActa) {
         try {
-            ArrayList<EventoPartidoDto> eventos = eventoServicio.listaEventosPorActa(idActa);
-            for (EventoPartidoDto evento : eventos) {
-                eventoServicio.eliminarEventoPartido(evento);
-            }
-
             String urlApi = "http://localhost:9527/api/eliminarActaPartido/" + idActa;
             HttpURLConnection conex = crearConexion(urlApi, "DELETE");
             return conex.getResponseCode() == HttpURLConnection.HTTP_OK;
@@ -132,6 +153,14 @@ public class ActaPartidoServicio {
 
     // ------------------------- Utilidades -------------------------
 
+    /**
+     * Crea una conexión HTTP con el método y la URL indicados.
+     * 
+     * @param urlApi URL del servicio web.
+     * @param metodo Método HTTP (GET, POST, PUT, DELETE).
+     * @return HttpURLConnection configurada.
+     * @throws Exception En caso de error al abrir la conexión.
+     */
     private HttpURLConnection crearConexion(String urlApi, String metodo) throws Exception {
         URL url = new URL(urlApi);
         HttpURLConnection conex = (HttpURLConnection) url.openConnection();
@@ -141,6 +170,12 @@ public class ActaPartidoServicio {
         return conex;
     }
 
+    /**
+     * Convierte un objeto ActaPartidoDto a JSONObject para enviarlo al servicio.
+     * 
+     * @param acta Objeto ActaPartidoDto a mapear.
+     * @return JSONObject con los datos del acta.
+     */
     private JSONObject mapearActaAJSON(ActaPartidoDto acta) {
         JSONObject json = new JSONObject();
         json.put("torneoId", acta.getTorneoId());
@@ -177,6 +212,12 @@ public class ActaPartidoServicio {
         return json;
     }
 
+    /**
+     * Marca un acta de partido como cerrada.
+     * 
+     * @param idPartido ID del partido cuyo acta se desea cerrar.
+     * @return true si el acta fue cerrada correctamente, false en caso contrario.
+     */
     public boolean cerrarActa(Long idPartido) {
         try {
             String urlApi = "http://localhost:9527/api/cerrarActa/" + idPartido;
@@ -186,6 +227,5 @@ public class ActaPartidoServicio {
             Log.ficheroLog("Error cerrando acta del partido: " + e.getMessage());
             return false;
         }
-    
     }
 }

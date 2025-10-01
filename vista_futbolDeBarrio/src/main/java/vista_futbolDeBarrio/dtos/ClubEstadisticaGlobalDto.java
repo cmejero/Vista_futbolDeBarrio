@@ -1,5 +1,8 @@
 package vista_futbolDeBarrio.dtos;
 
+/**
+ * Clase que se encarga de los campos de la estadisiticas globales del club
+ */
 public class ClubEstadisticaGlobalDto {
 	  private Long idGlobal;
 	    private Long clubGlobalId;
