@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vista_futbolDeBarrio.dtos.PartidoTorneoDto;
 import vista_futbolDeBarrio.log.Log;
+import vista_futbolDeBarrio.servicios.EquipoTorneoServicio;
 import vista_futbolDeBarrio.servicios.PartidoTorneoServicio;
 import vista_futbolDeBarrio.servicios.TorneoServicio;
 
@@ -29,6 +30,7 @@ public class TorneoBracketControlador extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private TorneoServicio torneoServicio;
     private PartidoTorneoServicio partidoServicio;
+    private EquipoTorneoServicio equipoTorneoServicio;
 
     @Override
     /**
@@ -123,28 +125,33 @@ public class TorneoBracketControlador extends HttpServlet {
      * @throws ServletException Si ocurre un error durante la ejecución del servlet.
      * @throws IOException Si ocurre un error al leer o escribir datos.
      */
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	  Log.ficheroLog("doPost /torneo/bracket recibido");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
         try {
             String partidoIdParam = request.getParameter("partidoId");
             String ganadorIdParam = request.getParameter("ganadorId");
 
-            if (partidoIdParam == null || partidoIdParam.isEmpty() ||
-                ganadorIdParam == null || ganadorIdParam.isEmpty()) {
+            Log.ficheroLog("POST /torneo/bracket recibido: partidoId=" + partidoIdParam + ", ganadorId=" + ganadorIdParam);
+
+            if (partidoIdParam == null || ganadorIdParam == null) {
+                Map<String, String> error = Map.of("error", "Parámetros partidoId o ganadorId no proporcionados");
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.getWriter().write("{\"error\": \"Parámetros partidoId o ganadorId no proporcionados\"}");
+                response.getWriter().write(new Gson().toJson(error));
+                Log.ficheroLog("⚠️ POST /torneo/bracket falló: parámetros no proporcionados");
                 return;
             }
 
-            Long partidoId, ganadorId;
-            try {
-                partidoId = Long.parseLong(partidoIdParam);
-                ganadorId = Long.parseLong(ganadorIdParam);
-            } catch (NumberFormatException e) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.getWriter().write("{\"error\": \"partidoId o ganadorId inválidos\"}");
-                return;
+            Long partidoId = Long.parseLong(partidoIdParam);
+            Long ganadorId = Long.parseLong(ganadorIdParam);
+
+            if (equipoTorneoServicio == null) {
+                Log.ficheroLog("⚠️ equipoTorneoServicio es null, inicializando...");
+                equipoTorneoServicio = new EquipoTorneoServicio();
             }
 
             PartidoTorneoDto partido = partidoServicio.listaPartidos().stream()
@@ -153,20 +160,30 @@ public class TorneoBracketControlador extends HttpServlet {
                     .orElse(null);
 
             if (partido == null) {
+                Map<String, String> error = Map.of("error", "Partido no encontrado");
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                response.getWriter().write("{\"error\": \"Partido no encontrado\"}");
+                response.getWriter().write(new Gson().toJson(error));
+                Log.ficheroLog("⚠️ Partido no encontrado para id=" + partidoId);
                 return;
             }
 
-            torneoServicio.avanzarGanador(partido, ganadorId, partidoServicio);
+            Log.ficheroLog("✅ Partido encontrado, avanzando ganador...");
 
+            // Llamada al método con logs internos
+            torneoServicio.avanzarGanador(partido, ganadorId, partidoServicio, equipoTorneoServicio, torneoServicio);
+
+            Map<String, String> mensaje = Map.of("mensaje", "Resultado registrado y ganador avanzado");
             response.setStatus(HttpServletResponse.SC_OK);
-            response.getWriter().write("{\"mensaje\": \"Resultado registrado correctamente\"}");
+            response.getWriter().write(new Gson().toJson(mensaje));
 
         } catch (Exception e) {
-            Log.ficheroLog("Error en POST /torneo/bracket: " + e.getMessage());
+            Log.ficheroLog("❌ Error en POST /torneo/bracket: " + e.getMessage());
+            Map<String, String> error = Map.of("error", "Error al registrar el resultado: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("{\"error\": \"Error al registrar el resultado: " + e.getMessage() + "\"}");
+            response.getWriter().write(new Gson().toJson(error));
         }
     }
+
+
+
 }

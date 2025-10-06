@@ -29,6 +29,8 @@ public class PartidoTorneoDto {
 	    private String nombreInstalacion;
 	    private List<UsuarioDto> jugadoresLocal;
 	    private List<UsuarioDto> jugadoresVisitante;
+	    private Long equipoGanadorId;
+	    private boolean actaCerrada;
     
 
     public PartidoTorneoDto() {
@@ -211,6 +213,23 @@ public class PartidoTorneoDto {
 
 	public void setJugadoresVisitante(List<UsuarioDto> jugadoresVisitante) {
 		this.jugadoresVisitante = jugadoresVisitante;
+	}
+	
+
+	public Long getEquipoGanadorId() {
+		return equipoGanadorId;
+	}
+
+	public void setEquipoGanadorId(Long equipoGanadorId) {
+		this.equipoGanadorId = equipoGanadorId;
+	}
+
+	public boolean isActaCerrada() {
+		return actaCerrada;
+	}
+
+	public void setActaCerrada(boolean actaCerrada) {
+		this.actaCerrada = actaCerrada;
 	}
 
 	

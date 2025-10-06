@@ -402,8 +402,8 @@ Long instalacionId = (Long) session.getAttribute("instalacionId");
 									class="d-flex justify-content-between align-items-center mb-3">
 									<div class="col-md-11 col-sm-12 col-12 mx-auto   m-1"
 										style="display: flex; align-items: center; gap: 10px;">
-										<button id="volverAContenidoC" class=" mr-auto botonFiltrar"
-											style="background-color: red">Volver</button>
+										<button id="volverAContenidoC" class=" mr-auto botonVolver" style= "margin-right:2.5vw"
+											>Volver</button>
 										<button id="mostrarFiltrosTorneo"
 											class=" mr-auto botonFiltrar" style="background-color: black">Mostrar
 											Filtros</button>

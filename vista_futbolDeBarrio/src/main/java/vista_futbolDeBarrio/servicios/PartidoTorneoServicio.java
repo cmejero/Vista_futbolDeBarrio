@@ -147,13 +147,21 @@ public class PartidoTorneoServicio {
                 }
 
                 JSONObject jsonRespuesta = new JSONObject(respuesta.toString());
-                Long idPartido = jsonRespuesta.optLong("idPartidoTorneo", -1);
+                
+                // Aquí cogemos el ID correcto según lo que devuelve la API
+                Long idPartido = null;
+                if (jsonRespuesta.has("idPartidoTorneo")) {
+                    idPartido = jsonRespuesta.optLong("idPartidoTorneo", -1);
+                } else if (jsonRespuesta.has("id")) {
+                    idPartido = jsonRespuesta.optLong("id", -1);
+                }
 
-                if (idPartido != -1) {
+                if (idPartido != null && idPartido != -1) {
                     partido.setIdPartidoTorneo(idPartido);
+                    System.out.println("✅ Partido guardado con ID: " + idPartido);
                     return idPartido;
                 } else {
-                    System.err.println("No se recibió ID del partido en la respuesta");
+                    System.err.println("⚠️ No se recibió ID del partido en la respuesta");
                     return null;
                 }
             }
@@ -309,12 +317,18 @@ public class PartidoTorneoServicio {
             }
             partido.setJugadoresVisitante(listaVisitante);
         }
+        
+        partido.setEquipoGanadorId(
+        	    (json.has("equipoGanadorId") && !json.isNull("equipoGanadorId")) ? 
+        	        json.optLong("equipoGanadorId") : null
+        	);
 
+        partido.setActaCerrada(json.optBoolean("actaCerrada"));
         return partido;
     }
 
     /**
-     * Convierte un objeto PartidoTorneoDto a JSONObject para enviarlo al servicio.
+     * Convierte un objeto PartidoTorneoDto a JSONObject para enviarlo.
      * 
      * @param partido Objeto PartidoTorneoDto a mapear.
      * @return JSONObject con los datos del partido.

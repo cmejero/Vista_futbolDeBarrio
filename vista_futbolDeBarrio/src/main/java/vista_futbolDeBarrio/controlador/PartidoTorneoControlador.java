@@ -2,6 +2,10 @@ package vista_futbolDeBarrio.controlador;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -12,8 +16,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import vista_futbolDeBarrio.dtos.PartidoTorneoDto;
-import vista_futbolDeBarrio.servicios.PartidoTorneoServicio;
 import vista_futbolDeBarrio.log.Log;
+import vista_futbolDeBarrio.servicios.PartidoTorneoServicio;
 
 @WebServlet("/partidoTorneo")
 /**
@@ -152,4 +156,6 @@ public class PartidoTorneoControlador extends HttpServlet {
             response.getWriter().write("Error en el servidor: " + e.getMessage());
         }
     }
+    
+   
 }

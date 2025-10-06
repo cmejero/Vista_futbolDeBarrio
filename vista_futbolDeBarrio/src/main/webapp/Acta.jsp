@@ -164,14 +164,14 @@ PartidoTorneoDto partido = partidoTorneoServicio.obtenerPartidoPorId(partidoId);
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="Instalacion.jsp" class="letraCabeceraAbajo"
-												>INICIO</a>
+											<a href="Instalacion.jsp" class="letraCabeceraAbajo">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo">RESERVAS</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo" style="color: #d4af37;">EVENTOS</a>
+											<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo"
+												style="color: #d4af37;">EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -408,6 +408,15 @@ button.add-btn {
 		<div class="container col-10 mt-4 mb-5 letraActa"
 			style="background-color: white; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
 			<div class="row justify-content-center">
+				<!-- Botón Volver -->
+				<div style="margin-top: 1.5vw;">
+					<button type="button" class="btn botonVolver"  
+						onclick="window.location.href='TorneoInstalacion.jsp?id=<%= partido.getTorneoId() %>';">
+						Volver</button>
+
+
+				</div>
+
 				<div class="col-10 p-4">
 					<h1 class="text-center mb-4">ACTA DEL PARTIDO</h1>
 
@@ -498,7 +507,8 @@ button.add-btn {
 								</tbody>
 							</table>
 							<button type="button" class="btn " onclick="agregarEvento()"
-								style="margin-top: 1vw; font-size:1.1vw; background-color: #004000;">Añadir Evento</button>
+								style="margin-top: 1vw; font-size: 1.1vw; background-color: #004000;">Añadir
+								Evento</button>
 						</div>
 
 
@@ -510,7 +520,8 @@ button.add-btn {
 						</div>
 
 						<!-- Botón Guardar -->
-						<button type="submit" class="btn botonRegistrarCabecera">Guardar Acta</button>
+						<button type="submit" class="btn botonRegistrarCabecera">Guardar
+							Acta</button>
 
 
 

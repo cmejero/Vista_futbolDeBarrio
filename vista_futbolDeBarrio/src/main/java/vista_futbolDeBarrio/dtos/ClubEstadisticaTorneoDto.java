@@ -14,6 +14,8 @@ public class ClubEstadisticaTorneoDto {
     private int perdidos;
     private int golesFavor;
     private int golesContra;
+    private String nombreClub;
+    private String abreviaturaClub;
     
     
 	public Long getIdEstadisticaTorneo() {
@@ -70,4 +72,18 @@ public class ClubEstadisticaTorneoDto {
 	public void setGolesContra(int golesContra) {
 		this.golesContra = golesContra;
 	}
+	public String getNombreClub() {
+		return nombreClub;
+	}
+	public void setNombreClub(String nombreClub) {
+		this.nombreClub = nombreClub;
+	}
+	public String getAbreviaturaClub() {
+		return abreviaturaClub;
+	}
+	public void setAbreviaturaClub(String abreviaturaClub) {
+		this.abreviaturaClub = abreviaturaClub;
+	}
+	
+	
 }
