@@ -1,0 +1,2074 @@
+@charset "UTF-8";
+
+html,
+body {
+
+	margin: 0;
+	display: flex;
+	/* Esto asegura que el contenido se estire en todo el alto de la ventana */
+	flex-direction: column;
+	min-height: 100vh;
+
+
+}
+
+main {
+
+	background-color: rgba(223, 234, 213, 0.5);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	flex-grow: 1;
+	text-align: center;
+	padding: 2vw;
+	margin-top: 10%;
+
+}
+
+footer {
+	background-color: #282828;
+	color: white;
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1.2vw;
+	border-top: 2px solid black;
+	width: 100%;
+	position: relative;
+	z-index: 9999;
+	padding: 1.5vw 0;
+}
+
+
+/* CABECERA */
+.cabeceraArriba {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1vw;
+	;
+	color: black;
+	background-color: #43a624;
+	text-align: center;
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.logo img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.logo {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+button.botonCabeceraContactar {
+	width: 100%;
+	font-size: 0.9vw;
+	border-radius: 15px;
+	background-color: #004000;
+	color: white;
+	border: 1px solid #d1d1d1;
+	text-decoration: none;
+}
+
+button.botonCabeceraContactar:hover {
+	background-color: #1c0101;
+	border: 1px solid #004000
+}
+
+.cabeceraMedioTitulo {
+	font-family: 'Open Sans', sans-serif;
+	font-style: italic;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 3.4vw;
+	color: black;
+	background-color: white;
+	text-align: center;
+	font-weight: bold;
+}
+
+.cabeceraMedioTituloX {
+	font-family: 'Open Sans', sans-serif;
+	font-style: italic;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 4vw;
+	color: black;
+	background-color: white;
+	text-align: center;
+	font-weight: bold;
+}
+
+.cabeceraMedio {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.08vw;
+	color: #1d6212;
+	background-color: white;
+	text-align: center;
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.letraCabeceraMedio {
+	text-decoration: none;
+	color: #1d6212;
+}
+
+.letraCabeceraMedio:hover {
+	color: black;
+}
+
+button.botonRegistrarCabecera {
+	--bs-btn-padding-y: 1.5px;
+	--bs-btn-padding-x: 9px;
+	--bs-btn-font-size: 70%;
+	border-radius: 3px;
+	background-color: #99ff34;
+	color: black;
+	font-weight: bold;
+	border: 1px solid #000000;
+	font-size: 1.4vw;
+	transition: background-color 0.3s ease;
+	box-shadow: 5px 4px 8px rgba(0, 0, 0, 0.55);
+}
+
+button.botonRegistrarCabecera:hover {
+	background-color: #d9ffb4;
+	color: black;
+}
+
+
+button.botonPremiumCabecera {
+	border-radius: 5px;
+	background-color: #d4af37;
+	/* dorado */
+	color: #000;
+	font-weight: bold;
+	border: 1px solid #bfa23b;
+	font-size: 1.2vw;
+	transition: all 0.3s ease;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+button.botonPremiumCabecera:hover {
+	background-color: #f1c40f;
+	color: #000;
+	transform: scale(1.05);
+}
+
+
+button.botonRegistrarCabecera:active {
+	background-color: #004000;
+	color: white;
+}
+
+.cabeceraAbajo {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.63vw;
+	color: white;
+	background-color: #004000;
+	text-align: center;
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.cabeceraAbajoBusqueda {
+	display: flex;
+	align-items: center;
+	justify-content: right;
+	color: white;
+	background-color: #004000;
+	text-align: center;
+	font-weight: bold;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.letraCabeceraAbajo {
+	text-decoration: none;
+	font-family: 'Open Sans', sans-serif;
+	color: white;
+}
+
+.letraCabeceraAbajo:hover {
+	color: #d1d1d1;
+}
+
+
+
+
+/* INDEX */
+
+.carousel-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+
+}
+
+.carouselCMR {
+	width: 100%;
+
+
+}
+
+
+.carousel-inner img {
+	width: 100%;
+	/* Asegura que las imágenes ocupen todo el ancho de su contenedor */
+	height: 40vw;
+	/* Mantiene la proporción de las imágenes */
+}
+
+/* Estilo de los indicadores del carrusel (puntos) */
+.carousel-indicators button {
+	background-color: #fff;
+	/* Color blanco para los puntos */
+	border-color: #fff;
+	/* Sin bordes visibles */
+}
+
+.carousel-indicators .active {
+	background-color: #1abc5b;
+	/* Color verde brillante para el punto activo */
+}
+
+/* Estilo de las flechas de navegación */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+	background-color: #1abc5b;
+	/* Flechas de color verde */
+	width: 2vw;
+	/* Ajuste del tamaño de las flechas */
+	height: 2vw;
+	border-radius: 50%;
+}
+
+/* Estilo de las flechas al pasar el cursor */
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+	background-color: rgba(0, 0, 0, 0.1);
+	/* Cambio al pasar el ratón */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+	width: 2.5vw;
+	height: 2.5vw;
+}
+
+
+/* ADMINISTRADOR */
+.tablasAdmin-container {
+	width: 100%;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+/* ===================================
+   TABLAS ADMIN - ESTILO BASE GENÉRICO
+=================================== */
+
+.tablaAdmin {
+	background-color: #fff;
+	border-radius: 1vw;
+	box-shadow: 0 0.4vw 0.8vw rgba(0, 0, 0, 0.25);
+	border-collapse: collapse;
+	width: 100%;
+	margin: 0 auto;
+	overflow-x: auto;
+}
+
+/* Cabecera */
+.tablaAdmin__head {
+	color: #fff;
+	text-transform: uppercase;
+}
+
+.tablaAdmin__head th {
+	padding: 0.8vw;
+	font-size: 1.2vw;
+	font-weight: 700;
+	letter-spacing: 0.03em;
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+}
+
+/* Filas y celdas */
+.tablaAdmin td {
+	padding: 0.7vw;
+	text-align: center;
+	vertical-align: middle;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	font-size: 1.05vw;
+	color: #111;
+}
+
+/* Fila impar/par */
+.tablaAdmin tr:nth-child(odd) td {
+	background-color: #ffffff;
+}
+
+.tablaAdmin tr:nth-child(even) td {
+	background-color: #e0e0e0;
+	/* gris más contrastado */
+}
+
+/* Hover (definido por tema) */
+.tablaAdmin tr:hover td {
+	transition: background 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+}
+
+/* Imagen dentro de tabla */
+.tablaAdmin__img {
+	width: 100%;
+	height: 100%;
+	box-shadow: 0 0.2vw 0.6vw rgba(0, 0, 0, 0.25);
+}
+
+/* Columna de opciones */
+.tablaAdmin__opciones {
+	text-align: center;
+	vertical-align: middle;
+	padding: 0.7vw 0;
+}
+
+.tablaAdmin__acciones {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.8vw;
+}
+
+/* Botones base */
+.tablaAdmin__btn {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	width: 2.2vw;
+	height: 2.2vw;
+	border-radius: 0.5vw;
+	border: none;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	background-color: #fff;
+	box-shadow: 0 0.1vw 0.4vw rgba(0, 0, 0, 0.2);
+}
+
+/* Iconos dentro de botones */
+.tablaAdmin__btn i {
+	font-size: 1.2vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Hover general botones */
+.tablaAdmin__btn:hover i {
+	transform: scale(1.1);
+	transition: transform 0.2s ease-in-out;
+}
+
+/* ===================================
+   TEMAS DE TABLA
+=================================== */
+
+/* 🔴 USUARIOS */
+.tablaAdmin--usuarios .tablaAdmin__head {
+	background: linear-gradient(90deg, #c33214, #8a210b);
+}
+
+.tablaAdmin--usuarios tr:hover td {
+	background-color: #ffb9a7;
+	box-shadow: inset 0 0 0 9999px rgba(195, 50, 20, 0.15);
+}
+
+.tablaAdmin--usuarios .tablaAdmin__btn--eliminar i {
+	color: #c33214;
+}
+
+.tablaAdmin--usuarios .tablaAdmin__btn--eliminar:hover {
+	background-color: #ffebe8;
+	transform: scale(1.05);
+}
+
+.tablaAdmin--usuarios .tablaAdmin__btn--editar i {
+	color: #d4af37;
+}
+
+/* 🟢 INSTALACIONES */
+.tablaAdmin--instalaciones .tablaAdmin__head {
+	background: linear-gradient(90deg, #2e8b2e, #1b601b);
+}
+
+.tablaAdmin--instalaciones tr:hover td {
+	background-color: #b0e8b0;
+	box-shadow: inset 0 0 0 9999px rgba(46, 139, 46, 0.15);
+}
+
+.tablaAdmin--instalaciones .tablaAdmin__btn--eliminar i {
+	color: #c33214;
+}
+
+.tablaAdmin--instalaciones .tablaAdmin__btn--eliminar:hover {
+	background-color: #e5f6e5;
+	transform: scale(1.05);
+}
+
+.tablaAdmin--instalaciones .tablaAdmin__btn--editar i {
+	color: #d4af37;
+}
+
+/* 🔵 CLUBES */
+.tablaAdmin--clubes .tablaAdmin__head {
+	background: linear-gradient(90deg, #2783b8, #0d6ba1);
+}
+
+.tablaAdmin--clubes tr:hover td {
+	background-color: #b8e2ff;
+	box-shadow: inset 0 0 0 9999px rgba(39, 131, 184, 0.15);
+}
+
+.tablaAdmin--clubes .tablaAdmin__btn--eliminar i {
+	color: #c33214;
+}
+
+.tablaAdmin--clubes .tablaAdmin__btn--editar i {
+	color: #d4af37;
+}
+
+/* ===================================
+   RESPONSIVE IGUAL QUE CSS ALTAR
+=================================== */
+
+/* 📱 Pequeños dispositivos (móviles <768px) */
+@media (max-width: 767px) {
+	.tablaAdmin {
+		border-radius: 2vw;
+		box-shadow: 0 0.6vw 1.2vw rgba(0, 0, 0, 0.15);
+	}
+
+	.tablaAdmin__head th {
+		font-size: 2.2vw;
+		padding: 1.2vw 0.8vw;
+	}
+
+	.tablaAdmin td {
+		font-size: 1.6vw;
+		padding: 1.2vw 0.8vw;
+	}
+
+	.tablaAdmin__img {
+		width: 8vw;
+		height: 8vw;
+	}
+
+	.tablaAdmin__btn {
+		width: 4vw;
+		height: 4vw;
+	}
+
+	.tablaAdmin__btn i {
+		font-size: 2vw;
+	}
+
+	.tablaAdmin__acciones {
+		gap: 2vw;
+	}
+}
+
+/* 💻 Tablets medianas (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+	.tablaAdmin__head th {
+		font-size: 1.8vw;
+		padding: 1vw 0.7vw;
+	}
+
+	.tablaAdmin td {
+		font-size: 1.6vw;
+		padding: 1vw 0.7vw;
+	}
+
+	.tablaAdmin__img {
+		width: 4.8vw;
+		height: 4.8vw;
+	}
+
+	.tablaAdmin__btn {
+		width: 3.5vw;
+		height: 3.5vw;
+	}
+
+	.tablaAdmin__btn i {
+		font-size: 1.5vw;
+	}
+
+	.tablaAdmin__acciones {
+		gap: 1.5vw;
+	}
+}
+
+/* 🖥️ Escritorios grandes (>992px) */
+@media (min-width: 992px) {
+	.tablaAdmin {
+		max-width: 100%;
+	}
+
+	.tablaAdmin__head th {
+		font-size: 1.2vw;
+	}
+
+	.tablaAdmin td {
+		font-size: 1.05vw;
+	}
+
+	.tablaAdmin__img {
+		width: 2.6vw;
+		height: 2.6vw;
+	}
+
+	.tablaAdmin__btn {
+		width: 2.2vw;
+		height: 2.2vw;
+	}
+}
+
+
+.botonFiltrar {
+	background-color: #2c2c2c;
+	border: 0.15vw solid #008f00;
+	color: white;
+	box-shadow: 0vw 0.4vw 0.8vw rgba(0, 64, 0, 0.6), 0vw -0.4vw 0.8vw rgba(0, 64, 0, 0.15);
+	font-size: 1.2vw;
+	width: 10.5vw;
+	height: 2.5vw;
+	cursor: pointer;
+	border-radius: 0.5vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* centrado vertical */
+	transition: all 0.3s ease;
+}
+
+.botonFiltrar:hover {
+	background-color: #3d3d3d;
+	transform: scale(1.05);
+}
+
+
+
+
+.contenedorPaginacion {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1vw;
+	margin-top: 1.5vw;
+}
+
+.filaFiltrar {
+	display: none;
+	background-color: #373737;
+	border: 0.15vw solid #008f00;
+	color: white;
+	box-shadow: 0vw 0.4vw 0.8vw rgba(0, 64, 0, 0.7), 0vw -0.4vw 0.8vw rgba(0, 64, 0, 0.15);
+	height: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 1vw;
+	padding: 0.5vw;
+	margin-bottom: 0.8vw;
+}
+
+.labelFiltrar {
+	font-size: 1vw;
+	display: flex;
+	align-items: center;
+	margin-bottom: 0;
+	border-radius: 0.5vw;
+	white-space: nowrap;
+}
+
+.inputFiltrar {
+	font-size: 1vw;
+	border: 0.1vw solid #008f00;
+	border-radius: 0.5vw;
+	text-align: center;
+	width: 22vw;
+	height: 1.8vw;
+	margin-top: 0.4vw;
+	margin-bottom: 0.5vw;
+}
+
+@media (max-width: 575.98px) {
+	.botonFiltrar {
+		font-size: 2vw;
+		width: 22vw;
+		height: auto;
+		border-radius: 2vw;
+		justify-content: center;
+	}
+
+	.filaFiltrar {
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 7vw;
+
+	}
+
+	.filtroItem {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		width: 20vw;
+	}
+
+
+	.labelFiltrar,
+	.inputFiltrar {
+		font-size: 1.5vw;
+		width: 20vw;
+		height: auto;
+	}
+
+	.contenedorPaginacion {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		gap: 2vw;
+		margin-top: 3vw;
+	}
+
+
+
+
+	#paginaActual {
+		font-size: 1.5vw !important;
+	}
+}
+
+#modalEditarClub {
+	z-index: 10000;
+	/* mayor que footer */
+}
+
+.modal-backdrop {
+	z-index: 9998;
+	/* para que el backdrop quede debajo del modal pero sobre footer */
+}
+
+#modalEditarUsuario {
+	z-index: 10000;
+	/* mayor que footer */
+}
+
+.modal-backdrop {
+	z-index: 9998;
+	/* para que el backdrop quede debajo del modal pero sobre footer */
+}
+
+#modalEditarInstalacion {
+	z-index: 10000;
+	/* mayor que footer */
+}
+
+.modal-backdrop {
+	z-index: 9998;
+	/* para que el backdrop quede debajo del modal pero sobre footer */
+}
+
+/* Escalar todo dentro del modal de Club */
+#modalEditarClub label,
+#modalEditarClub input,
+#modalEditarClub select,
+#modalEditarClub .btn,
+#modalEditarClub .modal-title {
+	font-size: 1rem;
+	/* tamaño base */
+}
+
+#modalEditarUsuario label,
+#modalEditarUsuario input,
+#modalEditarUsuario select,
+#modalEditarUsuario .btn,
+#modalEditarUsuario .modal-title {
+	font-size: 1rem;
+	/* tamaño base */
+}
+
+#modalEditarInstalacion label,
+#modalEditarInstalacion input,
+#modalEditarInstalacion select,
+#modalEditarInstalacion .btn,
+#modalEditarInstalacion .modal-title {
+	font-size: 1rem;
+	/* tamaño base */
+}
+
+/* Pantallas medianas (tablets) */
+@media (max-width: 991px) {
+
+	#modalEditarClub label,
+	#modalEditarClub input,
+	#modalEditarClub select,
+	#modalEditarClub .btn,
+	#modalEditarClub .modal-title {
+		font-size: 0.9rem;
+	}
+
+	#modalEditarUsuario label,
+	#modalEditarUsuario input,
+	#modalEditarUsuario select,
+	#modalEditarUsuario .btn,
+	#modalEditarUsuario .modal-title {
+		font-size: 0.9rem;
+		/* tamaño base */
+	}
+
+	#modalEditarInstalacion label,
+	#modalEditarInstalacion input,
+	#modalEditarInstalacion select,
+	#modalEditarInstalacion .btn,
+	#modalEditarInstalacion .modal-title {
+		font-size: 0.9rem;
+		/* tamaño base */
+	}
+}
+
+/* Pantallas pequeñas (móviles) */
+@media (max-width: 576px) {
+
+	#modalEditarClub label,
+	#modalEditarClub input,
+	#modalEditarClub select,
+	#modalEditarClub .btn,
+	#modalEditarClub .modal-title {
+		font-size: 0.8rem;
+	}
+
+	#modalEditarUsuario label,
+	#modalEditarUsuario input,
+	#modalEditarUsuario select,
+	#modalEditarUsuario .btn,
+	#modalEditarUsuario .modal-title {
+		font-size: 0.8rem;
+		/* tamaño base */
+	}
+
+	#modalEditarInstalacion label,
+	#modalEditarInstalacion input,
+	#modalEditarInstalacion select,
+	#modalEditarInstalacion .btn,
+	#modalEditarInstalacion .modal-title {
+		font-size: 0.8rem;
+		/* tamaño base */
+	}
+}
+
+
+
+/* REGISTRAR */
+.columnaBotonRegistrar {
+	display: flex;
+	justify-content: center;
+}
+
+button.botonSeleccion {
+	font-size: 1.1vw;
+	font-family: 'Open Sans', sans-serif;
+	color: black;
+	font-weight: bold;
+	border: 1.5px solid black;
+	border-radius: 3px;
+	font-style: italic;
+	margin-left: 0.8vw;
+	margin-right: 0.8vw;
+	background-color: #333333;
+	color: white;
+	border-radius: 10px;
+
+}
+
+button.botonSeleccionX {
+	font-size: 1.4vw;
+	font-family: 'Open Sans', sans-serif;
+	color: black;
+	font-weight: bold;
+	border: 1px solid black;
+	border-radius: 3px;
+	font-style: italic;
+	margin-left: 0.1vw;
+	margin-right: 0.1vw;
+	background-color: #333333;
+	color: white;
+	border-radius: 10px;
+
+}
+
+.botonSeleccion:hover {
+	transform: scale(1.1);
+}
+
+.registrarFormulario {
+	font-family: 'Open Sans', sans-serif;
+	margin-top: 1.5vw;
+	width: 100%;
+	font-size: 1.2vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: black;
+	font-weight: bold;
+	font-style: italic;
+}
+
+.tablaFormulario {
+	width: 100%;
+	margin-bottom: 1rem;
+	color: black;
+	background-color: #142800;
+}
+
+.tablaFormulario td,
+tr {
+	padding: 8px;
+	vertical-align: top;
+	border: 1.2px solid #eeeeee;
+	width: 50%;
+}
+
+.formularioLabel {
+	font-weight: bold;
+	font-size: 1.2vw;
+}
+
+
+/* Estilos generales responsivos */
+#modalEditarUsuario label,
+#modalEditarUsuario input,
+#modalEditarUsuario select {
+	font-size: 1.1vw;
+	/* Escalable */
+}
+
+@media (max-width: 991.98px) {
+
+	#modalEditarUsuario label,
+	#modalEditarUsuario input,
+	#modalEditarUsuario select {
+		font-size: 1.5vw;
+	}
+}
+
+@media (max-width: 767.98px) {
+
+	#modalEditarUsuario label,
+	#modalEditarUsuario input,
+	#modalEditarUsuario select {
+		font-size: 2.2vw;
+	}
+}
+
+@media (max-width: 575.98px) {
+
+	#modalEditarUsuario label,
+	#modalEditarUsuario input,
+	#modalEditarUsuario select {
+		font-size: 2.2vw;
+	}
+
+	.modal-dialog {
+		margin: 0.5rem;
+		/* Reduce los márgenes laterales */
+	}
+
+	.formularioLabel {
+		font-size: 1.8vw;
+	}
+
+	.registrarFormulario {
+		margin-top: 0.1vw;
+	}
+}
+
+#modalEditarUsuario td {
+	padding: 0.8vw;
+}
+
+@media (max-width: 991.98px) {
+	#modalEditarUsuario td {
+		padding: 1vw;
+	}
+}
+
+@media (max-width: 767.98px) {
+	#modalEditarUsuario td {
+		padding: 0.6vw;
+	}
+}
+
+@media (max-width: 575.98px) {
+	#modalEditarUsuario td {
+		padding: 0.4vw;
+	}
+}
+
+
+/* INICIO SESION */
+.formularioInicioSesion {
+	background-color: #e0e0e0;
+	padding: 1.8vw;
+	border-radius: 12px;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.65), 0px -4px 8px rgba(0, 0, 0, 0.15);
+	text-align: center;
+	width: 100%;
+	max-width: 28vw;
+}
+
+@media (max-width: 576px) {
+	.formularioInicioSesion {
+		max-width: 40vw;
+		padding: 4vw;
+
+	}
+
+	.campoFormulario,
+	.botonEnviarInicioSesion,
+	.botonInicioSesionGoogle {
+		font-size: 3vw;
+		padding: 2vw;
+		margin-top: 1vw;
+		/* Ajustar si hay mucho espacio entre elementos */
+	}
+
+	.botonEnviarInicioSesion,
+	.botonInicioSesionGoogle {
+		margin-top: 1vw;
+		/* Reduce el espacio entre botones */
+	}
+
+	.enlaceRegistroGoogle {
+		margin-top: 1vw;
+		/* También reducir el espacio final */
+		font-size: 2.5vw;
+	}
+}
+
+
+
+
+
+.etiquetaFormulario {
+	font-weight: bold;
+	display: block;
+	margin-bottom: 0.4vw;
+	text-align: left;
+	font-size: 1.15vw;
+}
+
+.campoFormulario {
+	width: 100%;
+	padding: 0.6vw;
+	border: 1px solid #818181;
+	border-radius: 6px;
+	font-size: 1vw;
+	margin-bottom: 0.6vw;
+}
+
+.contenedorContrasenia {
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+
+.botonMostrarContrasenia {
+	background: none;
+	border: none;
+	font-size: 1.2vw;
+	cursor: pointer;
+	position: absolute;
+	right: 1vw;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.recordarContrasenia {
+	display: flex;
+	align-items: center;
+	gap: 1vw;
+	font-size: 1vw;
+}
+
+.enlaceContraseniaOlvidada {
+	color: #007bff;
+	text-decoration: none;
+	font-size: 1vw;
+}
+
+.enlaceContraseniaOlvidada:hover {
+	text-decoration: underline;
+}
+
+.botonEnviarInicioSesion {
+	width: 100%;
+	padding: 0.8vw;
+	background-color: #333;
+	color: white;
+	border: none;
+	border-radius: 6px;
+	font-size: 1.2vw;
+	cursor: pointer;
+	margin-top: 0.5vw;
+}
+
+.botonEnviarInicioSesion:hover {
+	background-color: #555;
+}
+
+.botonInicioSesionGoogle {
+	width: 100%;
+	padding: 0.8vw;
+	background-color: #db4437;
+	color: white;
+	border: none;
+	border-radius: 6px;
+	font-size: 1.2vw;
+	cursor: pointer;
+	margin-top: 0.5vw;
+}
+
+.botonInicioSesionGoogle:hover {
+	background-color: #c1351d;
+}
+
+.enlaceRegistroGoogle {
+	margin-top: 1vw;
+	font-size: 1vw;
+}
+
+.enlaceRegistroGoogle a {
+	color: #007bff;
+	text-decoration: none;
+}
+
+.enlaceRegistroGoogle a:hover {
+	text-decoration: underline;
+}
+
+/* MARCADORES */
+
+
+.tablaDatosListaMarcadores {
+	width: 100%;
+	border-collapse: collapse;
+	background-color: #121212;
+	/* fondo más limpio y moderno */
+	color: #f0f0f0;
+	font-size: 1.15vw;
+	font-family: 'Open Sans', sans-serif;
+	border: 2px solid #004000;
+	/* combina con tu verde institucional */
+	box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.5);
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+
+
+.tablaDatosListaMarcadores th,
+.tablaDatosListaMarcadores td {
+	text-align: center;
+	padding: 0.7vw;
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.tablaDatosListaMarcadores th {
+	text-transform: uppercase;
+	font-size: 1.1vw;
+	font-weight: bold;
+	letter-spacing: 0.05em;
+}
+
+.tablaDatosListaMarcadores tr:nth-child(even) {
+	background-color: #1a1a1a;
+}
+
+.tablaDatosListaMarcadores tr:hover {
+	background-color: rgba(255, 255, 255, 0.08);
+}
+
+
+.tablaClubes thead {
+	background-color: #001a40;
+
+}
+
+.tablaClubes th {
+	border: 1.5px solid #0d6ba1;
+
+}
+
+.tablaClubes td {
+	border: 1.2px solid #0d6ba1;
+}
+
+.tablaClubes tr:hover {
+	background-color: rgba(13, 107, 161, 0.15);
+}
+
+
+.tablaJugadores thead {
+	background-color: #400000;
+}
+
+.tablaJugadores th {
+	border: 1.5px solid #a12525;
+}
+
+.tablaJugadores td {
+	border: 1.2px solid #661616;
+}
+
+.tablaJugadores tr:hover {
+	background-color: rgba(161, 37, 37, 0.15);
+}
+
+
+
+.paginacion {
+	display: flex;
+	justify-content: center;
+	gap: 0.5vw;
+	margin-top: 1vw;
+}
+
+.paginacion button {
+	background-color: #1e1e1e;
+	color: white;
+	border: 1px solid #444;
+	padding: 0.2vw 0.8vw;
+	border-radius: 0.4vw;
+	transition: all 0.3s ease;
+	font-size: 1.1vw;
+	margin-top: 1vw;
+}
+
+.infoPaginacion {
+	font-size: 1.1vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin-top: 1vw;
+}
+
+.paginacion button:hover {
+	background-color: rgb(52, 52, 52);
+	border-color: rgb(52, 52, 52);
+	color: black;
+}
+
+
+
+.tablaDatosListaMarcadores.tablaPremium,
+.table.table-striped.table-bordered {
+	width: 100%;
+	border-collapse: collapse;
+	background-color: #121212;
+	/* fondo oscuro consistente */
+	color: #f0f0f0;
+	font-size: 1.15vw;
+	font-family: 'Open Sans', sans-serif;
+	border: 2px solid #d4af37;
+	/* borde dorado premium */
+	box-shadow: 0 0.5vw 1vw rgba(212, 175, 55, 0.4);
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+.tablaDatosListaMarcadores.tablaPremium thead,
+.table.table-striped.table-bordered thead {
+	background-color: #2b1b00;
+	/* dorado oscuro / bronce */
+	color: #f8f8f8;
+}
+
+.tablaDatosListaMarcadores.tablaPremium th,
+.table.table-striped.table-bordered th {
+	border: 1.5px solid #d4af37;
+	text-transform: uppercase;
+	font-weight: bold;
+	letter-spacing: 0.05em;
+	text-align: center;
+	padding: 0.7vw;
+}
+
+
+.tablaDatosListaMarcadores.tablaPremium td,
+.table.table-striped.table-bordered td {
+	border: 1.2px solid #bfa23b;
+	text-align: center;
+	padding: 0.7vw;
+	color: #f0f0f0;
+}
+
+/* Filas alternas */
+.tablaDatosListaMarcadores.tablaPremium tr:nth-child(even),
+.table.table-striped.table-bordered tr:nth-child(even) {
+	background-color: #181818;
+}
+
+/* Hover */
+.tablaDatosListaMarcadores.tablaPremium tr:hover,
+.table.table-striped.table-bordered tr:hover {
+	background-color: rgba(212, 175, 55, 0.15);
+	transition: background-color 0.3s ease;
+}
+
+
+
+
+.imagenMarcadores {
+	width: 30vw;
+	height: 30vw;
+	margin-bottom: 1.5vw;
+	border: 1px solid #333333;
+}
+
+.imagenMarcadoresPremium {
+	width: 21vw;
+	height: 21vw;
+	margin-bottom: 1.5vw;
+	border: 1px solid #333333;
+}
+
+.botonMarcadores {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	/* Asegura que la imagen esté arriba y el texto debajo */
+	text-align: center;
+	border: none;
+	background-color: white;
+	box-shadow: 0vw 0.4vw 0.8vw rgba(0, 0, 0, 1), 0vw -0.4vw 0.8vw rgba(0, 0, 0, 0.15);
+	font-weight: bold;
+	font-size: 1.5vw;
+}
+
+.botonMarcadores:hover {
+	transform: scale(1.1);
+}
+
+@media (max-width: 576px) {
+	.botonMarcadores {
+		margin: -3vw;
+
+	}
+}
+
+
+
+.icono-unirse {
+	transition: color 0.3s ease;
+}
+
+.icono-unirse.unido {
+	color: #0dc143;
+	/* Cambia a verde más vivo cuando se une */
+}
+
+/* EVENTO INSTALACION */
+@media (max-width: 576px) {
+	#opcionesCopa {
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	#opcionesCopa .btn {
+		width: 100%;
+	}
+}
+/* Tabla principal */
+.tablaDatos {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 1vw; /* tamaño por defecto */
+}
+
+/* Encabezado */
+.tablaDatos thead {
+    background-color: #c33214;
+    color: white;
+}
+
+/* Bordes y alineación */
+.tablaDatos th  {
+    border: 2px solid #8a210b;
+    padding: 8px;
+    text-align: center;
+}
+.tablaDatos td{
+	border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+     font-weight: bold;
+}
+
+/* Hover sobre filas */
+.tablaDatos tbody tr:hover {
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+/* Nombre clicable */
+.nombreEventoLink {
+    color: #0d6efd;
+    text-decoration: underline;
+}
+.nombreEventoLink:hover {
+    color: #084298;
+}
+
+/* Media queries para hacer la tabla responsive */
+@media screen and (max-width: 1200px) {
+    .tablaDatos {
+        font-size: 1.6vw;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .tablaDatos {
+        font-size: 1.6vw;
+    }
+    .tablaDatos th, .tablaDatos td {
+        padding: 6px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .tablaDatos {
+        font-size: 1.6vw;
+    }
+    .tablaDatos th, .tablaDatos td {
+        padding: 4px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .tablaDatos {
+        font-size: 1.8vw; /* tamaño mínimo legible */
+    }
+    .tablaDatos th, .tablaDatos td {
+        padding: 3px;
+    }
+}
+
+/* TARJETAS USUARIOS */
+
+.tarjeta-contenedor {
+	background-color: black;
+	width: 45vw;
+	max-width: 45vw;
+	margin: 4.5vw auto;
+	border-radius: 2vw;
+	box-shadow:
+		0 0.3vw 0.6vw rgba(193, 0, 0, 0.6),
+		0 1vw 2vw rgba(193, 0, 0, 0.45),
+		0 0 0 0.2vw rgba(193, 0, 0, 0.35);
+
+	padding: 3.2vw;
+	text-align: center;
+	border: 0.1vw solid #2e2e2e;
+	font-family: 'Segoe UI', sans-serif;
+	color: #ffffff;
+}
+
+.tarjeta-header {
+	margin-bottom: 1vw;
+}
+
+.tarjeta-nombre-alias {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 1vw;
+}
+
+.tarjeta-nombre {
+	font-size: 2vw;
+	font-weight: bold;
+	color: #ffffff;
+	margin: 0;
+	text-decoration: underline;
+}
+
+.tarjeta-alias {
+	font-size: 1.5vw;
+	color: #a0a0a0;
+	font-style: italic;
+	margin: 0;
+}
+
+.tarjeta-imagen {
+	width: 10vw;
+	height: 10vw;
+	border-radius: 50%;
+	object-fit: cover;
+	margin: 0.3vw auto;
+	border: 0.4vw solid #c10000;
+}
+
+.tarjeta-estado {
+	font-size: 1.2vw;
+	font-weight: bold;
+	color: #1abc5b;
+}
+
+.tarjeta-estado.inactivo {
+	color: #999;
+}
+
+.tarjeta-estadisticas {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 1.2vw;
+	margin: 2.5vw 0;
+}
+
+.tarjeta-estadistica {
+	background-color: #2e2e2e;
+	padding: 1vw;
+	border-radius: 1.5vw;
+	font-size: 1vw;
+	border: 0.2vw solid #444;
+}
+
+.tarjeta-estadistica strong {
+	display: block;
+	font-size: 1.2vw;
+	color: #1abc5b;
+	margin-bottom: 0.4vw;
+}
+
+.tarjeta-iconos {
+	display: flex;
+	justify-content: space-between;
+	padding: 2.5vw;
+	margin-top: -1.8vw;
+	margin-bottom: -1vw;
+
+
+}
+
+.tarjeta-icono {
+	width: 4.5vw;
+	height: 4.5vw;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 0.3vw solid rgb(192, 192, 192);
+	background-color: #fff;
+
+}
+
+.tarjeta-imagen-grande {
+	width: 100%;
+	height: 12.5vw;
+	object-fit: cover;
+	border-radius: 1vw;
+	margin-bottom: 2vw;
+	border: 0.3vw solid #c10000;
+}
+
+.tarjeta-header-instalacion {
+	text-align: left;
+	margin-bottom: 2vw;
+	padding: 0 1vw;
+}
+
+.tarjeta-header-instalacion .tarjeta-nombre {
+	font-size: 2.5vw;
+	margin: 0 0 1vw;
+	color: #fff;
+	text-decoration: underline;
+}
+
+.tarjeta-info {
+	font-size: 1vw;
+	margin: 0.3vw 0;
+	color: #ddd;
+}
+
+.tarjeta-servicios {
+	grid-column: span 4;
+	background-color: #333;
+	font-size: 1vw;
+	text-align: left;
+}
+
+/* ACTA */
+.letraActa {
+	font-size: 1.2vw;
+	padding-bottom: 5px;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.tablaActa {
+	border-collapse: collapse;
+	width: 100%;
+	margin-bottom: 15px
+}
+
+
+
+
+/* TORNEO */
+.contenedorTorneo {
+	position: relative;
+	min-height: 100vh;
+	max-width: 100vw;
+	margin: 0 auto;
+	padding: 2vw;
+	background-image: url('../Imagenes/copa.JPG');
+	background-size: cover;
+	background-position: center top;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	box-sizing: border-box;
+	z-index: 0;
+}
+
+.contenedorTorneo::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(255, 255, 255, 0.32);
+	/* blanco semitransparente */
+	/* puedes usar negro u otro color cambiando los valores rgba */
+	z-index: -1;
+}
+
+.tituloTorneo {
+	display: block;
+	width: fit-content;
+	margin: 0 auto;
+	margin-top: 1.8vw;
+	background-color: rgba(255, 255, 255, 0.9);
+	box-shadow: 0 0.3vw 0.6vw rgba(0, 32, 0, 0.5);
+	padding: 0.5vw 1vw;
+	border-radius: 0.8vw;
+	color: black;
+	font-weight: 700;
+	font-size: 2.5vw;
+	letter-spacing: 0.05em;
+	user-select: none;
+	text-align: center;
+	font-style: italic;
+
+}
+
+
+
+
+.filaTorneo {
+	display: flex;
+	justify-content: center;
+	gap: 1vw;
+}
+
+.columnaTorneo {
+	display: grid;
+	grid-template-rows: repeat(7, minmax(6vh, 10vh));
+	/* más flexible */
+	gap: 1vh;
+	width: 13vw;
+}
+
+@media (max-width : 768px) {
+	.columnaTorneo {
+		grid-template-rows: repeat(7, minmax(4vh, 8vh));
+		/* más estrechas aún */
+		width: 20vw;
+		/* ligeramente más ancha para que no se aplaste el texto */
+	}
+
+	.casillaPartido {
+		font-size: 1.8vw;
+		padding: 1vw;
+	}
+
+	.casillaPartido small {
+		font-size: 1.5vw;
+	}
+
+	.tituloTorneo {
+		font-size: 4vw;
+	}
+}
+
+.casillaPartido {
+	background-color: rgba(0, 64, 0, 1);
+	/* fondo oscuro semitransparente */
+	border-radius: 0.8vw;
+	box-shadow: 0 0.3vw 0.6vw rgba(0, 32, 0, 0.5);
+	padding: 0.6vw;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	font-weight: 600;
+	font-size: 0.9vw;
+	color: #ecf0f1;
+	user-select: none;
+	transition: transform 0.2s, background-color 0.2s;
+}
+
+.casillaPartido>button {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+.casillaPartido:hover {
+	transform: scale(1.03);
+	background-color: rgba(0, 64, 0, 1);
+}
+
+.casillaPartido small {
+	font-weight: normal;
+	font-size: 0.7vw;
+	color: #bdc3c7;
+	margin: 0.3vh 0;
+}
+
+/* Colores de cada fase */
+.casillaPartido[data-id^="octavos"] {
+	background-color: #0B3D0B;
+
+	;
+	/* verde oscuro */
+}
+
+.casillaPartido[data-id^="cuartos"] {
+	background-color: #0B3B73;
+	/* verde-azulado */
+}
+
+.casillaPartido[data-id^="semifinal"] {
+	background-color: #2C2C2C;
+	/* morado elegante */
+}
+
+.casillaPartido[data-id="partidoFinal"] {
+	background-color: #C69200;
+}
+
+.casillaPartido[data-id="tercerpuesto"] {
+	background-color: #8C4A2F;
+}
+
+
+
+.contenedorTablas {
+	display: flex;
+	justify-content: space-around;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	gap: 2vw;
+	margin-top: 3vw;
+}
+
+.tablaEquipos,
+.tablaGoleadores {
+	flex: 1 1 40%;
+	background-color: rgba(255, 255, 255, 0.96);
+	border-radius: 1vw;
+	box-shadow: 0 0.3vw 1vw rgba(0, 0, 0, 0.2);
+	color: #2c3e50;
+	padding: 2vw;
+	font-size: 1vw;
+	min-width: 20vw;
+	/* equivalente a ~280px en pantallas grandes */
+}
+
+.tablaEquipos h3,
+.tablaGoleadores h3 {
+	text-align: center;
+	font-size: 1.6vw;
+	margin-bottom: 1vw;
+	color: #34495e;
+}
+
+.tablaEquipos table,
+.tablaGoleadores table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.tablaEquipos th,
+.tablaEquipos td,
+.tablaGoleadores th,
+.tablaGoleadores td {
+	padding: 0.8vw;
+	text-align: center;
+	border-bottom: 0.1vw solid #bdc3c7;
+}
+
+.escudoEquipo {
+	width: 2vw;
+	height: 1.3vw;
+	object-fit: contain;
+}
+
+.nombreEquipo {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.separadorVisual {
+	width: 100%;
+	height: 0.2vw;
+	background-color: rgb(0, 0, 0);
+	margin: 2vw 0;
+	border-radius: 1vw;
+}
+
+button.botonVolver {
+	background-color: #D3D3D3;
+	color: black;
+	font-size: 1vw;
+	box-shadow: 0vw 0.2vw 0.4vw rgba(0, 64, 0, 0.4), 0vw -0.2vw 0.4vw rgba(0, 64, 0, 0.10);
+	font-size: 1.2vw;
+	width: 8vw;
+	height: 2.5vw;
+	cursor: pointer;
+	border-radius: 0.5vw;
+	border: 1px solid #3A3A3A;
+	padding: 0.4vw 1vw;
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: left;
+	transition: background-color 0.3s ease, color 0.3s ease;
+
+}
+
+button.botonVolver:hover {
+	background-color: #B0B0B0;
+
+}
+
+
+
+
+/* MI CLUB JUGADOR */
+
+/* Contenedor principal de la tarjeta */
+.tarjetaMiClubJugador {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 1.5vw;
+    margin-bottom: 2vw;
+    border-radius: 1vw;
+    box-shadow: 0 0.3vw 1vw rgba(0, 0, 255, 0.5);
+    width: 95vw;
+    max-width: 1200px;
+}
+
+/* Contenedor izquierdo (logo + info) */
+.izquierdaMiClubJugador {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2vw;
+    flex: 1 1 auto; /* Escalable */
+}
+
+/* Logo del club */
+.logoMiClubJugador {
+    width: 12vw;
+    height: 12vw;
+    max-width: 150xp;
+    max-height: 150px;
+    border-radius: 5%;
+    box-shadow: 0 0.2vw 0.5vw rgba(0,0,0,0.2);
+    flex-shrink: 0;
+}
+
+/* Información del club */
+.infoMiClubJugador {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrado vertical */
+    gap: 0.5vw;
+    flex-grow: 1; /* Ocupa todo el espacio disponible */
+}
+
+/* Nombre y abreviatura */
+.nombreMiClubJugador {
+    font-size: 2vw;
+    font-weight: bold;
+}
+
+/* Localidad y país */
+.localidadMiClubJugador {
+    font-size: 1.5vw;
+}
+
+/* Descripción del club */
+.descripcionMiClubJugador {
+    font-size: 1.2vw;
+    color: #555;
+}
+
+/* Contenedor de botones (derecha) */
+.botonesMiClubJugador {
+    display: flex;
+    flex-direction: column; 
+    gap: 1vw;
+    min-width: 12vw;
+    flex-shrink: 0;
+    justify-content: center; 
+}
+
+/* Botones */
+.botonMiClubJugador {
+    padding: 0.8vw 1.5vw;
+    font-size: 1.2vw;
+    border: none;
+    border-radius: 0.5vw;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.botonMiClubJugador:hover {
+    transform: scale(1.05);
+}
+
+.botonVerMiClubJugador {
+    background-color: #0d6ba1;
+    color: white;
+}
+
+.botonVerMiClubJugador:hover {
+    background-color: #0056b3;
+}
+
+.botonSalirMiClubJugador {
+    background-color: #c33214;
+    color: white;
+}
+
+.botonSalirMiClubJugador:hover {
+    background-color: #9b0000;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+    .logoMiClubJugador {
+        width: 15vw;
+        height: 15vw;
+    }
+    .nombreMiClubJugador {
+        font-size: 3vw;
+    }
+    .localidadMiClubJugador {
+        font-size: 2.2vw;
+    }
+    .descripcionMiClubJugador {
+        font-size: 2vw;
+    }
+    .botonMiClubJugador {
+        font-size: 2vw;
+        padding: 1vw 2vw;
+    }
+}
+
+@media (max-width: 768px) {
+    .tarjetaMiClubJugador {
+        width: 100vw;
+    }
+    .botonesMiClubJugador {
+        gap: 0.8vw;
+    }
+    .botonMiClubJugador {
+        font-size: 2.5vw;
+        padding: 1.2vw 2vw;
+    }
+}
+
+/* Modal backdrop */
+.modalMiClubJugador {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    z-index: 10001; /* mayor que el footer (9999) y otros elementos */
+}
+
+/* Modal content */
+.modal-contentMiClubJugador {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 1200px;
+    max-height: 90%;
+    overflow: auto;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    position: relative;
+}
+
+/* Cerrar modal */
+.cerrarModalMiClubJugador {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Scroll horizontal para tablas grandes */
+.tabla-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.tablaDatosListaMarcadores {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tablaDatosListaMarcadores th,
+.tablaDatosListaMarcadores td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+    
+}
+.tablaDatosListaMarcadores td{
+border:0.5px solid #8a210b;
+}
+
+.tablaDatosListaMarcadores th {
+    background-color: #333;
+    color: #fff;
+    border: 1.5px solid red;
+}
+
+
+/* Botón volver */
+.botonCerrarModal {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    float: right;
+    margin-right:1vw;
+    margin-top:1.6vw;
+    
+}
+
+
+.botonCerrarModal:hover {
+    background-color: #c0392b;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .modal-contentMiClubJugador {
+        width: 95%;
+        padding: 10px;
+    }
+
+    .tablaDatosListaMarcadores th,
+    .tablaDatosListaMarcadores td {
+        font-size: 12px;
+        padding: 6px;
+    }
+}
+
+/* EVENTO JUGADOR */
+
+
+
+
+
+/* OTROS */
+
+.premium-badge {
+	display: flex;
+	align-items: center;
+	background: linear-gradient(90deg, #FFD700, #FFA500);
+	padding: 0.3vw 0.8vw;
+	font-weight: bold;
+	color: white;
+	font-size: 1.1vw;
+	box-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
+	animation: glow 2s infinite alternate;
+}
+
+.premium-badge svg {
+	margin-right: 0.3vw;
+	width: 1.2vw;
+	height: 1.2vw;
+	animation: spin 8s linear infinite;
+}
+
+@keyframes glow {
+	0% {
+		box-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
+	}
+
+	100% {
+		box-shadow: 0 0 10px rgba(255, 215, 0, 1);
+	}
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
