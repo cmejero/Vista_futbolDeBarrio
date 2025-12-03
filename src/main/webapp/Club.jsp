@@ -10,8 +10,8 @@ if (tipoUsuario == null || !"club".equals(tipoUsuario)) {
 	return; // Detener el renderizado de la página
 }
 
-Long usuarioId = (Long) session.getAttribute("usuarioId");
-String nombreUsuario = (String) session.getAttribute("nombreUsuario");
+Long usuarioId = (Long) session.getAttribute("clubId");
+String nombreUsuario = (String) session.getAttribute("nombreClub");
 if (nombreUsuario == null)
 	nombreUsuario = "Invitado";
 
@@ -207,7 +207,7 @@ if (esPremium == null)
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="Club.jsp" class="letraCabeceraAbajo"style="color: #d4af37;">INICIO</a>
+											<a href="Club.jsp" class="letraCabeceraAbajo" style="color: #d4af37;">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo">ALQUILERES</a>
@@ -229,7 +229,8 @@ if (esPremium == null)
 											<a href="PlantillaClub.jsp" class="letraCabeceraAbajo">PLANTILLA</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo">MARCADORES</a>
+											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo"
+												>MARCADORES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo">DESAFIOS</a>
@@ -331,7 +332,7 @@ if (esPremium == null)
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
 									<a href="Club.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">INICIO</a>
+										style="text-decoration: none; font-size: 2.5vw;  color: #d4af37;">INICIO</a>
 								</div>
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-2 ">
@@ -400,61 +401,38 @@ if (esPremium == null)
 		</div>
 	</header>
 
-	<main style="background-color: rgba(223, 234, 213, 0.5);">
 
-		<div class="tarjeta-contenedor"
-			style="box-shadow: 0 0.3vw 0.6vw rgba(13, 107, 161, 0.6), 0 1vw 2vw rgba(13, 107, 161, 0.45), 0 0 0 0.2vw rgba(13, 107, 161, 0.35);">
+<main style="background-color: rgba(223, 234, 213, 0.5);">
+    <div class="tarjeta-contenedor" 	style="box-shadow: 0 0.3vw 0.6vw rgba(13, 107, 161, 0.6), 0 1vw 2vw rgba(13, 107, 161, 0.45), 0 0 0 0.2vw rgba(13, 107, 161, 0.35);">
+        <div class="tarjeta-header">
+            <div class="tarjeta-nombre-alias">
+                <p class="tarjeta-nombre">Cargando...</p>
+                <p class="tarjeta-alias">"Cargando..."</p>
+            </div>
+            <img src="Imagenes/usuarioPorDefecto.jpg" alt="Foto" class="tarjeta-imagen" style="border: 0.4vw solid #0d6ba1;">
+            <p class="tarjeta-estado activo">Cargando...</p>
+        </div>
 
-			<div class="tarjeta-header">
-				<div class="tarjeta-nombre-alias">
-					<p class="tarjeta-nombre">Calavera CF</p>
-					<p class="tarjeta-alias">"CCF"</p>
-				</div>
-				<img src="Imagenes/calavera.jpg" alt="Foto" class="tarjeta-imagen"
-					style="border: 0.4vw solid #0d6ba1;">
-				<p class="tarjeta-estado activo">Activo</p>
-			</div>
+        <div class="tarjeta-estadisticas">
+            <div class="tarjeta-estadistica"><strong>0</strong>Partidos</div>
+            <div class="tarjeta-estadistica"><strong>0</strong>Eventos</div>
+            <div class="tarjeta-estadistica"><strong>0</strong>Ganados</div>
+            <div class="tarjeta-estadistica"><strong>0</strong>Empatados</div>
+            <div class="tarjeta-estadistica"><strong>0</strong>Perdidos</div>
+            <div class="tarjeta-estadistica"><strong>0</strong>GF</div>
+            <div class="tarjeta-estadistica"><strong>0</strong>GC</div>
+            <div class="tarjeta-estadistica"><strong>0</strong>DG</div>
+        </div>
 
-			<div class="tarjeta-estadisticas">
-
-				<div class="tarjeta-estadistica">
-					<strong>0</strong>Partidos
-				</div>
-				<div class="tarjeta-estadistica">
-					<strong>0</strong>Eventos
-				</div>
-				<div class="tarjeta-estadistica">
-					<strong>0</strong>Ganados
-				</div>
-				<div class="tarjeta-estadistica">
-					<strong>0</strong>Empatados
-				</div>
-				<div class="tarjeta-estadistica">
-					<strong>0</strong>Perdidos
-				</div>
-				<div class="tarjeta-estadistica">
-					<strong>0</strong>GF
-				</div>
-				<div class="tarjeta-estadistica">
-					<strong>0</strong>GC
-				</div>
-				<div class="tarjeta-estadistica">
-					<strong>0</strong>DG
-				</div>
-
-			</div>
-
-			<div class="tarjeta-iconos">
-				<img src="Imagenes/icono1.png" alt="Icono 1" class="tarjeta-icono">
-				<img src="Imagenes/icono2.png" alt="Icono 2" class="tarjeta-icono">
-				<img src="Imagenes/icono3.png" alt="Icono 3" class="tarjeta-icono">
-				<img src="Imagenes/icono4.png" alt="Icono 4" class="tarjeta-icono">
-				<img src="Imagenes/icono5.png" alt="Icono 5" class="tarjeta-icono">
-			</div>
-		</div>
-
-	</main>
-
+        <div class="tarjeta-iconos">
+            <img src="Imagenes/icono1.png" alt="Icono 1" class="tarjeta-icono">
+            <img src="Imagenes/icono2.png" alt="Icono 2" class="tarjeta-icono">
+            <img src="Imagenes/icono3.png" alt="Icono 3" class="tarjeta-icono">
+            <img src="Imagenes/icono4.png" alt="Icono 4" class="tarjeta-icono">
+            <img src="Imagenes/icono5.png" alt="Icono 5" class="tarjeta-icono">
+        </div>
+    </div>
+</main>
 
 	<footer>
 
@@ -638,48 +616,59 @@ Avenida mujer trabajadora
 
 	</footer>
 
-
-
-	<!-- CODIDO PARA BUSCADOR
 <script>
-  // Lista de sugerencias (puedes personalizar los valores)
-  const datosSugerencias = ["Inicio", "Acerca de", "Servicios", "Eventos", "Contacto", "Marcadores", "Desafíos"];
 
-  // Función para mostrar las sugerencias
-  function mostrarSugerencias() {
-    const entrada = document.getElementById("entradaBusqueda");
-    const contenedorSugerencias = document.getElementById("sugerencias");
-    const consulta = entrada.value.toLowerCase();
+sessionStorage.setItem('tipoUsuario', '<%=tipoUsuario%>');
+sessionStorage.setItem('clubId', '<%=usuarioId%>');
 
-    // Limpia las sugerencias previas
-    contenedorSugerencias.innerHTML = "";
+async function cargarDatosClub() {
+    const clubId = sessionStorage.getItem('clubId');
+    if (!clubId) {
+        console.error('No hay clubId en sessionStorage');
+        return;
+    }
 
-    // Filtra las sugerencias según el texto ingresado
-    const sugerenciasFiltradas = datosSugerencias.filter(item => 
-      item.toLowerCase().includes(consulta)
-    );
+    try {
+        // 1️⃣ Obtener datos del club
+        const resClub = await fetch('<%=request.getContextPath()%>/club?idClub=' + clubId);
+        if (!resClub.ok) throw new Error('Error al cargar datos del club');
+        const club = await resClub.json();
 
-    // Genera la lista de sugerencias
-    sugerenciasFiltradas.forEach(sugerencia => {
-      const li = document.createElement("li");
-      li.textContent = sugerencia;
-      li.onclick = () => {
-        entrada.value = sugerencia; // Rellena el campo con la sugerencia seleccionada
-        contenedorSugerencias.innerHTML = ""; // Limpia las sugerencias
-      };
-      contenedorSugerencias.appendChild(li);
-    });
+        document.querySelector('.tarjeta-nombre').innerText = club.nombreClub;
+        document.querySelector('.tarjeta-alias').innerText = '"' + club.abreviaturaClub + '"';
+        document.querySelector('.tarjeta-estado').innerText = "Activo"; 
 
-    // Muestra u oculta el contenedor de sugerencias
-    contenedorSugerencias.style.display = sugerenciasFiltradas.length > 0 ? "block" : "none";
-  }
+        if (club.logoClub && club.logoClub.length > 0) {
+            document.querySelector('.tarjeta-imagen').src = "data:image/png;base64," + club.logoClub;
+        }
+
+        // 2️⃣ Obtener estadísticas globales del club
+        const resStats = await fetch('<%=request.getContextPath()%>/clubEstadisticaGlobal?id=' + clubId);
+        if (!resStats.ok) throw new Error('Error al cargar estadísticas globales del club');
+        const stats = await resStats.json();
+
+        const estadisticasDivs = document.querySelectorAll('.tarjeta-estadistica');
+        estadisticasDivs[0].querySelector('strong').innerText = stats.partidosJugadosGlobal || 0;
+        estadisticasDivs[1].querySelector('strong').innerText = stats.ganadosGlobal || 0;
+        estadisticasDivs[2].querySelector('strong').innerText = stats.empatadosGlobal || 0;
+        estadisticasDivs[3].querySelector('strong').innerText = stats.perdidosGlobal || 0;
+        estadisticasDivs[4].querySelector('strong').innerText = stats.golesFavorGlobal || 0;
+        estadisticasDivs[5].querySelector('strong').innerText = stats.golesContraGlobal || 0;
+        estadisticasDivs[6].querySelector('strong').innerText = (stats.golesFavorGlobal - stats.golesContraGlobal) || 0; // DG
+    } catch (err) {
+        console.error('Error al cargar datos del club o estadísticas:', err);
+    }
+}
+
+window.onload = cargarDatosClub;
 </script>
-
- -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

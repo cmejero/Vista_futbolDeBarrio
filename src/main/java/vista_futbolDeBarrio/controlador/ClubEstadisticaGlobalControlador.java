@@ -11,23 +11,23 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import vista_futbolDeBarrio.dtos.JugadorEstadisticaGlobalDto;
-import vista_futbolDeBarrio.servicios.JugadorEstadisticaGlobalServicio;
+import vista_futbolDeBarrio.dtos.ClubEstadisticaGlobalDto;
+import vista_futbolDeBarrio.servicios.ClubEstadisticaGlobalServicio;
 
-@WebServlet("/jugadorEstadisticaGlobal")
+@WebServlet("/clubEstadisticaGlobal")
 @MultipartConfig
 /**
- * Clase controlador que se encarga de los metodos CRUD de la tabla jugador estadisticas global
+ * Clase controlador que se encarga de los metodos CRUD de la tabla club estadisticas global
  */
-public class JugadorEstadisticaGlobalControlador extends HttpServlet{
+public class ClubEstadisticaGlobalControlador extends HttpServlet{
 	private static final long serialVersionUID = 1L;
-    private JugadorEstadisticaGlobalServicio jugadorEstadisticaGlobalServicio;
+    private ClubEstadisticaGlobalServicio clubEstadisticaGlobalServicio;
 
     @Override
     public void init() throws ServletException {
-        this.jugadorEstadisticaGlobalServicio = new JugadorEstadisticaGlobalServicio();
+        this.clubEstadisticaGlobalServicio = new ClubEstadisticaGlobalServicio();
     }
-    
+     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -50,14 +50,15 @@ public class JugadorEstadisticaGlobalControlador extends HttpServlet{
             ObjectMapper objectMapper = new ObjectMapper();
 
             if (idParam != null) {
-                // Mostrar estadísticas de un jugador concreto
-                Long jugadorId = Long.parseLong(idParam);
-                resultado = jugadorEstadisticaGlobalServicio.obtenerJugadorEstadisticasGlobal(jugadorId);
+               
+                Long clubId = Long.parseLong(idParam);
+                String json = clubEstadisticaGlobalServicio.obtenerClubEstadisticasGlobal(clubId);
+                resultado = objectMapper.readValue(json, ClubEstadisticaGlobalDto.class);
 
             } else {
-                // Mostrar TODOS los jugadores SIEMPRE (usuario normal o club)
-                String jsonLista = jugadorEstadisticaGlobalServicio.obtenerTodosJugadorEstadisticasGlobal();
-                resultado = objectMapper.readValue(jsonLista, JugadorEstadisticaGlobalDto[].class);
+                // Mostrar TODOS los clubes SIEMPRE
+                String jsonLista = clubEstadisticaGlobalServicio.obtenerTodasClubEstadisticasGlobal();
+                resultado = objectMapper.readValue(jsonLista, ClubEstadisticaGlobalDto[].class);
             }
 
             response.setContentType("application/json");
@@ -71,8 +72,5 @@ public class JugadorEstadisticaGlobalControlador extends HttpServlet{
             e.printStackTrace();
         }
     }
-
-
-
 
 }

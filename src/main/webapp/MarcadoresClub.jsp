@@ -1,21 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-    // Obtener tipo de usuario de sesión y normalizar a minúsculas
-    String tipoUsuario = ((String) session.getAttribute("tipoUsuario"));
-    
-    // Redirigir si no es club
-    if (tipoUsuario == null || !"club".equals(tipoUsuario)) {
-        response.sendRedirect("acceso_denegado.jsp");
-        return; // Detener el renderizado de la página
-    }
+// Obtener tipo de usuario de sesión y normalizar a minúsculas
+String tipoUsuario = ((String) session.getAttribute("tipoUsuario"));
 
-    Long usuarioId = (Long) session.getAttribute("clubId");
-    String nombreUsuario = (String) session.getAttribute("nombreClub");
-    if (nombreUsuario == null) nombreUsuario = "Invitado";
+// Redirigir si no es club
+if (tipoUsuario == null || !"club".equals(tipoUsuario)) {
+	response.sendRedirect("acceso_denegado.jsp");
+	return; // Detener el renderizado de la página
+}
 
-    Boolean esPremium = (Boolean) session.getAttribute("esPremium");
-    if (esPremium == null) esPremium = false;
+Long usuarioId = (Long) session.getAttribute("clubId");
+String nombreUsuario = (String) session.getAttribute("nombreClub");
+if (nombreUsuario == null)
+	nombreUsuario = "Invitado";
+
+Boolean esPremium = (Boolean) session.getAttribute("esPremium");
+if (esPremium == null)
+	esPremium = false;
 %>
 
 
@@ -174,10 +176,9 @@
 											%>
 											<div class=" cabeceraMedio">
 												<a href="PagoPremium.jsp">
-													<button type="button" class=" botonPremiumCabecera" title="Accede a todas las funciones premium y ventajas exclusivas"
-														>
-														HAZTE PREMIUM
-													</button>
+													<button type="button" class=" botonPremiumCabecera"
+														title="Accede a todas las funciones premium y ventajas exclusivas">
+														HAZTE PREMIUM</button>
 												</a>
 											</div>
 											<%
@@ -874,6 +875,7 @@ Avenida mujer trabajadora
 	<script>
 	const usuarioId = '<%=usuarioId != null ? usuarioId : ""%>';
 	sessionStorage.setItem('usuarioId', usuarioId);
+    const contextPath = "${pageContext.request.contextPath}";
 
   document.addEventListener("DOMContentLoaded", function() {
 
@@ -1082,7 +1084,10 @@ Avenida mujer trabajadora
     // CARGAR JUGADORES
     // ===============================
 
-fetch("http://localhost:9527/api/mostrarJugadorEstadisticaGlobal")
+fetch(contextPath + "/jugadorEstadisticaGlobal", {
+  method: "GET",
+  credentials: "include"   
+})
   .then(function(response) { return response.json(); })
   .then(function(data) {
     const tbody = document.getElementById('tablaCuerpoJugador');
@@ -1123,53 +1128,52 @@ fetch("http://localhost:9527/api/mostrarJugadorEstadisticaGlobal")
     // ===============================
     // CARGAR CLUBES
     // ===============================
-   fetch("http://localhost:9527/api/mostrarClubEstadisticaGlobal")
-  .then(response => {
+   fetch(contextPath + "/clubEstadisticaGlobal")
+  .then(function(response) {
     if (!response.ok) throw new Error("No se encontraron estadísticas globales de clubes");
     return response.json();
   })
-  .then(data => {
-    const tbody = document.getElementById('tablaClubes');
+  .then(function(data) {
+    var tbody = document.getElementById("tablaClubes");
     if (!tbody) return;
-    tbody.innerHTML = '';
 
- 
+    tbody.innerHTML = "";
+
     data.sort(function(a, b) {
       var pctA = a.partidosJugadosGlobal > 0 ? a.ganadosGlobal / a.partidosJugadosGlobal : 0;
       var pctB = b.partidosJugadosGlobal > 0 ? b.ganadosGlobal / b.partidosJugadosGlobal : 0;
 
-      if (pctB !== pctA) return pctB - pctA; 
-      if (b.golesFavorGlobal !== a.golesFavorGlobal) return b.golesFavorGlobal - a.golesFavorGlobal; 
-      return a.golesContraGlobal - b.golesContraGlobal; 
+      if (pctB !== pctA) return pctB - pctA;
+      if (b.golesFavorGlobal !== a.golesFavorGlobal) return b.golesFavorGlobal - a.golesFavorGlobal;
+      return a.golesContraGlobal - b.golesContraGlobal;
     });
 
     var contador = 1;
+
     data.forEach(function(club) {
-      var tr = document.createElement('tr');
+      var tr = document.createElement("tr");
       tr.style.cssText = "font-size:1vw; text-align:center; vertical-align:middle;";
       tr.innerHTML =
-        '<td style="border:0.5px solid #0d6ba1; font-weight:bold;">' + contador + '</td>' +
-        '<td style="border:0.5px solid #0d6ba1;">' + club.nombreClub + '</td>' +
-        '<td style="border:0.5px solid #0d6ba1;">' + club.localidad + '</td>' +
-        '<td style="border:0.5px solid #0d6ba1;">' + club.partidosJugadosGlobal + '</td>' +
-        '<td style="border:0.5px solid #0d6ba1;">' + club.ganadosGlobal + '</td>' +
-        '<td style="border:0.5px solid #0d6ba1;">' + club.empatadosGlobal + '</td>' +
-        '<td style="border:0.5px solid #0d6ba1;">' + club.perdidosGlobal + '</td>' +
-        '<td style="border:0.5px solid #0d6ba1;">' + club.golesFavorGlobal + '</td>' +
-        '<td style="border:0.5px solid #0d6ba1;">' + club.golesContraGlobal + '</td>';
+        '<td style="border:0.5px solid #0d6ba1; font-weight:bold;">' + contador + "</td>" +
+        '<td style="border:0.5px solid #0d6ba1;">' + club.nombreClub + "</td>" +
+        '<td style="border:0.5px solid #0d6ba1;">' + club.localidad + "</td>" +
+        '<td style="border:0.5px solid #0d6ba1;">' + club.partidosJugadosGlobal + "</td>" +
+        '<td style="border:0.5px solid #0d6ba1;">' + club.ganadosGlobal + "</td>" +
+        '<td style="border:0.5px solid #0d6ba1;">' + club.empatadosGlobal + "</td>" +
+        '<td style="border:0.5px solid #0d6ba1;">' + club.perdidosGlobal + "</td>" +
+        '<td style="border:0.5px solid #0d6ba1;">' + club.golesFavorGlobal + "</td>" +
+        '<td style="border:0.5px solid #0d6ba1;">' + club.golesContraGlobal + "</td>";
+
       tbody.appendChild(tr);
       contador++;
     });
-    
+
     filtrosClubes();
-    paginarTabla('tablaClubes', 15);
-
-
-
+    paginarTabla("tablaClubes", 15);
   })
-  .catch(function(error) { console.error('Error cargando clubes:', error); });
-
-
+  .catch(function(error) {
+    console.error("Error cargando clubes:", error);
+  });
 
 // ===============================
 // ESTADÍSTICAS PREMIUM CLUB (GLOBAL + TORNEOS)
@@ -1181,11 +1185,11 @@ if (botonEstadisticas) {
     if (tablaEstadisticasTorneo) tablaEstadisticasTorneo.innerHTML = "";
 
     // === Estadísticas Globales del Club ===
-    fetch("http://localhost:9527/api/clubEstadisticaIndividualGlobal/" + usuarioId)
-      .then(function(response) {
-        if (!response.ok) throw new Error("No se encontraron estadísticas globales del club");
-        return response.json();
-      })
+    fetch(contextPath + "/clubEstadisticaGlobal?id=" + usuarioId)
+  .then(function(response) {
+    if (!response.ok) throw new Error("No se encontraron estadísticas globales del club");
+    return response.json();
+  })
       .then(function(data) {
         var fila = crearFilaEstadisticasGlobalClubPremium(
           "Global",
@@ -1195,38 +1199,38 @@ if (botonEstadisticas) {
           data.ganadosGlobal,
           data.perdidosGlobal
         );
-        console.log("📊 Global Club:", data);
+        
         tablaEstadisticasGlobal.appendChild(fila);
       })
       .catch(function(error) {
         console.error("❌ Error cargando estadísticas globales del club:", error);
       });
 
-    // === Estadísticas por Torneo del Club ===
-    fetch("http://localhost:9527/api/clubEstadisticaIndividualTorneo/" + usuarioId)
-      .then(function(response) {
-        if (!response.ok) throw new Error("No se encontraron estadísticas por torneo del club");
-        return response.json();
-      })
-      .then(function(data) {
-        data.forEach(function(torneo) {
-          var fila = crearFilaEstadisticasTorneoClubPremium(
-            "Torneo",
-            torneo.nombreTorneo,
-            torneo.partidosJugados,
-            torneo.golesFavor,
-            torneo.golesContra,
-            torneo.ganados,
-            torneo.perdidos
-          );
-          tablaEstadisticasTorneo.appendChild(fila);
-        });
-      })
-      .catch(function(error) {
-        console.error("❌ Error cargando estadísticas de torneo del club:", error);
+    fetch(contextPath + "/clubEstadisticaTorneo?id="  + usuarioId)
+    .then(response => {
+      if (!response.ok) throw new Error("No se encontraron estadísticas por torneo del club");
+      return response.json();
+    })
+    .then(data => {
+   
+      if (!Array.isArray(data)) data = [data]; // por si el backend devuelve un solo objeto
+      data.forEach(torneo => {
+        var fila = crearFilaEstadisticasTorneoClubPremium(
+          "Torneo",
+          torneo.nombreTorneo,      
+          torneo.partidosJugados,   
+          torneo.golesFavor,         
+          torneo.golesContra,        
+          torneo.ganados,           
+          torneo.perdidos            
+        );
+        tablaEstadisticasTorneo.appendChild(fila);
       });
+    })
+    .catch(error => console.error("❌ Error cargando estadísticas de torneo del club:", error));
   });
 }
+
 
 // ===== FUNCIONES PARA CREAR FILAS =====
 function crearFilaEstadisticasGlobalClubPremium(tipo, pj, gf, gc, ganados, perdidos) {

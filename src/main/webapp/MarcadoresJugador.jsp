@@ -168,10 +168,10 @@ if (esPremium == null)
 											} else {
 											%>
 											<a href="PagoPremium.jsp">
-													<button type="button" class=" botonPremiumCabecera" title="Accede a todas las funciones premium y ventajas exclusivas"
-														>
-														HAZTE PREMIUM
-													</button></a>
+												<button type="button" class=" botonPremiumCabecera"
+													title="Accede a todas las funciones premium y ventajas exclusivas">
+													HAZTE PREMIUM</button>
+											</a>
 											<%
 											}
 											%>
@@ -217,7 +217,8 @@ if (esPremium == null)
 									<div class="row">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="MiClubJugador.jsp" class="letraCabeceraAbajo">MI CLUB</a>
+											<a href="MiClubJugador.jsp" class="letraCabeceraAbajo">MI
+												CLUB</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 											<a href="MarcadoresJugador.jsp" class="letraCabeceraAbajo"
@@ -305,10 +306,10 @@ if (esPremium == null)
 											} else {
 											%>
 											<a href="PagoPremium.jsp">
-													<button type="button" class=" botonPremiumCabecera" title="Accede a todas las funciones premium y ventajas exclusivas"
-														>
-														HAZTE PREMIUM
-													</button></a>
+												<button type="button" class=" botonPremiumCabecera"
+													title="Accede a todas las funciones premium y ventajas exclusivas">
+													HAZTE PREMIUM</button>
+											</a>
 											<%
 											}
 											%>
@@ -876,6 +877,8 @@ Avenida mujer trabajadora
   sessionStorage.setItem('tipoUsuario', '<%=tipoUsuario%>');
   const usuarioId = <%=usuarioId != null ? usuarioId : "null"%>;
   sessionStorage.setItem('usuarioId', '<%=usuarioId%>');
+  const contextPath = "${pageContext.request.contextPath}";
+
 
   // Redirigir si no es jugador
   if (sessionStorage.getItem('tipoUsuario') !== 'jugador') {
@@ -1083,7 +1086,10 @@ Avenida mujer trabajadora
     // CARGAR JUGADORES
     // ===============================
 
-fetch("http://localhost:9527/api/mostrarJugadorEstadisticaGlobal")
+fetch(contextPath + "/jugadorEstadisticaGlobal", {
+  method: "GET",
+  credentials: "include"   
+})
   .then(function(response) { return response.json(); })
   .then(function(data) {
     const tbody = document.getElementById('tablaCuerpoJugador');
@@ -1124,8 +1130,8 @@ fetch("http://localhost:9527/api/mostrarJugadorEstadisticaGlobal")
     // ===============================
     // CARGAR CLUBES
     // ===============================
-   fetch("http://localhost:9527/api/mostrarClubEstadisticaGlobal")
-  .then(response => {
+ fetch(contextPath + "/clubEstadisticaGlobal")
+  .then(function(response) {
     if (!response.ok) throw new Error("No se encontraron estadísticas globales de clubes");
     return response.json();
   })
@@ -1198,12 +1204,11 @@ fetch("http://localhost:9527/api/mostrarJugadorEstadisticaGlobal")
         tablaEstadisticasGlobal.innerHTML = "";
         if (tablaEstadisticasTorneo) tablaEstadisticasTorneo.innerHTML = "";
 
-     
-        fetch("http://localhost:9527/api/jugadorEstadisticaIndividualGlobal/" + usuarioId)
-          .then(function(response) {
-            if (!response.ok) throw new Error("No se encontraron estadísticas globales");
-            return response.json();
-          })
+        fetch(contextPath + "/jugadorEstadisticaGlobal?id=" + usuarioId)
+        .then(function(response) {
+          if (!response.ok) throw new Error("No se encontraron estadísticas globales del club");
+          return response.json();
+        })
           .then(function(data) {
             var fila = crearFilaEstadisticasGlobalPremium(
               "Global",
@@ -1222,11 +1227,11 @@ fetch("http://localhost:9527/api/mostrarJugadorEstadisticaGlobal")
           });
 
 
-        fetch("http://localhost:9527/api/jugadorEstadisticaIndividualTorneo/" + usuarioId)
-          .then(function(response) {
-            if (!response.ok) throw new Error("No se encontraron estadísticas por torneo");
-            return response.json();
-          })
+        fetch(contextPath + "/jugadorEstadisticaTorneo?id="  + usuarioId)
+        .then(response => {
+          if (!response.ok) throw new Error("No se encontraron estadísticas por torneo del club");
+          return response.json();
+        })
           .then(function(data) {
             data.forEach(function(torneo) {
             	var fila = crearFilaEstadisticasTorneoPremium(

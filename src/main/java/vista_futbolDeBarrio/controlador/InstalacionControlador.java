@@ -3,10 +3,7 @@ package vista_futbolDeBarrio.controlador;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Base64;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -17,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import vista_futbolDeBarrio.dtos.InstalacionDto;
 import vista_futbolDeBarrio.enums.Estado;
@@ -234,55 +232,49 @@ public class InstalacionControlador extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         try {
-            List<InstalacionDto> listaInstalaciones = servicio.listaInstalaciones();
+            HttpSession session = request.getSession(false);
+            String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
 
-            // Creamos una lista de mapas para enviar JSON con Base64
-            List<Map<String, Object>> listaParaJson = new ArrayList<>();
-
-            for (InstalacionDto i : listaInstalaciones) {
-                Map<String, Object> instalacionJson = new HashMap<>();
-                instalacionJson.put("idInstalacion", i.getIdInstalacion());
-                instalacionJson.put("nombreInstalacion", i.getNombreInstalacion());
-                instalacionJson.put("direccionInstalacion", i.getDireccionInstalacion());
-                instalacionJson.put("telefonoInstalacion", i.getTelefonoInstalacion());
-                instalacionJson.put("emailInstalacion", i.getEmailInstalacion());
-                instalacionJson.put("tipoCampo1", i.getTipoCampo1());
-                instalacionJson.put("tipoCampo2", i.getTipoCampo2());
-                instalacionJson.put("tipoCampo3", i.getTipoCampo3());
-                instalacionJson.put("serviciosInstalacion", i.getServiciosInstalacion());
-                instalacionJson.put("estadoInstalacion", i.getEstadoInstalacion());
-                instalacionJson.put("passwordInstalacion", i.getPasswordInstalacion());
-
-                // Convertimos byte[] a Base64
-                String imagenBase64 = "";
-                if (i.getImagenInstalacion() != null) {
-                    imagenBase64 = Base64.getEncoder().encodeToString(i.getImagenInstalacion());
-                }
-                instalacionJson.put("imagenInstalacion", imagenBase64);
-
-                // Normalizamos torneoIds
-                if (i.getTorneoIds() == null) {
-                    i.setTorneoIds(new ArrayList<>());
-                }
-                instalacionJson.put("torneoIds", i.getTorneoIds());
-
-                listaParaJson.add(instalacionJson);
+            if (tipoUsuario == null || !"instalacion".equals(tipoUsuario)) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.getWriter().write("Acceso denegado. Debe iniciar sesión como instalación.");
+                return;
             }
 
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
+            String idParam = request.getParameter("idInstalacion");
             ObjectMapper objectMapper = new ObjectMapper();
-            response.getWriter().write(objectMapper.writeValueAsString(listaParaJson));
 
-            Log.ficheroLog("Lista de instalaciones solicitada. Número de instalaciones: " + listaInstalaciones.size());
+            if (idParam != null && !idParam.isEmpty()) {
+                long idInstalacion = Long.parseLong(idParam);
+                InstalacionDto instalacion = servicio.obtenerInstalacionPorId(idInstalacion);
+
+                if (instalacion != null) {
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(objectMapper.writeValueAsString(instalacion));
+                } else {
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    response.getWriter().write("{\"error\":\"Instalación no encontrada\"}");
+                }
+            } else {
+                List<InstalacionDto> listaInstalaciones = servicio.listaInstalaciones();
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(objectMapper.writeValueAsString(listaInstalaciones));
+            }
+
+        } catch (NumberFormatException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"error\":\"ID inválido\"}");
         } catch (Exception e) {
-            e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("Se ha producido un error al obtener las instalaciones: " + e.getMessage());
-            Log.ficheroLog("Error al obtener lista de instalaciones: " + e.getMessage());
+            response.getWriter().write("{\"error\":\"Se ha producido un error: " + e.getMessage() + "\"}");
         }
     }
+
+
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)

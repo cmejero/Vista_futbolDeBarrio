@@ -412,7 +412,7 @@ if (esPremium == null)
 					<p class="tarjeta-nombre">Cargando...</p>
 					<p class="tarjeta-alias">"Cargando..."</p>
 				</div>
-				<img src="Imagenes/futbolista.PNG" alt="Foto" class="tarjeta-imagen">
+				<img src="Imagenes/usuarioPorDefecto.jpg" alt="Foto" class="tarjeta-imagen">
 				<p class="tarjeta-estado activo">Cargando...</p>
 			</div>
 
@@ -650,6 +650,7 @@ Avenida mujer trabajadora
     sessionStorage.setItem('tipoUsuario', '<%=tipoUsuario%>');
     sessionStorage.setItem('usuarioId', '<%=usuarioId%>');
 
+
     // Redirigir si no es jugador
     if (sessionStorage.getItem('tipoUsuario') !== 'jugador') {
         window.location.href = 'acceso_denegado.jsp';
@@ -683,7 +684,9 @@ Avenida mujer trabajadora
 
         // Cargar estadísticas globales
         try {
-            const resStats = await fetch('<%=request.getContextPath()%>/jugadorEstadisticaGlobal');
+        	const usuarioId = sessionStorage.getItem('usuarioId');
+        	const resStats = await fetch('<%=request.getContextPath()%>/jugadorEstadisticaGlobal?id=' + usuarioId);
+
 
             if (!resStats.ok) {
                 const textoError = await resStats.text();

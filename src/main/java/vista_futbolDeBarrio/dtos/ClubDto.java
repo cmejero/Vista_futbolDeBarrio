@@ -5,19 +5,20 @@ package vista_futbolDeBarrio.dtos;
  */
 public class ClubDto {
 
-	private long idClub;
-	private String nombreClub;
-	private String abreviaturaClub;
-	private String descripcionClub;
-	private String fechaCreacionClub;
-	private String fechaFundacionClub;
-	private String localidadClub;
-	private String paisClub;
-	private byte[] logoClub;
-	private String emailClub;
-	private String passwordClub;
-	private String telefonoClub;
+	private long idClub = 0;
+	private String nombreClub = "";
+	private String abreviaturaClub = "";
+	private String descripcionClub = "";
+	private String fechaCreacionClub = "";
+	private String fechaFundacionClub = "";
+	private String localidadClub = "";
+	private String paisClub = "";
+	private byte[] logoClub = null;
+	private String emailClub = "";
+	private String passwordClub; 
+	private String telefonoClub = "";
 	private boolean esPremium = false;
+
 
 	// Getters y Setters
 	public long getIdClub() {

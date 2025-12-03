@@ -30,6 +30,7 @@ public class ClubEstadisticaTorneoControlador  extends HttpServlet{
 	        this.clubEstadisticaTorneoServicio = new ClubEstadisticaTorneoServicio();
 	    }
 	    
+	    @Override
 	    protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {
 
@@ -37,7 +38,7 @@ public class ClubEstadisticaTorneoControlador  extends HttpServlet{
 	            HttpSession session = request.getSession(false);
 	            String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
 
-	            if (tipoUsuario == null || !(tipoUsuario.equals("jugador") || tipoUsuario.equals("club"))) {
+	            if (tipoUsuario == null || !(tipoUsuario.equals("jugador") || tipoUsuario.equals("club") || tipoUsuario.equals("instalacion")  )) {
 	                if (session != null && session.getAttribute("usuarioId") != null) tipoUsuario = "jugador";
 	                else if (session != null && session.getAttribute("clubId") != null) tipoUsuario = "club";
 	                else {
@@ -48,8 +49,17 @@ public class ClubEstadisticaTorneoControlador  extends HttpServlet{
 	                }
 	            }
 
-	            ArrayList<ClubEstadisticaTorneoDto> listaEstadisticas = 
-	                clubEstadisticaTorneoServicio.obtenerTodasClubEstadisticasTorneo();
+	            String idParam = request.getParameter("id"); // id opcional del club
+	            ArrayList<ClubEstadisticaTorneoDto> listaEstadisticas;
+
+	            if (idParam != null) {
+	                // Si se pasa id, obtener estadísticas solo de ese club
+	                Long clubId = Long.parseLong(idParam);
+	                listaEstadisticas = clubEstadisticaTorneoServicio.obtenerClubEstadisticasTorneoPorClubId(clubId);
+	            } else {
+	                // Si no hay id, obtener todas las estadísticas de todos los clubes
+	                listaEstadisticas = clubEstadisticaTorneoServicio.obtenerTodasClubEstadisticasTorneo();
+	            }
 
 	            response.setContentType("application/json");
 	            response.setCharacterEncoding("UTF-8");
@@ -62,6 +72,7 @@ public class ClubEstadisticaTorneoControlador  extends HttpServlet{
 	            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 	            response.setContentType("text/plain; charset=UTF-8");
 	            response.getWriter().write("Error en el servidor: " + e.getMessage());
+	            e.printStackTrace();
 	        }
 	    }
 }

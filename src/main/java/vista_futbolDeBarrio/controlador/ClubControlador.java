@@ -207,30 +207,51 @@ public class ClubControlador extends HttpServlet {
 	 */
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		try {
-			HttpSession session = request.getSession(false);
-			String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
+	        throws ServletException, IOException {
+	    try {
+	        HttpSession session = request.getSession(false);
+	        String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
 
-			if (tipoUsuario == null || tipoUsuario.isEmpty()) {
-				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-				response.getWriter().write("Acceso denegado. Debe iniciar sesión para acceder.");
-				Log.ficheroLog("Intento de acceso no autorizado sin sesión a GET /club");
-				return;
-			}
-			ArrayList<ClubDto> listaClub = servicio.listaClub();
-			response.setContentType("application/json");
-			response.setCharacterEncoding("UTF-8");
-			ObjectMapper objectMapper = new ObjectMapper();
-			String json = objectMapper.writeValueAsString(listaClub);
-			Log.ficheroLog("Lista de clubes solicitada. Número de clubes: " + listaClub.size());
-			response.getWriter().write(json);
-		} catch (Exception e) {
-			Log.ficheroLog("Error al obtener lista de clubes: " + e.getMessage());
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.getWriter().write("Se ha producido un error al obtener los clubes. " + e.getMessage());
-		}
+	        if (tipoUsuario == null || tipoUsuario.isEmpty()) {
+	            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+	            response.getWriter().write("Acceso denegado. Debe iniciar sesión para acceder.");
+	            return;
+	        }
+
+	        String idParam = request.getParameter("idClub");
+	        ObjectMapper objectMapper = new ObjectMapper();
+
+	        if (idParam != null && !idParam.isEmpty()) {
+	            // Solo devolver el club solicitado
+	            long idClub = Long.parseLong(idParam);
+	            ClubDto club = servicio.obtenerClubPorId(idClub);
+
+	            if (club != null) {
+	                response.setContentType("application/json");
+	                response.setCharacterEncoding("UTF-8");
+	                response.getWriter().write(objectMapper.writeValueAsString(club));
+	            } else {
+	                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+	                response.getWriter().write("Club no encontrado con ID: " + idClub);
+	            }
+
+	        } else {
+	            // Devolver toda la lista
+	            ArrayList<ClubDto> listaClub = servicio.listaClub();
+	            response.setContentType("application/json");
+	            response.setCharacterEncoding("UTF-8");
+	            response.getWriter().write(objectMapper.writeValueAsString(listaClub));
+	        }
+
+	    } catch (NumberFormatException e) {
+	        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	        response.getWriter().write("ID de club inválido.");
+	    } catch (Exception e) {
+	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	        response.getWriter().write("Se ha producido un error al obtener los clubes. " + e.getMessage());
+	    }
 	}
+
 
 	private void activarPremiumClub(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession(false);

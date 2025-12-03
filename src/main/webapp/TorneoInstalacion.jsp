@@ -866,7 +866,7 @@ function paginarTabla(tipo, filasPorPagina) {
             const partidos = data[r] || [];
             const todosFinalizados = partidos.length > 0 && partidos.every(p => p.estado === "finalizado");
             if (todosFinalizados) {
-                console.log(`Todos los ${r} finalizados, generando siguiente ronda...`);
+               
                 await generarSiguienteRonda(partidos);
             }
         }
@@ -881,7 +881,7 @@ function paginarTabla(tipo, filasPorPagina) {
                     body: new URLSearchParams({ partidoId: p.idPartidoTorneo, ganadorId: p.equipoGanadorId })
                 });
                 const data = await resp.json();
-                console.log("Partido generado automáticamente:", data);
+               
             } catch (err) {
                 console.error("Error generando siguiente ronda:", err);
             }
@@ -900,7 +900,7 @@ function paginarTabla(tipo, filasPorPagina) {
     // ------------------ Tablas ------------------
     async function cargarTablas(torneoId){
         try{
-            const resp = await fetch('http://localhost:9527/api/mostrarJugadorEstadisticaTorneo');
+        	const resp = await fetch('<%=request.getContextPath()%>/jugadorEstadisticaTorneo');
             const datos = await resp.json();
             const torneoDatos = datos.filter(d => d.torneoId == torneoId);
 
@@ -956,14 +956,14 @@ function paginarTabla(tipo, filasPorPagina) {
     // ------------------ CARGAR CLUBES ------------------
     async function cargarClubes(torneoId){
         try{
-            const resp = await fetch('http://localhost:9527/api/mostrarClubEstadisticaTorneo');
+        	const resp = await fetch('<%=request.getContextPath()%>/clubEstadisticaTorneo');
             const datos = await resp.json();
-            const clubes = datos.filter(c=>c.torneoId==torneoId);
+            const torneoDatos = datos.filter(d => d.torneoId == torneoId);
 
             var tbodyE = document.querySelector('#tablaEquiposBody tbody');
             if(tbodyE){
                 tbodyE.innerHTML = '';
-                clubes.forEach(c=>{
+                torneoDatos.forEach(c=>{
                     tbodyE.innerHTML += '<tr>'+
                         '<td>'+c.nombreClub+'</td>'+
                         '<td>'+c.abreviaturaClub+'</td>'+

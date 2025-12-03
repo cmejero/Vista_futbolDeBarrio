@@ -20,7 +20,7 @@ public class JugadorEstadisticaGlobalServicio {
      * Obtiene todas las estadísticas de jugadores desde la API.
      * @return JSON con la lista de estadísticas o null si ocurre un error.
      */
-    public String obtenerTodasJugadorEstadisticasGlobal() {
+    public String obtenerTodosJugadorEstadisticasGlobal() {
         try {
             String urlApi = "http://localhost:9527/api/mostrarJugadorEstadisticaGlobal";
             URL url = new URL(urlApi);

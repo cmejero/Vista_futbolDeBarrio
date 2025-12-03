@@ -62,7 +62,6 @@
 		<div class="container-fluid ">
 			<div class="row ">
 
-
 				<div class="col-sm-12 col-md-12  d-sm-block d-md-block d-none">
 					<div class="row">
 
@@ -146,6 +145,7 @@
 </svg>
 											</a>
 										</div>
+
 									</div>
 								</div>
 								<!-- fila medio -->
@@ -158,24 +158,38 @@
 												style="color: #c0c0c0; margin-left: 7px;"> /</span>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraMedio">
-											<svg xmlns="http://www.w3.org/2000/svg" width="1.3vw"
-												height="1.3vw" fill="currentColor"
-												style="margin-right: 0.7vw" class="bi bi-search"
-												viewBox="0 0 16 16">
-  <path
-													d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-</svg>
-											<div class="barra-busqueda ">
-												<input type="text" placeholder=""
-													style="width: 16vw; height: 1.65vw; border-radius: 50px; display: flex; justify-content: left; align-items: center; font-size: 1vw; margin-right: 0.7vw">
+											<%
+											if (esPremium != null && esPremium) {
+											%>
+											<div class="premium-badge">
+												<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+													class="bi bi-star-fill" viewBox="0 0 16 16">
+            <path
+														d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.32-.158-.888.283-.95l4.898-.696 2.194-4.445c.197-.398.73-.398.927 0l2.194 4.445 4.898.696c.441.062.612.63.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+          </svg>
+												PREMIUM
 											</div>
+											<%
+											} else {
+											%>
+											<div class=" cabeceraMedio">
+												<a href="PagoPremium.jsp">
+													<button type="button" class=" botonPremiumCabecera"
+														title="Accede a todas las funciones premium y ventajas exclusivas">
+														HAZTE PREMIUM</button>
+												</a>
+											</div>
+											<%
+											}
+											%>
 
 
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="" class="letraCabeceraMedio">BIENVENIDO: San
-												Diego FC</a>
+											<a href="" class="letraCabeceraMedio"
+												id="nombreUsuarioCabecera"> BIENVENIDO: <%=nombreUsuario%>
+											</a>
 										</div>
 
 									</div>
@@ -210,18 +224,18 @@
 									<div class="row">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="PlantillaClub.jsp" class="letraCabeceraAbajo"
-												style="color: #d4af37;">PLANTILLA</a>
+											<a href="PlantillaClub.jsp" class="letraCabeceraAbajo" style="color: #d4af37;">PLANTILLA</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo">MARCADORES</a>
+											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo"
+												>MARCADORES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo">DESAFIOS</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraAbajo">
 											<div class="dropdown">
-												<button class="btn btn-secondary " type="button"
+												<button class="btn btn-secondary  " type="button"
 													data-bs-toggle="dropdown" aria-expanded="false"
 													style="background-color: #004000; width: 4vw; height: 2.3vw; border-radius: 5px; display: flex; justify-content: center; align-items: center; padding: 0;">
 													<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -244,7 +258,8 @@
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
 													</li>
-													<li><a class="dropdown-item" href="logout" style="color: white;">Cerrar sesión</a></li>
+													<li><a class="dropdown-item" href="logout"
+														style="color: white;">Cerrar sesión</a></li>
 												</ul>
 											</div>
 										</div>
@@ -255,7 +270,6 @@
 						</div>
 					</div>
 				</div>
-
 
 				<!-- HEADER COL -->
 
@@ -283,12 +297,24 @@
 										</div>
 										<div
 											class="d-sm-none d-md-none col-4 d-block cabeceraMedio  d-flex justify-content-center align-items-center">
-											<a href="Instalacion.jsp">
-												<button type="button" class="botonRegistrarCabecera"
-													style="background-color: #e7bf3e;">
-													<i>HAZTE PREMIUM</i>
-												</button>
-											</a>
+											<%
+											if (esPremium != null && esPremium) {
+											%>
+											<div class="premium-badge">
+												<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+													class="bi bi-star-fill" viewBox="0 0 16 16">
+            <path
+														d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.32-.158-.888.283-.95l4.898-.696 2.194-4.445c.197-.398.73-.398.927 0l2.194 4.445 4.898.696c.441.062.612.63.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+          </svg>
+												PREMIUM
+											</div>
+											<%
+											} else {
+											%>
+											<button class="btn btn-warning">Hacerse Premium</button>
+											<%
+											}
+											%>
 										</div>
 
 									</div>
@@ -302,29 +328,27 @@
 
 								<!-- columna izquierda: INICIO -->
 								<div
-									class="col-4 d-flex justify-content-start align-items-center ps-4 ">
-									<a href="Index.jsp" class="letraCabeceraAbajo "
+									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
+									<a href="Club.jsp" class="letraCabeceraAbajo "
 										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
 								</div>
-
-								<!-- columna medio: buscador -->
-								<div
-									class="col-4 d-flex justify-content-center align-items-center">
-									<div class="d-flex align-items-center">
-										<svg xmlns="http://www.w3.org/2000/svg" width="2.5vw"
-											height="2.5vw" fill="currentColor"
-											class="bi bi-search text-white me-2" viewBox="0 0 16 16">
-									<path
-												d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-								</svg>
-										<input type="text" placeholder="Buscar..."
-											style="font-size: 2vw; width: 30vw; height: 3vw; border-radius: 20px; border: none; padding-left: 10px;">
-									</div>
+									<div
+									class="col-3 d-flex justify-content-start align-items-center ps-2 ">
+									<a href="PlantillaClub.jsp" class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw;color: #d4af37;">PLANTILLA</a>
 								</div>
+								<div
+									class="col-4 d-flex justify-content-start align-items-center ps-2 ">
+									<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw; ">MARCADORES</a>
+								</div>
+							
+
+
 
 								<!-- columna derecha: menú desplegable -->
 								<div
-									class="col-4 d-flex justify-content-end align-items-center pe-4">
+									class="col-2 d-flex justify-content-end align-items-center pe-4">
 									<div class="dropdown">
 										<button class="btn btn-secondary " type="button"
 											data-bs-toggle="dropdown" aria-expanded="false"
@@ -340,15 +364,11 @@
 											style="min-width: 12vw; font-size: 2.2vw; background-color: #003300; border-radius: 5px; width: 25vw">
 
 
-											<li><a class="dropdown-item " href="Club.jsp"
+											<li><a class="dropdown-item " href="Jugador.jsp"
 												style="color: white;">Alquileres </a></li>
 											<li><a class="dropdown-item " href="EventoClub.jsp"
 												style="color: white;">Eventos </a></li>
-											<li><a class="dropdown-item " href="PlantillaClub.jsp"
-												style="color: #d4af37;">Plantilla </a></li>
-											<li><a class="dropdown-item " href="MarcadoresClub.jsp"
-												style="color: white;">Marcadores </a></li>
-											<li><a class="dropdown-item " href="Club.jsp"
+											<li><a class="dropdown-item " href="Jugador.jsp"
 												style="color: white;">Desafios </a></li>
 
 
@@ -365,8 +385,9 @@
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item" href="logout" style="color: white;">Cerrar sesión</a></li>
-											<li>
+											<li><a class="dropdown-item" href="logout"
+												style="color: white;">Cerrar sesión</a></li>
+
 										</ul>
 									</div>
 								</div>
@@ -375,12 +396,10 @@
 						</div>
 					</div>
 				</div>
-
-
-
 			</div>
 		</div>
 	</header>
+
 
 <main style="background-color: rgba(223, 234, 213, 0.5);">
 

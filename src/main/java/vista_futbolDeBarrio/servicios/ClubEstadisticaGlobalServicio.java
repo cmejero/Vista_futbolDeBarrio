@@ -51,7 +51,7 @@ public class ClubEstadisticaGlobalServicio {
      */
     public String obtenerClubEstadisticasGlobal(Long clubId) {
         try {
-            String urlApi = "http://localhost:9527/api/clubEstadisticaGlobal/" + clubId;
+            String urlApi = "http://localhost:9527/api/clubEstadisticaGlobal/club/" + clubId;
             URL url = new URL(urlApi);
             HttpURLConnection conex = (HttpURLConnection) url.openConnection();
             conex.setRequestMethod("GET");

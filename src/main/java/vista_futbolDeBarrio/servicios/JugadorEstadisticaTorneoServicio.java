@@ -104,5 +104,60 @@ public class JugadorEstadisticaTorneoServicio {
         return null;
     }
 
+    
+    public ArrayList<JugadorEstadisticaTorneoDto> obtenerJugadorEstadisticasTorneoPorJugadorId(Long jugadorId) {
+    	ArrayList<JugadorEstadisticaTorneoDto> lista = new ArrayList<>();
+    	try {
+    	String urlApi = "http://localhost:9527/api/jugadorEstadisticaTorneo/jugador/" + jugadorId;
+    	URL url = new URL(urlApi);
+    	HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+    	conex.setRequestMethod("GET");
+    	conex.setRequestProperty("Accept", "application/json");
+
+    	
+    	    int responseCode = conex.getResponseCode();
+    	    if (responseCode == HttpURLConnection.HTTP_OK) {
+    	        BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
+    	        StringBuilder response = new StringBuilder();
+    	        String line;
+    	        while ((line = in.readLine()) != null) response.append(line);
+    	        in.close();
+
+    	        JSONArray jsonLista = new JSONArray(response.toString());
+    	        for (int i = 0; i < jsonLista.length(); i++) {
+    	            JSONObject json = jsonLista.getJSONObject(i);
+    	            JugadorEstadisticaTorneoDto dto = new JugadorEstadisticaTorneoDto();
+
+    	            dto.setIdJugadorEstadisticaTorneo(json.optLong("idJugadorEstadisticaTorneo"));
+    	            dto.setJugadorId(json.optLong("jugadorId"));
+    	            dto.setNombreJugador(json.optString("nombreJugador", "Desconocido"));
+    	            dto.setNombreClub(json.optString("nombreClub", "Sin club"));
+    	            dto.setNombreTorneo(json.optString("nombreTorneo", "Sin nombre"));
+    	            dto.setTorneoId(json.optLong("torneoId"));
+
+    	            dto.setGolesTorneo(json.optInt("golesTorneo", 0));
+    	            dto.setAsistenciasTorneo(json.optInt("asistenciasTorneo", 0));
+    	            dto.setAmarillasTorneo(json.optInt("amarillasTorneo", 0));
+    	            dto.setRojasTorneo(json.optInt("rojasTorneo", 0));
+    	            dto.setPartidosJugadosTorneo(json.optInt("partidosJugadosTorneo", 0));
+    	            dto.setPartidosGanadosTorneo(json.optInt("partidosGanadosTorneo", 0));
+    	            dto.setPartidosPerdidosTorneo(json.optInt("partidosPerdidosTorneo", 0));
+    	            dto.setMinutosJugadosTorneo(json.optInt("minutosJugadosTorneo", 0));
+
+    	            lista.add(dto);
+    	        }
+
+    	    } else {
+    	        System.out.println("Error al obtener estadísticas del jugador: " + responseCode);
+    	    }
+
+    	} catch (Exception e) {
+    	    e.printStackTrace();
+    	}
+    	return lista;
+    	
+
+    	}
+
   
 }

@@ -1,18 +1,55 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+<%
+// Obtener tipo de usuario de sesión y normalizar a minúsculas
+String tipoUsuario = ((String) session.getAttribute("tipoUsuario"));
+
+// Redirigir si no es club
+if (tipoUsuario == null || !"instalacion".equals(tipoUsuario)) {
+	response.sendRedirect("acceso_denegado.jsp");
+	return; // Detener el renderizado de la página
+}
+
+Long usuarioId = (Long) session.getAttribute("idInstalacion");
+String nombreUsuario = (String) session.getAttribute("nombreInstalacion");
+if (nombreUsuario == null)
+	nombreUsuario = "Invitado";
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- Estilos CSS -->
 <link rel="stylesheet" href="Css/Estilo.css">
+
+<!-- Bootstrap CSS -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-	crossorigin="anonymous">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
 	rel="stylesheet">
+
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+	rel="stylesheet">
+
+<!-- DataTables CSS -->
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+<!-- jQuery (Debe estar antes de Bootstrap y DataTables) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- DataTables JS -->
+<script
+	src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<!-- Chart.js (Solo si lo necesitas) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <title>FUTBOL DE BARRIO</title>
 </head>
@@ -149,7 +186,8 @@
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="Instalacion.jsp" class="letraCabeceraAbajo" style="color: #d4af37;">INICIO</a>
+											<a href="Instalacion.jsp" class="letraCabeceraAbajo"
+												style="color: #d4af37;">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo">RESERVAS</a>
@@ -201,7 +239,8 @@
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
 													</li>
-													<li><a class="dropdown-item" href="logout" style="color: white;">Cerrar sesión</a></li>
+													<li><a class="dropdown-item" href="logout"
+														style="color: white;">Cerrar sesión</a></li>
 												</ul>
 											</div>
 										</div>
@@ -298,8 +337,9 @@
 
 											<li><a class="dropdown-item " href="Instalacion.jsp"
 												style="color: white;">Reservas </a></li>
-											<li><a class="dropdown-item " href="EventoInstalacion.jsp"
-												style="color: white;">Eventos </a></li>
+											<li><a class="dropdown-item "
+												href="EventoInstalacion.jsp" style="color: white;">Eventos
+											</a></li>
 											<li><a class="dropdown-item " href="Instalacion.jsp"
 												style="color: white;">Finanzas </a></li>
 											<li><a class="dropdown-item " href="Instalacion.jsp"
@@ -321,7 +361,8 @@
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item" href="logout" style="color: white;">Cerrar sesión</a></li>
+											<li><a class="dropdown-item" href="logout"
+												style="color: white;">Cerrar sesión</a></li>
 											<li>
 										</ul>
 									</div>
@@ -338,45 +379,66 @@
 	</header>
 
 	<main style="background-color: rgba(223, 234, 213, 0.5);">
-	
-	<div class="tarjeta-contenedor" style="box-shadow: 
-    0 0.3vw 0.6vw rgba(26, 188, 91, 0.6),
-    0 1vw 2vw rgba(26, 188, 91, 0.45),
-    0 0 0 0.2vw rgba(26, 188, 91, 0.35);">
-    <!-- Imagen destacada -->
-    <img src="Imagenes/instalacion.jpg" alt="Imagen Instalación" class="tarjeta-imagen-grande" style="border: 0.3vw solid  #1abc5b;">
 
-    <!-- Cabecera: Nombre + contacto -->
-    <div class="tarjeta-header-instalacion">
-        <h2 class="tarjeta-nombre">Instalación Deportiva Europa</h2>
-        <p class="tarjeta-info"><strong>📍 Dirección:</strong> Calle Fútbol, 123 - Madrid</p>
-        <p class="tarjeta-info"><strong>📧 Email:</strong> contacto@instalacion.com</p>
-        <p class="tarjeta-info"><strong>📞 Teléfono:</strong> +34 600 123 456</p>
-    </div>
 
-    <!-- Estadísticas -->
-    <div class="tarjeta-estadisticas">
-        <div class="tarjeta-estadistica"><strong>3</strong>Torneos Activos</div>
-        <div class="tarjeta-estadistica"><strong>✔</strong>Fútbol 5</div>
-        <div class="tarjeta-estadistica"><strong>✔</strong>Fútbol 7</div>
-        <div class="tarjeta-estadistica"><strong>✖</strong>Fútbol 11</div>
-        <div class="tarjeta-estadistica tarjeta-servicios">
-            <strong style="text-align:center">Servicios</strong>
-            Bar, vestuarios, parking gratuito, duchas, alquiler de material.
-        </div>
-    </div>
 
-    <!-- Iconos -->
-    <div class="tarjeta-iconos">
-        <img src="Imagenes/icono1.png" alt="Icono 1" class="tarjeta-icono">
-        <img src="Imagenes/icono2.png" alt="Icono 2" class="tarjeta-icono">
-        <img src="Imagenes/icono3.png" alt="Icono 3" class="tarjeta-icono">
-        <img src="Imagenes/icono4.png" alt="Icono 4" class="tarjeta-icono">
-        <img src="Imagenes/icono5.png" alt="Icono 5" class="tarjeta-icono">
-    </div>
-</div>
+		<div class="tarjeta-contenedor"
+			style="box-shadow: 0 0.3vw 0.6vw rgba(26, 188, 91, 0.6), 0 1vw 2vw rgba(26, 188, 91, 0.45), 0 0 0 0.2vw rgba(26, 188, 91, 0.35);">
+
+			<!-- Imagen destacada -->
+			<img src="Imagenes/instalacion.jpg" alt="Imagen Instalación"
+				class="tarjeta-imagen-grande" style="border: 0.3vw solid #1abc5b;">
+
+			<!-- Cabecera: Nombre + contacto -->
+			<div class="tarjeta-header-instalacion">
+				<h2 class="tarjeta-nombre">Cargando...</h2>
+				<p class="tarjeta-info">
+					<strong>📍 Dirección:</strong> <span class="direccion-placeholder">Cargando...</span>
+				</p>
+				<p class="tarjeta-info">
+					<strong>📧 Email:</strong> <span class="email-placeholder">Cargando...</span>
+				</p>
+				<p class="tarjeta-info">
+					<strong>📞 Teléfono:</strong> <span class="telefono-placeholder">Cargando...</span>
+				</p>
+			</div>
+
+			<!-- Estadísticas -->
+			<div class="tarjeta-estadisticas">
+				<div class="tarjeta-estadistica">
+					<strong>0</strong>Torneos Activos
+				</div>
+				<div class="tarjeta-estadistica">
+					<strong>✖</strong>FUTBOL 5
+				</div>
+				<div class="tarjeta-estadistica">
+					<strong>✖</strong>FUTBOL 7
+				</div>
+				<div class="tarjeta-estadistica">
+					<strong>✖</strong>FUTBOL 11
+				</div>
+				<div class="tarjeta-estadistica tarjeta-servicios">
+					<strong>Servicios</strong>
+					<div class="servicios-placeholder">Cargando...</div>
+				</div>
+			</div>
+
+			<!-- Iconos -->
+			<div class="tarjeta-iconos">
+				<img src="Imagenes/icono1.png" alt="Icono 1" class="tarjeta-icono">
+				<img src="Imagenes/icono2.png" alt="Icono 2" class="tarjeta-icono">
+				<img src="Imagenes/icono3.png" alt="Icono 3" class="tarjeta-icono">
+				<img src="Imagenes/icono4.png" alt="Icono 4" class="tarjeta-icono">
+				<img src="Imagenes/icono5.png" alt="Icono 5" class="tarjeta-icono">
+			</div>
+
+		</div>
+
 
 	</main>
+
+
+
 
 
 	<footer>
@@ -567,14 +629,83 @@ Avenida mujer trabajadora
 
 
 	<script>
-		
-	</script>
+sessionStorage.setItem('tipoUsuario', '<%=tipoUsuario%>');
+sessionStorage.setItem('idInstalacion', '<%=usuarioId%>');
+
+async function cargarDatosInstalacion() {
+    const instalacionId = sessionStorage.getItem('idInstalacion');
+    if (!instalacionId) {
+        console.error('No hay instalacionId en sessionStorage');
+        return;
+    }
+
+    try {
+        const res = await fetch('<%=request.getContextPath()%>/instalacion?idInstalacion=' + instalacionId);
+        if (!res.ok) throw new Error('Error al cargar datos de la instalación');
+
+        const instalacion = await res.json();
+
+        // Cabecera
+        const nombreElem = document.querySelector('.tarjeta-nombre');
+        const direccionElem = document.querySelector('.direccion-placeholder');
+        const emailElem = document.querySelector('.email-placeholder');
+        const telefonoElem = document.querySelector('.telefono-placeholder');
+
+        if (nombreElem) nombreElem.innerText = instalacion.nombreInstalacion || "-";
+        if (direccionElem) direccionElem.innerText = instalacion.direccionInstalacion || "-";
+        if (emailElem) emailElem.innerText = instalacion.emailInstalacion || "-";
+        if (telefonoElem) telefonoElem.innerText = instalacion.telefonoInstalacion || "-";
+
+        // Imagen
+        const imagenElem = document.querySelector('.tarjeta-imagen-grande');
+        if (imagenElem && instalacion.imagenInstalacion && instalacion.imagenInstalacion.length > 0) {
+            imagenElem.src = "data:image/png;base64," + instalacion.imagenInstalacion;
+        }
+
+        // Estadísticas: torneos y tipos de campo
+        const estadisticasDivs = document.querySelectorAll('.tarjeta-estadistica');
+        if (estadisticasDivs.length >= 5) {
+            // Torneos activos
+            estadisticasDivs[0].querySelector('strong').innerText = instalacion.torneoIds ? instalacion.torneoIds.length : 0;
+
+            // Tipos de campo
+            const campos = ['Futbol5', 'Futbol7', 'Futbol11'];
+            const tiposInstalacion = [instalacion.tipoCampo1, instalacion.tipoCampo2, instalacion.tipoCampo3];
+            for (let i = 0; i < 3; i++) {
+                const elem = estadisticasDivs[i + 1].querySelector('strong');
+                if (elem) {
+                    if (tiposInstalacion.includes(campos[i])) {
+                        elem.innerHTML = "✔";
+                    } else {
+                        elem.innerHTML = "<span style='color:red'>✖</span>";
+                    }
+                }
+            }
+
+            // Servicios
+            const serviciosDiv = estadisticasDivs[4].querySelector('.servicios-placeholder');
+            if (serviciosDiv) serviciosDiv.innerText = instalacion.serviciosInstalacion || "-";
+        }
+
+    } catch (err) {
+        console.error('Error al cargar datos de la instalación:', err);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', cargarDatosInstalacion);
+</script>
 
 
+
+
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

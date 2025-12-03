@@ -179,6 +179,82 @@ public class InstalacionServicio {
         return lista;
     }
     
+    
+    public InstalacionDto obtenerInstalacionPorId(Long idInstalacion) {
+    	try {
+    	String urlApi = "http://localhost:9527/api/instalacion/" + idInstalacion;
+    	URL url = new URL(urlApi);
+    	HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+    	conex.setRequestMethod("GET");
+    	conex.setRequestProperty("Accept", "application/json");
+
+    	
+    	    int responseCode = conex.getResponseCode();
+    	    if (responseCode == HttpURLConnection.HTTP_OK) {
+    	        BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
+    	        StringBuilder response = new StringBuilder();
+    	        String inputLine;
+    	        while ((inputLine = in.readLine()) != null) {
+    	            response.append(inputLine);
+    	        }
+    	        in.close();
+
+    	        JSONObject jsonInstalacion = new JSONObject(response.toString());
+    	        InstalacionDto instalacion = new InstalacionDto();
+
+    	        instalacion.setIdInstalacion(jsonInstalacion.getLong("idInstalacion"));
+    	        instalacion.setNombreInstalacion(Utilidades.getValorSeguro(jsonInstalacion, "nombreInstalacion"));
+    	        instalacion.setDireccionInstalacion(Utilidades.getValorSeguro(jsonInstalacion, "direccionInstalacion"));
+    	        instalacion.setTelefonoInstalacion(Utilidades.getValorSeguro(jsonInstalacion, "telefonoInstalacion"));
+    	        instalacion.setEmailInstalacion(Utilidades.getValorSeguro(jsonInstalacion, "emailInstalacion"));
+    	        instalacion.setServiciosInstalacion(Utilidades.getValorSeguro(jsonInstalacion, "serviciosInstalacion"));
+
+    	        String tipo1 = Utilidades.getValorSeguro(jsonInstalacion, "tipoCampo1");
+    	        instalacion.setTipoCampo1(tipo1 != null && !tipo1.isEmpty() ? Modalidad.valueOf(tipo1) : null);
+
+    	        String tipo2 = Utilidades.getValorSeguro(jsonInstalacion, "tipoCampo2");
+    	        instalacion.setTipoCampo2(tipo2 != null && !tipo2.isEmpty() ? Modalidad.valueOf(tipo2) : null);
+
+    	        String tipo3 = Utilidades.getValorSeguro(jsonInstalacion, "tipoCampo3");
+    	        instalacion.setTipoCampo3(tipo3 != null && !tipo3.isEmpty() ? Modalidad.valueOf(tipo3) : null);
+
+    	        instalacion.setEstadoInstalacion(
+    	            Utilidades.getValorSeguro(jsonInstalacion, "estadoInstalacion") != null 
+    	            ? Estado.valueOf(Utilidades.getValorSeguro(jsonInstalacion, "estadoInstalacion")) 
+    	            : null
+    	        );
+
+    	        String imagenBase64 = jsonInstalacion.optString("imagenInstalacion", "");
+    	        if (!imagenBase64.isEmpty()) {
+    	            instalacion.setImagenInstalacion(Base64.getDecoder().decode(imagenBase64));
+    	        }
+
+    	        JSONArray torneosArray = jsonInstalacion.optJSONArray("torneoIds");
+    	        List<Long> torneoIds = new ArrayList<>();
+    	        if (torneosArray != null) {
+    	            for (int j = 0; j < torneosArray.length(); j++) {
+    	                torneoIds.add(torneosArray.getLong(j));
+    	            }
+    	        }
+    	        instalacion.setTorneoIds(torneoIds);
+
+    	        return instalacion;
+    	    } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
+    	        return null;
+    	    } else {
+    	        throw new RuntimeException("Error al obtener instalación. Código: " + responseCode);
+    	    }
+
+    	} catch (Exception e) {
+    	    e.printStackTrace();
+    	    return null;
+    	}
+    	
+
+    	}
+
+    
+    
     /**
      * Modifica una instalación existente.
      * 

@@ -76,14 +76,23 @@ public class LoginControlador extends HttpServlet {
 
         Log.ficheroLog("Login exitoso para el usuario: " + email + ", Tipo de usuario: " + tipoUsuario);
 
-        HttpSession session = request.getSession();
+        HttpSession oldSession = request.getSession(false);
+        if (oldSession != null) {
+            oldSession.invalidate();
+        }
+
+        HttpSession session = request.getSession(true);
+
         session.setAttribute("token", token);
         session.setAttribute("tipoUsuario", tipoUsuario);
         session.setAttribute("datosUsuario", datosUsuario);
 
         asignarIdUsuarioASesion(session, tipoUsuario, datosUsuario);
+
+
         redirigirPorTipoUsuario(response, tipoUsuario);
     }
+
 
     /**
      * Asigna a la sesión el ID correspondiente del usuario según su tipo.
@@ -96,7 +105,9 @@ public class LoginControlador extends HttpServlet {
         switch (tipoUsuario) {
             case "instalacion":
                 if (datosUsuario instanceof InstalacionDto) {
-                    session.setAttribute("instalacionId", ((InstalacionDto) datosUsuario).getIdInstalacion());
+                    session.setAttribute("idInstalacion", ((InstalacionDto) datosUsuario).getIdInstalacion());
+                    session.setAttribute("nombreInstalacion", ((InstalacionDto) datosUsuario).getNombreInstalacion());
+
                 }
                 break;
             case "club":

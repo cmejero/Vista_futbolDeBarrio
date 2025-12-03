@@ -11,6 +11,8 @@ import java.util.Base64;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import vista_futbolDeBarrio.dtos.ClubDto;
 import vista_futbolDeBarrio.utilidades.Utilidades;
 
@@ -147,6 +149,56 @@ public class ClubServicio {
 
         return lista;
     }
+    
+    
+    public ClubDto obtenerClubPorId(long idClub) {
+    	try {
+    	String urlApi = "http://localhost:9527/api/club/" + idClub;
+    	URL url = new URL(urlApi);
+    	HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+    	conex.setRequestMethod("GET");
+    	conex.setRequestProperty("Accept", "application/json");
+
+    	
+    	    int responseCode = conex.getResponseCode();
+    	    if (responseCode == HttpURLConnection.HTTP_OK) {
+    	        BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
+    	        StringBuilder response = new StringBuilder();
+    	        String line;
+    	        while ((line = in.readLine()) != null) {
+    	            response.append(line);
+    	        }
+    	        in.close();
+
+    	        // Convertir JSON a ClubDto
+    	        ObjectMapper mapper = new ObjectMapper();
+    	        ClubDto club = mapper.readValue(response.toString(), ClubDto.class);
+
+    	        // Convertir logoClub de Base64 a byte[] para el DTO
+    	        // Primero parseamos el JSON para leer el campo logoClub en Base64
+    	        JSONObject jsonClub = new JSONObject(response.toString());
+    	        String imagenBase64 = Utilidades.getValorSeguro(jsonClub, "logoClub");
+    	        if (imagenBase64 != null && !imagenBase64.isEmpty()) {
+    	            byte[] imageBytes = Base64.getDecoder().decode(imagenBase64);
+    	            club.setLogoClub(imageBytes);
+    	        } else {
+    	            club.setLogoClub(null);
+    	        }
+
+    	        return club;
+    	    } else {
+    	        System.err.println("No se encontró el club. Código HTTP: " + responseCode);
+    	    }
+    	} catch (Exception e) {
+    	    e.printStackTrace();
+    	}
+    	return null;
+    	
+
+    	}
+
+
+
 
     /**
      * Modifica los datos de un club existente.
