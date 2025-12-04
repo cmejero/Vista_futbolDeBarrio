@@ -93,7 +93,6 @@ public class InstalacionControlador extends HttpServlet {
 
         Part imagenPart = request.getPart("imagenInstalacion");
         byte[] imagenBytes = null;
-
         if (imagenPart != null && imagenPart.getSize() > 0) {
             imagenBytes = new byte[(int) imagenPart.getSize()];
             try (InputStream inputStream = imagenPart.getInputStream()) {
@@ -102,6 +101,8 @@ public class InstalacionControlador extends HttpServlet {
         } else {
             imagenBytes = Utilidades.obtenerImagenPorDefecto(context);
         }
+       
+
 
         InstalacionDto nuevaInstalacion = new InstalacionDto();
         nuevaInstalacion.setNombreInstalacion(nombreInstalacionForm);
@@ -137,7 +138,6 @@ public class InstalacionControlador extends HttpServlet {
             imagenBytes = Utilidades.obtenerImagenPorDefecto(context);
         }
         nuevaInstalacion.setImagenInstalacion(imagenBytes);
-
         nuevaInstalacion.setTorneoIds(new ArrayList<>());
 
         servicio.guardarInstalacion(nuevaInstalacion);
@@ -182,6 +182,7 @@ public class InstalacionControlador extends HttpServlet {
             InputStream inputStream = imagenPart.getInputStream();
             inputStream.read(imagenBytes);
         }
+        
         
         InstalacionDto instalacionModificada = new InstalacionDto();
         instalacionModificada.setIdInstalacion(Long.parseLong(idInstalacion));
@@ -237,9 +238,9 @@ public class InstalacionControlador extends HttpServlet {
             HttpSession session = request.getSession(false);
             String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
 
-            if (tipoUsuario == null || !"instalacion".equals(tipoUsuario)) {
+            if (tipoUsuario == null || !(tipoUsuario.equals("instalacion") || tipoUsuario.equals("administrador"))) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                response.getWriter().write("Acceso denegado. Debe iniciar sesión como instalación.");
+                response.getWriter().write("Acceso denegado. Debe iniciar sesión como instalación o admin.");
                 return;
             }
 

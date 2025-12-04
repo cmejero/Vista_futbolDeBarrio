@@ -140,21 +140,16 @@ public class InstalacionServicio {
 
 
                     instalacion.setPasswordInstalacion(null);
-                    String imagenBase64 = jsonInstalacion.optString("imagenInstalacion", "");
-                    if (!imagenBase64.isEmpty()) {
+            
+                    
+                    String imagenBase64 = Utilidades.getValorSeguro(jsonInstalacion, "imagenInstalacion");
+                    if (imagenBase64 != null && !imagenBase64.isEmpty()) {
                         byte[] imageBytes = Base64.getDecoder().decode(imagenBase64);
                         instalacion.setImagenInstalacion(imageBytes);
-
-                        // Opcional: guardar archivo físico si lo necesitas
-                        String fileName = "instalacion_" + instalacion.getIdInstalacion() + ".jpg";
-                        try (FileOutputStream fos = new FileOutputStream(fileName)) {
-                            fos.write(imageBytes);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                     } else {
-                        instalacion.setImagenInstalacion(null); // o tu imagen por defecto
+                        instalacion.setImagenInstalacion(null);
                     }
+
                     JSONArray torneosArray;
                     if (jsonInstalacion.isNull("torneoIds")) {
                         torneosArray = new JSONArray(); 

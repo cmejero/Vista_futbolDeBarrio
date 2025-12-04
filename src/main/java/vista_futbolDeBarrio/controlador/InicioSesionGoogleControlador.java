@@ -93,7 +93,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
             sesion.setAttribute("nombreClub", loginDto.getNombreCompleto()); 
             break;
         case "instalacion":
-            sesion.setAttribute("instalacionId", loginDto.getIdTipoUsuario());
+            sesion.setAttribute("idInstalacion", loginDto.getIdTipoUsuario());
             sesion.setAttribute("nombreInstalacion", loginDto.getNombreCompleto());
             break;
     }

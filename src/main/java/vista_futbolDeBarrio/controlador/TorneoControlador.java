@@ -67,7 +67,7 @@ public class TorneoControlador extends HttpServlet {
 	                String nombreTorneo = request.getParameter("nombreTorneo");
 	                String descripcion = request.getParameter("descripcionTorneo");
 	                String modalidadStr = request.getParameter("modalidad");
-	                Long instalacionId = (Long) request.getSession().getAttribute("instalacionId");
+	                Long instalacionId = (Long) request.getSession().getAttribute("idInstalacion");
 	                String fechaInicio = request.getParameter("fechaInicioTorneo");
 	                String fechaFin = request.getParameter("fechaFinTorneo");
 	                if (fechaFin == null || fechaFin.isEmpty()) fechaFin = "9999-01-01";

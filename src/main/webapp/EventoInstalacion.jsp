@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-Long instalacionId = (Long) session.getAttribute("instalacionId");
+Long instalacionId = (Long) session.getAttribute("idInstalacion"); // ✅ Clave correcta
 %>
 
 
@@ -68,12 +68,14 @@ Long instalacionId = (Long) session.getAttribute("instalacionId");
 </svg>
 											653435344
 										</div>
-										<div class="col-sm-2 col-md-2 cabeceraArriba "
+										<div class="col-sm-2 col-md-2 cabeceraArriba"
 											style="justify-content: left;">
 											<a href="">
-												<button type="button" class="botonCabeceraContactar">CONTACTAR</button>
-											</a>
+											<button type="button" class="botonCabeceraContactar"
+												onclick="abrirGmail()">CONTACTAR</button></a>
 										</div>
+
+
 										<div class="col-sm-2 col-md-2 cabeceraArriba">
 											<a href=""> <svg xmlns="http://www.w3.org/2000/svg"
 													width="1.4vw" height="1.2vw" fill="currentColor"
@@ -160,7 +162,11 @@ Long instalacionId = (Long) session.getAttribute("instalacionId");
 											<a href="Instalacion.jsp" class="letraCabeceraAbajo"">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">RESERVAS</a>
+											<a href="#" class="letraCabeceraAbajo seccion-bloqueada">
+												RESERVAS <span class="tooltip-text">Sección en
+													desarrollo</span>
+											</a>
+
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 											<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo"
@@ -177,13 +183,22 @@ Long instalacionId = (Long) session.getAttribute("instalacionId");
 									<div class="row">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
 										<div class="col-sm-2 col-md-2 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">FINANZAS</a>
+											<a href="#" class="letraCabeceraAbajo seccion-bloqueada">
+												FINANZAS <span class="tooltip-text">Sección en
+													desarrollo</span>
+											</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">ESTADISTICAS</a>
+											<a href="#" class="letraCabeceraAbajo seccion-bloqueada">
+												ESTADISTICAS <span class="tooltip-text">Sección en
+													desarrollo</span>
+											</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">NOTIFICACIONES</a>
+											<a href="#" class="letraCabeceraAbajo seccion-bloqueada">
+												NOTIFICACIONES <span class="tooltip-text">Sección en
+													desarrollo</span>
+											</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraAbajo">
 											<div class="dropdown">
@@ -402,8 +417,8 @@ Long instalacionId = (Long) session.getAttribute("instalacionId");
 									class="d-flex justify-content-between align-items-center mb-3">
 									<div class="col-md-11 col-sm-12 col-12 mx-auto   m-1"
 										style="display: flex; align-items: center; gap: 10px;">
-										<button id="volverAContenidoC" class=" mr-auto botonVolver" style= "margin-right:2.5vw"
-											>Volver</button>
+										<button id="volverAContenidoC" class=" mr-auto botonVolver"
+											style="margin-right: 2.5vw">Volver</button>
 										<button id="mostrarFiltrosTorneo"
 											class=" mr-auto botonFiltrar" style="background-color: black">Mostrar
 											Filtros</button>
@@ -425,8 +440,7 @@ Long instalacionId = (Long) session.getAttribute("instalacionId");
 													enctype="multipart/form-data">
 													<input type="hidden" name="accion" value="aniadir">
 													<input type="hidden" name="instalacionId"
-														value="${sessionScope.instalacionId}" />
-
+														value="<%=instalacionId%>">
 													<table class="tablaFormulario "
 														style="width: 50vw; background-color: #dedede; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
 
@@ -508,43 +522,27 @@ Long instalacionId = (Long) session.getAttribute("instalacionId");
 								</div>
 
 								<!-- Tabla de torneo -->
-								<table class="tablaDatos w-100 mb-3 mx-auto ">
-									<thead >
+								<!-- Tabla de torneos -->
+								<table class="tablaDatos w-100 mb-3 mx-auto">
+									<thead>
 										<tr>
 											<th style="border: 2px solid #8a210b; width: 30%">NOMBRE
 												TORNEO</th>
 											<th style="border: 2px solid #8a210b; width: 20%">MODALIDAD</th>
 											<th style="border: 2px solid #8a210b; width: 15%">FECHA
 												INICIO</th>
-											<th style="border: 2px solid #8a210b; width: 15%">FECHA
-												FIN</th>
 											<th style="border: 2px solid #8a210b; width: 10%">NºCLUBES</th>
-											<!-- Nueva columna para el botón Activar (separada de OPCIONES) -->
 											<th style="border: 2px solid #8a210b; width: 10%">ACTIVAR</th>
 											<th style="border: 2px solid #8a210b; width: 10%">OPCIONES</th>
 										</tr>
 									</thead>
-									<tbody id="tablaCuerpoTorneo">
-									</tbody>
+									<tbody id="tablaCuerpoTorneo"></tbody>
 								</table>
 
-
 								<!-- Paginación -->
-								<div
-									class="contenedorPaginacion mb-4 d-flex justify-content-center">
-									<button id="botonAnterior" class=""
-										style="font-size: 1.3vw; padding: 0.3vw 1vw; border: 1px solid #007bff; background-color: #ffffff; color: #007bff; border-radius: 5px; transition: all 0.3s ease;"
-										onmouseover="this.style.backgroundColor='#007bff'; this.style.color='#ffffff';"
-										onmouseout="this.style.backgroundColor='#ffffff'; this.style.color='#007bff';"
-										onclick="cambiarPagina(-1)">&lt; Anterior</button>
-									<span id="paginaActual" class="align-self-center"> <b>1</b>
-									</span>
-									<button id="botonSiguiente" class=""
-										style="font-size: 1.3vw; padding: 0.3vw 1vw; border: 1px solid #007bff; background-color: #ffffff; color: #007bff; border-radius: 5px; transition: all 0.3s ease;"
-										onmouseover="this.style.backgroundColor='#007bff'; this.style.color='#ffffff';"
-										onmouseout="this.style.backgroundColor='#ffffff'; this.style.color='#007bff';"
-										onclick="cambiarPagina(1)">Siguiente &gt;</button>
-								</div>
+								<div id="tablaCuerpoTorneo-paginacion"
+									class="contenedorPaginacion mb-4 d-flex justify-content-center"></div>
+
 							</div>
 						</div>
 					</div>
@@ -814,6 +812,7 @@ function cargarTorneos() {
         url: 'torneo',
         method: 'GET',
         dataType: 'json',
+        data: { instalacionId: instalacionId },
         xhrFields: { withCredentials: true },
         success: function (data) {
             if (data && Array.isArray(data) && data.length > 0) {
@@ -830,7 +829,7 @@ function cargarTorneos() {
                     var fechaFin = torneo.fechaFinTorneo ? new Date(torneo.fechaFinTorneo) : null;
 
                     var fechaInicioFormateada = fechaInicio ? fechaInicio.toLocaleDateString() : '';
-                    var fechaFinFormateada = fechaFin ? fechaFin.toLocaleDateString() : '';
+                   
 
                     var inscritosTexto = torneo.clubesInscritos || torneo.progresoEquipos || '0 / 16';
                     var inscritosNum = inscritosCount(inscritosTexto);
@@ -843,18 +842,18 @@ function cargarTorneos() {
                           'style="color:#007bff;cursor:pointer;text-decoration:underline;">' + (torneo.nombreTorneo || '') + '</span>'
                         : (torneo.nombreTorneo || '');
 
-                    // ✅ Botón Activar
-                    var botonActivarHtml = '';
-                    if (estaActivo) {
-                        botonActivarHtml = '<button class="btn-activar" data-torneo-id="' + torneo.idTorneo +
-                            '" disabled style="background:gray;color:white;border:none;padding:5px 8px;border-radius:5px;">Activo</button>';
-                    } else if (inscritosNum === 16) {
-                        botonActivarHtml = '<button class="btn-activar" data-torneo-id="' + torneo.idTorneo +
-                            '" style="background:#28a745;color:white;border:none;padding:5px 8px;border-radius:5px;cursor:pointer;">Activar</button>';
-                    } else {
-                        botonActivarHtml = '<button class="btn-activar" data-torneo-id="' + torneo.idTorneo +
-                            '" disabled style="background:lightgray;color:#666;border:none;padding:5px 8px;border-radius:5px;">Activar</button>';
-                    }
+                       // ✅ Botón Activar
+                          var botonActivarHtml = '';
+                          if (estaActivo) {
+                              botonActivarHtml = '<button class="btn-activar" data-torneo-id="' + torneo.idTorneo +
+                                  '" disabled style="background:#2ecc71;color:white;border:none;padding:5px 8px;border-radius:5px;">Activo</button>';
+                          } else if (inscritosNum === 16) {
+                              botonActivarHtml = '<button class="btn-activar" data-torneo-id="' + torneo.idTorneo +
+                                  '" style="background:#28a745;color:white;border:none;padding:5px 8px;border-radius:5px;cursor:pointer;">Activar</button>';
+                          } else {
+                              botonActivarHtml = '<button class="btn-activar" data-torneo-id="' + torneo.idTorneo +
+                                  '" disabled style="background:lightgray;color:#666;border:none;padding:5px 8px;border-radius:5px;">Activar</button>';
+                          }
 
                     // ✅ Botones opciones (Unirse + Modificar + Borrar)
                     var opcionesHtml =
@@ -870,13 +869,13 @@ function cargarTorneos() {
                         '<td>' + nombreHtml + '</td>' +
                         '<td>' + (torneo.modalidad || '') + '</td>' +
                         '<td>' + fechaInicioFormateada + '</td>' +
-                        '<td>' + fechaFinFormateada + '</td>' +
                         '<td style="color:green;">' + inscritosTexto + '</td>' +
                         '<td>' + botonActivarHtml + '</td>' +
                         '<td>' + opcionesHtml + '</td>' +
                         '</tr>';
 
                     $('#tablaCuerpoTorneo').append(row);
+                    paginarTabla('tablaCuerpoTorneo', 8); 
                 });
 
                 // ✅ Evento: Unirse al torneo
@@ -915,7 +914,7 @@ function cargarTorneos() {
                 // ✅ Evento: Nombre clicable → redirección a torneoInstalacion.jsp
                 $(document).off('click', '.nombre-torneo-link').on('click', '.nombre-torneo-link', function () {
                     var torneoId = $(this).data('torneo-id');
-                    window.location.href = '<%= request.getContextPath() %>/TorneoInstalacion.jsp?id=' + torneoId;
+                    window.location.href = '<%=request.getContextPath()%>/TorneoInstalacion.jsp?id=' + torneoId;
 
                 });
 
@@ -949,10 +948,67 @@ function cargarTorneos() {
 }
 
 
+function paginarTabla(tablaBodyId, filasPorPagina = 8) {
+    const tbody = document.getElementById(tablaBodyId);
+    if (!tbody) return;
+
+    const todasFilas = Array.from(tbody.querySelectorAll('tr'));
+    const filasVisibles = todasFilas.filter(f => f.style.display !== 'none');
+    const totalPaginas = Math.ceil(filasVisibles.length / filasPorPagina);
+    let paginaActual = 1;
+
+    const pagDiv = document.getElementById(tablaBodyId + '-paginacion');
+    if (!pagDiv) return;
+
+    function mostrarPagina(pagina) {
+        const inicio = (pagina - 1) * filasPorPagina;
+        const fin = inicio + filasPorPagina;
+
+        filasVisibles.forEach((fila, i) => fila.style.display = (i >= inicio && i < fin) ? '' : 'none');
+
+        pagDiv.innerHTML = '';
+
+        const btnAnterior = document.createElement('button');
+        btnAnterior.textContent = '< Anterior';
+        btnAnterior.classList.add('paginacion'); 
+        btnAnterior.disabled = pagina === 1;
+        btnAnterior.addEventListener('click', () => {
+            paginaActual--;
+            mostrarPagina(paginaActual);
+        });
+
+        const btnSiguiente = document.createElement('button');
+        btnSiguiente.textContent = 'Siguiente >';
+        btnSiguiente.classList.add('paginacion'); 
+        btnSiguiente.disabled = pagina === totalPaginas;
+        btnSiguiente.addEventListener('click', () => {
+            paginaActual++;
+            mostrarPagina(paginaActual);
+        });
+
+        const spanInfo = document.createElement('span');
+        spanInfo.textContent = ' Página ' + pagina + ' de ' + totalPaginas + ' ';
+        spanInfo.style.margin = '0 10px';
+
+        pagDiv.appendChild(btnAnterior);
+        pagDiv.appendChild(spanInfo);
+        pagDiv.appendChild(btnSiguiente);
+        pagDiv.style.display = 'flex';
+        pagDiv.style.alignItems = 'center';
+        pagDiv.style.justifyContent = 'center';
+        pagDiv.style.gap = '0.5vw'; 
+    }
+
+    mostrarPagina(paginaActual);
+}
+
+
+
 // Crear torneo vía AJAX (sin recargar página)
 $('#crearTorneoContainer form').submit(function(e){
-    e.preventDefault(); // evita redireccionar
-    const formData = $(this).serialize();
+    e.preventDefault();
+    let formData = $(this).serialize();
+    formData += '&instalacionId=' + instalacionId; // agregamos id de instalación
     $.ajax({
         url: 'torneo',
         method: 'POST',
@@ -960,7 +1016,7 @@ $('#crearTorneoContainer form').submit(function(e){
         success: function() {
             $('#crearTorneoContainer form')[0].reset();
             $('#crearTorneoContainer').hide();
-            cargarTorneos(); // recargar tabla
+            cargarTorneos();
         },
         error: function(xhr, status, error){
             console.error('Error al crear torneo:', error);
@@ -986,7 +1042,22 @@ $('#tablaCuerpoTorneo').on('click', '.btnEliminar', function () {
 });
 
 
+
+function abrirGmail() {
+    const email = "futboldebarrio@gmail.com";
+    const subject = "Titulo del Asunto: ";
+    const body = "Escriba aqui el mensaje....";
+
+    const url = "https://mail.google.com/mail/?view=cm&fs=1&to=" 
+                + encodeURIComponent(email) 
+                + "&su=" + encodeURIComponent(subject) 
+                + "&body=" + encodeURIComponent(body);
+
+    window.open(url, "_blank");
+}
+
 </script>
+
 
 
 

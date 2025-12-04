@@ -387,7 +387,7 @@ if (nombreUsuario == null)
 
 			<!-- Imagen destacada -->
 			<img src="Imagenes/instalacion.jpg" alt="Imagen Instalación"
-				class="tarjeta-imagen-grande" style="border: 0.3vw solid #1abc5b;">
+				class="tarjeta-imagen-grande" >
 
 			<!-- Cabecera: Nombre + contacto -->
 			<div class="tarjeta-header-instalacion">

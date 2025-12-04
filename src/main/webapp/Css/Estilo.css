@@ -1152,23 +1152,19 @@ tr {
 
 
 
-.paginacion {
-	display: flex;
-	justify-content: center;
-	gap: 0.5vw;
-	margin-top: 1vw;
+button.paginacion {
+  background-color: #1e1e1e;
+  color: white;
+  border: 1px solid #444;
+  padding: 0.2vw 0.8vw;
+  border-radius: 0.4vw;
+  transition: all 0.3s ease;
+  font-size: 1.1vw;
+  margin-top: 0vw;
+  cursor: pointer;
 }
 
-.paginacion button {
-	background-color: #1e1e1e;
-	color: white;
-	border: 1px solid #444;
-	padding: 0.2vw 0.8vw;
-	border-radius: 0.4vw;
-	transition: all 0.3s ease;
-	font-size: 1.1vw;
-	margin-top: 1vw;
-}
+
 
 .infoPaginacion {
 	font-size: 1.1vw;
@@ -1179,7 +1175,7 @@ tr {
 	margin-top: 1vw;
 }
 
-.paginacion button:hover {
+button.paginacion :hover {
 	background-color: rgb(52, 52, 52);
 	border-color: rgb(52, 52, 52);
 	color: black;
@@ -1282,6 +1278,9 @@ tr {
 		margin: -3vw;
 
 	}
+button.paginacion{
+	font-size: 2vw;
+}
 }
 
 
@@ -1429,13 +1428,22 @@ tr {
 
 .tarjeta-imagen {
 	width: 10vw;
-	height: 10vw;
-	border-radius: 50%;
-	object-fit: cover;
-	margin: 0.3vw auto;
-	border: 0.4vw solid #c10000;
+    height: 10vw;
+    border-radius: 50%;     
+    overflow: hidden;       
+    border: 0.4vw solid #c10000;
+    margin: 0.3vw auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
 }
 
+.tarjeta-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
 .tarjeta-estado {
 	font-size: 1.2vw;
 	font-weight: bold;
@@ -1488,14 +1496,27 @@ tr {
 
 }
 
+
 .tarjeta-imagen-grande {
-	width: 100%;
-	height: 12.5vw;
-	object-fit: cover;
-	border-radius: 1vw;
-	margin-bottom: 2vw;
-	border: 0.3vw solid #c10000;
+    width: 100%;
+    height: 12.5vw;
+    border-radius: 1vw;
+    overflow: hidden;           
+    border: 0.3vw solid #1abc5b; 
+    margin-bottom: 2vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;      
 }
+
+/* Imagen dentro del contenedor */
+.tarjeta-imagen-grande img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;         
+}
+
 
 .tarjeta-header-instalacion {
 	text-align: left;
@@ -2033,6 +2054,39 @@ border:0.5px solid #8a210b;
 
 
 /* OTROS */
+
+.seccion-bloqueada {
+    position: relative;
+    color: gray;
+    cursor: not-allowed;
+    text-decoration: none;
+}
+
+/* El tooltip inicialmente oculto */
+.seccion-bloqueada .tooltip-text {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 4px 8px;
+    position: absolute;
+    bottom: 120%; /* aparece arriba del enlace */
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 10;
+}
+
+/* Mostrar el tooltip al pasar el mouse */
+.seccion-bloqueada:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
 
 .premium-badge {
 	display: flex;

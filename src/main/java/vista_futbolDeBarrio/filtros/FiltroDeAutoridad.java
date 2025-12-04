@@ -140,8 +140,9 @@ public class FiltroDeAutoridad implements Filter {
         }
         if (uri.endsWith("Instalacion.jsp") || uri.endsWith("EventoInstalacion.jsp")
                 || uri.endsWith("TorneoInstalacion.jsp") || uri.endsWith("Acta.jsp")) {
-            return "instalacion".equals(tipoUsuario);
+            return "instalacion".equals(tipoUsuario) || "administrador".equals(tipoUsuario);
         }
+
         return true;
     }
 	public void init(FilterConfig fConfig) throws ServletException {
