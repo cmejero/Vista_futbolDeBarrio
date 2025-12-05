@@ -3,6 +3,8 @@
 	pageEncoding="UTF-8"%>
 <%
 String torneoId = request.getParameter("torneoId");
+String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
+
 %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -62,7 +64,7 @@ String torneoId = request.getParameter("torneoId");
   <path
 													d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791" />
 </svg>
-											futboldebarrio@gmail.com
+											futboldebarriosevilla@gmail.com
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraArriba">
 											<svg xmlns="http://www.w3.org/2000/svg" width="1.2vw"
@@ -74,12 +76,15 @@ String torneoId = request.getParameter("torneoId");
 </svg>
 											653435344
 										</div>
-										<div class="col-sm-2 col-md-2 cabeceraArriba "
+										<div class="col-sm-2 col-md-2 cabeceraArriba"
 											style="justify-content: left;">
 											<a href="">
-												<button type="button" class="botonCabeceraContactar">CONTACTAR</button>
+												<button type="button" class="botonCabeceraContactar"
+													onclick="abrirGmail()">CONTACTAR</button>
 											</a>
 										</div>
+
+
 										<div class="col-sm-2 col-md-2 cabeceraArriba">
 											<a href=""> <svg xmlns="http://www.w3.org/2000/svg"
 													width="1.4vw" height="1.2vw" fill="currentColor"
@@ -129,25 +134,14 @@ String torneoId = request.getParameter("torneoId");
 											FUTBOL DE BARRIO <span
 												style="color: #c0c0c0; margin-left: 7px;"> /</span>
 										</div>
-										<div class="col-sm-3 col-md-3 cabeceraMedio">
-											<svg xmlns="http://www.w3.org/2000/svg" width="1.3vw"
-												height="1.3vw" fill="currentColor"
-												style="margin-right: 0.7vw" class="bi bi-search"
-												viewBox="0 0 16 16">
-  <path
-													d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-</svg>
-											<div class="barra-busqueda ">
-												<input type="text" placeholder=""
-													style="width: 16vw; height: 1.65vw; border-radius: 50px; display: flex; justify-content: left; align-items: center; font-size: 1vw; margin-right: 0.7vw">
-											</div>
 
+										<div class="col-sm-2 col-md-2 cabeceraMedio"></div>
 
-										</div>
-										<div class="col-sm-3 col-md-3 cabeceraMedio"
+										<div class="col-sm-4 col-md-4 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="" class="letraCabeceraMedio">BIENVENIDO: Los
-												Corrales</a>
+											<a href="" class="letraCabeceraMedio"
+												id="nombreUsuarioCabecera"> BIENVENIDO: <%=nombreInstalacion%>
+											</a>
 										</div>
 
 									</div>
@@ -163,10 +157,14 @@ String torneoId = request.getParameter("torneoId");
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="Instalacion.jsp" class="letraCabeceraAbajo">INICIO</a>
+											<a href="Instalacion.jsp" class="letraCabeceraAbajo"">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">RESERVAS</a>
+											<a href="#" class="letraCabeceraAbajo seccion-bloqueada">
+												RESERVAS <span class="tooltip-text">Sección en
+													desarrollo</span>
+											</a>
+
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 											<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo"
@@ -183,13 +181,22 @@ String torneoId = request.getParameter("torneoId");
 									<div class="row">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
 										<div class="col-sm-2 col-md-2 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">FINANZAS</a>
+											<a href="#" class="letraCabeceraAbajo seccion-bloqueada">
+												FINANZAS <span class="tooltip-text">Sección en
+													desarrollo</span>
+											</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">ESTADISTICAS</a>
+											<a href="#" class="letraCabeceraAbajo seccion-bloqueada">
+												ESTADISTICAS <span class="tooltip-text">Sección en
+													desarrollo</span>
+											</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">NOTIFICACIONES</a>
+											<a href="#" class="letraCabeceraAbajo seccion-bloqueada">
+												NOTIFICACIONES <span class="tooltip-text">Sección en
+													desarrollo</span>
+											</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraAbajo">
 											<div class="dropdown">
@@ -205,13 +212,16 @@ String torneoId = request.getParameter("torneoId");
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item active" href="#"
-														style="color: white; background-color: #005500;">Idioma
+													<li><a class="dropdown-item seccion-bloqueada" href="#"
+														>Idioma<span class="tooltip-text">Sección en
+													desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Ayuda </a></li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Configuración </a></li>
+													<li><a class="dropdown-item seccion-bloqueada" href="#"
+														>Ayuda <span class="tooltip-text">Sección en
+													desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada" href="#"
+														>Configuración <span class="tooltip-text">Sección en
+													desarrollo</span> </a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -248,19 +258,14 @@ String torneoId = request.getParameter("torneoId");
 									style="border: 2px solid black; border-bottom: none; border-left: none; border-top: 1px solid black;">
 									<div class="row">
 										<div
-											class="d-sm-none d-md-none col-8 d-block cabeceraMedioTituloX">
+											class="d-sm-none d-md-none col-9 d-block cabeceraMedioTituloX">
 											<span style="color: #d4af37; margin-right: 1.5vw;"> /
 											</span> FUTBOL DE BARRIO <span
 												style="color: #c0c0c0; margin-left: 7px;"> /</span>
 										</div>
 										<div
-											class="d-sm-none d-md-none col-4 d-block cabeceraMedio  d-flex justify-content-center align-items-center">
-											<a href="Instalacion.jsp">
-												<button type="button" class="botonRegistrarCabecera"
-													style="background-color: #e7bf3e;">
-													<i>HAZTE PREMIUM</i>
-												</button>
-											</a>
+											class="d-sm-none d-md-none col-3 d-block cabeceraMedio  d-flex justify-content-center align-items-center">
+
 										</div>
 
 									</div>
@@ -274,29 +279,32 @@ String torneoId = request.getParameter("torneoId");
 
 								<!-- columna izquierda: INICIO -->
 								<div
-									class="col-4 d-flex justify-content-start align-items-center ps-4 ">
+									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
 									<a href="Instalacion.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">INICIO</a>
+										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
 								</div>
 
-								<!-- columna medio: buscador -->
+								<!-- columna medio: -->
+
 								<div
-									class="col-4 d-flex justify-content-center align-items-center">
-									<div class="d-flex align-items-center">
-										<svg xmlns="http://www.w3.org/2000/svg" width="2.5vw"
-											height="2.5vw" fill="currentColor"
-											class="bi bi-search text-white me-2" viewBox="0 0 16 16">
-									<path
-												d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-								</svg>
-										<input type="text" placeholder="Buscar..."
-											style="font-size: 2vw; width: 30vw; height: 3vw; border-radius: 20px; border: none; padding-left: 10px;">
-									</div>
+									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
+									<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">EVENTOS</a>
+								</div>
+
+
+								<div
+									class="col-4 d-flex justify-content-start align-items-center ps-4 ">
+									<a href="Instalacion.jsp"
+										class="letraCabeceraAbajo seccion-bloqueada "
+										style="text-decoration: none; font-size: 2.5vw;">ESTADISTICAS
+										<span class="tooltip-text">Sección en desarrollo</span>
+									</a>
 								</div>
 
 								<!-- columna derecha: menú desplegable -->
 								<div
-									class="col-4 d-flex justify-content-end align-items-center pe-4">
+									class="col-2 d-flex justify-content-end align-items-center pe-4">
 									<div class="dropdown">
 										<button class="btn btn-secondary " type="button"
 											data-bs-toggle="dropdown" aria-expanded="false"
@@ -312,28 +320,30 @@ String torneoId = request.getParameter("torneoId");
 											style="min-width: 12vw; font-size: 2.2vw; background-color: #003300; border-radius: 5px; width: 25vw">
 
 
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Reservas </a></li>
-											<li><a class="dropdown-item "
-												href="EventoInstalacion.jsp" style="color: #d4af37;">Eventos
+											<li><a class="dropdown-item seccion-bloqueada"
+												href="Instalacion.jsp"">Reservas <span
+													class="tooltip-text">Sección en desarrollo</span></a></li>
+											<li><a class="dropdown-item  seccion-bloqueada"
+												href="Instalacion.jsp"">Finanzas<span
+													class="tooltip-text">Sección en desarrollo</span>
 											</a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Finanzas </a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Estadisticas </a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Notificaciones </a></li>
+											<li><a class="dropdown-item seccion-bloqueada"
+												href="Instalacion.jsp"">Notificaciones <span
+													class="tooltip-text">Sección en desarrollo</span></a></li>
 
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item " href="#"
-												style="color: white;">Idioma </a></li>
-											<li><a class="dropdown-item" href="#"
-												style="color: white;">Ayuda </a></li>
-											<li><a class="dropdown-item" href="#"
-												style="color: white;">Configuración </a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Idioma
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Ayuda
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Configuración
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
@@ -354,6 +364,7 @@ String torneoId = request.getParameter("torneoId");
 			</div>
 		</div>
 	</header>
+
 
 
 		<main style="background-color: rgba(223, 234, 213, 0.5);">

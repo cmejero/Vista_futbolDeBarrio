@@ -88,7 +88,7 @@ if (esPremium == null)
   <path
 													d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791" />
 </svg>
-											futboldebarrio@gmail.com
+											futboldebarriosevilla@gmail.com
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraArriba">
 											<svg xmlns="http://www.w3.org/2000/svg" width="1.2vw"
@@ -103,7 +103,8 @@ if (esPremium == null)
 										<div class="col-sm-2 col-md-2 cabeceraArriba "
 											style="justify-content: left;">
 											<a href="">
-												<button type="button" class="botonCabeceraContactar">CONTACTAR</button>
+												<button type="button" class="botonCabeceraContactar"
+													onclick="abrirGmail()">CONTACTAR</button>
 											</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraArriba">
@@ -207,10 +208,13 @@ if (esPremium == null)
 											<a href="Club.jsp" class="letraCabeceraAbajo">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">ALQUILERES</a>
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES
+												<span class="tooltip-text">Sección en desarrollo</span>
+											</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="EventoClub.jsp" class="letraCabeceraAbajo" style="color: #d4af37;">EVENTOS</a>
+											<a href="EventoClub.jsp" class="letraCabeceraAbajo"
+												style="color: #d4af37;">EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -226,11 +230,12 @@ if (esPremium == null)
 											<a href="PlantillaClub.jsp" class="letraCabeceraAbajo">PLANTILLA</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo"
-												>MARCADORES</a>
+											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo">MARCADORES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">DESAFIOS</a>
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS
+												<span class="tooltip-text">Sección en desarrollo</span>
+											</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraAbajo">
 											<div class="dropdown">
@@ -246,13 +251,16 @@ if (esPremium == null)
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item active" href="#"
-														style="color: white; background-color: #005500;">Idioma
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white; background-color: #005500;">Idioma
+															<span class="tooltip-text">Sección en desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Ayuda </a></li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Configuración </a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Ayuda <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Configuración <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -310,7 +318,11 @@ if (esPremium == null)
 											<%
 											} else {
 											%>
-											<button class="btn btn-warning">Hacerse Premium</button>
+											<a href="PagoPremium.jsp">
+												<button type="button" class=" botonPremiumCabecera"
+													title="Accede a todas las funciones premium y ventajas exclusivas">
+													HAZTE PREMIUM</button>
+											</a>
 											<%
 											}
 											%>
@@ -331,16 +343,15 @@ if (esPremium == null)
 									<a href="Club.jsp" class="letraCabeceraAbajo "
 										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
 								</div>
-								
+								<div
+									class="col-4 d-flex justify-content-start align-items-center ps-2 ">
+									<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw;">MARCADORES</a>
+								</div>
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-2 ">
 									<a href="EventoClub.jsp" class="letraCabeceraAbajo "
 										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">EVENTOS</a>
-								</div>
-								<div
-									class="col-4 d-flex justify-content-start align-items-center ps-2 ">
-									<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">MARCADORES</a>
 								</div>
 
 
@@ -363,23 +374,28 @@ if (esPremium == null)
 											style="min-width: 12vw; font-size: 2.2vw; background-color: #003300; border-radius: 5px; width: 25vw">
 
 
-											<li><a class="dropdown-item " href="Jugador.jsp"
-												style="color: white;">Alquileres </a></li>
+											<li><a class="dropdown-item seccion-bloqueada"
+												href="Jugador.jsp">Alquileres <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
 											<li><a class="dropdown-item " href="PlantillaClub.jsp"
 												style="color: white;">Plantilla </a></li>
-											<li><a class="dropdown-item " href="Jugador.jsp"
-												style="color: white;">Desafios </a></li>
+											<li><a class="dropdown-item seccion-bloqueada"
+												href="Jugador.jsp">Desafios <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
 
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item " href="#"
-												style="color: white;">Idioma </a></li>
-											<li><a class="dropdown-item" href="#"
-												style="color: white;">Ayuda </a></li>
-											<li><a class="dropdown-item" href="#"
-												style="color: white;">Configuración </a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Idioma
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Ayuda
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Configuración
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
@@ -400,11 +416,12 @@ if (esPremium == null)
 	</header>
 
 
+
 	<main style="background-color: rgba(223, 234, 213, 0.5);">
-		<div class="container-fluid mt-3 pt-1">
+		<div class="container-fluid">
 			<div class="row">
 				<!-- CONTENIDO -->
-				<div class="col-md-12 col-sm-12 col-12">
+				<div class="col-md-12 col-sm-12 col-12 mt-3">
 
 
 					<!-- CONTENEDOR TORNEOS -->
@@ -415,10 +432,13 @@ if (esPremium == null)
 
 									<div class="col-md-2 col-sm-2 col-2 mx-auto"></div>
 									<div class="col-md-3 col-sm-3 col-3 mx-auto "
-										style="margin-bottom: 16vh; margin-top: 20vh; display: flex; justify-content: flex-end; align-items: center;">
-										<button id="botonLiga" class="botonMarcadores p-4">
+										style="margin-bottom: 16vh; margin-top: 4vh; display: flex; justify-content: flex-end; align-items: center;">
+
+										<button id="botonLiga"
+											class="botonMarcadores p-4 en-desarrollo">
 											<img class="imagenMarcadores" src="Imagenes/Liga.JPG"
-												alt="Imagen la liga"> LIGA
+												alt="Imagen la liga"> LIGA<span
+												class="badge-desarrollo">En desarrollo</span>
 										</button>
 									</div>
 
@@ -427,7 +447,7 @@ if (esPremium == null)
 
 									<!-- Columna para el botón de JUGADORES alineado a la derecha -->
 									<div class="col-md-3 col-sm-3 col-3"
-										style="margin-bottom: 16vh; margin-top: 20vh; display: flex; justify-content: flex-start; align-items: center;">
+										style="margin-bottom: 16vh; margin-top: 4vh; display: flex; justify-content: flex-start; align-items: center;">
 										<button class="botonMarcadores p-4" id="botonTorneo">
 											<img class="imagenMarcadores" src="Imagenes/copa.JPG"
 												alt="Imagen torneo"> TORNEO
@@ -489,39 +509,28 @@ if (esPremium == null)
 								</div>
 
 								<!-- Tabla de torneo -->
-								<table class="tablaDatos w-100 mb-3 mx-auto ">
-									<thead style="background-color: #c33214;">
+								<table
+									class="tablaAdmin tablaAdmin--instalaciones w-100 mb-3 mx-auto">
+									<thead class="tablaAdmin__head">
 										<tr>
-											<th style="border: 1.8px solid #8a210b;">NOMBRE TORNEO</th>
-											<th style="border: 1.8px solid #8a210b;">INSTALACION</th>
-											<th style="border: 1.8px solid #8a210b;">DIRECCION</th>
-											<th style="border: 1.8px solid #8a210b;">MODALIDAD</th>
-											<th style="border: 1.8px solid #8a210b;">F.INICIO</th>
-											<th style="border: 1.8px solid #8a210b;">PLAZAS</th>
-										    <th style="border: 1.8px solid #8a210b;">ESTADO</th>
-											<th style="border: 1.8px solid #8a210b; width: 10%">OPCIONES</th>
+											<th>NOMBRE TORNEO</th>
+											<th>INSTALACION</th>
+											<th>DIRECCION</th>
+											<th>MODALIDAD</th>
+											<th>F.INICIO</th>
+											<th>PLAZAS</th>
+											<th>ESTADO</th>
+											<th class="tablaAdmin__opciones">OPCIONES</th>
 										</tr>
 									</thead>
-									<tbody id="tablaCuerpoTorneo">
-									</tbody>
+									<tbody id="tablaCuerpoTorneo"></tbody>
 								</table>
 
-								<!-- Paginación -->
-								<div
-									class="contenedorPaginacion mb-4 d-flex justify-content-center">
-									<button id="botonAnterior" class=""
-										style="font-size: 1.3vw; padding: 0.3vw 1vw; border: 1px solid #007bff; background-color: #ffffff; color: #007bff; border-radius: 5px; transition: all 0.3s ease;"
-										onmouseover="this.style.backgroundColor='#007bff'; this.style.color='#ffffff';"
-										onmouseout="this.style.backgroundColor='#ffffff'; this.style.color='#007bff';"
-										onclick="cambiarPagina(-1)">&lt; Anterior</button>
-									<span id="paginaActual" class="align-self-center"> <b>1</b>
-									</span>
-									<button id="botonSiguiente" class=""
-										style="font-size: 1.3vw; padding: 0.3vw 1vw; border: 1px solid #007bff; background-color: #ffffff; color: #007bff; border-radius: 5px; transition: all 0.3s ease;"
-										onmouseover="this.style.backgroundColor='#007bff'; this.style.color='#ffffff';"
-										onmouseout="this.style.backgroundColor='#ffffff'; this.style.color='#007bff';"
-										onclick="cambiarPagina(1)">Siguiente &gt;</button>
-								</div>
+
+								<!-- ✅ MISMA PAGINACIÓN QUE LA OTRA -->
+								<div id="tablaCuerpoTorneo-paginacion"
+									class="contenedorPaginacion mb-4 d-flex justify-content-center"></div>
+
 							</div>
 						</div>
 					</div>
@@ -795,7 +804,6 @@ $(document).ready(function() {
         var torneoId = $(this).data('torneo-id');
         var clubId = '<%=clubId%>';
 
-
 												if (!clubId) {
 													alert("No se pudo obtener el ID del club.");
 													return;
@@ -832,63 +840,168 @@ $(document).ready(function() {
 
 		// Función para cargar torneos en la tabla
 		function cargarTorneos() {
-			$
-					.ajax({
-						url : 'torneo',
-						method : 'GET',
-						dataType : 'json',
-						xhrFields : {
-							withCredentials : true
-						},
-						success : function(data) {
-							var $tabla = $('#tablaCuerpoTorneo');
-							$tabla.empty();
+    $.ajax({
+        url: 'torneo',
+        method: 'GET',
+        dataType: 'json',
+        xhrFields: { withCredentials: true },
+        success: function(data) {
+            var tbody = document.getElementById("tablaCuerpoTorneo");
+            tbody.innerHTML = "";
 
-							if (data && Array.isArray(data) && data.length > 0) {
-								$
-										.each(
-												data,
-												function(index, torneo) {
-													var fechaInicio = new Date(
-															torneo.fechaInicioTorneo)
-															.toLocaleDateString();
-													var fechaFin = new Date(
-															torneo.fechaFinTorneo)
-															.toLocaleDateString();
-													 const activo = torneo.estaActivo;
+            if (data && Array.isArray(data) && data.length > 0) {
 
-													var nombreHTML = torneo.estaActivo ? '<span class="torneoLink" data-id="' + torneo.idTorneo + '" style="cursor:pointer; color:blue; text-decoration:underline; font-weight:bold;">'
-															+ torneo.nombreTorneo
-															+ '</span>'
-															: torneo.nombreTorneo;
+                data.forEach(function(torneo) {
 
-													var row = '<tr>'
-													    + '<td>' + nombreHTML + '</td>'
-													    + '<td>' + (torneo.nombreInstalacion || "") + '</td>'
-													    + '<td>' + (torneo.direccionInstalacion || "") + '</td>'
-													    + '<td>' + (torneo.modalidad || "") + '</td>'
-													    + '<td>' + (torneo.fechaInicioTorneo || "") + '</td>'
-													    + '<td>' + (torneo.clubesInscritos || "0 / 0") + '</td>'
-													    + '<td>' + (activo ? "Activo" : "Inactivo") + '</td>'
-													    + '<td><i class="fas fa-right-to-bracket icono-unirse" data-torneo-id="' + torneo.idTorneo + '" style="cursor:pointer;"></i></td>'
-													    + '</tr>';
+                    var nombreHTML = torneo.estaActivo
+                        ? '<span class="torneoLink" data-id="' + torneo.idTorneo + '" style="cursor:pointer; color:blue; text-decoration:underline; font-weight:bold;">' 
+                          + torneo.nombreTorneo + 
+                          '</span>'
+                        : torneo.nombreTorneo;
 
+                    var iconoUnirse = torneo.estaActivo 
+                        ? '<i class="fas fa-lock" title="Torneo activo" style="color:gray;"></i>'
+                        : '<i class="fas fa-right-to-bracket icono-unirse" data-torneo-id="' + torneo.idTorneo + '" title="Unirse al torneo" style="cursor:pointer; color:green;"></i>';
 
-													$tabla.append(row);
-												});
-							} else {
-								$tabla
-										.html('<tr><td colspan="5">No hay torneos disponibles</td></tr>');
-							}
-						},
-						error : function(xhr) {
-							console.error("Error cargando torneos:",
-									xhr.status, xhr.responseText);
-							$('#tablaCuerpoTorneo')
-									.html(
-											'<tr><td colspan="5">Error cargando torneos</td></tr>');
-						}
-					});
+                    var fila = document.createElement("tr");
+                    fila.id = "fila-" + torneo.idTorneo;
+
+                    fila.innerHTML =
+                        "<td class='tablaAdmin__id'>" + nombreHTML + "</td>" +
+                        "<td>" + (torneo.nombreInstalacion || "") + "</td>" +
+                        "<td>" + (torneo.direccionInstalacion || "") + "</td>" +
+                        "<td>" + (torneo.modalidad || "") + "</td>" +
+                        "<td>" + (torneo.fechaInicioTorneo || "") + "</td>" +
+                        "<td style='color:green;'>" + (torneo.clubesInscritos || "0 / 0") + "</td>" +
+                        "<td>" + (torneo.estaActivo 
+                                    ? '<span style="color:red;font-weight:bold;">Cerrado</span>' 
+                                    : '<span style="color:green;font-weight:bold;">Disponible</span>') 
+                        + "</td>" +
+                        "<td class='tablaAdmin__opciones'>" +
+                            "<div class='tablaAdmin__acciones'>" +
+                                iconoUnirse +
+                            "</div>" +
+                        "</td>";
+
+                    tbody.appendChild(fila);
+                });
+
+                paginarTabla("tablaCuerpoTorneo", 8);
+
+            } else {
+                tbody.innerHTML = '<tr><td colspan="8">No hay torneos disponibles</td></tr>';
+            }
+        },
+        error: function(xhr) {
+            console.error("Error cargando torneos:", xhr.status, xhr.responseText);
+            document.getElementById("tablaCuerpoTorneo").innerHTML = '<tr><td colspan="8">Error cargando torneos</td></tr>';
+        }
+    });
+}
+
+		
+		function paginarTabla(tablaBodyId, filasPorPagina = 8) {
+		    const tbody = document.getElementById(tablaBodyId);
+		    if (!tbody) return;
+
+		    // Todas las filas actuales (ya añadidas dinámicamente)
+		    const todasFilas = Array.from(tbody.querySelectorAll('tr'));
+		    // Si no hay filas, limpiamos paginación
+		    const pagDiv = document.getElementById(tablaBodyId + '-paginacion');
+		    if (!pagDiv) return;
+		    if (todasFilas.length === 0) {
+		        pagDiv.innerHTML = '';
+		        return;
+		    }
+
+		    // Sólo consideramos filas visibles (si aplicas filtros que oculten filas)
+		    const filasVisibles = todasFilas.filter(f => f.style.display !== 'none');
+		    const totalPaginas = Math.max(1, Math.ceil(filasVisibles.length / filasPorPagina));
+		    let paginaActual = 1;
+
+		    // Crea los elementos UI (se regeneran cada vez para reflejar actualizaciones)
+		    function renderControles() {
+		        pagDiv.innerHTML = '';
+
+		        // Botón Anterior
+		        const btnAnterior = document.createElement('button');
+		        btnAnterior.type = 'button';
+		        btnAnterior.textContent = '< Anterior';
+		        btnAnterior.disabled = paginaActual === 1;
+		        btnAnterior.className = 'paginacion';
+		        btnAnterior.addEventListener('click', () => {
+		            if (paginaActual > 1) {
+		                paginaActual--;
+		                mostrarPagina(paginaActual);
+		            }
+		        });
+
+		        // Span info página
+		        const spanInfo = document.createElement('span');
+		        spanInfo.id = tablaBodyId + '-pagina-info';
+		        spanInfo.textContent = ' Página ' + paginaActual + ' de ' + totalPaginas + ' ';
+		        spanInfo.style.margin = '0 10px';
+		        spanInfo.style.fontSize = '1.1vw';
+		        spanInfo.style.display = 'inline-block';
+		        spanInfo.style.alignSelf = 'center';
+
+		        // Botón Siguiente
+		        const btnSiguiente = document.createElement('button');
+		        btnSiguiente.type = 'button';
+		        btnSiguiente.textContent = 'Siguiente >';
+		        btnSiguiente.disabled = paginaActual === totalPaginas;
+		        btnSiguiente.className = 'paginacion';
+		        btnSiguiente.addEventListener('click', () => {
+		            if (paginaActual < totalPaginas) {
+		                paginaActual++;
+		                mostrarPagina(paginaActual);
+		            }
+		        });
+
+		        // Estructura flex (mantener centrado)
+		        pagDiv.style.display = 'flex';
+		        pagDiv.style.justifyContent = 'center';
+		        pagDiv.style.alignItems = 'center';
+		        pagDiv.style.gap = '0.8vw';
+
+		        pagDiv.appendChild(btnAnterior);
+		        pagDiv.appendChild(spanInfo);
+		        pagDiv.appendChild(btnSiguiente);
+		    }
+
+		    // Muestra la página solicitada (1-based)
+		    function mostrarPagina(pagina) {
+		        if (pagina < 1) pagina = 1;
+		        if (pagina > totalPaginas) pagina = totalPaginas;
+		        paginaActual = pagina;
+
+		        const inicio = (paginaActual - 1) * filasPorPagina;
+		        const fin = inicio + filasPorPagina;
+
+		        // Oculta/mostrar filas basadas en filasVisibles (preserva el orden original)
+		        filasVisibles.forEach((fila, index) => {
+		            fila.style.display = (index >= inicio && index < fin) ? '' : 'none';
+		        });
+
+		        // Actualiza controles
+		        renderControles();
+		    }
+
+		    // Si el número total de filas visibles cambió (por ejemplo filtros), recalculamos y mostramos la 1ª página
+		    mostrarPagina(1);
+		}
+
+		function abrirGmail() {
+			const email = "futboldebarrio@gmail.com";
+			const subject = "Titulo del Asunto: ";
+			const body = "Escriba aqui el mensaje....";
+
+			const url = "https://mail.google.com/mail/?view=cm&fs=1&to="
+					+ encodeURIComponent(email) + "&su="
+					+ encodeURIComponent(subject) + "&body="
+					+ encodeURIComponent(body);
+
+			window.open(url, "_blank");
 		}
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

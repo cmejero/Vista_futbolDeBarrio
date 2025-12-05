@@ -84,7 +84,7 @@ if (esPremium == null)
   <path
 													d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791" />
 </svg>
-											futboldebarrio@gmail.com
+											futboldebarriosevilla@gmail.com
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraArriba">
 											<svg xmlns="http://www.w3.org/2000/svg" width="1.2vw"
@@ -99,7 +99,8 @@ if (esPremium == null)
 										<div class="col-sm-2 col-md-2 cabeceraArriba "
 											style="justify-content: left;">
 											<a href="">
-												<button type="button" class="botonCabeceraContactar">CONTACTAR</button>
+												<button type="button" class="botonCabeceraContactar"
+													onclick="abrirGmail()">CONTACTAR</button>
 											</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraArriba">
@@ -198,13 +199,15 @@ if (esPremium == null)
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="Jugador.jsp" class="letraCabeceraAbajo">INICIO</a>
+											<a href="Jugador.jsp" class="letraCabeceraAbajo"
+												>INICIO</a>
 										</div>
-										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">ALQUILERES</a>
+										<div class="col-sm-4 col-md-4 cabeceraAbajo">
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES <span class="tooltip-text">Sección en
+													desarrollo</span></a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="EventoJugador.jsp" class="letraCabeceraAbajo">EVENTOS</a>
+											<a href="EventoJugador.jsp" class="letraCabeceraAbajo" >EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -217,15 +220,15 @@ if (esPremium == null)
 									<div class="row">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="MiClubJugador.jsp" class="letraCabeceraAbajo">MI
+											<a href="MiClubJugador.jsp" class="letraCabeceraAbajo" >MI
 												CLUB</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="MarcadoresJugador.jsp" class="letraCabeceraAbajo"
-												style="color: #d4af37;">MARCADORES</a>
+											<a href="MarcadoresJugador.jsp" class="letraCabeceraAbajo" style="color: #d4af37;">MARCADORES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">DESAFIOS</a>
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span class="tooltip-text">Sección en
+													desarrollo</span></a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraAbajo">
 											<div class="dropdown">
@@ -241,13 +244,16 @@ if (esPremium == null)
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item active" href="#"
-														style="color: white; background-color: #005500;">Idioma
+													<li><a class="dropdown-item seccion-bloqueada " href="#"
+														>Idioma<span class="tooltip-text">Sección en
+													desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Ayuda </a></li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Configuración </a></li>
+													<li><a class="dropdown-item seccion-bloqueada" href="#"
+														">Ayuda<span class="tooltip-text">Sección en
+													desarrollo</span> </a></li>
+													<li><a class="dropdown-item seccion-bloqueada" href="#"
+														">Configuración <span class="tooltip-text">Sección en
+													desarrollo</span></a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -328,12 +334,12 @@ if (esPremium == null)
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
 									<a href="Jugador.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
+										style="text-decoration: none; font-size: 2.5vw; ">INICIO</a>
 								</div>
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-3 ">
 									<a href="MarcadoresJugador.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">MARCADORES</a>
+										style="text-decoration: none; font-size: 2.5vw;  color: #d4af37; ">MARCADORES</a>
 								</div>
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-3 ">
@@ -361,23 +367,28 @@ if (esPremium == null)
 											style="min-width: 12vw; font-size: 2.2vw; background-color: #003300; border-radius: 5px; width: 25vw">
 
 
-											<li><a class="dropdown-item " href="Jugador.jsp"
-												style="color: white;">Alquileres </a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="Jugador.jsp"
+												>Alquileres <span class="tooltip-text">Sección en
+													desarrollo</span></a></li>
 											<li><a class="dropdown-item " href="EventoJugador.jsp"
 												style="color: white;">Eventos </a></li>
-											<li><a class="dropdown-item " href="Jugador.jsp"
-												style="color: white;">Desafios </a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="Jugador.jsp"
+												style="color: white;">Desafios<span class="tooltip-text">Sección en
+													desarrollo</span> </a></li>
 
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item " href="#"
-												style="color: white;">Idioma </a></li>
-											<li><a class="dropdown-item" href="#"
-												style="color: white;">Ayuda </a></li>
-											<li><a class="dropdown-item" href="#"
-												style="color: white;">Configuración </a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#"
+												style="color: white;">Idioma <span class="tooltip-text">Sección en
+													desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#"
+												style="color: white;">Ayuda <span class="tooltip-text">Sección en
+													desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#"
+												style="color: white;">Configuración <span class="tooltip-text">Sección en
+													desarrollo</span></a></li>
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
@@ -456,12 +467,12 @@ if (esPremium == null)
 		%>
 		<div class="container-fluid" id="marcadorContainer">
 			<div class="row">
-				<div class="col-md-12 col-sm-12 col-12 mx-auto">
+				<div class="col-md-12 col-sm-12 col-12 mx-auto mt-3">
 					<div class="row">
 
 						<div class="col-md-2 col-sm-2 col-2 mx-auto"></div>
 						<div class="col-md-3 col-sm-3 col-3 mx-auto "
-							style="margin-bottom: 16vh; margin-top: 20vh; display: flex; justify-content: flex-end; align-items: center;">
+							style="margin-bottom: 16vh; margin-top: 4vh; display: flex; justify-content: flex-end; align-items: center;">
 							<button id="botonMarcadoresClubes" class="botonMarcadores p-4">
 								<img class="imagenMarcadores" src="Imagenes/clubes.PNG"
 									alt="Clubes"> MARCADORES CLUBES
@@ -473,7 +484,7 @@ if (esPremium == null)
 
 						<!-- Columna para el botón de JUGADORES alineado a la derecha -->
 						<div class="col-md-3 col-sm-3 col-3"
-							style="margin-bottom: 16vh; margin-top: 20vh; display: flex; justify-content: flex-start; align-items: center;">
+							style="margin-bottom: 16vh; margin-top: 4vh; display: flex; justify-content: flex-start; align-items: center;">
 							<button class="botonMarcadores p-4" id="botonMarcadoresJugadores">
 								<img class="imagenMarcadores" src="Imagenes/futbolista.PNG"
 									alt="Jugadores"> MARCADORES JUGADORES
@@ -1302,6 +1313,19 @@ fetch(contextPath + "/jugadorEstadisticaGlobal", {
 
 
   });
+  
+	function abrirGmail() {
+	    const email = "futboldebarriosevilla@gmail.com";
+	    const subject = "Titulo del Asunto: ";
+	    const body = "Escriba aqui el mensaje....";
+
+	    const url = "https://mail.google.com/mail/?view=cm&fs=1&to=" 
+	                + encodeURIComponent(email) 
+	                + "&su=" + encodeURIComponent(subject) 
+	                + "&body=" + encodeURIComponent(body);
+
+	    window.open(url, "_blank");
+	}
 </script>
 
 

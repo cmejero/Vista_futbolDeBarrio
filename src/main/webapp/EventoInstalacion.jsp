@@ -2,7 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-Long instalacionId = (Long) session.getAttribute("idInstalacion"); // ✅ Clave correcta
+Long instalacionId = (Long) session.getAttribute("idInstalacion");
+String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 %>
 
 
@@ -56,7 +57,7 @@ Long instalacionId = (Long) session.getAttribute("idInstalacion"); // ✅ Clave 
   <path
 													d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791" />
 </svg>
-											futboldebarrio@gmail.com
+											futboldebarriosevilla@gmail.com
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraArriba">
 											<svg xmlns="http://www.w3.org/2000/svg" width="1.2vw"
@@ -71,8 +72,9 @@ Long instalacionId = (Long) session.getAttribute("idInstalacion"); // ✅ Clave 
 										<div class="col-sm-2 col-md-2 cabeceraArriba"
 											style="justify-content: left;">
 											<a href="">
-											<button type="button" class="botonCabeceraContactar"
-												onclick="abrirGmail()">CONTACTAR</button></a>
+												<button type="button" class="botonCabeceraContactar"
+													onclick="abrirGmail()">CONTACTAR</button>
+											</a>
 										</div>
 
 
@@ -125,25 +127,14 @@ Long instalacionId = (Long) session.getAttribute("idInstalacion"); // ✅ Clave 
 											FUTBOL DE BARRIO <span
 												style="color: #c0c0c0; margin-left: 7px;"> /</span>
 										</div>
-										<div class="col-sm-3 col-md-3 cabeceraMedio">
-											<svg xmlns="http://www.w3.org/2000/svg" width="1.3vw"
-												height="1.3vw" fill="currentColor"
-												style="margin-right: 0.7vw" class="bi bi-search"
-												viewBox="0 0 16 16">
-  <path
-													d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-</svg>
-											<div class="barra-busqueda ">
-												<input type="text" placeholder=""
-													style="width: 16vw; height: 1.65vw; border-radius: 50px; display: flex; justify-content: left; align-items: center; font-size: 1vw; margin-right: 0.7vw">
-											</div>
 
+										<div class="col-sm-2 col-md-2 cabeceraMedio"></div>
 
-										</div>
-										<div class="col-sm-3 col-md-3 cabeceraMedio"
+										<div class="col-sm-4 col-md-4 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="" class="letraCabeceraMedio">BIENVENIDO: Los
-												Corrales</a>
+											<a href="" class="letraCabeceraMedio"
+												id="nombreUsuarioCabecera"> BIENVENIDO: <%=nombreInstalacion%>
+											</a>
 										</div>
 
 									</div>
@@ -214,13 +205,17 @@ Long instalacionId = (Long) session.getAttribute("idInstalacion"); // ✅ Clave 
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item active" href="#"
-														style="color: white; background-color: #005500;">Idioma
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#">Idioma<span
+															class="tooltip-text">Sección en desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Ayuda </a></li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Configuración </a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#">Ayuda <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#">Configuración <span
+															class="tooltip-text">Sección en desarrollo</span>
+													</a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -257,19 +252,14 @@ Long instalacionId = (Long) session.getAttribute("idInstalacion"); // ✅ Clave 
 									style="border: 2px solid black; border-bottom: none; border-left: none; border-top: 1px solid black;">
 									<div class="row">
 										<div
-											class="d-sm-none d-md-none col-8 d-block cabeceraMedioTituloX">
+											class="d-sm-none d-md-none col-9 d-block cabeceraMedioTituloX">
 											<span style="color: #d4af37; margin-right: 1.5vw;"> /
 											</span> FUTBOL DE BARRIO <span
 												style="color: #c0c0c0; margin-left: 7px;"> /</span>
 										</div>
 										<div
-											class="d-sm-none d-md-none col-4 d-block cabeceraMedio  d-flex justify-content-center align-items-center">
-											<a href="Instalacion.jsp">
-												<button type="button" class="botonRegistrarCabecera"
-													style="background-color: #e7bf3e;">
-													<i>HAZTE PREMIUM</i>
-												</button>
-											</a>
+											class="d-sm-none d-md-none col-3 d-block cabeceraMedio  d-flex justify-content-center align-items-center">
+
 										</div>
 
 									</div>
@@ -283,29 +273,32 @@ Long instalacionId = (Long) session.getAttribute("idInstalacion"); // ✅ Clave 
 
 								<!-- columna izquierda: INICIO -->
 								<div
-									class="col-4 d-flex justify-content-start align-items-center ps-4 ">
+									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
 									<a href="Instalacion.jsp" class="letraCabeceraAbajo "
 										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
 								</div>
 
-								<!-- columna medio: buscador -->
+								<!-- columna medio: -->
+
 								<div
-									class="col-4 d-flex justify-content-center align-items-center">
-									<div class="d-flex align-items-center">
-										<svg xmlns="http://www.w3.org/2000/svg" width="2.5vw"
-											height="2.5vw" fill="currentColor"
-											class="bi bi-search text-white me-2" viewBox="0 0 16 16">
-									<path
-												d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-								</svg>
-										<input type="text" placeholder="Buscar..."
-											style="font-size: 2vw; width: 30vw; height: 3vw; border-radius: 20px; border: none; padding-left: 10px;">
-									</div>
+									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
+									<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">EVENTOS</a>
+								</div>
+
+
+								<div
+									class="col-4 d-flex justify-content-start align-items-center ps-4 ">
+									<a href="Instalacion.jsp"
+										class="letraCabeceraAbajo seccion-bloqueada "
+										style="text-decoration: none; font-size: 2.5vw;">ESTADISTICAS
+										<span class="tooltip-text">Sección en desarrollo</span>
+									</a>
 								</div>
 
 								<!-- columna derecha: menú desplegable -->
 								<div
-									class="col-4 d-flex justify-content-end align-items-center pe-4">
+									class="col-2 d-flex justify-content-end align-items-center pe-4">
 									<div class="dropdown">
 										<button class="btn btn-secondary " type="button"
 											data-bs-toggle="dropdown" aria-expanded="false"
@@ -321,27 +314,30 @@ Long instalacionId = (Long) session.getAttribute("idInstalacion"); // ✅ Clave 
 											style="min-width: 12vw; font-size: 2.2vw; background-color: #003300; border-radius: 5px; width: 25vw">
 
 
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Reservas </a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: #d4af37;">Eventos </a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Finanzas </a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Estadisticas </a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Notificaciones </a></li>
+											<li><a class="dropdown-item seccion-bloqueada"
+												href="Instalacion.jsp"">Reservas <span
+													class="tooltip-text">Sección en desarrollo</span></a></li>
+											<li><a class="dropdown-item  seccion-bloqueada"
+												href="Instalacion.jsp"">Finanzas<span
+													class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
+											<li><a class="dropdown-item seccion-bloqueada"
+												href="Instalacion.jsp"">Notificaciones <span
+													class="tooltip-text">Sección en desarrollo</span></a></li>
 
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item " href="#"
-												style="color: white;">Idioma </a></li>
-											<li><a class="dropdown-item" href="#"
-												style="color: white;">Ayuda </a></li>
-											<li><a class="dropdown-item" href="#"
-												style="color: white;">Configuración </a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Idioma
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Ayuda
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Configuración
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
@@ -377,20 +373,25 @@ Long instalacionId = (Long) session.getAttribute("idInstalacion"); // ✅ Clave 
 								<div class="row">
 
 									<div class="col-md-2 col-sm-2 col-2 mx-auto"></div>
-									<div class="col-md-3 col-sm-3 col-3 mx-auto "
-										style="margin-bottom: 16vh; margin-top: 20vh; display: flex; justify-content: flex-end; align-items: center;">
-										<button id="botonLiga" class="botonMarcadores p-4">
+									<div class="col-md-3 col-sm-3 col-3 mx-auto"
+										style="margin-bottom: 16vh; margin-top: 4vh; display: flex; justify-content: flex-end; align-items: center;">
+
+										<button id="botonLiga"
+											class="botonMarcadores p-4 en-desarrollo">
 											<img class="imagenMarcadores" src="Imagenes/Liga.JPG"
-												alt="Imagen la liga"> LIGA
+												alt="Imagen la liga"> LIGA <span
+												class="badge-desarrollo">En desarrollo</span>
 										</button>
+
 									</div>
+
 
 									<!-- Espacio vacío entre los dos botones -->
 									<div class="col-md-1 col-sm-1 col-1 mx-auto "></div>
 
 									<!-- Columna para el botón de JUGADORES alineado a la derecha -->
 									<div class="col-md-3 col-sm-3 col-3"
-										style="margin-bottom: 16vh; margin-top: 20vh; display: flex; justify-content: flex-start; align-items: center;">
+										style="margin-bottom: 16vh; margin-top: 4vh; display: flex; justify-content: flex-start; align-items: center;">
 										<button class="botonMarcadores p-4" id="botonTorneo">
 											<img class="imagenMarcadores" src="Imagenes/copa.JPG"
 												alt="Imagen torneo"> TORNEO
@@ -522,22 +523,22 @@ Long instalacionId = (Long) session.getAttribute("idInstalacion"); // ✅ Clave 
 								</div>
 
 								<!-- Tabla de torneo -->
-								<!-- Tabla de torneos -->
-								<table class="tablaDatos w-100 mb-3 mx-auto">
-									<thead>
+
+								<table
+									class="tablaAdmin tablaAdmin--instalaciones w-100 mb-3 mx-auto">
+									<thead class="tablaAdmin__head">
 										<tr>
-											<th style="border: 2px solid #8a210b; width: 30%">NOMBRE
-												TORNEO</th>
-											<th style="border: 2px solid #8a210b; width: 20%">MODALIDAD</th>
-											<th style="border: 2px solid #8a210b; width: 15%">FECHA
-												INICIO</th>
-											<th style="border: 2px solid #8a210b; width: 10%">NºCLUBES</th>
-											<th style="border: 2px solid #8a210b; width: 10%">ACTIVAR</th>
-											<th style="border: 2px solid #8a210b; width: 10%">OPCIONES</th>
+											<th>NOMBRE TORNEO</th>
+											<th>MODALIDAD</th>
+											<th>FECHA INICIO</th>
+											<th>Nº CLUBES</th>
+											<th>ACTIVAR</th>
+											<th class="tablaAdmin__opciones">OPCIONES</th>
 										</tr>
 									</thead>
 									<tbody id="tablaCuerpoTorneo"></tbody>
 								</table>
+
 
 								<!-- Paginación -->
 								<div id="tablaCuerpoTorneo-paginacion"
@@ -815,134 +816,126 @@ function cargarTorneos() {
         data: { instalacionId: instalacionId },
         xhrFields: { withCredentials: true },
         success: function (data) {
-            if (data && Array.isArray(data) && data.length > 0) {
-                $('#tablaCuerpoTorneo').empty();
+            const tbody = document.getElementById("tablaCuerpoTorneo");
+            tbody.innerHTML = "";
 
-                function inscritosCount(str) {
-                    if (!str) return 0;
-                    var m = str.match(/(\d+)/);
-                    return m ? parseInt(m[0], 10) : 0;
+            if (!data || !Array.isArray(data) || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6">No hay torneos disponibles</td></tr>';
+                return;
+            }
+
+            function inscritosCount(str) {
+                if (!str) return 0;
+                const m = str.match(/(\d+)/);
+                return m ? parseInt(m[0], 10) : 0;
+            }
+
+            data.forEach(function (torneo) {
+                const fechaInicio = torneo.fechaInicioTorneo ? new Date(torneo.fechaInicioTorneo) : null;
+                const fechaInicioFormateada = fechaInicio ? fechaInicio.toLocaleDateString() : '';
+
+                const inscritosTexto = torneo.clubesInscritos || torneo.progresoEquipos || '0 / 16';
+                const inscritosNum = inscritosCount(inscritosTexto);
+
+                const estaActivo = (torneo.estaActivo === true || torneo.estaActivo === 'true');
+
+                // Nombre clicable si el torneo está activo
+                const nombreHtml = estaActivo
+                    ? '<span class="nombre-torneo-link" data-torneo-id="' + torneo.idTorneo + '" ' +
+                      'style="color:#007bff;cursor:pointer;text-decoration:underline;font-weight:bold;">' + (torneo.nombreTorneo || '') + '</span>'
+                    : (torneo.nombreTorneo || '');
+
+                // Botón Activar
+                let botonActivarHtml = '';
+                if (estaActivo) {
+                    botonActivarHtml = '<button class="btn-activar" data-torneo-id="' + torneo.idTorneo +
+                        '" disabled style="background:#2ecc71;color:white;border:none;padding:5px 8px;border-radius:5px;">Activo</button>';
+                } else if (inscritosNum === 16) {
+                    botonActivarHtml = '<button class="btn-activar" data-torneo-id="' + torneo.idTorneo +
+                        '" style="background:#28a745;color:white;border:none;padding:5px 8px;border-radius:5px;cursor:pointer;">Activar</button>';
+                } else {
+                    botonActivarHtml = '<button class="btn-activar" data-torneo-id="' + torneo.idTorneo +
+                        '" disabled style="background:lightgray;color:#666;border:none;padding:5px 8px;border-radius:5px;">Activar</button>';
                 }
 
-                $.each(data, function (index, torneo) {
-                    var fechaInicio = torneo.fechaInicioTorneo ? new Date(torneo.fechaInicioTorneo) : null;
-                    var fechaFin = torneo.fechaFinTorneo ? new Date(torneo.fechaFinTorneo) : null;
+                // Opciones (Eliminar + Editar)
+                const opcionesHtml =
+                    '<div class="tablaAdmin__acciones">' +
+                        '<button class="tablaAdmin__btn tablaAdmin__btn--eliminar btnEliminar" data-id="' + torneo.idTorneo + '">' +
+                            '<i class="bi bi-trash3-fill"></i>' +
+                        '</button>' +
+                        '<button class="tablaAdmin__btn tablaAdmin__btn--editar btnEditar" data-usuario=\'' + JSON.stringify(torneo) + '\'>' +
+                            '<i class="bi bi-pencil-square"></i>' +
+                        '</button>' +
+                    '</div>';
 
-                    var fechaInicioFormateada = fechaInicio ? fechaInicio.toLocaleDateString() : '';
-                   
+                // Crear fila
+                const fila = document.createElement("tr");
+                fila.id = "fila-" + torneo.idTorneo;
+                fila.innerHTML =
+                    "<td>" + nombreHtml + "</td>" +
+                    "<td>" + (torneo.modalidad || '') + "</td>" +
+                    "<td>" + fechaInicioFormateada + "</td>" +
+                    "<td style='color:green;'>" + inscritosTexto + "</td>" +
+                    "<td>" + botonActivarHtml + "</td>" +
+                    "<td class='tablaAdmin__opciones'>" + opcionesHtml + "</td>";
 
-                    var inscritosTexto = torneo.clubesInscritos || torneo.progresoEquipos || '0 / 16';
-                    var inscritosNum = inscritosCount(inscritosTexto);
+                tbody.appendChild(fila);
+            });
 
-                    var estaActivo = (torneo.estaActivo === true || torneo.estaActivo === 'true');
+            // Paginación
+            paginarTabla('tablaCuerpoTorneo', 8);
 
-                    // ✅ Nombre clicable si el torneo está activo
-                    var nombreHtml = estaActivo
-                        ? '<span class="nombre-torneo-link" data-torneo-id="' + torneo.idTorneo + '" ' +
-                          'style="color:#007bff;cursor:pointer;text-decoration:underline;">' + (torneo.nombreTorneo || '') + '</span>'
-                        : (torneo.nombreTorneo || '');
+            // Eventos
+            $(document).off('click', '.btn-activar').on('click', '.btn-activar', function () {
+                const $btn = $(this);
+                const torneoId = $btn.data('torneo-id');
+                if ($btn.prop('disabled')) return;
 
-                       // ✅ Botón Activar
-                          var botonActivarHtml = '';
-                          if (estaActivo) {
-                              botonActivarHtml = '<button class="btn-activar" data-torneo-id="' + torneo.idTorneo +
-                                  '" disabled style="background:#2ecc71;color:white;border:none;padding:5px 8px;border-radius:5px;">Activo</button>';
-                          } else if (inscritosNum === 16) {
-                              botonActivarHtml = '<button class="btn-activar" data-torneo-id="' + torneo.idTorneo +
-                                  '" style="background:#28a745;color:white;border:none;padding:5px 8px;border-radius:5px;cursor:pointer;">Activar</button>';
-                          } else {
-                              botonActivarHtml = '<button class="btn-activar" data-torneo-id="' + torneo.idTorneo +
-                                  '" disabled style="background:lightgray;color:#666;border:none;padding:5px 8px;border-radius:5px;">Activar</button>';
-                          }
-
-                    // ✅ Botones opciones (Unirse + Modificar + Borrar)
-                    var opcionesHtml =
-                    	  '<div style="display:flex;justify-content:center;gap:1vw;">'+
-                          '<button class="btnEliminar" data-id="'+torneo.idTorneo+'" style="border:1px solid red;height:1.8vw;width:1.8vw;">'+
-                          '<i class="bi bi-trash3-fill" style="color:#c33214;font-size:1vw;"></i></button>'+
-                          '<button class="btnEditar" data-usuario=\''+JSON.stringify(torneo)+'\' style="border:1px solid orange;height:1.8vw;width:1.8vw;">'+
-                          '<i class="bi bi-pencil-square" style="font-size:1vw;color:orange;"></i></button>'+
-                          '</div>'
-                    // ✅ Fila completa
-                    var row =
-                        '<tr id="fila-' + torneo.idTorneo + '" style="font-size: 1vw; text-align: center; vertical-align: middle;">' +
-                        '<td>' + nombreHtml + '</td>' +
-                        '<td>' + (torneo.modalidad || '') + '</td>' +
-                        '<td>' + fechaInicioFormateada + '</td>' +
-                        '<td style="color:green;">' + inscritosTexto + '</td>' +
-                        '<td>' + botonActivarHtml + '</td>' +
-                        '<td>' + opcionesHtml + '</td>' +
-                        '</tr>';
-
-                    $('#tablaCuerpoTorneo').append(row);
-                    paginarTabla('tablaCuerpoTorneo', 8); 
-                });
-
-                // ✅ Evento: Unirse al torneo
-                $(document).off('click', '.icono-unirse').on('click', '.icono-unirse', function () {
-                    const torneoId = $(this).data('torneo-id');
-                    const clubId = document.getElementById("clubId").value; // recogido del input hidden
-                    console.log("Unirse → Torneo:", torneoId, "Club:", clubId);
-                    // Aquí tu lógica AJAX para unirse
-                });
-
-                // ✅ Evento: Activar torneo
-                $(document).off('click', '.btn-activar').on('click', '.btn-activar', function () {
-                    var $btn = $(this);
-                    var torneoId = $btn.data('torneo-id');
-                    if ($btn.prop('disabled')) return;
-
-                    $.ajax({
-                        url: 'torneo', // mismo servlet
-                        method: 'POST',
-                        data: {
-                            accion: 'activar',
-                            idTorneo: torneoId
-                        },
-                        success: function () {
-                            alert("Torneo activado");
-                            cargarTorneos(); // refresca la tabla
-                        },
-                        error: function (xhr) {
-                            console.error("Error al activar torneo:", xhr.status, xhr.responseText);
-                            alert("Error al activar torneo: " + xhr.status);
-                        }
-                    });
-
-                });
-
-                // ✅ Evento: Nombre clicable → redirección a torneoInstalacion.jsp
-                $(document).off('click', '.nombre-torneo-link').on('click', '.nombre-torneo-link', function () {
-                    var torneoId = $(this).data('torneo-id');
-                    window.location.href = '<%=request.getContextPath()%>/TorneoInstalacion.jsp?id=' + torneoId;
-
-                });
-
-                // ✅ Evento: Modificar torneo
-                $(document).off('click', '.btn-modificar').on('click', '.btn-modificar', function () {
-                    var torneoId = $(this).data('torneo-id');
-                    console.log("Modificar torneo:", torneoId);
-                    // Aquí va tu lógica de modificar
-                });
-
-                // ✅ Evento: Borrar torneo
-                $(document).off('click', '.btn-borrar').on('click', '.btn-borrar', function () {
-                    var torneoId = $(this).data('torneo-id');
-                    if (confirm("¿Seguro que deseas borrar este torneo?")) {
-                        $.ajax({
-                            url: 'torneo/' + torneoId,
-                            method: 'DELETE',
-                            success: function () {
-                                alert("Torneo eliminado");
-                                cargarTorneos();
-                            }
-                        });
+                $.ajax({
+                    url: 'torneo',
+                    method: 'POST',
+                    data: { accion: 'activar', idTorneo: torneoId },
+                    success: function () {
+                        alert("Torneo activado");
+                        cargarTorneos();
+                    },
+                    error: function (xhr) {
+                        alert("Error al activar torneo: " + xhr.status);
+                        console.error(xhr.responseText);
                     }
                 });
+            });
 
-            } else {
-                $('#tablaCuerpoTorneo').html('<tr><td colspan="7">No hay torneos disponibles</td></tr>');
-            }
+            $(document).off('click', '.nombre-torneo-link').on('click', '.nombre-torneo-link', function () {
+                const torneoId = $(this).data('torneo-id');
+                window.location.href = '<%=request.getContextPath()%>/TorneoInstalacion.jsp?id=' + torneoId;
+            });
+
+            $(document).off('click', '.btnEliminar').on('click', '.btnEliminar', function () {
+                const torneoId = $(this).data('id');
+                if (confirm("¿Seguro que deseas borrar este torneo?")) {
+                    $.ajax({
+                        url: 'torneo/' + torneoId,
+                        method: 'DELETE',
+                        success: function () {
+                            alert("Torneo eliminado");
+                            cargarTorneos();
+                        }
+                    });
+                }
+            });
+
+            $(document).off('click', '.btnEditar').on('click', '.btnEditar', function () {
+                const torneo = $(this).data('usuario');
+                abrirModalEditarTorneo(torneo); // Función que deberías tener para editar
+            });
+
+        },
+        error: function (xhr) {
+            console.error("Error cargando torneos:", xhr.status, xhr.responseText);
+            document.getElementById("tablaCuerpoTorneo").innerHTML =
+                '<tr><td colspan="6">Error cargando torneos</td></tr>';
         }
     });
 }

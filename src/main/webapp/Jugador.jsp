@@ -99,7 +99,8 @@ if (esPremium == null)
 										<div class="col-sm-2 col-md-2 cabeceraArriba "
 											style="justify-content: left;">
 											<a href="">
-												<button type="button" class="botonCabeceraContactar">CONTACTAR</button>
+												<button type="button" class="botonCabeceraContactar"
+													onclick="abrirGmail()">CONTACTAR</button>
 											</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraArriba">
@@ -201,8 +202,9 @@ if (esPremium == null)
 											<a href="Jugador.jsp" class="letraCabeceraAbajo"
 												style="color: #d4af37;">INICIO</a>
 										</div>
-										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">ALQUILERES</a>
+										<div class="col-sm-4 col-md-4 cabeceraAbajo">
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES <span class="tooltip-text">Sección en
+													desarrollo</span></a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 											<a href="EventoJugador.jsp" class="letraCabeceraAbajo">EVENTOS</a>
@@ -225,7 +227,8 @@ if (esPremium == null)
 											<a href="MarcadoresJugador.jsp" class="letraCabeceraAbajo">MARCADORES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">DESAFIOS</a>
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span class="tooltip-text">Sección en
+													desarrollo</span></a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraAbajo">
 											<div class="dropdown">
@@ -241,13 +244,16 @@ if (esPremium == null)
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item active" href="#"
-														style="color: white; background-color: #005500;">Idioma
+													<li><a class="dropdown-item seccion-bloqueada " href="#"
+														>Idioma<span class="tooltip-text">Sección en
+													desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Ayuda </a></li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Configuración </a></li>
+													<li><a class="dropdown-item seccion-bloqueada" href="#"
+														">Ayuda<span class="tooltip-text">Sección en
+													desarrollo</span> </a></li>
+													<li><a class="dropdown-item seccion-bloqueada" href="#"
+														">Configuración <span class="tooltip-text">Sección en
+													desarrollo</span></a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -361,23 +367,28 @@ if (esPremium == null)
 											style="min-width: 12vw; font-size: 2.2vw; background-color: #003300; border-radius: 5px; width: 25vw">
 
 
-											<li><a class="dropdown-item " href="Jugador.jsp"
-												style="color: white;">Alquileres </a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="Jugador.jsp"
+												>Alquileres <span class="tooltip-text">Sección en
+													desarrollo</span></a></li>
 											<li><a class="dropdown-item " href="EventoJugador.jsp"
 												style="color: white;">Eventos </a></li>
-											<li><a class="dropdown-item " href="Jugador.jsp"
-												style="color: white;">Desafios </a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="Jugador.jsp"
+												style="color: white;">Desafios<span class="tooltip-text">Sección en
+													desarrollo</span> </a></li>
 
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item " href="#"
-												style="color: white;">Idioma </a></li>
-											<li><a class="dropdown-item" href="#"
-												style="color: white;">Ayuda </a></li>
-											<li><a class="dropdown-item" href="#"
-												style="color: white;">Configuración </a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#"
+												style="color: white;">Idioma <span class="tooltip-text">Sección en
+													desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#"
+												style="color: white;">Ayuda <span class="tooltip-text">Sección en
+													desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#"
+												style="color: white;">Configuración <span class="tooltip-text">Sección en
+													desarrollo</span></a></li>
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
@@ -412,7 +423,8 @@ if (esPremium == null)
 					<p class="tarjeta-nombre">Cargando...</p>
 					<p class="tarjeta-alias">"Cargando..."</p>
 				</div>
-				<img src="Imagenes/usuarioPorDefecto.jpg" alt="Foto" class="tarjeta-imagen">
+				<img src="Imagenes/usuarioPorDefecto.jpg" alt="Foto"
+					class="tarjeta-imagen">
 				<p class="tarjeta-estado activo">Cargando...</p>
 			</div>
 
@@ -671,7 +683,7 @@ Avenida mujer trabajadora
             const usuario = await res.json();
 
             document.querySelector('.tarjeta-nombre').innerText = usuario.nombreCompletoUsuario;
-            document.querySelector('.tarjeta-alias').innerText = '"' + usuario.aliasUsuario + '"';
+            document.querySelector('.tarjeta-alias').innerText =usuario.aliasUsuario ;
             document.querySelector('.tarjeta-estado').innerText = usuario.estadoUsuario;
 
             if (usuario.imagenUsuario && usuario.imagenUsuario.length > 0) {
@@ -685,37 +697,60 @@ Avenida mujer trabajadora
         // Cargar estadísticas globales
         try {
         	const usuarioId = sessionStorage.getItem('usuarioId');
-        	const resStats = await fetch('<%=request.getContextPath()%>/jugadorEstadisticaGlobal?id=' + usuarioId);
+        	const resStats = await fetch('<%=request.getContextPath()%>/jugadorEstadisticaGlobal?id='+ usuarioId);
 
+				if (!resStats.ok) {
+					const textoError = await
+					resStats.text();
+					throw new Error('Error al cargar estadísticas: '
+							+ textoError);
+				}
 
-            if (!resStats.ok) {
-                const textoError = await resStats.text();
-                throw new Error('Error al cargar estadísticas: ' + textoError);
-            }
+				const estadisticas = await
+				resStats.json();
 
-            const estadisticas = await resStats.json();
+				const partidosTotales = (estadisticas.partidosGanadosGlobal || 0)
+						+ (estadisticas.partidosPerdidosGlobal || 0);
+				const porcentajeVictorias = partidosTotales > 0 ? Math
+						.round((estadisticas.partidosGanadosGlobal * 100)
+								/ partidosTotales) : 0;
+				const porcentajeDerrotas = partidosTotales > 0 ? Math
+						.round((estadisticas.partidosPerdidosGlobal * 100)
+								/ partidosTotales) : 0;
 
-            const partidosTotales = (estadisticas.partidosGanadosGlobal || 0) + (estadisticas.partidosPerdidosGlobal || 0);
-            const porcentajeVictorias = partidosTotales > 0 ? Math.round((estadisticas.partidosGanadosGlobal * 100) / partidosTotales) : 0;
-            const porcentajeDerrotas = partidosTotales > 0 ? Math.round((estadisticas.partidosPerdidosGlobal * 100) / partidosTotales) : 0;
+				const estadisticasDivs = document
+						.querySelectorAll('.tarjeta-estadistica');
+				estadisticasDivs[0].querySelector('strong').innerText = partidosTotales;
+				estadisticasDivs[1].querySelector('strong').innerText = estadisticas.golesGlobal;
+				estadisticasDivs[2].querySelector('strong').innerText = estadisticas.amarillasGlobal;
+				estadisticasDivs[3].querySelector('strong').innerText = estadisticas.rojasGlobal;
+				estadisticasDivs[4].querySelector('strong').innerText = estadisticas.partidosGanadosGlobal;
+				estadisticasDivs[5].querySelector('strong').innerText = estadisticas.partidosPerdidosGlobal;
+				estadisticasDivs[6].querySelector('strong').innerText = porcentajeVictorias
+						+ '%';
+				estadisticasDivs[7].querySelector('strong').innerText = porcentajeDerrotas
+						+ '%';
 
-            const estadisticasDivs = document.querySelectorAll('.tarjeta-estadistica');
-            estadisticasDivs[0].querySelector('strong').innerText = partidosTotales;
-            estadisticasDivs[1].querySelector('strong').innerText = estadisticas.golesGlobal;
-            estadisticasDivs[2].querySelector('strong').innerText = estadisticas.amarillasGlobal;
-            estadisticasDivs[3].querySelector('strong').innerText = estadisticas.rojasGlobal;
-            estadisticasDivs[4].querySelector('strong').innerText = estadisticas.partidosGanadosGlobal;
-            estadisticasDivs[5].querySelector('strong').innerText = estadisticas.partidosPerdidosGlobal;
-            estadisticasDivs[6].querySelector('strong').innerText = porcentajeVictorias + '%';
-            estadisticasDivs[7].querySelector('strong').innerText = porcentajeDerrotas + '%';
+			} catch (err) {
+				console.error('Error al cargar estadísticas:', err);
+			}
+		}
 
-        } catch (err) {
-            console.error('Error al cargar estadísticas:', err);
-        }
-    }
+		window.onload = cargarDatosUsuario;
+		
+		function abrirGmail() {
+		    const email = "futboldebarrio@gmail.com";
+		    const subject = "Titulo del Asunto: ";
+		    const body = "Escriba aqui el mensaje....";
 
-    window.onload = cargarDatosUsuario;
-</script>
+		    const url = "https://mail.google.com/mail/?view=cm&fs=1&to=" 
+		                + encodeURIComponent(email) 
+		                + "&su=" + encodeURIComponent(subject) 
+		                + "&body=" + encodeURIComponent(body);
+
+		    window.open(url, "_blank");
+		}
+	</script>
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

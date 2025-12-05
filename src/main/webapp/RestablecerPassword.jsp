@@ -4,17 +4,37 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- Estilos CSS -->
 <link rel="stylesheet" href="Css/Estilo.css">
 
-  <!-- Bootstrap CSS (solo una vez) -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<!-- Bootstrap CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
 
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+	rel="stylesheet">
 
+<!-- DataTables CSS -->
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
+<!-- jQuery (Debe estar antes de Bootstrap y DataTables) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<!-- Bootstrap JS -->
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<title>FUTBOL DE BARRIO</title>
+<!-- DataTables JS -->
+<script
+	src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<!-- Chart.js (Solo si lo necesitas) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<title>RESTABLECER CONTRASEÑA</title>
 </head>
 <body>
 	<header class="fixed-top">
@@ -48,7 +68,7 @@
   <path
 													d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791" />
 </svg>
-											futboldebarrio@gmail.com
+											futboldebarriosevilla@gmail.com
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraArriba">
 											<svg xmlns="http://www.w3.org/2000/svg" width="1.2vw"
@@ -63,7 +83,8 @@
 										<div class="col-sm-2 col-md-2 cabeceraArriba "
 											style="justify-content: left;">
 											<a href="">
-												<button type="button" class="botonCabeceraContactar">CONTACTAR</button>
+												<button type="button" class="botonCabeceraContactar"
+													onclick="abrirGmail()">CONTACTAR</button>
 											</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraArriba">
@@ -123,7 +144,8 @@
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="InicioSesion.jsp" class="letraCabeceraMedio">INICIAR
+											<a href="InicioSesion.jsp" class="letraCabeceraMedio"
+												style="color: #d4af37; text-decoration: underline">INICIAR
 												SESION</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraMedio"
@@ -139,49 +161,50 @@
 							style="border: solid 2px black; background-color: #004000; box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, 0.45);">
 							<div class="row " style="background-color: #004000;">
 								<!-- columna iquierda -->
-								<div class="col-sm-5 col-md-5 ">
+								<div class="col-sm-2 col-md-2 ">
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
-										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo" style="color: #d4af37;">INICIO</a>
+										<div class="col-sm-11 col-md-11 cabeceraAbajo ">
+											<a href="Index.jsp" class="letraCabeceraAbajo">INICIO</a>
 										</div>
-										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">ALQUILERES</a>
-										</div>
-										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
+
+									</div>
+								</div>
+
+								<div class="col-sm-4 col-md-4 ">
+									<div class="row  ">
+										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo">EVENTOS</a>
 										</div>
-										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
+										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES<span
+												class="tooltip-text">Sección en desarrollo</span></a>
+										</div>
 									</div>
 								</div>
-								<!-- columna medio = buscador -->
-								<div class="col-sm-2 col-md-2 cabeceraAbajoBusqueda g-0 p-0">
-									<svg xmlns="http://www.w3.org/2000/svg" width="1.3vw"
-										height="1.3vw" fill="currentColor" style="margin-right: 0.7vw"
-										class="bi bi-search" viewBox="0 0 16 16">
-  <path
-											d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-</svg>
-									<div class="barra-busqueda ">
-										<input type="text" placeholder=""
-											style="width: 14vw; height: 1.65vw; border-radius: 50px; display: flex; justify-content: left; align-items: center; font-size: 1vw; margin-right: 0.7vw">
-									</div>
 
-
-								</div>
-								<!-- columna derecha -->
-								<div class="col-sm-5 col-md-5 ">
-
-									<div class="row">
-										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
-										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
+								<div class="col-sm-4 col-md-4 ">
+									<div class="row  ">
+										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo">MARCADORES</a>
 										</div>
-										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">DESAFIOS</a>
+										<div class="col-sm-6 col-md-6 cabeceraAbajo  ">
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span
+												class="tooltip-text">Sección en desarrollo</span></a>
 										</div>
-										<div class="col-sm-2 col-md-2 cabeceraAbajo">
+
+									</div>
+								</div>
+
+
+
+								<!-- columna derecha -->
+								<div class="col-sm-2 col-md-2 ">
+
+									<div class="row">
+
+										<div class="col-sm-12 col-md-12 cabeceraAbajo">
 											<div class="dropdown">
 												<button class="btn btn-secondary " type="button"
 													data-bs-toggle="dropdown" aria-expanded="false"
@@ -195,14 +218,17 @@
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item active" href="#"
-														style="color: white; background-color: #005500;">Idioma
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white; background-color: #005500;">Idioma<span
+															class="tooltip-text">Sección en desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Ayuda </a></li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Configuración </a></li>
-													
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Ayuda <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Configuración <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
+
 												</ul>
 											</div>
 										</div>
@@ -241,9 +267,9 @@
 										</div>
 										<div
 											class="d-sm-none d-md-none col-4 d-block cabeceraMedio  d-flex justify-content-center align-items-center">
-											<a href="Registrar.jsp">
-												<button type="button" class="botonRegistrarCabecera">REGISTRARSE</button>
-											</a>
+											<a href="IniciarSesion.jsp"
+												style="color: #d4af37; text-decoration: underline; font-size: 1.6vw">INICIAR
+												SESION </a>
 										</div>
 
 									</div>
@@ -257,29 +283,26 @@
 
 								<!-- columna izquierda: INICIO -->
 								<div
-									class="col-4 d-flex justify-content-start align-items-center ps-4 ">
+									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
 									<a href="Index.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">INICIO</a>
+										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
+								</div>
+								<div
+									class="col-4 d-flex justify-content-start align-items-center ps-3 ">
+									<a href="" class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw;">MARCADORES</a>
+								</div>
+								<div
+									class="col-3 d-flex justify-content-start align-items-center ps-3 ">
+									<a href="" class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw;">EVENTOS</a>
 								</div>
 
-								<!-- columna medio: buscador -->
-								<div
-									class="col-4 d-flex justify-content-center align-items-center">
-									<div class="d-flex align-items-center">
-										<svg xmlns="http://www.w3.org/2000/svg" width="2.5vw"
-											height="2.5vw" fill="currentColor"
-											class="bi bi-search text-white me-2" viewBox="0 0 16 16">
-									<path
-												d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-								</svg>
-										<input type="text" placeholder="Buscar..."
-											style="font-size: 2vw; width: 30vw; height: 3vw; border-radius: 20px; border: none; padding-left: 10px;">
-									</div>
-								</div>
+
 
 								<!-- columna derecha: menú desplegable -->
 								<div
-									class="col-4 d-flex justify-content-end align-items-center pe-4">
+									class="col-2 d-flex justify-content-end align-items-center pe-4">
 									<div class="dropdown">
 										<button class="btn btn-secondary " type="button"
 											data-bs-toggle="dropdown" aria-expanded="false"
@@ -293,30 +316,38 @@
 										</button>
 										<ul class="dropdown-menu dropdown-menu-dark"
 											style="min-width: 12vw; font-size: 2.2vw; background-color: #003300; border-radius: 5px; width: 25vw">
-											<li><a class="dropdown-item " href="InicioSesion.jsp"
-												style="color: white;">Iniciar sesión </a></li>
+
+
+											<li><a class="dropdown-item " href="Registrar.jsp"
+												style="color: white;">Registrarse </a></li>
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item " href="Index.jsp"
-												style="color: white;">Alquileres </a></li>
-											<li><a class="dropdown-item " href="Index.jsp"
-												style="color: white;">Eventos </a></li>
-											<li><a class="dropdown-item " href="Index.jsp"
-												style="color: white;">Marcadores </a></li>
-											<li><a class="dropdown-item " href="Index.jsp"
-												style="color: white;">Desafios </a></li>
 
-
-											<li>
-												<hr class="dropdown-divider" style="border-color: #006600;">
-											</li>
+											<li><a class="dropdown-item seccion-bloqueada" href="">Alquileres
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="">Desafios<span
+													class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
 											<li><a class="dropdown-item " href="#"
-												style="color: white;">Idioma </a></li>
-											<li><a class="dropdown-item" href="#"
-												style="color: white;">Ayuda </a></li>
-											<li><a class="dropdown-item" href="#"
-												style="color: white;">Configuración </a></li>
+												style="color: white;">¿Quienes somos? </a></li>
+
+
+											<li>
+												<hr class="dropdown-divider" style="border-color: #006600;">
+											</li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#"
+												style="color: white;">Idioma <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#"
+												style="color: white;">Ayuda <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#"
+												style="color: white;">Configuración <span
+													class="tooltip-text">Sección en desarrollo</span></a></li>
+
+
 
 										</ul>
 									</div>
@@ -326,11 +357,6 @@
 						</div>
 					</div>
 				</div>
-
-
-
-
-
 
 			</div>
 		</div>
@@ -553,9 +579,32 @@ Avenida mujer trabajadora
 	</footer>
 
 
+<script>
+function abrirGmail() {
+	const email = "futboldebarriosevilla@gmail.com";
+	const subject = "Titulo del Asunto: ";
+	const body = "Escriba aqui el mensaje....";
+
+	const url = "https://mail.google.com/mail/?view=cm&fs=1&to="
+			+ encodeURIComponent(email) + "&su="
+			+ encodeURIComponent(subject) + "&body="
+			+ encodeURIComponent(body);
+
+	window.open(url, "_blank");
+}</script>
+
 
 	
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>	
+</body>
 	
 </body>
 </html>

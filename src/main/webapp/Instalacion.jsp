@@ -12,9 +12,9 @@ if (tipoUsuario == null || !"instalacion".equals(tipoUsuario)) {
 }
 
 Long usuarioId = (Long) session.getAttribute("idInstalacion");
-String nombreUsuario = (String) session.getAttribute("nombreInstalacion");
-if (nombreUsuario == null)
-	nombreUsuario = "Invitado";
+String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
+if (nombreInstalacion == null)
+	nombreInstalacion = "Invitado";
 %>
 
 <!DOCTYPE html>
@@ -97,12 +97,15 @@ if (nombreUsuario == null)
 </svg>
 											653435344
 										</div>
-										<div class="col-sm-2 col-md-2 cabeceraArriba "
+										<div class="col-sm-2 col-md-2 cabeceraArriba"
 											style="justify-content: left;">
 											<a href="">
-												<button type="button" class="botonCabeceraContactar">CONTACTAR</button>
+												<button type="button" class="botonCabeceraContactar"
+													onclick="abrirGmail()">CONTACTAR</button>
 											</a>
 										</div>
+
+
 										<div class="col-sm-2 col-md-2 cabeceraArriba">
 											<a href=""> <svg xmlns="http://www.w3.org/2000/svg"
 													width="1.4vw" height="1.2vw" fill="currentColor"
@@ -152,25 +155,14 @@ if (nombreUsuario == null)
 											FUTBOL DE BARRIO <span
 												style="color: #c0c0c0; margin-left: 7px;"> /</span>
 										</div>
-										<div class="col-sm-3 col-md-3 cabeceraMedio">
-											<svg xmlns="http://www.w3.org/2000/svg" width="1.3vw"
-												height="1.3vw" fill="currentColor"
-												style="margin-right: 0.7vw" class="bi bi-search"
-												viewBox="0 0 16 16">
-  <path
-													d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-</svg>
-											<div class="barra-busqueda ">
-												<input type="text" placeholder=""
-													style="width: 16vw; height: 1.65vw; border-radius: 50px; display: flex; justify-content: left; align-items: center; font-size: 1vw; margin-right: 0.7vw">
-											</div>
 
+										<div class="col-sm-2 col-md-2 cabeceraMedio"></div>
 
-										</div>
-										<div class="col-sm-3 col-md-3 cabeceraMedio"
+										<div class="col-sm-4 col-md-4 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="" class="letraCabeceraMedio">BIENVENIDO: Los
-												Corrales</a>
+											<a href="" class="letraCabeceraMedio"
+												id="nombreUsuarioCabecera"> BIENVENIDO: <%=nombreInstalacion%>
+											</a>
 										</div>
 
 									</div>
@@ -186,11 +178,14 @@ if (nombreUsuario == null)
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="Instalacion.jsp" class="letraCabeceraAbajo"
-												style="color: #d4af37;">INICIO</a>
+											<a href="Instalacion.jsp" class="letraCabeceraAbajo"style="color: #d4af37;">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">RESERVAS</a>
+											<a href="#" class="letraCabeceraAbajo seccion-bloqueada">
+												RESERVAS <span class="tooltip-text">Sección en
+													desarrollo</span>
+											</a>
+
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 											<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo">EVENTOS</a>
@@ -206,13 +201,22 @@ if (nombreUsuario == null)
 									<div class="row">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
 										<div class="col-sm-2 col-md-2 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">FINANZAS</a>
+											<a href="#" class="letraCabeceraAbajo seccion-bloqueada">
+												FINANZAS <span class="tooltip-text">Sección en
+													desarrollo</span>
+											</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">ESTADISTICAS</a>
+											<a href="#" class="letraCabeceraAbajo seccion-bloqueada">
+												ESTADISTICAS <span class="tooltip-text">Sección en
+													desarrollo</span>
+											</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">NOTIFICACIONES</a>
+											<a href="#" class="letraCabeceraAbajo seccion-bloqueada">
+												NOTIFICACIONES <span class="tooltip-text">Sección en
+													desarrollo</span>
+											</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraAbajo">
 											<div class="dropdown">
@@ -228,13 +232,17 @@ if (nombreUsuario == null)
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item active" href="#"
-														style="color: white; background-color: #005500;">Idioma
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#">Idioma<span
+															class="tooltip-text">Sección en desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Ayuda </a></li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Configuración </a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#">Ayuda <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#">Configuración <span
+															class="tooltip-text">Sección en desarrollo</span>
+													</a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -271,19 +279,14 @@ if (nombreUsuario == null)
 									style="border: 2px solid black; border-bottom: none; border-left: none; border-top: 1px solid black;">
 									<div class="row">
 										<div
-											class="d-sm-none d-md-none col-8 d-block cabeceraMedioTituloX">
+											class="d-sm-none d-md-none col-9 d-block cabeceraMedioTituloX">
 											<span style="color: #d4af37; margin-right: 1.5vw;"> /
 											</span> FUTBOL DE BARRIO <span
 												style="color: #c0c0c0; margin-left: 7px;"> /</span>
 										</div>
 										<div
-											class="d-sm-none d-md-none col-4 d-block cabeceraMedio  d-flex justify-content-center align-items-center">
-											<a href="Instalacion.jsp">
-												<button type="button" class="botonRegistrarCabecera"
-													style="background-color: #e7bf3e;">
-													<i>HAZTE PREMIUM</i>
-												</button>
-											</a>
+											class="d-sm-none d-md-none col-3 d-block cabeceraMedio  d-flex justify-content-center align-items-center">
+
 										</div>
 
 									</div>
@@ -297,29 +300,32 @@ if (nombreUsuario == null)
 
 								<!-- columna izquierda: INICIO -->
 								<div
-									class="col-4 d-flex justify-content-start align-items-center ps-4 ">
+									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
 									<a href="Instalacion.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">INICIO</a>
+										style="text-decoration: none; font-size: 2.5vw;color: #d4af37;">INICIO</a>
 								</div>
 
-								<!-- columna medio: buscador -->
+								<!-- columna medio: -->
+
 								<div
-									class="col-4 d-flex justify-content-center align-items-center">
-									<div class="d-flex align-items-center">
-										<svg xmlns="http://www.w3.org/2000/svg" width="2.5vw"
-											height="2.5vw" fill="currentColor"
-											class="bi bi-search text-white me-2" viewBox="0 0 16 16">
-									<path
-												d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-								</svg>
-										<input type="text" placeholder="Buscar..."
-											style="font-size: 2vw; width: 30vw; height: 3vw; border-radius: 20px; border: none; padding-left: 10px;">
-									</div>
+									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
+									<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw; ">EVENTOS</a>
+								</div>
+
+
+								<div
+									class="col-4 d-flex justify-content-start align-items-center ps-4 ">
+									<a href="Instalacion.jsp"
+										class="letraCabeceraAbajo seccion-bloqueada "
+										style="text-decoration: none; font-size: 2.5vw;">ESTADISTICAS
+										<span class="tooltip-text">Sección en desarrollo</span>
+									</a>
 								</div>
 
 								<!-- columna derecha: menú desplegable -->
 								<div
-									class="col-4 d-flex justify-content-end align-items-center pe-4">
+									class="col-2 d-flex justify-content-end align-items-center pe-4">
 									<div class="dropdown">
 										<button class="btn btn-secondary " type="button"
 											data-bs-toggle="dropdown" aria-expanded="false"
@@ -335,28 +341,30 @@ if (nombreUsuario == null)
 											style="min-width: 12vw; font-size: 2.2vw; background-color: #003300; border-radius: 5px; width: 25vw">
 
 
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Reservas </a></li>
-											<li><a class="dropdown-item "
-												href="EventoInstalacion.jsp" style="color: white;">Eventos
+											<li><a class="dropdown-item seccion-bloqueada"
+												href="Instalacion.jsp"">Reservas <span
+													class="tooltip-text">Sección en desarrollo</span></a></li>
+											<li><a class="dropdown-item  seccion-bloqueada"
+												href="Instalacion.jsp"">Finanzas<span
+													class="tooltip-text">Sección en desarrollo</span>
 											</a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Finanzas </a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Estadisticas </a></li>
-											<li><a class="dropdown-item " href="Instalacion.jsp"
-												style="color: white;">Notificaciones </a></li>
+											<li><a class="dropdown-item seccion-bloqueada"
+												href="Instalacion.jsp"">Notificaciones <span
+													class="tooltip-text">Sección en desarrollo</span></a></li>
 
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item " href="#"
-												style="color: white;">Idioma </a></li>
-											<li><a class="dropdown-item" href="#"
-												style="color: white;">Ayuda </a></li>
-											<li><a class="dropdown-item" href="#"
-												style="color: white;">Configuración </a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Idioma
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Ayuda
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Configuración
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
@@ -378,6 +386,7 @@ if (nombreUsuario == null)
 		</div>
 	</header>
 
+
 	<main style="background-color: rgba(223, 234, 213, 0.5);">
 
 
@@ -387,7 +396,7 @@ if (nombreUsuario == null)
 
 			<!-- Imagen destacada -->
 			<img src="Imagenes/instalacion.jpg" alt="Imagen Instalación"
-				class="tarjeta-imagen-grande" >
+				class="tarjeta-imagen-grande">
 
 			<!-- Cabecera: Nombre + contacto -->
 			<div class="tarjeta-header-instalacion">
@@ -404,10 +413,8 @@ if (nombreUsuario == null)
 			</div>
 
 			<!-- Estadísticas -->
-			<div class="tarjeta-estadisticas">
-				<div class="tarjeta-estadistica">
-					<strong>0</strong>Torneos Activos
-				</div>
+			<div class="tarjeta-estadisticas-instalacion">
+				
 				<div class="tarjeta-estadistica">
 					<strong>✖</strong>FUTBOL 5
 				</div>
@@ -640,60 +647,92 @@ async function cargarDatosInstalacion() {
     }
 
     try {
-        const res = await fetch('<%=request.getContextPath()%>/instalacion?idInstalacion=' + instalacionId);
-        if (!res.ok) throw new Error('Error al cargar datos de la instalación');
+    	const res = await fetch('<%=request.getContextPath()%>/instalacion?idInstalacion=' 
+    		    + instalacionId);
+				if (!res.ok)
+					throw new Error('Error al cargar datos de la instalación');
 
-        const instalacion = await res.json();
+				const instalacion = await
+				res.json();
 
-        // Cabecera
-        const nombreElem = document.querySelector('.tarjeta-nombre');
-        const direccionElem = document.querySelector('.direccion-placeholder');
-        const emailElem = document.querySelector('.email-placeholder');
-        const telefonoElem = document.querySelector('.telefono-placeholder');
+				// Cabecera
+				const nombreElem = document.querySelector('.tarjeta-nombre');
+				const direccionElem = document
+						.querySelector('.direccion-placeholder');
+				const emailElem = document.querySelector('.email-placeholder');
+				const telefonoElem = document
+						.querySelector('.telefono-placeholder');
 
-        if (nombreElem) nombreElem.innerText = instalacion.nombreInstalacion || "-";
-        if (direccionElem) direccionElem.innerText = instalacion.direccionInstalacion || "-";
-        if (emailElem) emailElem.innerText = instalacion.emailInstalacion || "-";
-        if (telefonoElem) telefonoElem.innerText = instalacion.telefonoInstalacion || "-";
+				if (nombreElem)
+					nombreElem.innerText = instalacion.nombreInstalacion || "-";
+				if (direccionElem)
+					direccionElem.innerText = instalacion.direccionInstalacion
+							|| "-";
+				if (emailElem)
+					emailElem.innerText = instalacion.emailInstalacion || "-";
+				if (telefonoElem)
+					telefonoElem.innerText = instalacion.telefonoInstalacion
+							|| "-";
 
-        // Imagen
-        const imagenElem = document.querySelector('.tarjeta-imagen-grande');
-        if (imagenElem && instalacion.imagenInstalacion && instalacion.imagenInstalacion.length > 0) {
-            imagenElem.src = "data:image/png;base64," + instalacion.imagenInstalacion;
-        }
+				// Imagen
+				const imagenElem = document
+						.querySelector('.tarjeta-imagen-grande');
+				if (imagenElem && instalacion.imagenInstalacion
+						&& instalacion.imagenInstalacion.length > 0) {
+					imagenElem.src = "data:image/png;base64,"
+							+ instalacion.imagenInstalacion;
+				}
 
-        // Estadísticas: torneos y tipos de campo
-        const estadisticasDivs = document.querySelectorAll('.tarjeta-estadistica');
-        if (estadisticasDivs.length >= 5) {
-            // Torneos activos
-            estadisticasDivs[0].querySelector('strong').innerText = instalacion.torneoIds ? instalacion.torneoIds.length : 0;
+				// Estadísticas: torneos y tipos de campo
+				const estadisticasDivs = document
+						.querySelectorAll('.tarjeta-estadistica');
+				if (estadisticasDivs.length >= 4) {
+				
 
-            // Tipos de campo
-            const campos = ['Futbol5', 'Futbol7', 'Futbol11'];
-            const tiposInstalacion = [instalacion.tipoCampo1, instalacion.tipoCampo2, instalacion.tipoCampo3];
-            for (let i = 0; i < 3; i++) {
-                const elem = estadisticasDivs[i + 1].querySelector('strong');
-                if (elem) {
-                    if (tiposInstalacion.includes(campos[i])) {
-                        elem.innerHTML = "✔";
-                    } else {
-                        elem.innerHTML = "<span style='color:red'>✖</span>";
-                    }
-                }
-            }
+					// Tipos de campo
+					const campos = [ 'Futbol5', 'Futbol7', 'Futbol11' ];
+					const tiposInstalacion = [ instalacion.tipoCampo1,
+							instalacion.tipoCampo2, instalacion.tipoCampo3 ];
+					for (let i = 0; i < 3; i++) {
+						const elem = estadisticasDivs[i]
+								.querySelector('strong');
+						if (elem) {
+							if (tiposInstalacion.includes(campos[i])) {
+								elem.innerHTML = "✔";
+							} else {
+								elem.innerHTML = "<span style='color:red'>✖</span>";
+							}
+						}
+					}
 
-            // Servicios
-            const serviciosDiv = estadisticasDivs[4].querySelector('.servicios-placeholder');
-            if (serviciosDiv) serviciosDiv.innerText = instalacion.serviciosInstalacion || "-";
-        }
+					// Servicios
+					const serviciosDiv = estadisticasDivs[3]
+							.querySelector('.servicios-placeholder');
+					if (serviciosDiv)
+						serviciosDiv.innerText = instalacion.serviciosInstalacion
+								|| "-";
+				}
 
-    } catch (err) {
-        console.error('Error al cargar datos de la instalación:', err);
-    }
-}
+			} catch (err) {
+				console.error('Error al cargar datos de la instalación:', err);
+			}
+		}
 
-document.addEventListener('DOMContentLoaded', cargarDatosInstalacion);
-</script>
+		document.addEventListener('DOMContentLoaded', cargarDatosInstalacion);
+		
+		function abrirGmail() {
+		    const email = "futboldebarrio@gmail.com";
+		    const subject = "Titulo del Asunto: ";
+		    const body = "Escriba aqui el mensaje....";
+
+		    const url = "https://mail.google.com/mail/?view=cm&fs=1&to=" 
+		                + encodeURIComponent(email) 
+		                + "&su=" + encodeURIComponent(subject) 
+		                + "&body=" + encodeURIComponent(body);
+
+		    window.open(url, "_blank");
+		}
+	</script>
 
 
 
