@@ -6,7 +6,16 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.json.JSONObject;
@@ -26,6 +35,7 @@ public class TorneoServicio {
 
 	private static final String API_URL_ID = "http://localhost:9527/api/torneo";
 	private static final String API_URL = "http://localhost:9527/api/mostrarTorneo";
+	private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 	// ---------- CRUD Torneo ----------
 	public void guardarTorneo(TorneoDto torneo) {
@@ -78,161 +88,200 @@ public class TorneoServicio {
 	}
 
 	// ---------- Generación de Bracket ----------
-	public void generarBracket(Long torneoId, List<EquipoTorneoDto> equipos, PartidoTorneoServicio partidoServicio)
-			throws Exception {
-		if (equipos == null || equipos.size() != 16)
-			throw new IllegalArgumentException("Actualmente solo se soportan torneos de 16 equipos.");
+	/**
+	 * Método principal para generar bracket, usando la lógica de fechas válidas.
+	 */
+	public void generarBracket(Long torneoId, TorneoServicio torneoServicio, EquipoTorneoServicio equipoTorneoServicio,
+			PartidoTorneoServicio partidoServicio) throws Exception {
 
-		Collections.shuffle(equipos);
-		Map<Long, Long> flujoPartidos = new HashMap<>();
+		TorneoDto torneo = torneoServicio.obtenerTorneo(torneoId);
 
-		// Octavos
-		List<PartidoTorneoDto> octavos = new ArrayList<>();
-		for (int i = 0; i < 16; i += 2) {
-			PartidoTorneoDto p = crearPartidoBase(torneoId, "octavos", i / 2 + 1);
-			p.setEquipoLocalId(equipos.get(i).getIdEquipoTorneo());
-			p.setClubLocalId(equipos.get(i).getClubId());
-			p.setEquipoVisitanteId(equipos.get(i + 1).getIdEquipoTorneo());
-			p.setClubVisitanteId(equipos.get(i + 1).getClubId());
-			p.setIdPartidoTorneo(partidoServicio.guardarPartido(p));
-			octavos.add(p);
+// Lista de equipos
+		List<EquipoTorneoDto> equipos = equipoTorneoServicio.listaEquiposTorneo().stream()
+				.filter(e -> e.getTorneoId() == (torneoId)).collect(Collectors.toList());
+
+		if (equipos.size() != 16) {
+			throw new Exception("El torneo necesita exactamente 16 equipos para generar los octavos.");
 		}
 
-		// Cuartos, Semis, Final y Tercer puesto
-		List<PartidoTorneoDto> cuartos = crearRonda(torneoId, "cuartos", octavos, 4, partidoServicio, flujoPartidos);
-		List<PartidoTorneoDto> semis = crearRonda(torneoId, "semifinal", cuartos, 2, partidoServicio, flujoPartidos);
-		crearRonda(torneoId, "partidoFinal", semis, 1, partidoServicio, flujoPartidos);
-		crearRonda(torneoId, "tercerpuesto", semis, 1, partidoServicio, flujoPartidos);
+// Orden aleatorio de equipos
+		Collections.shuffle(equipos);
 
-		Utilidades.guardarMapa(torneoId, flujoPartidos);
+// Fecha inicial del torneo
+		LocalDate fechaInicio = LocalDate.parse(torneo.getFechaInicioTorneo(),
+				DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+// Control de fechas usadas
+		List<LocalDateTime> fechasUsadas = new ArrayList<>();
+
+// Crear OCTAVOS (8 partidos)
+		int ubicacion = 1;
+		for (int i = 0; i < 16; i += 2) {
+
+			EquipoTorneoDto local = equipos.get(i);
+			EquipoTorneoDto visitante = equipos.get(i + 1);
+
+			PartidoTorneoDto partido = new PartidoTorneoDto();
+			partido.setTorneoId(torneoId);
+			partido.setRonda("octavos");
+			partido.setEstado("pendiente");
+			partido.setUbicacionRonda(ubicacion++);
+
+			partido.setEquipoLocalId(local.getIdEquipoTorneo());
+			partido.setEquipoVisitanteId(visitante.getIdEquipoTorneo());
+			partido.setClubLocalId(local.getClubId());
+			partido.setClubVisitanteId(visitante.getClubId());
+			partido.setInstalacionId(torneoServicio.obtenerInstalacionDeTorneo(torneoId));
+
+// Asignar fecha/hora automáticamente  
+			LocalDateTime fecha = torneoServicio.asignarFechaPartido(fechasUsadas, fechaInicio);
+			partido.setFechaPartido(fecha.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+
+			partidoServicio.guardarPartido(partido);
+		}
 	}
 
-	public void avanzarGanador(PartidoTorneoDto partido, Long idGanador,
-	        PartidoTorneoServicio partidoServicio, EquipoTorneoServicio equipoTorneoServicio,
-	        TorneoServicio torneoServicio) throws Exception {
+	public void avanzarGanador(PartidoTorneoDto partido, Long idGanador, PartidoTorneoServicio partidoServicio,
+			EquipoTorneoServicio equipoTorneoServicio, TorneoServicio torneoServicio) throws Exception {
 
-	    Log.ficheroLog("=== Iniciando avanzarGanador ===");
+		partido.setEstado("finalizado");
+		partido.setEquipoGanadorId(idGanador);
+		partidoServicio.modificarPartido(partido.getIdPartidoTorneo(), partido);
 
-	    // 1️⃣ Marcar el partido como finalizado
-	    partido.setEstado("finalizado");
-	    partido.setEquipoGanadorId(idGanador);
-	    partidoServicio.modificarPartido(partido.getIdPartidoTorneo(), partido);
+		Map<Long, Long> flujo = Utilidades.obtenerMapa(partido.getTorneoId());
+		if (flujo == null)
+			flujo = new HashMap<>();
 
-	    // 2️⃣ Cargar flujo de partidos existente
-	    Map<Long, Long> flujo = Utilidades.obtenerMapa(partido.getTorneoId());
-	    if (flujo == null) flujo = new HashMap<>();
+		String[] rondas = { "octavos", "cuartos", "semifinal", "partidoFinal", "tercerpuesto" };
+		int indexRonda = Arrays.asList(rondas).indexOf(partido.getRonda());
+		if (indexRonda == -1)
+			return;
 
-	    // 3️⃣ Definir orden de rondas
-	    String[] rondas = { "octavos", "cuartos", "semifinal", "partidoFinal", "tercerpuesto" };
-	    int indexRonda = Arrays.asList(rondas).indexOf(partido.getRonda());
-	    if (indexRonda == -1) return;
+		TorneoDto torneo = torneoServicio.obtenerTorneo(partido.getTorneoId());
 
-	    // 4️⃣ Crear siguiente ronda (excepto final y tercer puesto)
-	    if (indexRonda < rondas.length - 2) {
-	        String siguienteRonda = rondas[indexRonda + 1];
+		if (indexRonda < rondas.length - 2) {
+			String siguienteRonda = rondas[indexRonda + 1];
 
-	        List<PartidoTorneoDto> partidosRondaActual = partidoServicio.listaPartidos().stream()
-	                .filter(p -> p.getTorneoId().equals(partido.getTorneoId()) && p.getRonda().equalsIgnoreCase(partido.getRonda()))
-	                .sorted(Comparator.comparingInt(PartidoTorneoDto::getUbicacionRonda))
-	                .collect(Collectors.toList());
+			List<PartidoTorneoDto> partidosRondaActual = partidoServicio.listaPartidos().stream()
+					.filter(p -> p.getTorneoId().equals(partido.getTorneoId())
+							&& p.getRonda().equalsIgnoreCase(partido.getRonda()))
+					.sorted(Comparator.comparingInt(PartidoTorneoDto::getUbicacionRonda)).collect(Collectors.toList());
 
-	        boolean todosFinalizados = partidosRondaActual.stream()
-	                .allMatch(p -> "finalizado".equalsIgnoreCase(p.getEstado()));
+			boolean todosFinalizados = partidosRondaActual.stream()
+					.allMatch(p -> "finalizado".equalsIgnoreCase(p.getEstado()));
 
-	        List<PartidoTorneoDto> partidosSiguienteRonda = partidoServicio.listaPartidos().stream()
-	                .filter(p -> p.getTorneoId().equals(partido.getTorneoId()) && p.getRonda().equalsIgnoreCase(siguienteRonda))
-	                .collect(Collectors.toList());
+			List<PartidoTorneoDto> partidosSiguienteRonda = partidoServicio.listaPartidos().stream().filter(
+					p -> p.getTorneoId().equals(partido.getTorneoId()) && p.getRonda().equalsIgnoreCase(siguienteRonda))
+					.collect(Collectors.toList());
 
-	        if (partidosSiguienteRonda.isEmpty() && todosFinalizados) {
-	            List<Long> ganadores = partidosRondaActual.stream()
-	                    .map(PartidoTorneoDto::getEquipoGanadorId)
-	                    .collect(Collectors.toList());
+			if (partidosSiguienteRonda.isEmpty() && todosFinalizados) {
+				List<Long> ganadores = partidosRondaActual.stream().map(PartidoTorneoDto::getEquipoGanadorId)
+						.collect(Collectors.toList());
 
-	            for (int i = 0; i < ganadores.size(); i += 2) {
-	                final int indexLocal = i;
-	                final int indexVisitante = i + 1;
+				List<LocalDateTime> fechasUsadas = partidoServicio.listaPartidos().stream()
+						.filter(p -> p.getTorneoId().equals(partido.getTorneoId()))
+						.map(PartidoTorneoDto::getFechaPartido).filter(fp -> fp != null && !fp.isEmpty())
+						.map(fp -> LocalDateTime.parse(fp, FORMATO_FECHA)).collect(Collectors.toList());
 
-	                PartidoTorneoDto nuevoPartido = crearPartidoBase(partido.getTorneoId(), siguienteRonda, i / 2 + 1);
-	                nuevoPartido.setEstado("pendiente");
+				LocalDate ultimaFechaRonda = obtenerUltimaFecha(partidosRondaActual);
+				LocalDate inicioSemana = ultimaFechaRonda.plusWeeks(1).with(java.time.DayOfWeek.MONDAY);
 
-	                // Asignar equipos y clubes
-	                EquipoTorneoDto eLocal = equipoTorneoServicio.listaEquiposTorneo().stream()
-	                        .filter(e -> e.getIdEquipoTorneo() == ganadores.get(indexLocal))
-	                        .findFirst().orElse(null);
+				for (int i = 0; i < ganadores.size(); i += 2) {
+					final int indexLocal = i;
+					final int indexVisitante = i + 1;
 
-	                EquipoTorneoDto eVisit = equipoTorneoServicio.listaEquiposTorneo().stream()
-	                        .filter(e -> e.getIdEquipoTorneo() == ganadores.get(indexVisitante))
-	                        .findFirst().orElse(null);
+					PartidoTorneoDto nuevoPartido = crearPartidoBase(partido.getTorneoId(), siguienteRonda, i / 2 + 1);
+					nuevoPartido.setEstado("pendiente");
 
+					EquipoTorneoDto eLocal = equipoTorneoServicio.listaEquiposTorneo().stream()
+							.filter(e -> e.getIdEquipoTorneo() == ganadores.get(indexLocal)).findFirst().orElse(null);
 
-	                if (eLocal != null) {
-	                    nuevoPartido.setEquipoLocalId(eLocal.getIdEquipoTorneo());
-	                    nuevoPartido.setClubLocalId(eLocal.getClubId());
-	                }
-	                if (eVisit != null) {
-	                    nuevoPartido.setEquipoVisitanteId(eVisit.getIdEquipoTorneo());
-	                    nuevoPartido.setClubVisitanteId(eVisit.getClubId());
-	                }
+					EquipoTorneoDto eVisit = equipoTorneoServicio.listaEquiposTorneo().stream()
+							.filter(e -> e.getIdEquipoTorneo() == ganadores.get(indexVisitante)).findFirst()
+							.orElse(null);
 
-	                nuevoPartido.setInstalacionId(torneoServicio.obtenerInstalacionDeTorneo(partido.getTorneoId()));
-	                Long idNuevo = partidoServicio.guardarPartido(nuevoPartido);
+					if (eLocal != null) {
+						nuevoPartido.setEquipoLocalId(eLocal.getIdEquipoTorneo());
+						nuevoPartido.setClubLocalId(eLocal.getClubId());
+					}
+					if (eVisit != null) {
+						nuevoPartido.setEquipoVisitanteId(eVisit.getIdEquipoTorneo());
+						nuevoPartido.setClubVisitanteId(eVisit.getClubId());
+					}
 
-	                flujo.put(partidosRondaActual.get(indexLocal).getIdPartidoTorneo(), idNuevo);
-	                flujo.put(partidosRondaActual.get(indexVisitante).getIdPartidoTorneo(), idNuevo);
-	            }
-	        }
-	    }
+					nuevoPartido.setInstalacionId(torneoServicio.obtenerInstalacionDeTorneo(partido.getTorneoId()));
 
-	    // 5️⃣ Crear partido de tercer puesto si semifinales completadas
-	    if ("semifinal".equalsIgnoreCase(partido.getRonda())) {
-	        boolean existeTercerPuesto = partidoServicio.listaPartidos().stream()
-	                .anyMatch(p -> p.getTorneoId().equals(partido.getTorneoId()) && "tercerpuesto".equalsIgnoreCase(p.getRonda()));
+					LocalDateTime fechaPartido = asignarFechaPartido(fechasUsadas, inicioSemana);
+					nuevoPartido.setFechaPartido(fechaPartido.format(FORMATO_FECHA));
 
-	        if (!existeTercerPuesto) {
-	            List<PartidoTorneoDto> semis = partidoServicio.listaPartidos().stream()
-	                    .filter(p -> p.getTorneoId().equals(partido.getTorneoId()) && "semifinal".equalsIgnoreCase(p.getRonda()))
-	                    .collect(Collectors.toList());
+					Long idNuevo = partidoServicio.guardarPartido(nuevoPartido);
 
-	            if (semis.size() == 2 && semis.stream().allMatch(p -> "finalizado".equalsIgnoreCase(p.getEstado()))) {
-	                PartidoTorneoDto tercerPuesto = crearPartidoBase(partido.getTorneoId(), "tercerpuesto", 1);
-	                tercerPuesto.setEstado("pendiente");
+					flujo.put(partidosRondaActual.get(indexLocal).getIdPartidoTorneo(), idNuevo);
+					flujo.put(partidosRondaActual.get(indexVisitante).getIdPartidoTorneo(), idNuevo);
 
-	                // Determinar perdedores
-	                Long perdedor1 = semis.get(0).getEquipoGanadorId().equals(semis.get(0).getEquipoLocalId())
-	                        ? semis.get(0).getEquipoVisitanteId() : semis.get(0).getEquipoLocalId();
-	                Long perdedor2 = semis.get(1).getEquipoGanadorId().equals(semis.get(1).getEquipoLocalId())
-	                        ? semis.get(1).getEquipoVisitanteId() : semis.get(1).getEquipoLocalId();
+					fechasUsadas.add(fechaPartido);
+				}
+			}
+		}
 
-	                tercerPuesto.setEquipoLocalId(perdedor1);
-	                tercerPuesto.setEquipoVisitanteId(perdedor2);
+		if ("semifinal".equalsIgnoreCase(partido.getRonda())) {
+			boolean existeTercerPuesto = partidoServicio.listaPartidos().stream()
+					.anyMatch(p -> p.getTorneoId().equals(partido.getTorneoId())
+							&& "tercerpuesto".equalsIgnoreCase(p.getRonda()));
 
-	                // Asignar clubes de los perdedores
-	                EquipoTorneoDto local = equipoTorneoServicio.listaEquiposTorneo().stream()
-	                        .filter(e -> e.getIdEquipoTorneo() == perdedor1)
-	                        .findFirst().orElse(null);
+			if (!existeTercerPuesto) {
+				List<PartidoTorneoDto> semis = partidoServicio.listaPartidos().stream()
+						.filter(p -> p.getTorneoId().equals(partido.getTorneoId())
+								&& "semifinal".equalsIgnoreCase(p.getRonda()))
+						.sorted(Comparator.comparingInt(PartidoTorneoDto::getUbicacionRonda))
+						.collect(Collectors.toList());
 
-	                EquipoTorneoDto visitante = equipoTorneoServicio.listaEquiposTorneo().stream()
-	                        .filter(e -> e.getIdEquipoTorneo() == perdedor2)
-	                        .findFirst().orElse(null);
+				if (semis.size() == 2 && semis.stream().allMatch(p -> "finalizado".equalsIgnoreCase(p.getEstado()))) {
 
+					Long perdedor1 = semis.get(0).getEquipoGanadorId().equals(semis.get(0).getEquipoLocalId())
+							? semis.get(0).getEquipoVisitanteId()
+							: semis.get(0).getEquipoLocalId();
+					Long perdedor2 = semis.get(1).getEquipoGanadorId().equals(semis.get(1).getEquipoLocalId())
+							? semis.get(1).getEquipoVisitanteId()
+							: semis.get(1).getEquipoLocalId();
 
-	                if (local != null) tercerPuesto.setClubLocalId(local.getClubId());
-	                if (visitante != null) tercerPuesto.setClubVisitanteId(visitante.getClubId());
+					PartidoTorneoDto tercerPuesto = crearPartidoBase(partido.getTorneoId(), "tercerpuesto", 1);
+					tercerPuesto.setEstado("pendiente");
+					tercerPuesto.setEquipoLocalId(perdedor1);
+					tercerPuesto.setEquipoVisitanteId(perdedor2);
 
-	                tercerPuesto.setInstalacionId(torneoServicio.obtenerInstalacionDeTorneo(partido.getTorneoId()));
-	                Long idTercer = partidoServicio.guardarPartido(tercerPuesto);
+					EquipoTorneoDto local = equipoTorneoServicio.listaEquiposTorneo().stream()
+							.filter(e -> e.getIdEquipoTorneo() == perdedor1).findFirst().orElse(null);
 
-	                flujo.put(-1L, idTercer); // marcador temporal
-	            }
-	        }
-	    }
+					EquipoTorneoDto visitante = equipoTorneoServicio.listaEquiposTorneo().stream()
+							.filter(e -> e.getIdEquipoTorneo() == perdedor2).findFirst().orElse(null);
 
-	    // 6️⃣ Guardar flujo actualizado
-	    Utilidades.guardarMapa(partido.getTorneoId(), flujo);
-	    Log.ficheroLog("=== Fin avanzarGanador ===");
+					if (local != null)
+						tercerPuesto.setClubLocalId(local.getClubId());
+					if (visitante != null)
+						tercerPuesto.setClubVisitanteId(visitante.getClubId());
+
+					tercerPuesto.setInstalacionId(torneoServicio.obtenerInstalacionDeTorneo(partido.getTorneoId()));
+
+					LocalDate ultimaFechaSemis = obtenerUltimaFecha(semis);
+					LocalDate inicioSemanaTercer = ultimaFechaSemis.plusWeeks(1).with(java.time.DayOfWeek.MONDAY);
+
+					List<LocalDateTime> fechasUsadas = partidoServicio.listaPartidos().stream()
+							.filter(p -> p.getTorneoId().equals(partido.getTorneoId()))
+							.map(PartidoTorneoDto::getFechaPartido).filter(fp -> fp != null && !fp.isEmpty())
+							.map(fp -> LocalDateTime.parse(fp, FORMATO_FECHA)).collect(Collectors.toList());
+
+					LocalDateTime fechaTercer = asignarFechaPartido(fechasUsadas, inicioSemanaTercer);
+					tercerPuesto.setFechaPartido(fechaTercer.format(FORMATO_FECHA));
+
+					Long idTercer = partidoServicio.guardarPartido(tercerPuesto);
+					flujo.put(-1L, idTercer);
+				}
+			}
+		}
+
+		Utilidades.guardarMapa(partido.getTorneoId(), flujo);
 	}
-
-
 
 // ---------- Progreso de Equipos ----------
 	public String progresoEquipos(Long torneoId) {
@@ -265,7 +314,6 @@ public class TorneoServicio {
 		json.put("nombreInstalacion", torneo.getNombreInstalacion());
 		json.put("direccionInstalacion", torneo.getDireccionInstalacion());
 
-		
 		return json;
 	}
 
@@ -310,30 +358,91 @@ public class TorneoServicio {
 			throw new RuntimeException("Error en la llamada a la API: código " + conn.getResponseCode());
 	}
 
+	/**
+	 * Crea un partido base sin asignar equipos aún.
+	 */
 	private PartidoTorneoDto crearPartidoBase(Long torneoId, String ronda, int ubicacion) throws Exception {
-		PartidoTorneoDto p = new PartidoTorneoDto();
-		p.setTorneoId(torneoId);
-		p.setInstalacionId(obtenerInstalacionDeTorneo(torneoId));
-		p.setFechaPartido(LocalDate.now().toString());
-		p.setRonda(ronda);
-		p.setEstado("pendiente");
-		p.setUbicacionRonda(ubicacion);
-		return p;
+		PartidoTorneoDto partido = new PartidoTorneoDto();
+		partido.setTorneoId(torneoId);
+		partido.setInstalacionId(obtenerInstalacionDeTorneo(torneoId));
+		partido.setRonda(ronda);
+		partido.setEstado("pendiente");
+		partido.setUbicacionRonda(ubicacion);
+		return partido;
 	}
 
-	private List<PartidoTorneoDto> crearRonda(Long torneoId, String ronda, List<PartidoTorneoDto> prev, int cantidad,
-			PartidoTorneoServicio servicio, Map<Long, Long> flujo) throws Exception {
+	// ---------- Métodos auxiliares ----------
+	/**
+	 * Crea una ronda de partidos y les asigna fechas válidas automáticamente.
+	 */
+	private List<PartidoTorneoDto> crearRondaConFechas(Long torneoId, String ronda, List<PartidoTorneoDto> prev,
+			int cantidad, PartidoTorneoServicio servicio, Map<Long, Long> flujo, LocalDate inicioSemana,
+			List<LocalDateTime> fechasUsadas) throws Exception {
+
 		List<PartidoTorneoDto> nueva = new ArrayList<>();
+
+		// Determinar el inicio de la semana según la última fecha usada
+		if (!fechasUsadas.isEmpty()) {
+			LocalDate ultimaFecha = fechasUsadas.stream().map(LocalDateTime::toLocalDate).max(LocalDate::compareTo)
+					.orElse(inicioSemana);
+			// La semana siguiente comienza 7 días después del lunes de la última fecha
+			// usada
+			inicioSemana = ultimaFecha.plusWeeks(1).with(java.time.DayOfWeek.MONDAY);
+		}
+
 		for (int i = 0; i < cantidad; i++) {
 			PartidoTorneoDto p = crearPartidoBase(torneoId, ronda, i + 1);
+
+			LocalDateTime fecha = asignarFechaPartido(fechasUsadas, inicioSemana);
+			p.setFechaPartido(fecha.format(FORMATO_FECHA));
+
 			Long id = servicio.guardarPartido(p);
 			p.setIdPartidoTorneo(id);
 			nueva.add(p);
+
+			// Asociar partidos de la ronda anterior al nuevo partido
 			if (prev != null && i * 2 + 1 < prev.size()) {
 				flujo.put(prev.get(i * 2).getIdPartidoTorneo(), id);
 				flujo.put(prev.get(i * 2 + 1).getIdPartidoTorneo(), id);
 			}
 		}
+
 		return nueva;
 	}
+
+	/**
+	 * Genera fecha y hora para un partido de manera aleatoria dentro del rango
+	 * permitido, evitando solapamientos y respetando margen de 1h30 entre partidos.
+	 */
+	private LocalDateTime asignarFechaPartido(List<LocalDateTime> usados, LocalDate inicioSemana) {
+		List<LocalTime> horarios = Arrays.asList(LocalTime.of(19, 0), LocalTime.of(20, 30), LocalTime.of(22, 0));
+
+		LocalDate fecha = inicioSemana;
+
+		while (true) {
+			// Saltar fines de semana
+			while (fecha.getDayOfWeek().getValue() > 5) {
+				fecha = fecha.plusDays(1);
+			}
+
+			for (LocalTime hora : horarios) {
+				LocalDateTime fechaTentativa = LocalDateTime.of(fecha, hora);
+
+				if (!usados.contains(fechaTentativa)) {
+					usados.add(fechaTentativa);
+					return fechaTentativa;
+				}
+			}
+
+			// Si se llenaron todos los horarios del día, pasar al siguiente día hábil
+			fecha = fecha.plusDays(1);
+		}
+	}
+
+	private LocalDate obtenerUltimaFecha(List<PartidoTorneoDto> partidos) {
+		return partidos.stream().map(PartidoTorneoDto::getFechaPartido).filter(fp -> fp != null && !fp.isEmpty())
+				.map(fp -> LocalDateTime.parse(fp, FORMATO_FECHA).toLocalDate()).max(LocalDate::compareTo)
+				.orElse(LocalDate.now());
+	}
+
 }

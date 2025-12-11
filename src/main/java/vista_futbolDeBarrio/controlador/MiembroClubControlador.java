@@ -53,27 +53,34 @@ public class MiembroClubControlador extends HttpServlet {
 			String accion = request.getParameter("accion");
 
 			if ("aniadir".equals(accion)) {
-				String fechaAltaUsuarioForm = LocalDate.now().toString();
-				String fechaBajaUsuarioForm = ("9999-01-01");
-				long clubIdForm = Long.parseLong(request.getParameter("idClub"));
-				long usuarioIdForm = Long.parseLong(request.getParameter("usuarioId"));
-				MiembroClubDto nuevoMiembro = new MiembroClubDto();
-				nuevoMiembro.setFechaAltaUsuario(fechaAltaUsuarioForm);
-				nuevoMiembro.setFechaBajaUsuario(fechaBajaUsuarioForm);
+			    try {
+			        String fechaAltaUsuarioForm = LocalDate.now().toString();
+			        String fechaBajaUsuarioForm = "9999-01-01";
+			        long clubIdForm = Long.parseLong(request.getParameter("idClub"));
+			        long usuarioIdForm = Long.parseLong(request.getParameter("usuarioId"));
 
-				nuevoMiembro.setIdClub(clubIdForm);
-				nuevoMiembro.setUsuarioId(usuarioIdForm);
-				servicio.guardarMiembroClub(nuevoMiembro);
-				Log.ficheroLog("Miembro del club añadido: Usuario ID " + usuarioIdForm + ", Club ID " + clubIdForm);
+			        MiembroClubDto nuevoMiembro = new MiembroClubDto();
+			        nuevoMiembro.setFechaAltaUsuario(fechaAltaUsuarioForm);
+			        nuevoMiembro.setFechaBajaUsuario(fechaBajaUsuarioForm);
+			        nuevoMiembro.setIdClub(clubIdForm);
+			        nuevoMiembro.setUsuarioId(usuarioIdForm);
 
-				response.getWriter().write("Miembro del club creado correctamente.");
-			} else if ("modificar".equals(accion)) {
-				response.getWriter().write("Funcionalidad de modificación aún no implementada.");
-				Log.ficheroLog("Intento de modificar miembro del club, pero funcionalidad aún no implementada.");
-			} else {
-				response.getWriter().write("Acción no válida.");
-				Log.ficheroLog("Acción no válida recibida: " + accion);
+			        servicio.guardarMiembroClub(nuevoMiembro);
+
+			        // Guardado exitoso
+			        response.setStatus(HttpServletResponse.SC_OK);
+			        response.getWriter().write("Te has unido al club exitosamente.");
+
+			    } catch (IllegalStateException e) {
+			        // Límite de clubes o de jugadores alcanzado
+			        response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400
+			        response.getWriter().write(e.getMessage());
+			    } catch (Exception e) {
+			        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500
+			        response.getWriter().write("Error del servidor: " + e.getMessage());
+			    }
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.getWriter()

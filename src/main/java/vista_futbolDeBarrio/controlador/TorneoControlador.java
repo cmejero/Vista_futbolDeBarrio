@@ -43,7 +43,6 @@ public class TorneoControlador extends HttpServlet {
 		this.equipoTorneoServicio = new EquipoTorneoServicio();
 	}
 
-
 	/**
 	 * Método POST que guarda un nuevo torneo.
 	 * 
@@ -53,143 +52,156 @@ public class TorneoControlador extends HttpServlet {
 	 * @throws ServletException En caso de error en la solicitud.
 	 * @throws IOException      En caso de error en la respuesta.
 	 */
-	 @Override
-	    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-	            throws ServletException, IOException {
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-	        response.setContentType("application/json");
-	        response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
 
-	        try {
-	            String accion = request.getParameter("accion");
+		try {
+			String accion = request.getParameter("accion");
 
-	            if ("aniadir".equals(accion)) {
-	                String nombreTorneo = request.getParameter("nombreTorneo");
-	                String descripcion = request.getParameter("descripcionTorneo");
-	                String modalidadStr = request.getParameter("modalidad");
-	                Long instalacionId = (Long) request.getSession().getAttribute("idInstalacion");
-	                String fechaInicio = request.getParameter("fechaInicioTorneo");
-	                String fechaFin = request.getParameter("fechaFinTorneo");
-	                if (fechaFin == null || fechaFin.isEmpty()) fechaFin = "9999-01-01";
+			// ---------------------------------------------------------
+			// 1️⃣ AÑADIR TORNEO
+			// ---------------------------------------------------------
+			if ("aniadir".equals(accion)) {
 
-	                Modalidad modalidad = Modalidad.valueOf(modalidadStr.trim());
-	                boolean estaActivo = false;
-	                TorneoDto torneo = new TorneoDto();
-	                torneo.setNombreTorneo(nombreTorneo);
-	                torneo.setDescripcionTorneo(descripcion);
-	                torneo.setModalidad(modalidad);
-	                torneo.setEstaActivo(estaActivo);
-	                torneo.setInstalacionId(instalacionId);
-	                torneo.setFechaInicioTorneo(fechaInicio);
-	                torneo.setFechaFinTorneo(fechaFin);
+				String nombreTorneo = request.getParameter("nombreTorneo");
+				String descripcion = request.getParameter("descripcionTorneo");
+				String modalidadStr = request.getParameter("modalidad");
+				Long instalacionId = (Long) request.getSession().getAttribute("idInstalacion");
+				String fechaInicio = request.getParameter("fechaInicioTorneo");
+				String fechaFin = request.getParameter("fechaFinTorneo");
+				if (fechaFin == null || fechaFin.isEmpty())
+					fechaFin = "9999-01-01";
 
-	                torneoServicio.guardarTorneo(torneo);
+				Modalidad modalidad = Modalidad.valueOf(modalidadStr.trim());
 
-	                response.getWriter().write("{\"mensaje\":\"Torneo creado correctamente\"}");
-	                Log.ficheroLog("Torneo creado: " + nombreTorneo);
+				TorneoDto torneo = new TorneoDto();
+				torneo.setNombreTorneo(nombreTorneo);
+				torneo.setDescripcionTorneo(descripcion);
+				torneo.setModalidad(modalidad);
+				torneo.setEstaActivo(false);
+				torneo.setInstalacionId(instalacionId);
+				torneo.setFechaInicioTorneo(fechaInicio);
+				torneo.setFechaFinTorneo(fechaFin);
 
-	            } else if ("modificar".equals(accion)) {
-	                Long idTorneo = Long.parseLong(request.getParameter("idTorneo"));
-	                String nombreTorneo = request.getParameter("nombreTorneo");
-	                String descripcion = request.getParameter("descripcionTorneo");
-	                String modalidadStr = request.getParameter("modalidad");
-	                Modalidad modalidad = Modalidad.valueOf(modalidadStr.trim());
-	                boolean estaActivo = false;
+				torneoServicio.guardarTorneo(torneo);
 
-	                TorneoDto torneo = new TorneoDto();
-	                torneo.setNombreTorneo(nombreTorneo);
-	                torneo.setDescripcionTorneo(descripcion);
-	                torneo.setModalidad(modalidad);
-	                torneo.setEstaActivo(estaActivo);
+				response.getWriter().write("{\"mensaje\":\"Torneo creado correctamente\"}");
+				Log.ficheroLog("Torneo creado: " + nombreTorneo);
+			}
 
-	                boolean exito = torneoServicio.modificarTorneo(idTorneo, torneo);
-	                if (exito) {
-	                    response.getWriter().write("{\"mensaje\":\"Torneo modificado correctamente\"}");
-	                    Log.ficheroLog("Torneo modificado: id=" + idTorneo);
-	                } else {
-	                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	                    response.getWriter().write("{\"error\":\"Error al modificar torneo\"}");
-	                }
-	            } else if ("generarBracket".equals(accion)) {
-	                Long torneoId = Long.parseLong(request.getParameter("torneoId"));
-	                String jsonEquipos = request.getParameter("equipos"); // lista de EquipoTorneoDto en JSON
-	                List<EquipoTorneoDto> equipos = new Gson().fromJson(jsonEquipos,
-	                        new com.google.gson.reflect.TypeToken<List<EquipoTorneoDto>>() {}.getType());
+			// ---------------------------------------------------------
+			// 2️⃣ MODIFICAR TORNEO
+			// ---------------------------------------------------------
+			else if ("modificar".equals(accion)) {
 
-	                torneoServicio.generarBracket(torneoId, equipos, partidoTorneoServicio);
-	                response.getWriter().write("{\"mensaje\":\"Bracket generado correctamente\"}");
-	                Log.ficheroLog("Bracket generado para torneo id=" + torneoId);
-	            } else if ("activar".equals(accion)) {
-	                Long torneoId = Long.parseLong(request.getParameter("idTorneo"));
+				Long idTorneo = Long.parseLong(request.getParameter("idTorneo"));
+				String nombreTorneo = request.getParameter("nombreTorneo");
+				String descripcion = request.getParameter("descripcionTorneo");
+				String modalidadStr = request.getParameter("modalidad");
+				Modalidad modalidad = Modalidad.valueOf(modalidadStr.trim());
 
-	                // 1️⃣ Actualizar clubes inscritos en el torneo
-	                torneoServicio.actualizarClubesInscritos(torneoId);
+				TorneoDto torneo = new TorneoDto();
+				torneo.setNombreTorneo(nombreTorneo);
+				torneo.setDescripcionTorneo(descripcion);
+				torneo.setModalidad(modalidad);
+				torneo.setEstaActivo(false);
 
-	                // 2️⃣ Contar equipos reales
-	                int inscritos = equipoTorneoServicio.contarEquiposPorTorneo(torneoId);
-	                if (inscritos != 16) {
-	                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-	                    response.getWriter().write("{\"error\":\"No hay 16 equipos inscritos\"}");
-	                    return;
-	                }
+				boolean exito = torneoServicio.modificarTorneo(idTorneo, torneo);
 
-	                // 3️⃣ Obtener el torneo
-	                List<TorneoDto> torneos = torneoServicio.obtenerTodosLosTorneos();
-	                TorneoDto torneo = torneos.stream()
-	                        .filter(t -> t.getIdTorneo() == torneoId)
-	                        .findFirst()
-	                        .orElse(null);
+				if (exito) {
+					response.getWriter().write("{\"mensaje\":\"Torneo modificado correctamente\"}");
+					Log.ficheroLog("Torneo modificado: id=" + idTorneo);
+				} else {
+					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+					response.getWriter().write("{\"error\":\"Error al modificar torneo\"}");
+				}
+			}
 
-	                if (torneo == null) {
-	                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-	                    response.getWriter().write("{\"error\":\"Torneo no encontrado\"}");
-	                    return;
-	                }
+			// ---------------------------------------------------------
+			// 3️⃣ GENERAR BRACKET (desde AJAX en admin)
+			// ---------------------------------------------------------
+			else if ("generarBracket".equals(accion)) {
 
-	                try {
-	                    // 4️⃣ Obtener los equipos del torneo
-	                	List<EquipoTorneoDto> equipos = equipoTorneoServicio.listaEquiposTorneo().stream()
-	                	        .filter(e -> e.getTorneoId() == torneoId)
-	                	        .collect(Collectors.toList());
+				Long torneoId = Long.parseLong(request.getParameter("torneoId"));
 
+				torneoServicio.generarBracket(torneoId, torneoServicio, equipoTorneoServicio, partidoTorneoServicio);
 
-	                    // 5️⃣ Generar bracket
-	                    torneoServicio.generarBracket(torneoId, equipos, partidoTorneoServicio);
+				response.getWriter().write("{\"mensaje\":\"Bracket generado correctamente\"}");
+				Log.ficheroLog("Bracket generado para torneo id=" + torneoId);
+			}
 
-	                    // 6️⃣ Activar torneo
-	                    torneo.setEstaActivo(true);
-	                    boolean exito = torneoServicio.modificarTorneo(torneoId, torneo);
+			// ---------------------------------------------------------
+			// 4️⃣ ACTIVAR TORNEO (genera automáticamente los OCTAVOS)
+			// ---------------------------------------------------------
+			else if ("activar".equals(accion)) {
 
-	                    if (exito) {
-	                        response.setStatus(HttpServletResponse.SC_OK);
-	                        response.getWriter().write("{\"mensaje\":\"Torneo activado y bracket generado correctamente\"}");
-	                        Log.ficheroLog("Torneo activado y bracket generado: id=" + torneoId);
-	                    } else {
-	                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	                        response.getWriter().write("{\"error\":\"No se pudo activar el torneo\"}");
-	                    }
+				Long torneoId = Long.parseLong(request.getParameter("idTorneo"));
 
-	                } catch (Exception e) {
-	                    e.printStackTrace();
-	                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	                    response.getWriter().write("{\"error\":\"Error al generar el bracket: " + e.getMessage() + "\"}");
-	                    Log.ficheroLog("Error al generar bracket para torneo id=" + torneoId + ": " + e.getMessage());
-	                }
-	            
+				// Actualizar clubes inscritos
+				torneoServicio.actualizarClubesInscritos(torneoId);
 
+				// Validar que haya 16 equipos reales
+				int inscritos = equipoTorneoServicio.contarEquiposPorTorneo(torneoId);
+				if (inscritos != 16) {
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					response.getWriter().write("{\"error\":\"No hay 16 equipos inscritos\"}");
+					return;
+				}
 
+				// Obtener torneo
+				TorneoDto torneo = torneoServicio.obtenerTodosLosTorneos().stream()
+						.filter(t -> t.getIdTorneo() == torneoId).findFirst().orElse(null);
 
-	            } else {
-	                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-	                response.getWriter().write("{\"error\":\"Acción no válida\"}");
-	            }
+				if (torneo == null) {
+					response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+					response.getWriter().write("{\"error\":\"Torneo no encontrado\"}");
+					return;
+				}
 
-	        } catch (Exception e) {
-	            Log.ficheroLog("Error en POST /torneo: " + e.getMessage());
-	            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	            response.getWriter().write("{\"error\":\"Error en el servidor: " + e.getMessage() + "\"}");
-	        }
-	    }
+				try {
+					// 👉 ❗ SOLO ESTE método crea octavos
+					torneoServicio.generarBracket(torneoId, torneoServicio, equipoTorneoServicio,
+							partidoTorneoServicio);
+
+					torneo.setEstaActivo(true);
+					boolean exito = torneoServicio.modificarTorneo(torneoId, torneo);
+
+					if (exito) {
+						response.setStatus(HttpServletResponse.SC_OK);
+						response.getWriter()
+								.write("{\"mensaje\":\"Torneo activado y bracket generado correctamente\"}");
+						Log.ficheroLog("Torneo activado: id=" + torneoId);
+					} else {
+						response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+						response.getWriter().write("{\"error\":\"No se pudo activar el torneo\"}");
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+					response.getWriter().write("{\"error\":\"Error al generar el bracket: " + e.getMessage() + "\"}");
+					Log.ficheroLog("Error generando bracket: " + e.getMessage());
+				}
+			}
+
+			// ---------------------------------------------------------
+			// 5️⃣ ACCIÓN DESCONOCIDA
+			// ---------------------------------------------------------
+			else {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				response.getWriter().write("{\"error\":\"Acción no válida\"}");
+			}
+
+		} catch (Exception e) {
+			Log.ficheroLog("Error en POST /torneo: " + e.getMessage());
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("{\"error\":\"Error en el servidor: " + e.getMessage() + "\"}");
+		}
+	}
 
 	@Override
 	/**
@@ -203,52 +215,53 @@ public class TorneoControlador extends HttpServlet {
 	 * @throws IOException      En caso de error en la respuesta.
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	        throws ServletException, IOException {
+			throws ServletException, IOException {
 
-	    response.setContentType("application/json");
-	    response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
 
-	    try {
-	        String idParam = request.getParameter("instalacionId");
-	        List<TorneoDto> torneos;
+		try {
+			String idParam = request.getParameter("instalacionId");
+			List<TorneoDto> torneos;
 
-	        if (idParam != null && !idParam.isEmpty()) {
-	            Long instalacionId = Long.parseLong(idParam);
-	            torneos = torneoServicio.obtenerTorneosPorInstalacion(instalacionId);
-	        } else {
-	            torneos = torneoServicio.obtenerTodosLosTorneos();
-	        }
+			if (idParam != null && !idParam.isEmpty()) {
+				Long instalacionId = Long.parseLong(idParam);
+				torneos = torneoServicio.obtenerTorneosPorInstalacion(instalacionId);
+			} else {
+				torneos = torneoServicio.obtenerTodosLosTorneos();
+			}
 
-	        // Creamos un array de objetos JSON para añadir el progreso dinámicamente
-	        List<JSONObject> torneosJson = new ArrayList<>();
-	        for (TorneoDto torneo : torneos) {
-	            // Actualizamos clubesInscritos con el número real
-	            String progreso = torneoServicio.progresoEquipos(torneo.getIdTorneo());
-	            torneo.setClubesInscritos(progreso);
+			// Creamos un array de objetos JSON para añadir el progreso dinámicamente
+			List<JSONObject> torneosJson = new ArrayList<>();
+			for (TorneoDto torneo : torneos) {
+				// Actualizamos clubesInscritos con el número real
+				String progreso = torneoServicio.progresoEquipos(torneo.getIdTorneo());
+				torneo.setClubesInscritos(progreso);
 
-	            JSONObject obj = new JSONObject(new Gson().toJson(torneo));
-	            obj.put("progresoEquipos", progreso); // opcional si quieres un campo extra
-	            torneosJson.add(obj);
-	        }
+				JSONObject obj = new JSONObject(new Gson().toJson(torneo));
+				obj.put("progresoEquipos", progreso); // opcional si quieres un campo extra
+				torneosJson.add(obj);
+			}
 
-	        response.getWriter().write(torneosJson.toString());
+			response.getWriter().write(torneosJson.toString());
 
-	    } catch (Exception e) {
-	        Log.ficheroLog("Error en TorneoControlador: " + e.getMessage());
-	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	        response.getWriter().write("{\"error\": \"Error al obtener torneos\"}");
-	    }
+		} catch (Exception e) {
+			Log.ficheroLog("Error en TorneoControlador: " + e.getMessage());
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("{\"error\": \"Error al obtener torneos\"}");
+		}
 	}
 
-
 	@Override
-    /**
-     * Método DELETE que elimina un torneo.
-     * @param request Objeto HttpServletRequest que contiene los parámetros de la solicitud.
-     * @param response Objeto HttpServletResponse para enviar la respuesta.
-     * @throws ServletException En caso de error en la solicitud.
-     * @throws IOException En caso de error en la respuesta.
-     */
+	/**
+	 * Método DELETE que elimina un torneo.
+	 * 
+	 * @param request  Objeto HttpServletRequest que contiene los parámetros de la
+	 *                 solicitud.
+	 * @param response Objeto HttpServletResponse para enviar la respuesta.
+	 * @throws ServletException En caso de error en la solicitud.
+	 * @throws IOException      En caso de error en la respuesta.
+	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
@@ -263,8 +276,8 @@ public class TorneoControlador extends HttpServlet {
 				return;
 			}
 
-			Long idTorneo = Long.parseLong(idTorneoParam); 
-			boolean eliminado = torneoServicio.eliminarTorneo(idTorneo); 
+			Long idTorneo = Long.parseLong(idTorneoParam);
+			boolean eliminado = torneoServicio.eliminarTorneo(idTorneo);
 			if (eliminado) {
 				Log.ficheroLog("Torneo eliminado: id=" + idTorneo);
 				response.setStatus(HttpServletResponse.SC_OK);
@@ -284,8 +297,5 @@ public class TorneoControlador extends HttpServlet {
 			response.getWriter().write("Error en el servidor: " + e.getMessage());
 		}
 	}
-	
-	
-
 
 }

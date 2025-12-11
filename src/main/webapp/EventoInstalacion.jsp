@@ -842,7 +842,7 @@ function cargarTorneos() {
                 // Nombre clicable si el torneo está activo
                 const nombreHtml = estaActivo
                     ? '<span class="nombre-torneo-link" data-torneo-id="' + torneo.idTorneo + '" ' +
-                      'style="color:#007bff;cursor:pointer;text-decoration:underline;font-weight:bold;">' + (torneo.nombreTorneo || '') + '</span>'
+                      'style="cursor:pointer; color:green; text-decoration:underline; font-weight:bold;">' + (torneo.nombreTorneo || '') + '</span>'
                     : (torneo.nombreTorneo || '');
 
                 // Botón Activar

@@ -199,15 +199,15 @@ if (esPremium == null)
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="Jugador.jsp" class="letraCabeceraAbajo"
-												>INICIO</a>
+											<a href="Jugador.jsp" class="letraCabeceraAbajo">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo">
-											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES <span class="tooltip-text">Sección en
-													desarrollo</span></a>
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES
+												<span class="tooltip-text">Sección en desarrollo</span>
+											</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="EventoJugador.jsp" class="letraCabeceraAbajo" >EVENTOS</a>
+											<a href="EventoJugador.jsp" class="letraCabeceraAbajo">EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -220,15 +220,16 @@ if (esPremium == null)
 									<div class="row">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="MiClubJugador.jsp" class="letraCabeceraAbajo" >MI
+											<a href="MiClubJugador.jsp" class="letraCabeceraAbajo">MI
 												CLUB</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="MarcadoresJugador.jsp" class="letraCabeceraAbajo" style="color: #d4af37;">MARCADORES</a>
+											<a href="MarcadoresJugador.jsp" class="letraCabeceraAbajo"
+												style="color: #d4af37;">MARCADORES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span class="tooltip-text">Sección en
-													desarrollo</span></a>
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span
+												class="tooltip-text">Sección en desarrollo</span></a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraAbajo">
 											<div class="dropdown">
@@ -244,16 +245,17 @@ if (esPremium == null)
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item seccion-bloqueada " href="#"
-														>Idioma<span class="tooltip-text">Sección en
-													desarrollo</span>
+													<li><a class="dropdown-item seccion-bloqueada "
+														href="#">Idioma<span class="tooltip-text">Sección
+																en desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														">Ayuda<span class="tooltip-text">Sección en
-													desarrollo</span> </a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														">Configuración <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#"">Ayuda<span class="tooltip-text">Sección
+																en desarrollo</span>
+													</a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#"">Configuración <span class="tooltip-text">Sección
+																en desarrollo</span></a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -334,12 +336,12 @@ if (esPremium == null)
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
 									<a href="Jugador.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">INICIO</a>
+										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
 								</div>
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-3 ">
 									<a href="MarcadoresJugador.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw;  color: #d4af37; ">MARCADORES</a>
+										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">MARCADORES</a>
 								</div>
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-3 ">
@@ -367,28 +369,29 @@ if (esPremium == null)
 											style="min-width: 12vw; font-size: 2.2vw; background-color: #003300; border-radius: 5px; width: 25vw">
 
 
-											<li><a class="dropdown-item seccion-bloqueada" href="Jugador.jsp"
-												>Alquileres <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada"
+												href="Jugador.jsp">Alquileres <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
 											<li><a class="dropdown-item " href="EventoJugador.jsp"
 												style="color: white;">Eventos </a></li>
-											<li><a class="dropdown-item seccion-bloqueada" href="Jugador.jsp"
-												style="color: white;">Desafios<span class="tooltip-text">Sección en
-													desarrollo</span> </a></li>
+											<li><a class="dropdown-item seccion-bloqueada"
+												href="Jugador.jsp" style="color: white;">Desafios<span
+													class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
 
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
 											<li><a class="dropdown-item seccion-bloqueada" href="#"
-												style="color: white;">Idioma <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+												style="color: white;">Idioma <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
 											<li><a class="dropdown-item seccion-bloqueada" href="#"
-												style="color: white;">Ayuda <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+												style="color: white;">Ayuda <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
 											<li><a class="dropdown-item seccion-bloqueada" href="#"
-												style="color: white;">Configuración <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+												style="color: white;">Configuración <span
+													class="tooltip-text">Sección en desarrollo</span></a></li>
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
@@ -532,9 +535,10 @@ if (esPremium == null)
 				<table class="tablaDatosListaMarcadores tablaClubes mb-4">
 					<thead style="background-color: black;">
 						<tr>
-							<th style="border: 1.5px solid blue; width: 10.5%">POS</th>
-							<th style="border: 1.5px solid blue; width: 30%">CLUB</th>
-							<th style="border: 1.5px solid blue; width: 22.5%">LOCALIDAD</th>
+							<th style="border: 1.5px solid blue; width: 6%">POS</th>
+							<th style="border: 1.5px solid blue; width: 25%">CLUB</th>
+							<th style="border: 1.5px solid blue; width: 18%">LOCALIDAD</th>
+							<th style="border: 1.5px solid blue; width: 14%">JUGADORES</th>
 							<th style="border: 1.5px solid blue; width: 5%">PJ</th>
 							<th style="border: 1.5px solid blue; width: 5%">V</th>
 							<th style="border: 1.5px solid blue; width: 5%">E</th>
@@ -1026,46 +1030,50 @@ Avenida mujer trabajadora
     // ===============================
     // PAGINACIÓN
     // ===============================
-    function paginarTabla(tablaBodyId, filasPorPagina = 8) {
-      const tbody = document.getElementById(tablaBodyId);
-      if (!tbody) return;
+   function paginarTabla(tablaBodyId, filasPorPagina = 8) {
+  const tbody = document.getElementById(tablaBodyId);
+  if (!tbody) return;
 
-      const todasFilas = Array.from(tbody.querySelectorAll('tr'));
-      const filasVisibles = todasFilas.filter(f => f.style.display !== 'none');
-      const totalPaginas = Math.ceil(filasVisibles.length / filasPorPagina);
-      let paginaActual = 1;
+  const todasFilas = Array.from(tbody.querySelectorAll('tr'));
+  const filasVisibles = todasFilas.filter(f => f.style.display !== 'none');
+  const totalPaginas = Math.ceil(filasVisibles.length / filasPorPagina);
+  let paginaActual = 1;
 
-      const pagDiv = document.getElementById(tablaBodyId + '-paginacion');
-      if (!pagDiv) return;
+  const pagDiv = document.getElementById(tablaBodyId + '-paginacion');
+  if (!pagDiv) return;
 
-      function mostrarPagina(pagina) {
-        const inicio = (pagina - 1) * filasPorPagina;
-        const fin = inicio + filasPorPagina;
+  function mostrarPagina(pagina) {
+    const inicio = (pagina - 1) * filasPorPagina;
+    const fin = inicio + filasPorPagina;
 
-        filasVisibles.forEach((fila, i) => fila.style.display = (i >= inicio && i < fin) ? '' : 'none');
+    filasVisibles.forEach((fila, i) => fila.style.display = (i >= inicio && i < fin) ? '' : 'none');
 
-        pagDiv.innerHTML = '';
-        const btnAnterior = document.createElement('button');
-        btnAnterior.textContent = 'Anterior';
-        btnAnterior.disabled = pagina === 1;
-        btnAnterior.addEventListener('click', () => { paginaActual--; mostrarPagina(paginaActual); });
+    pagDiv.innerHTML = '';
 
-        const btnSiguiente = document.createElement('button');
-        btnSiguiente.textContent = 'Siguiente';
-        btnSiguiente.disabled = pagina === totalPaginas;
-        btnSiguiente.addEventListener('click', () => { paginaActual++; mostrarPagina(paginaActual); });
+    const btnAnterior = document.createElement('button');
+    btnAnterior.textContent = 'Anterior';
+    btnAnterior.disabled = pagina === 1;
+    btnAnterior.className = 'paginacion'; // <-- Clase CSS
+    btnAnterior.addEventListener('click', () => { paginaActual--; mostrarPagina(paginaActual); });
 
-        const spanInfo = document.createElement('span');
-        spanInfo.textContent = ' Página ' + pagina + ' de ' + totalPaginas + ' ';
-        spanInfo.style.fontSize = '1.3vw';
+    const btnSiguiente = document.createElement('button');
+    btnSiguiente.textContent = 'Siguiente';
+    btnSiguiente.disabled = pagina === totalPaginas;
+    btnSiguiente.className = 'paginacion'; // <-- Clase CSS
+    btnSiguiente.addEventListener('click', () => { paginaActual++; mostrarPagina(paginaActual); });
 
-        pagDiv.appendChild(btnAnterior);
-        pagDiv.appendChild(spanInfo);
-        pagDiv.appendChild(btnSiguiente);
-      }
+    const spanInfo = document.createElement('span');
+    spanInfo.textContent = ' Página ' + pagina + ' de ' + totalPaginas + ' ';
+    spanInfo.style.fontSize = '1.3vw';
+    spanInfo.style.margin = '0 0.5vw';
 
-      mostrarPagina(paginaActual);
-    }
+    pagDiv.appendChild(btnAnterior);
+    pagDiv.appendChild(spanInfo);
+    pagDiv.appendChild(btnSiguiente);
+  }
+
+  mostrarPagina(paginaActual);
+}
 
 
     function filtrosClubes() {
@@ -1141,130 +1149,189 @@ fetch(contextPath + "/jugadorEstadisticaGlobal", {
     // ===============================
     // CARGAR CLUBES
     // ===============================
- fetch(contextPath + "/clubEstadisticaGlobal")
-  .then(function(response) {
-    if (!response.ok) throw new Error("No se encontraron estadísticas globales de clubes");
-    return response.json();
-  })
-  .then(data => {
-    const tbody = document.getElementById('tablaClubes');
-    if (!tbody) return;
-    tbody.innerHTML = '';
 
- 
-    data.sort(function(a, b) {
-      var pctA = a.partidosJugadosGlobal > 0 ? a.ganadosGlobal / a.partidosJugadosGlobal : 0;
-      var pctB = b.partidosJugadosGlobal > 0 ? b.ganadosGlobal / b.partidosJugadosGlobal : 0;
+function cargarTablaClubes() {
+  fetch(contextPath + "/clubEstadisticaGlobal")
+    .then(res => res.json())
+    .then(data => {
 
-      if (pctB !== pctA) return pctB - pctA; 
-      if (b.golesFavorGlobal !== a.golesFavorGlobal) return b.golesFavorGlobal - a.golesFavorGlobal; 
-      return a.golesContraGlobal - b.golesContraGlobal; 
-    });
+      // Obtener los clubes del jugador
+      fetch(contextPath + "/miembroClub?tipo=json&usuarioId=" + sessionStorage.getItem('usuarioId'))
+        .then(res => res.json())
+        .then(usuarioData => {
+          const clubesDelJugador = usuarioData.misClubes.map(mc => mc.clubId);
 
-    var contador = 1;
-    data.forEach(function(club) {
-      var tr = document.createElement('tr');
-      tr.style.cssText = "font-size:1vw; text-align:center; vertical-align:middle;";
-      tr.innerHTML =
-        '<td style="border:0.5px solid #0d6ba1; font-weight:bold;">' + contador + '</td>' +
-        '<td style="border:0.5px solid #0d6ba1;">' + club.nombreClub + '</td>' +
-        '<td style="border:0.5px solid #0d6ba1;">' + club.localidad + '</td>' +
-        '<td style="border:0.5px solid #0d6ba1;">' + club.partidosJugadosGlobal + '</td>' +
-        '<td style="border:0.5px solid #0d6ba1;">' + club.ganadosGlobal + '</td>' +
-        '<td style="border:0.5px solid #0d6ba1;">' + club.empatadosGlobal + '</td>' +
-        '<td style="border:0.5px solid #0d6ba1;">' + club.perdidosGlobal + '</td>' +
-        '<td style="border:0.5px solid #0d6ba1;">' + club.golesFavorGlobal + '</td>' +
-        '<td style="border:0.5px solid #0d6ba1;">' + club.golesContraGlobal + '</td>' +
-        '<td style="border:0.5px solid #0d6ba1; color:green; cursor:pointer;" class="unirse" data-id="' + club.clubGlobalId + '">&#128075;</td>';
-      tbody.appendChild(tr);
-      contador++;
-    });
-    
-    filtrosClubes();
-    paginarTabla('tablaClubes', 15);
+          const tbody = document.getElementById('tablaClubes');
+          if (!tbody) return;
+          tbody.innerHTML = '';
+          let contador = 1;
+
+          // Ordenar los clubes según tu lógica
+          data.sort((a, b) => {
+            const pctA = a.partidosJugadosGlobal > 0 ? a.ganadosGlobal / a.partidosJugadosGlobal : 0;
+            const pctB = b.partidosJugadosGlobal > 0 ? b.ganadosGlobal / b.partidosJugadosGlobal : 0;
+            if (pctB !== pctA) return pctB - pctA;
+            if (b.golesFavorGlobal !== a.golesFavorGlobal) return b.golesFavorGlobal - a.golesFavorGlobal;
+            return a.golesContraGlobal - b.golesContraGlobal;
+          });
+
+          data.forEach(club => {
+        	    const pertenece = clubesDelJugador.includes(club.clubGlobalId);
+
+        	    // Definir el máximo de jugadores por club
+        	    const maxJugadores = 18;
+        	    const jugadoresActivos = club.totalJugadoresActivos || 0;
+
+        	    // Crear el icono según pertenencia y si el club está lleno
+        	    let icono = '';
+        	    if (pertenece) {
+        	        icono = '<i class="fas fa-check-circle" title="Ya eres miembro" style="color:green;"></i>';
+        	    } else if (jugadoresActivos >= maxJugadores) {
+        	        // Club lleno
+        	        icono = '<i class="fas fa-ban" title="Club completo" style="color:red;"></i>';
+        	    } else {
+        	        // Se puede unir
+        	        icono = '<i class="fas fa-right-to-bracket icono-unirse" data-id="' + club.clubGlobalId + '" title="Unirse al club" style="cursor:pointer; color:green;"></i>';
+        	    }
+
+        	    const tr = document.createElement('tr');
+        	    tr.style.cssText = "font-size:1vw; text-align:center; vertical-align:middle;";
+        	    tr.innerHTML =
+        	        '<td style="border:0.5px solid #0d6ba1; font-weight:bold;">' + contador + '</td>' +
+        	        '<td style="border:0.5px solid #0d6ba1;">' + club.nombreClub + '</td>' +
+        	        '<td style="border:0.5px solid #0d6ba1;">' + club.localidad + '</td>' +
+        	        '<td style="border:0.5px solid #0d6ba1;">' + jugadoresActivos + '/' + maxJugadores + '</td>' +
+        	        '<td style="border:0.5px solid #0d6ba1;">' + club.partidosJugadosGlobal + '</td>' +
+        	        '<td style="border:0.5px solid #0d6ba1;">' + club.ganadosGlobal + '</td>' +
+        	        '<td style="border:0.5px solid #0d6ba1;">' + club.empatadosGlobal + '</td>' +
+        	        '<td style="border:0.5px solid #0d6ba1;">' + club.perdidosGlobal + '</td>' +
+        	        '<td style="border:0.5px solid #0d6ba1;">' + club.golesFavorGlobal + '</td>' +
+        	        '<td style="border:0.5px solid #0d6ba1;">' + club.golesContraGlobal + '</td>' +
+        	        '<td style="border:0.5px solid #0d6ba1;">' + icono + '</td>' ;
+
+        	    tbody.appendChild(tr);
+        	    contador++;
+        	});
 
 
-    document.querySelectorAll('.unirse').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        var idClub = this.getAttribute('data-id');
-        var usuarioId = sessionStorage.getItem('usuarioId');
-        var fechaActual = new Date().toISOString().split('T')[0];
+          // Evento solo para los botones “unirse”
+    document.querySelectorAll('.icono-unirse').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const idClub = this.dataset.id;
+        const fechaActual = new Date().toISOString().split('T')[0];
+
         fetch('miembroClub', {
-          method: 'POST',
-          headers: {'Content-Type':'application/x-www-form-urlencoded'},
-          body: 'accion=aniadir&idClub=' + idClub + '&usuarioId=' + usuarioId + '&fechaAltaUsuario=' + fechaActual + '&fechaBajaUsuario='
+            method: 'POST',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: 'accion=aniadir&idClub=' + idClub + 
+                  '&usuarioId=' + sessionStorage.getItem('usuarioId') + 
+                  '&fechaAltaUsuario=' + fechaActual + 
+                  '&fechaBajaUsuario='
         })
-        .then(function() { alert("Te has unido al club exitosamente."); })
-        .catch(function(error) {
-          alert("Ocurrió un error al unirse al club.");
-          console.error("Error:", error);
+        .then(async res => {
+            const text = await res.text();
+            if (!res.ok) throw new Error(text); // lanza la excepción con el mensaje del servidor
+            return text; // si OK, continúa
+        })
+        .then(() => {
+            alert("Te has unido al club exitosamente.");
+            cargarTablaClubes();
+        })
+        .catch(err => {
+            alert(err.message); // aquí sale el mensaje: "Ya tienes 3 clubes" o "Club lleno"
+            console.error(err);
         });
-      });
     });
-  })
-  .catch(function(error) { console.error('Error cargando clubes:', error); });
+});
+
+          filtrosClubes();
+          paginarTabla('tablaClubes', 15);
+        });
+
+    })
+    .catch(error => console.error('Error cargando clubes:', error));
+}
+
+// Llamar a la función al cargar la página
+window.onload = function() {
+  cargarTablaClubes();
+};
 
 
+//===============================
+//ESTADÍSTICAS PREMIUM (GLOBAL + TORNEOS)
+//===============================
+if (botonEstadisticas) {
+botonEstadisticas.addEventListener("click", function() {
+ estadisticasContainer.style.display = "block";
 
-    // ===============================
-    // ESTADÍSTICAS PREMIUM (GLOBAL + TORNEOS)
-    // ===============================
-    if (botonEstadisticas) {
-      botonEstadisticas.addEventListener("click", function() {
-        estadisticasContainer.style.display = "block";
-        tablaEstadisticasGlobal.innerHTML = "";
-        if (tablaEstadisticasTorneo) tablaEstadisticasTorneo.innerHTML = "";
+ if (tablaEstadisticasGlobal) tablaEstadisticasGlobal.innerHTML = "";
+ if (tablaEstadisticasTorneo) tablaEstadisticasTorneo.innerHTML = "";
 
-        fetch(contextPath + "/jugadorEstadisticaGlobal?id=" + usuarioId)
-        .then(function(response) {
-          if (!response.ok) throw new Error("No se encontraron estadísticas globales del club");
-          return response.json();
-        })
-          .then(function(data) {
-            var fila = crearFilaEstadisticasGlobalPremium(
-              "Global",
-              data.partidosJugadosGlobal,
-              data.golesGlobal,
-              data.amarillasGlobal,
-              data.rojasGlobal,
-              data.partidosGanadosGlobal,
-              data.partidosPerdidosGlobal
-            );
-           console.log(data);
-            tablaEstadisticasGlobal.appendChild(fila);
-          })
-          .catch(function(error) {
-            console.error("❌ Error cargando estadísticas globales:", error);
-          });
+ // Estadísticas globales
+ fetch(contextPath + "/jugadorEstadisticaGlobal?id=" + usuarioId)
+   .then(function(response) {
+     if (!response.ok) throw new Error("No se encontraron estadísticas globales del club");
+     return response.json();
+   })
+   .then(function(data) {
+     if (!data) {
+       console.warn("No hay estadísticas globales disponibles para este usuario");
+       return;
+     }
 
+     if (tablaEstadisticasGlobal) {
+       var fila = crearFilaEstadisticasGlobalPremium(
+         "Global",
+         data.partidosJugadosGlobal || 0,
+         data.golesGlobal || 0,
+         data.amarillasGlobal || 0,
+         data.rojasGlobal || 0,
+         data.partidosGanadosGlobal || 0,
+         data.partidosPerdidosGlobal || 0
+       );
+       tablaEstadisticasGlobal.appendChild(fila);
+     }
+   })
+   .catch(function(error) {
+     console.error("❌ Error cargando estadísticas globales:", error);
+   });
 
-        fetch(contextPath + "/jugadorEstadisticaTorneo?id="  + usuarioId)
-        .then(response => {
-          if (!response.ok) throw new Error("No se encontraron estadísticas por torneo del club");
-          return response.json();
-        })
-          .then(function(data) {
-            data.forEach(function(torneo) {
-            	var fila = crearFilaEstadisticasTorneoPremium(
-            		    "Torneo",
-            		    torneo.nombreClub ? torneo.nombreClub : "Sin club",
-            		    torneo.nombreTorneo,
-            		    torneo.partidosJugadosTorneo, 
-            		    torneo.golesTorneo,           
-            		    torneo.amarillasTorneo,       
-            		    torneo.rojasTorneo,          
-            		    torneo.partidosGanadosTorneo, 
-            		    torneo.partidosPerdidosTorneo 
-            		);
+ // Estadísticas por torneo
+ fetch(contextPath + "/jugadorEstadisticaTorneo?id=" + usuarioId)
+   .then(response => {
+     if (!response.ok) throw new Error("No se encontraron estadísticas por torneo del club");
+     return response.json();
+   })
+   .then(function(data) {
+     if (!Array.isArray(data)) {
+       console.warn("Los datos de torneos no están en formato esperado");
+       return;
+     }
 
-              tablaEstadisticasTorneo.appendChild(fila);
-            });
-          })
-          .catch(function(error) {
-            console.error("❌ Error cargando estadísticas de torneo:", error);
-          });
-      });
-    }
+     if (tablaEstadisticasTorneo) {
+       data.forEach(function(torneo) {
+         var fila = crearFilaEstadisticasTorneoPremium(
+           "Torneo",
+           torneo.nombreClub || "Sin club",
+           torneo.nombreTorneo || "Sin torneo",
+           torneo.partidosJugadosTorneo || 0,
+           torneo.golesTorneo || 0,
+           torneo.amarillasTorneo || 0,
+           torneo.rojasTorneo || 0,
+           torneo.partidosGanadosTorneo || 0,
+           torneo.partidosPerdidosTorneo || 0
+         );
+         tablaEstadisticasTorneo.appendChild(fila);
+       });
+     }
+   })
+   .catch(function(error) {
+     console.error("❌ Error cargando estadísticas de torneo:", error);
+   });
+});
+}
+
 
     function crearFilaEstadisticasGlobalPremium(tipo, pj, goles, amarillas, rojas, ganados, perdidos) {
       var fila = document.createElement("tr");

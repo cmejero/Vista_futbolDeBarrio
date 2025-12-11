@@ -199,15 +199,16 @@ if (esPremium == null)
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="Jugador.jsp" class="letraCabeceraAbajo"
-												>INICIO</a>
+											<a href="Jugador.jsp" class="letraCabeceraAbajo">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo">
-											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES <span class="tooltip-text">Sección en
-													desarrollo</span></a>
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES
+												<span class="tooltip-text">Sección en desarrollo</span>
+											</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="EventoJugador.jsp" class="letraCabeceraAbajo" style="color: #d4af37;">EVENTOS</a>
+											<a href="EventoJugador.jsp" class="letraCabeceraAbajo"
+												style="color: #d4af37;">EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -227,8 +228,8 @@ if (esPremium == null)
 											<a href="MarcadoresJugador.jsp" class="letraCabeceraAbajo">MARCADORES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span class="tooltip-text">Sección en
-													desarrollo</span></a>
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span
+												class="tooltip-text">Sección en desarrollo</span></a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraAbajo">
 											<div class="dropdown">
@@ -244,16 +245,17 @@ if (esPremium == null)
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item seccion-bloqueada " href="#"
-														>Idioma<span class="tooltip-text">Sección en
-													desarrollo</span>
+													<li><a class="dropdown-item seccion-bloqueada "
+														href="#">Idioma<span class="tooltip-text">Sección
+																en desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														">Ayuda<span class="tooltip-text">Sección en
-													desarrollo</span> </a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														">Configuración <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#"">Ayuda<span class="tooltip-text">Sección
+																en desarrollo</span>
+													</a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#"">Configuración <span class="tooltip-text">Sección
+																en desarrollo</span></a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -334,9 +336,9 @@ if (esPremium == null)
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
 									<a href="Jugador.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">INICIO</a>
+										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
 								</div>
-								
+
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-3 ">
 									<a href="MarcadoresJugador.jsp" class="letraCabeceraAbajo "
@@ -347,7 +349,7 @@ if (esPremium == null)
 									<a href="EventoJugador.jsp" class="letraCabeceraAbajo "
 										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">EVENTOS</a>
 								</div>
-								
+
 
 
 
@@ -369,28 +371,29 @@ if (esPremium == null)
 											style="min-width: 12vw; font-size: 2.2vw; background-color: #003300; border-radius: 5px; width: 25vw">
 
 
-											<li><a class="dropdown-item seccion-bloqueada" href="Jugador.jsp"
-												>Alquileres <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada"
+												href="Jugador.jsp">Alquileres <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
 											<li><a class="dropdown-item " href="MiClubJugador.jsp"
 												style="color: white;">Mi club </a></li>
-											<li><a class="dropdown-item seccion-bloqueada" href="Jugador.jsp"
-												style="color: white;">Desafios<span class="tooltip-text">Sección en
-													desarrollo</span> </a></li>
+											<li><a class="dropdown-item seccion-bloqueada"
+												href="Jugador.jsp" style="color: white;">Desafios<span
+													class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
 
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
 											<li><a class="dropdown-item seccion-bloqueada" href="#"
-												style="color: white;">Idioma <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+												style="color: white;">Idioma <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
 											<li><a class="dropdown-item seccion-bloqueada" href="#"
-												style="color: white;">Ayuda <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+												style="color: white;">Ayuda <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
 											<li><a class="dropdown-item seccion-bloqueada" href="#"
-												style="color: white;">Configuración <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+												style="color: white;">Configuración <span
+													class="tooltip-text">Sección en desarrollo</span></a></li>
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
@@ -446,16 +449,16 @@ if (esPremium == null)
 					</div>
 
 					<!-- TABLA ESTILO INSTALACION -->
-					<table class="tablaDatos w-100 mb-3 mx-auto">
-						<thead style="background-color: #c33214;">
+					<table class="tablaAdmin tablaAdmin--instalaciones w-100 mb-3 mx-auto">>
+						<thead class="tablaAdmin__head" >
 							<tr>
-								<th style="border: 1.8px solid #8a210b;">NOMBRE TORNEO</th>
-								<th style="border: 1.8px solid #8a210b;">INSTALACION</th>
-								<th style="border: 1.8px solid #8a210b;">DIRECCION</th>
-								<th style="border: 1.8px solid #8a210b;">MODALIDAD</th>
-								<th style="border: 1.8px solid #8a210b;">F.INICIO</th>
-								<th style="border: 1.8px solid #8a210b;">PLAZAS</th>
-								<th style="border: 1.8px solid #8a210b;">ESTADO</th>
+								<th >NOMBRE TORNEO</th>
+								<th >INSTALACION</th>
+								<th >DIRECCION</th>
+								<th >MODALIDAD</th>
+								<th >F.INICIO</th>
+								<th >PLAZAS</th>
+								<th >ESTADO</th>
 							</tr>
 						</thead>
 						<tbody id="tablaEventosJugador">
@@ -690,19 +693,25 @@ function pintarTablaTorneos(torneos) {
     torneos.forEach(t => {
         const activo = t.estaActivo;
         const nombreHTML = activo
-            ? '<span class="nombreEventoLink" data-id="'+ t.idTorneo +'">' + t.nombreTorneo + '</span>'
-            : t.nombreTorneo;
+        ? '<span class="torneoLink" data-id="' + t.idTorneo + '" style="cursor:pointer; color:green; text-decoration:underline; font-weight:bold;">'
+          + t.nombreTorneo + '</span>'
+        : t.nombreTorneo;
 
         cont.innerHTML +=
-            '<tr>' +
-                '<td>' + nombreHTML + '</td>' +
-                '<td>' + (t.nombreInstalacion || "") + '</td>' +
-                '<td>' + (t.direccionInstalacion || "") + '</td>' +
-                '<td>' + (t.modalidad || "") + '</td>' +
-                '<td>' + (t.fechaInicioTorneo || "") + '</td>' +
-                '<td>' + (t.clubesInscritos || "0 / 0") + '</td>' +
-                '<td>' + (activo ? "Activo" : "Inactivo") + '</td>' +
-            '</tr>';
+            "<tr id='fila-" + t.idTorneo + "'>" +
+                "<td class='tablaAdmin__id'>" + nombreHTML + "</td>" +
+                "<td>" + (t.nombreInstalacion || "") + "</td>" +
+                "<td>" + (t.direccionInstalacion || "") + "</td>" +
+                "<td>" + (t.modalidad || "") + "</td>" +
+                "<td>" + (t.fechaInicioTorneo || "") + "</td>" +
+                "<td style='color:green;'>" + (t.clubesInscritos || "0 / 0") + "</td>" +
+                "<td>" + (activo 
+                            ? '<span style="color:red;font-weight:bold;">Cerrado</span>' 
+                            : '<span style="color:green;font-weight:bold;">Disponible</span>') 
+                + "</td>"+
+                    "</div>" +
+                "</td>" +
+            "</tr>";
     });
     activarEventosTabla();
 

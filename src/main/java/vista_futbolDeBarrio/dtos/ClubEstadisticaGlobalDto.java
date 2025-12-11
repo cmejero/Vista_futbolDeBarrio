@@ -14,6 +14,8 @@ public class ClubEstadisticaGlobalDto {
 	    private int golesContraGlobal;
 	    private String nombreClub;
 	    private String localidad;
+		private int totalJugadoresActivos;
+
 	    
 	    
 		public Long getIdGlobal() {
@@ -76,5 +78,12 @@ public class ClubEstadisticaGlobalDto {
 		public void setLocalidad(String localidad) {
 			this.localidad = localidad;
 		}
+		public int getTotalJugadoresActivos() {
+			return totalJugadoresActivos;
+		}
+		public void setTotalJugadoresActivos(int totalJugadoresActivos) {
+			this.totalJugadoresActivos = totalJugadoresActivos;
+		}
 	    
+		
 }

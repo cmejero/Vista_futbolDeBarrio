@@ -854,7 +854,7 @@ $(document).ready(function() {
                 data.forEach(function(torneo) {
 
                     var nombreHTML = torneo.estaActivo
-                        ? '<span class="torneoLink" data-id="' + torneo.idTorneo + '" style="cursor:pointer; color:blue; text-decoration:underline; font-weight:bold;">' 
+                        ? '<span class="torneoLink" data-id="' + torneo.idTorneo + '" style="cursor:pointer; color:green; text-decoration:underline; font-weight:bold;">' 
                           + torneo.nombreTorneo + 
                           '</span>'
                         : torneo.nombreTorneo;
