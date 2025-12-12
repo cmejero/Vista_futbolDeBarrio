@@ -721,7 +721,7 @@ function pintarTablaTorneos(torneos) {
 
 
 function activarEventosTabla() {
-    document.querySelectorAll(".nombreEventoLink").forEach(el => {
+    document.querySelectorAll(".torneoLink").forEach(el => {
         el.addEventListener("click", function () {
             const id = this.dataset.id;
             window.location.href = "DetallesTorneo.jsp?idTorneo=" + id;

@@ -594,7 +594,7 @@ canvas {
 								<tbody id="tablaCuerpoUsuario"></tbody>
 							</table>
 						</div>
-						<div class="paginacion" id="tablaCuerpoUsuario-paginacion"></div>
+						<div class="paginacion mt-4" id="tablaCuerpoUsuario-paginacion"></div>
 					</div>
 
 					<!-- Modal de Edición de Usuario -->
@@ -873,7 +873,7 @@ canvas {
 							</table>
 						</div>
 						<!-- Paginación -->
-						<div class="paginacion" id="tablaCuerpoInstalacion-paginacion"></div>
+						<div class="paginacion mt-4" id="tablaCuerpoInstalacion-paginacion"></div>
 
 
 					</div>
@@ -1035,7 +1035,7 @@ canvas {
 							</table>
 						</div>
 
-						<div class="paginacion" id="tablaCuerpoClub-paginacion"></div>
+						<div class="paginacion mt-4" id="tablaCuerpoClub-paginacion"></div>
 
 					</div>
 
@@ -1870,69 +1870,51 @@ function eliminarClub(idClub) {
  // ===========================================
  // PAGINACIÓN 
  // ===========================================
- function paginarTabla(tablaBodyId, filasPorPagina) {
-   if (filasPorPagina === undefined) filasPorPagina = 8;
+   function paginarTabla(tablaBodyId, filasPorPagina = 8) {
+  const tbody = document.getElementById(tablaBodyId);
+  if (!tbody) return;
 
-   var tbody = document.getElementById(tablaBodyId);
-   if (!tbody) return;
+  const todasFilas = Array.from(tbody.querySelectorAll('tr'));
+  const filasVisibles = todasFilas.filter(f => f.style.display !== 'none');
+  const totalPaginas = Math.ceil(filasVisibles.length / filasPorPagina);
+  let paginaActual = 1;
 
-   var todasFilas = Array.prototype.slice.call(tbody.querySelectorAll("tr"));
-   var filasVisibles = todasFilas.filter(function (f) {
-     return f.style.display !== "none";
-   });
+  const pagDiv = document.getElementById(tablaBodyId + '-paginacion');
+  if (!pagDiv) return;
 
-   var totalPaginas = Math.ceil(filasVisibles.length / filasPorPagina);
-   var paginaActual = 1;
+  function mostrarPagina(pagina) {
+    const inicio = (pagina - 1) * filasPorPagina;
+    const fin = inicio + filasPorPagina;
 
-   var pagDiv = document.getElementById(tablaBodyId + "-paginacion");
-   if (!pagDiv) return;
+    filasVisibles.forEach((fila, i) => fila.style.display = (i >= inicio && i < fin) ? '' : 'none');
 
-   function mostrarPagina(pagina) {
-     var inicio = (pagina - 1) * filasPorPagina;
-     var fin = inicio + filasPorPagina;
+    pagDiv.innerHTML = '';
 
-     filasVisibles.forEach(function (fila, i) {
-       fila.style.display = (i >= inicio && i < fin) ? "" : "none";
-     });
+    const btnAnterior = document.createElement('button');
+    btnAnterior.textContent = 'Anterior';
+    btnAnterior.disabled = pagina === 1;
+    btnAnterior.className = 'paginacion'; // <-- Clase CSS
+    btnAnterior.addEventListener('click', () => { paginaActual--; mostrarPagina(paginaActual); });
 
-     pagDiv.innerHTML = "";
+    const btnSiguiente = document.createElement('button');
+    btnSiguiente.textContent = 'Siguiente';
+    btnSiguiente.disabled = pagina === totalPaginas;
+    btnSiguiente.className = 'paginacion'; 
+    btnSiguiente.addEventListener('click', () => { paginaActual++; mostrarPagina(paginaActual); });
 
-     var btnAnterior = document.createElement("button");
-     btnAnterior.textContent = "< Anterior";
-     btnAnterior.className = "botonPaginacion";
-     btnAnterior.disabled = (pagina === 1);
-     btnAnterior.addEventListener("click", function () {
-       paginaActual--;
-       mostrarPagina(paginaActual);
-     });
+    const spanInfo = document.createElement('span');
+    spanInfo.textContent = ' Página ' + pagina + ' de ' + totalPaginas + ' ';
+    spanInfo.style.fontSize = '1.3vw';
+    spanInfo.style.margin = '0 0.5vw';
 
-     var spanInfo = document.createElement("span");
-     spanInfo.className = "infoPaginacion";
-     spanInfo.textContent = " Página " + pagina + " de " + totalPaginas + " ";
+    pagDiv.appendChild(btnAnterior);
+    pagDiv.appendChild(spanInfo);
+    pagDiv.appendChild(btnSiguiente);
+  }
 
-     var btnSiguiente = document.createElement("button");
-     btnSiguiente.textContent = "Siguiente >";
-     btnSiguiente.className = "botonPaginacion";
-     btnSiguiente.disabled = (pagina === totalPaginas);
-     btnSiguiente.addEventListener("click", function () {
-       paginaActual++;
-       mostrarPagina(paginaActual);
-     });
+  mostrarPagina(paginaActual);
+}
 
-     pagDiv.appendChild(btnAnterior);
-     pagDiv.appendChild(spanInfo);
-     pagDiv.appendChild(btnSiguiente);
-   }
-
-   if (totalPaginas > 1) {
-     mostrarPagina(paginaActual);
-   } else {
-     filasVisibles.forEach(function (fila) {
-       fila.style.display = "";
-     });
-     pagDiv.innerHTML = ""; // sin paginación si hay pocas filas
-   }
- }
 
  
 

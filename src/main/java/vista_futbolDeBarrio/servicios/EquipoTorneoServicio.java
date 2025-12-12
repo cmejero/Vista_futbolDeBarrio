@@ -288,7 +288,6 @@ public class EquipoTorneoServicio {
 	public int contarEquiposPorTorneo(long torneoId) {
 		int contador = 0;
 		for (EquipoTorneoDto equipo : listaEquiposTorneo()) {
-			System.out.println("Equipo torneoId: " + equipo.getTorneoId() + ", Buscando: " + torneoId);
 			if (equipo.getTorneoId() == torneoId) {
 				contador++;
 			}

@@ -29,52 +29,36 @@ public class JugadorEstadisticaTorneoControlador  extends HttpServlet {
 	        this.jugadorEstadisticaTorneoServicio = new JugadorEstadisticaTorneoServicio();
 	    }
 	    
+	    @Override
 	    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	    		throws ServletException, IOException {
-	    		try {
-	    		HttpSession session = request.getSession(false);
-	    		String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
+	            throws ServletException, IOException {
 
-	    		
-	    		if (tipoUsuario == null || !(tipoUsuario.equals("jugador") || tipoUsuario.equals("club") || tipoUsuario.equals("instalacion")))  {
-	    		        if (session != null && session.getAttribute("usuarioId") != null) tipoUsuario = "jugador";
-	    		        else if (session != null && session.getAttribute("clubId") != null) tipoUsuario = "club";
-	    		        else {
-	    		            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-	    		            response.setContentType("text/plain; charset=UTF-8");
-	    		            response.getWriter().write("Acceso denegado. Debe iniciar sesión.");
-	    		            return;
-	    		        }
-	    		    }
+	        try {
+	            String idParam = request.getParameter("id"); // id opcional del jugador
+	            ArrayList<JugadorEstadisticaTorneoDto> listaEstadisticas;
 
-	    		    String idParam = request.getParameter("id"); // id opcional del jugador
-	    		    ArrayList<JugadorEstadisticaTorneoDto> listaEstadisticas;
+	            if (idParam != null) {
+	                Long jugadorId = Long.parseLong(idParam);
+	                listaEstadisticas = jugadorEstadisticaTorneoServicio.obtenerJugadorEstadisticasTorneoPorJugadorId(jugadorId);
+	            } else {
+	                listaEstadisticas = jugadorEstadisticaTorneoServicio.obtenerTodasJugadorEstadisticasTorneo();
+	            }
 
-	    		    if (idParam != null) {
-	    		        // Si se pasa id, obtener estadísticas solo de ese jugador
-	    		        Long jugadorId = Long.parseLong(idParam);
-	    		        listaEstadisticas = jugadorEstadisticaTorneoServicio.obtenerJugadorEstadisticasTorneoPorJugadorId(jugadorId);
-	    		    } else {
-	    		        // Si no hay id, obtener todas las estadísticas de todos los jugadores
-	    		        listaEstadisticas = jugadorEstadisticaTorneoServicio.obtenerTodasJugadorEstadisticasTorneo();
-	    		    }
+	            response.setContentType("application/json");
+	            response.setCharacterEncoding("UTF-8");
 
-	    		    response.setContentType("application/json");
-	    		    response.setCharacterEncoding("UTF-8");
+	            ObjectMapper objectMapper = new ObjectMapper();
+	            String json = objectMapper.writeValueAsString(listaEstadisticas);
+	            response.getWriter().write(json);
 
-	    		    ObjectMapper objectMapper = new ObjectMapper();
-	    		    String json = objectMapper.writeValueAsString(listaEstadisticas);
-	    		    response.getWriter().write(json);
+	        } catch (Exception e) {
+	            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	            response.setContentType("text/plain; charset=UTF-8");
+	            response.getWriter().write("Error en el servidor: " + e.getMessage());
+	            e.printStackTrace();
+	        }
+	    }
 
-	    		} catch (Exception e) {
-	    		    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	    		    response.setContentType("text/plain; charset=UTF-8");
-	    		    response.getWriter().write("Error en el servidor: " + e.getMessage());
-	    		    e.printStackTrace();
-	    		}
-	    		
-
-	    		}
 
 
 }

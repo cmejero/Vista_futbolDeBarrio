@@ -175,7 +175,7 @@
 								<div class="col-sm-4 col-md-4 ">
 									<div class="row  ">
 										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">EVENTOS</a>
+											<a href="Eventos.jsp" class="letraCabeceraAbajo">EVENTOS</a>
 										</div>
 
 										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
@@ -188,7 +188,7 @@
 								<div class="col-sm-4 col-md-4 ">
 									<div class="row  ">
 										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">MARCADORES</a>
+											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo">MARCADORES</a>
 										</div>
 										<div class="col-sm-6 col-md-6 cabeceraAbajo  ">
 											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span
@@ -290,12 +290,12 @@
 								</div>
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-3 ">
-									<a href="" class="letraCabeceraAbajo "
+									<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo "
 										style="text-decoration: none; font-size: 2.5vw;">MARCADORES</a>
 								</div>
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-3 ">
-									<a href="" class="letraCabeceraAbajo "
+									<a href="Eventos.jsp" class="letraCabeceraAbajo "
 										style="text-decoration: none; font-size: 2.5vw;">EVENTOS</a>
 								</div>
 

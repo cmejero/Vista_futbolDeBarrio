@@ -1059,7 +1059,7 @@ Avenida mujer trabajadora
     const btnSiguiente = document.createElement('button');
     btnSiguiente.textContent = 'Siguiente';
     btnSiguiente.disabled = pagina === totalPaginas;
-    btnSiguiente.className = 'paginacion'; // <-- Clase CSS
+    btnSiguiente.className = 'paginacion'; 
     btnSiguiente.addEventListener('click', () => { paginaActual++; mostrarPagina(paginaActual); });
 
     const spanInfo = document.createElement('span');

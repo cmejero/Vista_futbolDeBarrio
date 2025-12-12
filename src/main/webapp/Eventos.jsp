@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,10 +36,9 @@
 <!-- Chart.js (Solo si lo necesitas) -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<title>REGISTRAR</title>
+<title>FUTBOL DE BARRIO</title>
 </head>
 <body>
-
 	<header class="fixed-top">
 		<!-- Contenedor principal de -->
 		<div class="container-fluid ">
@@ -140,10 +141,8 @@
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraMedio">
 											<a href="Registrar.jsp">
-	<a href="">
-												<button type="button" class=" botonRegistrarCabecera"
-													style="background-color: #d4af37;">REGISTRARSE</button>
-																					</a>
+												<button type="button" class=" botonRegistrarCabecera">REGISTRARSE</button>
+											</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraMedio"
 											style="text-decoration: underline;">
@@ -167,7 +166,7 @@
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-11 col-md-11 cabeceraAbajo ">
-											<a href="Index.jsp" class="letraCabeceraAbajo" >INICIO</a>
+											<a href="Index.jsp" class="letraCabeceraAbajo">INICIO</a>
 										</div>
 
 									</div>
@@ -176,7 +175,7 @@
 								<div class="col-sm-4 col-md-4 ">
 									<div class="row  ">
 										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
-											<a href="Eventos.jsp" class="letraCabeceraAbajo">EVENTOS</a>
+											<a href="Eventos.jsp" class="letraCabeceraAbajo"  style="color: #d4af37;">EVENTOS</a>
 										</div>
 
 										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
@@ -199,6 +198,8 @@
 
 									</div>
 								</div>
+
+								
 
 								<!-- columna derecha -->
 								<div class="col-sm-2 col-md-2 ">
@@ -269,7 +270,7 @@
 										<div
 											class="d-sm-none d-md-none col-4 d-block cabeceraMedio  d-flex justify-content-center align-items-center">
 											<a href="Registrar.jsp">
-												<button type="button" class="botonRegistrarCabecera" style="background-color: #d4af37; font-size:1.6vw">REGISTRARSE</button>
+												<button type="button" class="botonRegistrarCabecera" style="font-size:1.6vw">REGISTRARSE</button>
 											</a>
 										</div>
 
@@ -285,13 +286,13 @@
 								<!-- columna izquierda: INICIO -->
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
-									<a href="Jugador.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">INICIO</a>
+									<a href="Index.jsp" class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">INICIO</a>
 								</div>
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-3 ">
 									<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw;">MARCADORES</a>
+										style="text-decoration: none; font-size: 2.5vw; ">MARCADORES</a>
 								</div>
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-3 ">
@@ -368,400 +369,65 @@
 		</div>
 	</header>
 
-
 	<main style="background-color: rgba(223, 234, 213, 0.5);">
-		<!-- FILA BOTONES -->
-		<div class="container-fluid mt-3 "
-			style="display: flex; justify-content: center;">
+		<%
+		String mensaje = request.getParameter("mensaje");
+		if ("sesion_cerrada".equals(mensaje)) {
+			out.println("<div class='alert alert-success'>Sesión cerrada correctamente.</div>");
+		}
+		%>
+
+		<!-- CONTENEDOR EVENTOS -->
+		<div class="container-fluid mt-4">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-12 mx-auto">
 
 
-			<div class="row ">
+					<!-- Filtros -->
+					<div id="filtrosEventos" class="filaFiltrar mb-4"
+						style="display: none;">
+						<div class="filtroItem">
+							<label class="labelFiltrar"><b>- Buscar por Nombre:</b></label> <input
+								type="text" id="buscarEventoNombre" class="inputFiltrar"
+								placeholder="Nombre torneo">
+						</div>
 
+						<div class="filtroItem">
+							<label class="labelFiltrar"><b>- Buscar por Estado:</b></label> <input
+								type="text" id="buscarEventoEstado" class="inputFiltrar"
+								placeholder="Inscrito / Activo">
+						</div>
+					</div>
 
+					<div class="text-end mb-3">
+						<button id="botonMostrarFiltrosEventos" class="botonFiltrar"
+							style="background-color: black;">Mostrar filtros</button>
+					</div>
 
-				<div
-					class="col-md-12 col-sm-12 d-sm-block d-md-block d-none columnaBotonRegistrar mb-3">
-
-					<button type="button" class=" botonSeleccion p-2 pt-3 pb-3"
-						id="mostrarUsuarioBtn"
-						style="box-shadow: 3.5px 3.5px 0px red, 3.5px 3.5px 8px rgba(255, 0, 0, 0.5);">REGISTRARSE
-						COMO USUARIO</button>
-
-					<button type="button" class=" botonSeleccion p-2 pt-3 pb-3"
-						id="mostrarInstalacionBtn"
-						style="box-shadow: 3.5px 3.5px 0px green, 3.5px 3.5px 8px rgba(0, 128, 0, 0.5);">REGISTRARSE
-						COMO INSTALACIÓN</button>
-
-					<button type="button" class=" botonSeleccion p-2 pt-3 pb-3 "
-						id="mostrarClubBtn"
-						style="box-shadow: 3.5px 3.5px 0px blue, 3.5px 3.5px 8px rgba(0, 0, 255, 0.5);">REGISTRARSE
-						COMO CLUB</button>
-
-
-					
-
-
-
-				</div>
-
-				<div
-					class="d-md-none d-sm-none col-12 d-block columnaBotonRegistrar ">
-
-					<button type="button" class="botonSeleccionX p-2"
-						id="mostrarUsuarioX"
-						style="box-shadow: 3.5px 3.5px 0px red, 3.5px 3.5px 8px rgba(255, 0, 0, 0.5);">REGISTRARSE
-						COMO USUARIO</button>
-					<button type="button" class="botonSeleccionX p-2"
-						id="mostrarInstalacionBtnX"
-						style="box-shadow: 3.5px 3.5px 0px green, 3.5px 3.5px 8px rgba(0, 128, 0, 0.5);">REGISTRARSE
-						COMO INSTALACIÓN</button>
-					<button type="button" class="botonSeleccionX p-2"
-						id="mostrarClubBtnX"
-						style="box-shadow: 3.5px 3.5px 0px blue, 3.5px 3.5px 8px rgba(0, 0, 255, 0.5);">REGISTRARSE
-						COMO CLUB</button>
-					
-
-
+					<!-- TABLA ESTILO INSTALACION -->
+					<table class="tablaAdmin tablaAdmin--instalaciones w-100 mb-3 mx-auto">
+						<thead class="tablaAdmin__head" >
+							<tr>
+								<th >NOMBRE TORNEO</th>
+								<th >INSTALACION</th>
+								<th >DIRECCION</th>
+								<th >MODALIDAD</th>
+								<th >F.INICIO</th>
+								<th >PLAZAS</th>
+								<th >ESTADO</th>
+							</tr>
+						</thead>
+						<tbody id="tablaEventosJugador">
+						</tbody>
+					</table>
 
 				</div>
-
-
-
 			</div>
 		</div>
 
-		<div class="container-fluid  ">
-			<!-- FORMULARIO USUARIO -->
-			<div class="row mt-3 mb-5" style="display: none;"
-				id="usuarioContainer">
-				<div class="col-md-10 col-sm-10 mx-auto"
-					style="background-color: #dfead5; border-radius: 12px">
-					<h2 class="text-center mt-4 mb-5 pt-4"
-						style="font-size: 3.5vw; text-decoration: underline;">
-						<i>Formulario de Registro: Usuario</i>
-					</h2>
-					<div class="registrarFormulario">
-						<form action="usuario" method="POST" enctype="multipart/form-data"
-							onsubmit="return validarFormulario()">
-							<input type="hidden" name="accion" value="aniadir">
-							<table class="tablaFormulario"
-								style="background-color: #dedede; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
-								<tbody>
-									<tr>
-										<td><label for="nombreCompletoUsuario"
-											class="formularioLabel">Nombre Completo</label> <input
-											type="text" class="form-control" id="nombreCompletoUsuario"
-											name="nombreCompletoUsuario"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,50}"
-											title="Solo letras y espacios, mínimo 2 caracteres" required>
-										</td>
-										<td><label for="aliasUsuario" class="formularioLabel">Alias</label>
-											<input type="text" class="form-control" id="aliasUsuario"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											name="aliasUsuario" required></td>
-									</tr>
-									<tr>
-										<td><label for="fechaNacimientoUsuario"
-											class="formularioLabel">Fecha de Nacimiento</label> <input
-											type="date"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="fechaNacimientoUsuario"
-											name="fechaNacimientoUsuario"
-											max="<%=new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date())%>"
-											required></td>
-										<td><label for="emailUsuario" class="formularioLabel">Correo
-												Electrónico</label> <input type="email" class="form-control"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											id="emailUsuario" name="emailUsuario" required></td>
-									</tr>
-									<tr>
-										<td><label for="telefonoUsuario" class="formularioLabel">Teléfono</label>
-											<input type="tel" class="form-control" id="telefonoUsuario"
-											name="telefonoUsuario" pattern="[0-9]{9}"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											title="Debe tener exactamente 9 dígitos" required></td>
-										<td><label for="rolUsuario" class="formularioLabel">Rol
-												usuario</label> <select class="form-select" id="rolUsuario"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											name="rolUsuario" required>
-												<option value="Jugador">Jugador</option>
-
-										</select></td>
-									</tr>
-									<tr>
-										<td><label for="passwordUsuario" class="formularioLabel">Contraseña</label>
-											<input type="password" class="form-control"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											id="passwordUsuario" name="passwordUsuario" minlength="8"
-											title="Mínimo 8 caracteres" required></td>
-										<td><label for="passwordUsuario2" class="formularioLabel">Repetir
-												contraseña</label> <input type="password" class="form-control"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											id="passwordUsuario2" name="passwordUsuario2" minlength="8"
-											required></td>
-									</tr>
-									<tr>
-										<td><label for="imagenUsuario" class="formularioLabel">Imagen
-												del Usuario</label> <input type="file" class="form-control"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											id="imagenUsuario" name="imagenUsuario"></td>
-										<td><label for="descripcionUsuario"
-											class="formularioLabel">Descripción</label> <textarea
-												style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-												class="form-control" id="descripcionUsuario"
-												name="descripcionUsuario" rows="3"></textarea></td>
-									</tr>
-								</tbody>
-							</table>
-							<div class="text-center mt-4 mb-5">
-								<button type="submit" class="botonRegistrarCabecera">REGISTRARSE</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
 
 
-
-
-			<!-- FORMULARIO CLUB -->
-			<div class="row mt-3 mb-5" style="display: none;" id="clubContainer">
-				<div class="col-md-10 col-sm-10 mx-auto"
-					style="background-color: #dfead5; border-radius: 12px">
-					<h2 class="text-center mt-4 mb-5 pt-4"
-						style="font-size: 3.5vw; text-decoration: underline;">
-						<i>Formulario de Registro: Club</i>
-					</h2>
-					<div class="registrarFormulario">
-						<form action="club" method="POST" enctype="multipart/form-data"
-							onsubmit="return validarFormulario()">
-							<input type="hidden" name="accion" value="aniadir">
-							<table class="tablaFormulario"
-								style="background-color: #d8d8d8; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
-								<tbody>
-									<tr>
-										<td><label for="nombreClub" class="formularioLabel">Nombre
-												del Club</label> <input type="text"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="nombreClub" name="nombreClub"
-											required pattern="^[A-Za-zÁáÉéÍíÓóÚúÑñ ]+$"
-											title="El nombre no puede contener números ni caracteres especiales"></td>
-
-										<td><label for="abreviaturaClub" class="formularioLabel">Abreviatura</label>
-											<input type="text"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="abreviaturaClub"
-											name="abreviaturaClub" required
-											pattern="^[A-Za-zÁáÉéÍíÓóÚúÑñ]+$"
-											title="La abreviatura no puede contener números ni caracteres especiales"
-											maxlength="3" oninput="this.value = this.value.toUpperCase()"></td>
-									</tr>
-									<tr>
-										<td><label for="emailClub" class="formularioLabel">Correo
-												Electrónico</label> <input type="email"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="emailClub" name="emailClub" required></td>
-
-										<td><label for="telefonoClub" class="formularioLabel">Teléfono</label>
-											<input type="tel"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="telefonoClub" name="telefonoClub"
-											required pattern="^\+?[0-9]{9,15}$"
-											title="El teléfono debe tener entre 9 y 15 dígitos"></td>
-									</tr>
-									<tr>
-										<td><label for="paisClub" class="formularioLabel">País</label>
-											<input type="text"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="paisClub" name="paisClub" required
-											pattern="^[A-Za-zÁáÉéÍíÓóÚúÑñ ]+$"
-											title="El país no puede contener números ni caracteres especiales"></td>
-
-										<td><label for="localidadClub" class="formularioLabel">Localidad</label>
-											<input type="text"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="localidadClub" name="localidadClub"
-											required pattern="^[A-Za-zÁáÉéÍíÓóÚúÑñ ]+$"
-											title="La localidad no puede contener números ni caracteres especiales"></td>
-									</tr>
-									<tr>
-										<td><label for="passwordClub" class="formularioLabel">Contraseña</label>
-											<input type="password"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="passwordClub" name="passwordClub"
-											required minlength="8"
-											title="La contraseña debe tener al menos 8 caracteres"></td>
-
-										<td><label for="repasswordClub" class="formularioLabel">Repetir
-												Contraseña</label> <input type="password"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="repasswordClub"
-											name="repasswordClub" required></td>
-									</tr>
-									<tr>
-										<td><label for="logoClub" class="formularioLabel">Escudo
-												del Club</label> <input type="file"
-											style="font-size: 1vw; border: 1px solid #818181;"
-											class="form-control" id="logoClub" name="logoClub"></td>
-
-										<td><label for="descripcionClub" class="formularioLabel">Descripción</label>
-											<textarea class="form-control"
-												style="font-size: 1vw; border: 1px solid #818181; border-bottom: 1px solid #818181;"
-												id="descripcionClub" name="descripcionClub" rows="3"></textarea></td>
-									</tr>
-								</tbody>
-							</table>
-							<div class="text-center mt-4 mb-5">
-								<button type="submit" class="botonRegistrarCabecera ">REGISTRARSE</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-
-
-			<!-- FORMULARIO INSTALACIÓN -->
-			<div class="row mt-3 mb-5" style="display: none;"
-				id="instalacionContainer">
-				<div class="col-md-10 col-sm-10 mx-auto"
-					style="background-color: #dfead5; border-radius: 12px">
-					<h2 class="text-center mt-4 mb-5 pt-4"
-						style="font-size: 3.5vw; text-decoration: underline;">
-						<i>Formulario de Registro: Instalación</i>
-					</h2>
-					<div class="registrarFormulario">
-						<form action="instalacion" method="POST"
-							enctype="multipart/form-data"
-							onsubmit="return validarFormulario()">
-							<input type="hidden" name="accion" value="aniadir">
-
-							<table class="tablaFormulario"
-								style="background-color: #d1d1d1; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
-								<tbody>
-									<tr>
-										<td><label for="nombreInstalacion"
-											class="formularioLabel">Nombre de la Instalación</label> <input
-											type="text" class="form-control" id="nombreInstalacion"
-											name="nombreInstalacion" required
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
-										</td>
-										<td><label for="direccionInstalacion"
-											class="formularioLabel">Dirección</label> <input type="text"
-											class="form-control" id="direccionInstalacion"
-											name="direccionInstalacion" required
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
-										</td>
-									</tr>
-									<tr>
-										<td><label for="emailInstalacion" class="formularioLabel">Correo
-												Electrónico</label> <input type="email" class="form-control"
-											id="emailInstalacion" name="emailInstalacion" required
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											title="Introduce un correo electrónico válido."></td>
-										<td><label for="telefonoInstalacion"
-											class="formularioLabel">Teléfono</label> <input type="tel"
-											class="form-control" id="telefonoInstalacion"
-											name="telefonoInstalacion" required
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											pattern="^\+?[0-9]{9,15}$"
-											title="El teléfono debe tener entre 9 y 15 dígitos.">
-										</td>
-									</tr>
-									<tr>
-										<td><label for="passwordInstalacion"
-											class="formularioLabel">Contraseña</label> <input
-											type="password" class="form-control" id="passwordInstalacion"
-											name="passwordInstalacion" required
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											minlength="8"
-											title="La contraseña debe tener al menos 8 caracteres.">
-										</td>
-										<td><label for="repasswordInstalacion"
-											class="formularioLabel">Repetir Contraseña</label> <input
-											type="password" class="form-control"
-											id="repasswordInstalacion" name="repasswordInstalacion"
-											required
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
-										</td>
-									</tr>
-									<tr>
-										<td><label for="tipoCampo1" class="formularioLabel">Pista
-												deportiva principal</label> <select class="form-select"
-											id="tipoCampo1" name="tipoCampo1" required
-											style="font-size: 1vw; border: 1px solid #818181;">
-												<option style="font-size: 1.2vw" value="Futbol5">Fútbol
-													5</option>
-												<option style="font-size: 1.2vw" value="Futbol7">Fútbol
-													7</option>
-												<option style="font-size: 1.2vw" value="Futbol11">Fútbol
-													11</option>
-										</select></td>
-										<td><label for="tipoCampo2" class="formularioLabel">Pista
-												deportiva secundaria</label> <select class="form-select"
-											id="tipoCampo2" name="tipoCampo2"
-											style="font-size: 1vw; border: 1px solid #818181;">
-												<option style="font-size: 1.2vw" value="">Ninguno</option>
-												<option style="font-size: 1.2vw" value="Futbol5">Fútbol
-													5</option>
-												<option style="font-size: 1.2vw" value="Futbol7">Fútbol
-													7</option>
-												<option style="font-size: 1.2vw" value="Futbol11">Fútbol
-													11</option>
-										</select></td>
-									</tr>
-									<tr>
-										<td><label for="tipoCampo3" class="formularioLabel">Pista
-												deportiva adicional</label> <select class="form-select"
-											id="tipoCampo3" name="tipoCampo3"
-											style="font-size: 1vw; border: 1px solid #818181;">
-												<option value="">Ninguno</option>
-												<option style="font-size: 1.2vw" value="Futbol5">Fútbol
-													5</option>
-												<option style="font-size: 1.2vw" value="Futbol7">Fútbol
-													7</option>
-												<option style="font-size: 1.2vw" value="Futbol11">Fútbol
-													11</option>
-										</select></td>
-										<td><label for="estadoInstalacion"
-											class="formularioLabel">Estado de la Instalación</label> <select
-											class="form-select" id="estadoInstalacion"
-											name="estadoInstalacion" required
-											style="font-size: 1vw; border: 1px solid #818181;">
-												<option style="font-size: 1.2vw" value="Activo">Activo</option>
-												<option style="font-size: 1.2vw" value="Inactivo">Inactivo</option>
-										</select></td>
-									</tr>
-									<tr>
-										<td><label for="imagenInstalacion"
-											class="formularioLabel">Imagen de la Instalación</label> <input
-											type="file" class="form-control" id="imagenInstalacion"
-											name="imagenInstalacion"
-											style="font-size: 1vw; border: 1px solid #818181;"
-											accept="image/*"></td>
-										<td><label for="serviciosInstalacion"
-											class="formularioLabel">Servicios</label> <textarea
-												class="form-control" id="serviciosInstalacion"
-												name="serviciosInstalacion" rows="3"
-												style="font-size: 1vw; border: 1px solid #818181;"></textarea>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-							<div class="text-center mt-4 mb-5">
-								<button type="submit" class="botonRegistrarCabecera">REGISTRARSE</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-
-
-
-
-		</div>
 	</main>
-
 
 	<footer>
 
@@ -947,136 +613,81 @@ Avenida mujer trabajadora
 
 
 
+<script>
+window.onload = function () {
+    cargarTodosLosTorneos();
+};
 
+function cargarTodosLosTorneos() {
+    fetch("torneo") // Llama a tu servlet
+        .then(response => response.json())
+        .then(torneos => pintarTablaTorneos(torneos))
+        .catch(e => {
+            console.error("Error cargando torneos: ", e);
+            const cont = document.getElementById("tablaEventosJugador");
+            cont.innerHTML = "<tr><td colspan='7'>No se pudieron cargar los torneos.</td></tr>";
+        });
+}
+function pintarTablaTorneos(torneos) {
+    const cont = document.getElementById("tablaEventosJugador");
+    cont.innerHTML = "";
 
+    if (!torneos || torneos.length === 0) {
+        cont.innerHTML = "<tr><td colspan='7'>No hay torneos disponibles.</td></tr>";
+        return;
+    }
 
-	<script>
-	document.addEventListener("DOMContentLoaded", function() {
-	    // Botones de la versión para escritorio
-	    const mostrarUsuarioBtn = document.getElementById('mostrarUsuarioBtn');
-	    const mostrarInstalacionBtn = document.getElementById('mostrarInstalacionBtn');
-	    const mostrarClubBtn = document.getElementById('mostrarClubBtn');
+    torneos.forEach(t => {
+        const activo = t.estaActivo;
+        const nombreHTML = activo
+            ? '<span class="torneoLink" data-id="' + t.idTorneo + '" style="cursor:pointer; color:green; text-decoration:underline; font-weight:bold;">'
+              + t.nombreTorneo + '</span>'
+            : t.nombreTorneo;
 
+        cont.innerHTML +=
+            "<tr id='fila-" + t.idTorneo + "'>" +
+                "<td class='tablaAdmin__id'>" + nombreHTML + "</td>" +
+                "<td>" + (t.nombreInstalacion || "") + "</td>" +
+                "<td>" + (t.direccionInstalacion || "") + "</td>" +
+                "<td>" + (t.modalidad || "") + "</td>" +
+                "<td>" + (t.fechaInicioTorneo || "") + "</td>" +
+                "<td style='color:green;'>" + (t.clubesInscritos || "0 / 0") + "</td>" +
+                "<td>" + (activo 
+                            ? '<span style="color:red;font-weight:bold;">Cerrado</span>' 
+                            : '<span style="color:green;font-weight:bold;">Disponible</span>') 
+                + "</td>" +
+            "</tr>";
+    });
 
-	    // Botones de la versión para móvil
-	    const mostrarUsuarioX = document.getElementById('mostrarUsuarioX');
-	    const mostrarInstalacionBtnX = document.getElementById('mostrarInstalacionBtnX');
-	    const mostrarClubBtnX = document.getElementById('mostrarClubBtnX');
-	   
+    activarEventosTabla();
+}
 
-	    // Contenedores de cada sección
-	    const usuarioContainer = document.getElementById('usuarioContainer');
-	    const instalacionContainer = document.getElementById('instalacionContainer');
-	    const clubContainer = document.getElementById('clubContainer');
-	   
+function activarEventosTabla() {
+    document.querySelectorAll(".torneoLink").forEach(el => {
+        el.addEventListener("click", function () {
+            const id = this.dataset.id;
+            window.location.href = "DetallesTorneo.jsp?idTorneo=" + id;
+        });
+    });
+}
 
-	    // Función para mostrar el contenedor correspondiente
-	    function mostrarContenedor(mostrar) {
-	        usuarioContainer.style.display = "none";
-	        instalacionContainer.style.display = "none";
-	        clubContainer.style.display = "none";
-	        
-	        mostrar.style.display = "block";
-	    }
+function abrirGmail() {
+    const email = "futboldebarrio@gmail.com";
+    const subject = "Titulo del Asunto: ";
+    const body = "Escriba aqui el mensaje....";
 
-	    // Función para activar el botón seleccionado
-	    function activarBoton(boton) {
-	        [mostrarUsuarioBtn, mostrarInstalacionBtn, mostrarClubBtn, ,
-	         mostrarUsuarioX, mostrarInstalacionBtnX, mostrarClubBtnX, ].forEach(btn => {
-	            btn.style.backgroundColor = "";
-	            btn.style.color = "";
-	        });
-	        boton.style.backgroundColor = "#d4af37";
-	        boton.style.color = "black";
-	    }
+    const url = "https://mail.google.com/mail/?view=cm&fs=1&to=" 
+                + encodeURIComponent(email) 
+                + "&su=" + encodeURIComponent(subject) 
+                + "&body=" + encodeURIComponent(body);
 
-	    // Eventos para los botones de escritorio
-	    mostrarUsuarioBtn.addEventListener('click', function(event) {
-	        event.preventDefault();
-	        mostrarContenedor(usuarioContainer);
-	        activarBoton(mostrarUsuarioBtn);
-	    });
-
-	    mostrarInstalacionBtn.addEventListener('click', function(event) {
-	        event.preventDefault();
-	        mostrarContenedor(instalacionContainer);
-	        activarBoton(mostrarInstalacionBtn);
-	    });
-
-	    mostrarClubBtn.addEventListener('click', function(event) {
-	        event.preventDefault();
-	        mostrarContenedor(clubContainer);
-	        activarBoton(mostrarClubBtn);
-	    });
-
-	   
-
-	    // Eventos para los botones de móvil
-	    mostrarUsuarioX.addEventListener('click', function(event) {
-	        event.preventDefault();
-	        mostrarContenedor(usuarioContainer);
-	        activarBoton(mostrarUsuarioX);
-	    });
-
-	    mostrarInstalacionBtnX.addEventListener('click', function(event) {
-	        event.preventDefault();
-	        mostrarContenedor(instalacionContainer);
-	        activarBoton(mostrarInstalacionBtnX);
-	    });
-
-	    mostrarClubBtnX.addEventListener('click', function(event) {
-	        event.preventDefault();
-	        mostrarContenedor(clubContainer);
-	        activarBoton(mostrarClubBtnX);
-	    });
-
-	  
-
-	    // Mostrar por defecto el contenedor de usuario
-	    mostrarContenedor(usuarioContainer);
-	    activarBoton(mostrarUsuarioBtn);
-
-	    // Validación del formulario de usuario
-	    const formularioUsuario = document.querySelector("#usuarioContainer form");
-
-	    formularioUsuario.addEventListener("submit", function(event) {
-	        event.preventDefault();
-	        const formData = new FormData(formularioUsuario);
-	        const accion = formData.get("accion");
-	        if (accion) {
-	            formularioUsuario.submit();
-	        } else {
-	            alert("Error: No se ha definido una acción válida en el formulario.");
-	        }
-	    });
-	});
-	
-	  window.onload = function() {
-	        var today = new Date();
-	        var dd = String(today.getDate()).padStart(2, '0');
-	        var mm = String(today.getMonth() + 1).padStart(2, '0');
-	        var yyyy = today.getFullYear();
-	        today = yyyy + '-' + mm + '-' + dd;
-
-	        document.getElementById('fechaNacimientoUsuario').setAttribute('max', today);
-	    }
-	  
-		function abrirGmail() {
-			const email = "futboldebarriosevilla@gmail.com";
-			const subject = "Titulo del Asunto: ";
-			const body = "Escriba aqui el mensaje....";
-
-			const url = "https://mail.google.com/mail/?view=cm&fs=1&to="
-					+ encodeURIComponent(email) + "&su="
-					+ encodeURIComponent(subject) + "&body="
-					+ encodeURIComponent(body);
-
-			window.open(url, "_blank");
-		}
-
+    window.open(url, "_blank");
+}
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

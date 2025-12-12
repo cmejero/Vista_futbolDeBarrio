@@ -32,31 +32,16 @@ public class ClubEstadisticaGlobalControlador extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
-        String idParam = request.getParameter("id");
-
-        // Validación: debe existir sesión y debe tener usuarioId o clubId
-        if (session == null ||
-            (session.getAttribute("usuarioId") == null && session.getAttribute("clubId") == null)) {
-
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            response.setContentType("text/plain; charset=UTF-8");
-            response.getWriter().write("Acceso denegado. Debe iniciar sesión.");
-            return;
-        }
-
         try {
             Object resultado;
             ObjectMapper objectMapper = new ObjectMapper();
+            String idParam = request.getParameter("id");
 
             if (idParam != null) {
-               
                 Long clubId = Long.parseLong(idParam);
                 String json = clubEstadisticaGlobalServicio.obtenerClubEstadisticasGlobal(clubId);
                 resultado = objectMapper.readValue(json, ClubEstadisticaGlobalDto.class);
-
             } else {
-                // Mostrar TODOS los clubes SIEMPRE
                 String jsonLista = clubEstadisticaGlobalServicio.obtenerTodasClubEstadisticasGlobal();
                 resultado = objectMapper.readValue(jsonLista, ClubEstadisticaGlobalDto[].class);
             }
@@ -67,10 +52,11 @@ public class ClubEstadisticaGlobalControlador extends HttpServlet{
 
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.setContentType("text/plain; charset=UTF-8");
-            response.getWriter().write("Error en el servidor: " + e.getMessage());
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\": \"" + e.getMessage() + "\"}");
             e.printStackTrace();
         }
     }
+
 
 }

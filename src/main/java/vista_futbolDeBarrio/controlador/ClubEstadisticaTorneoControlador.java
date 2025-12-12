@@ -35,20 +35,6 @@ public class ClubEstadisticaTorneoControlador  extends HttpServlet{
 	            throws ServletException, IOException {
 
 	        try {
-	            HttpSession session = request.getSession(false);
-	            String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
-
-	            if (tipoUsuario == null || !(tipoUsuario.equals("jugador") || tipoUsuario.equals("club") || tipoUsuario.equals("instalacion")  )) {
-	                if (session != null && session.getAttribute("usuarioId") != null) tipoUsuario = "jugador";
-	                else if (session != null && session.getAttribute("clubId") != null) tipoUsuario = "club";
-	                else {
-	                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-	                    response.setContentType("text/plain; charset=UTF-8");
-	                    response.getWriter().write("Acceso denegado. Debe iniciar sesión.");
-	                    return;
-	                }
-	            }
-
 	            String idParam = request.getParameter("id"); // id opcional del club
 	            ArrayList<ClubEstadisticaTorneoDto> listaEstadisticas;
 
@@ -75,4 +61,5 @@ public class ClubEstadisticaTorneoControlador  extends HttpServlet{
 	            e.printStackTrace();
 	        }
 	    }
+
 }

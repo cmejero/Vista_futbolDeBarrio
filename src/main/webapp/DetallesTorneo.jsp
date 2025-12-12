@@ -2,22 +2,23 @@
 	pageEncoding="UTF-8"%>
 <%
 String tipoUsuario = (String) session.getAttribute("tipoUsuario");
-if (tipoUsuario == null) {
-	if (session.getAttribute("clubId") != null) {
-		tipoUsuario = "club";
-	} else {
-		tipoUsuario = "jugador";
-	}
-}
-
 Long usuarioId = null;
 Long clubId = null;
 String nombreUsuario = "Invitado";
 String nombreClub = "";
-
 Boolean esPremium = (Boolean) session.getAttribute("esPremium");
 if (esPremium == null)
 	esPremium = false;
+
+if (tipoUsuario == null) {
+	if (session.getAttribute("clubId") != null) {
+		tipoUsuario = "club";
+	} else if (session.getAttribute("usuarioId") != null) {
+		tipoUsuario = "jugador";
+	} else {
+		tipoUsuario = "invitado";
+	}
+}
 
 if ("jugador".equals(tipoUsuario)) {
 	usuarioId = (Long) session.getAttribute("usuarioId");
@@ -36,6 +37,7 @@ if ("jugador".equals(tipoUsuario)) {
 		nombreClub = tmpNombre;
 }
 %>
+
 
 
 <!DOCTYPE html>
@@ -168,6 +170,9 @@ if ("jugador".equals(tipoUsuario)) {
 									</div>
 								</div>
 								<!-- fila medio -->
+								<%
+								if ("club".equals(tipoUsuario) || "jugador".equals(tipoUsuario)) {
+								%>
 								<div class="col-sm-12 col-md-12 "
 									style="border-left: 2px solid black; border-right: 2px solid black;">
 									<div class="row">
@@ -213,13 +218,47 @@ if ("jugador".equals(tipoUsuario)) {
 
 									</div>
 								</div>
+								<%
+								} else if ("invitado".equals(tipoUsuario)) {
+								%>
+
+
+								<div class="col-sm-12 col-md-12 "
+									style="border-left: 2px solid black; border-right: 2px solid black;">
+									<div class="row">
+										<div class="col-sm-6 col-md-6 cabeceraMedioTitulo">
+											<span style="color: #d4af37; margin-right: 7px;"> / </span>
+											FUTBOL DE BARRIO <span
+												style="color: #c0c0c0; margin-left: 7px;"> /</span>
+										</div>
+										<div class="col-sm-2 col-md-2 cabeceraMedio">
+											<a href="Registrar.jsp">
+												<button type="button" class=" botonRegistrarCabecera">REGISTRARSE</button>
+											</a>
+										</div>
+										<div class="col-sm-2 col-md-2 cabeceraMedio"
+											style="text-decoration: underline;">
+											<a href="InicioSesion.jsp" class="letraCabeceraMedio">INICIAR
+												SESION</a>
+										</div>
+										<div class="col-sm-2 col-md-2 cabeceraMedio"
+											style="text-decoration: underline;">
+											<a href="" class="letraCabeceraMedio">¿QUIENES SOMOS?</a>
+										</div>
+									</div>
+								</div>
+
+
+								<%
+								}
+								%>
 							</div>
 						</div>
 						<!-- fila de abajo -->
 						<%
 						if ("club".equals(tipoUsuario)) {
 						%>
-							<div class="col-sm-12 col-md-12  "
+						<div class="col-sm-12 col-md-12  "
 							style="border: solid 2px black; background-color: #004000; box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, 0.45);">
 							<div class="row " style="background-color: #004000;">
 								<!-- columna iquierda -->
@@ -227,15 +266,16 @@ if ("jugador".equals(tipoUsuario)) {
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="Club.jsp" class="letraCabeceraAbajo"
-												>INICIO</a>
+											<a href="Club.jsp" class="letraCabeceraAbajo">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES <span class="tooltip-text">Sección en
-													desarrollo</span></a>
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES
+												<span class="tooltip-text">Sección en desarrollo</span>
+											</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="EventoClub.jsp" class="letraCabeceraAbajo" style="color: #d4af37;">EVENTOS</a>
+											<a href="EventoClub.jsp" class="letraCabeceraAbajo"
+												style="color: #d4af37;">EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -254,8 +294,9 @@ if ("jugador".equals(tipoUsuario)) {
 											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo">MARCADORES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS <span class="tooltip-text">Sección en
-													desarrollo</span></a>
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS
+												<span class="tooltip-text">Sección en desarrollo</span>
+											</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraAbajo">
 											<div class="dropdown">
@@ -271,16 +312,16 @@ if ("jugador".equals(tipoUsuario)) {
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white; background-color: #005500;">Idioma
-													<span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white;">Ayuda <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white;">Configuración <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white; background-color: #005500;">Idioma
+															<span class="tooltip-text">Sección en desarrollo</span>
+													</a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Ayuda <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Configuración <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -355,16 +396,16 @@ if ("jugador".equals(tipoUsuario)) {
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
 													<li><a class="dropdown-item seccion-bloqueada "
-														href="#">Idioma<span
-															class="tooltip-text">Sección en desarrollo</span>
+														href="#">Idioma<span class="tooltip-text">Sección
+																en desarrollo</span>
 													</a></li>
 													<li><a class="dropdown-item seccion-bloqueada"
-														href="#"">Ayuda<span
-															class="tooltip-text">Sección en desarrollo</span>
+														href="#"">Ayuda<span class="tooltip-text">Sección
+																en desarrollo</span>
 													</a></li>
 													<li><a class="dropdown-item seccion-bloqueada"
-														href="#"">Configuración <span
-															class="tooltip-text">Sección en desarrollo</span></a></li>
+														href="#"">Configuración <span class="tooltip-text">Sección
+																en desarrollo</span></a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -375,6 +416,91 @@ if ("jugador".equals(tipoUsuario)) {
 											</div>
 										</div>
 
+									</div>
+								</div>
+							</div>
+						</div>
+						<%
+						} else if ("invitado".equals(tipoUsuario)) {
+						%>
+
+						<div class="col-sm-12 col-md-12  "
+							style="border: solid 2px black; background-color: #004000; box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, 0.45);">
+							<div class="row " style="background-color: #004000;">
+								<!-- columna iquierda -->
+								<div class="col-sm-2 col-md-2 ">
+									<div class="row  ">
+										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
+										<div class="col-sm-11 col-md-11 cabeceraAbajo ">
+											<a href="Index.jsp" class="letraCabeceraAbajo">INICIO</a>
+										</div>
+
+									</div>
+								</div>
+
+								<div class="col-sm-4 col-md-4 ">
+									<div class="row  ">
+										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
+											<a href="Eventos.jsp" class="letraCabeceraAbajo"
+												style="color: #d4af37;">EVENTOS</a>
+										</div>
+
+										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES<span
+												class="tooltip-text">Sección en desarrollo</span></a>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-4 col-md-4 ">
+									<div class="row  ">
+										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
+											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo">MARCADORES</a>
+										</div>
+										<div class="col-sm-6 col-md-6 cabeceraAbajo  ">
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span
+												class="tooltip-text">Sección en desarrollo</span></a>
+										</div>
+
+									</div>
+								</div>
+
+
+
+								<!-- columna derecha -->
+								<div class="col-sm-2 col-md-2 ">
+
+									<div class="row">
+
+										<div class="col-sm-12 col-md-12 cabeceraAbajo">
+											<div class="dropdown">
+												<button class="btn btn-secondary " type="button"
+													data-bs-toggle="dropdown" aria-expanded="false"
+													style="background-color: #004000; width: 4vw; height: 2.3vw; border-radius: 5px; display: flex; justify-content: center; align-items: center; padding: 0;">
+													<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+														class="bi bi-list letraCabeceraAbajo" viewBox="0 0 16 16"
+														style="width: 3vw; height: 2.2vw; color: white;">
+				<path fill-rule="evenodd"
+															d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+			</svg>
+												</button>
+												<ul class="dropdown-menu dropdown-menu-dark"
+													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white; background-color: #005500;">Idioma<span
+															class="tooltip-text">Sección en desarrollo</span>
+													</a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Ayuda <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Configuración <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
+
+												</ul>
+											</div>
+										</div>
+										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
 									</div>
 								</div>
 							</div>
@@ -402,6 +528,9 @@ if ("jugador".equals(tipoUsuario)) {
 							<div class="row ">
 
 								<!-- fila arriba -->
+								<%
+								if ("club".equals(tipoUsuario) || "jugador".equals(tipoUsuario)) {
+								%>
 								<div class="d-sm-none d-md-none col-12 d-block"
 									style="border: 2px solid black; border-bottom: none; border-left: none; border-top: 1px solid black;">
 									<div class="row">
@@ -439,6 +568,35 @@ if ("jugador".equals(tipoUsuario)) {
 
 									</div>
 								</div>
+
+								<%
+								} else if ("invitado".equals(tipoUsuario)) {
+								%>
+
+								<div class="d-sm-none d-md-none col-12 d-block"
+									style="border: 2px solid black; border-bottom: none; border-left: none; border-top: 1px solid black;">
+									<div class="row">
+										<div
+											class="d-sm-none d-md-none col-8 d-block cabeceraMedioTituloX">
+											<span style="color: #d4af37; margin-right: 1.5vw;"> /
+											</span> FUTBOL DE BARRIO <span
+												style="color: #c0c0c0; margin-left: 7px;"> /</span>
+										</div>
+										<div
+											class="d-sm-none d-md-none col-4 d-block cabeceraMedio  d-flex justify-content-center align-items-center">
+											<a href="Registrar.jsp">
+												<button type="button" class="botonRegistrarCabecera"
+													style="font-size: 1.6vw">REGISTRARSE</button>
+											</a>
+										</div>
+
+									</div>
+								</div>
+
+								<%
+								}
+								%>
+
 							</div>
 
 
@@ -447,7 +605,7 @@ if ("jugador".equals(tipoUsuario)) {
 							if ("club".equals(tipoUsuario)) {
 							%>
 
-								<div class="row p-1"
+							<div class="row p-1"
 								style="border-bottom: solid 2.4px black; border-top: solid 2px black; border-right: solid 2px black; border-left: none; background-color: #004000; box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, 0.45);">
 
 								<!-- columna izquierda: INICIO -->
@@ -464,7 +622,7 @@ if ("jugador".equals(tipoUsuario)) {
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-2 ">
 									<a href="EventoClub.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw;  color: #d4af37;">EVENTOS</a>
+										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">EVENTOS</a>
 								</div>
 
 
@@ -487,28 +645,28 @@ if ("jugador".equals(tipoUsuario)) {
 											style="min-width: 12vw; font-size: 2.2vw; background-color: #003300; border-radius: 5px; width: 25vw">
 
 
-											<li><a class="dropdown-item seccion-bloqueada" href="Jugador.jsp"
-												>Alquileres <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada"
+												href="Jugador.jsp">Alquileres <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
 											<li><a class="dropdown-item " href="PlantillaClub.jsp"
 												style="color: white;">Plantilla </a></li>
-											<li><a class="dropdown-item seccion-bloqueada" href="Jugador.jsp"
-												>Desafios <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada"
+												href="Jugador.jsp">Desafios <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
 
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item seccion-bloqueada" href="#"
-												>Idioma <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
-											<li><a class="dropdown-item seccion-bloqueada" href="#"
-												>Ayuda <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
-											<li><a class="dropdown-item seccion-bloqueada" href="#"
-												>Configuración <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Idioma
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Ayuda
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Configuración
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
@@ -567,8 +725,8 @@ if ("jugador".equals(tipoUsuario)) {
 
 
 											<li><a class="dropdown-item seccion-bloqueada"
-												href="Jugador.jsp">Alquileres <span
-													class="tooltip-text">Sección en desarrollo</span></a></li>
+												href="Jugador.jsp">Alquileres <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
 											<li><a class="dropdown-item " href="MiClubJugador.jsp"
 												style="color: white;">Mi club </a></li>
 											<li><a class="dropdown-item seccion-bloqueada"
@@ -603,6 +761,87 @@ if ("jugador".equals(tipoUsuario)) {
 							</div>
 
 							<%
+							} else if ("invitado".equals(tipoUsuario)) {
+							%>
+
+<div class="row p-1"
+								style="border-bottom: solid 2.4px black; border-top: solid 2px black; border-right: solid 2px black; border-left: none; background-color: #004000; box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, 0.45);">
+
+								<!-- columna izquierda: INICIO -->
+								<div
+									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
+									<a href="Index.jsp" class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw; ">INICIO</a>
+								</div>
+								<div
+									class="col-4 d-flex justify-content-start align-items-center ps-3 ">
+									<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw; ">MARCADORES</a>
+								</div>
+								<div
+									class="col-3 d-flex justify-content-start align-items-center ps-3 ">
+									<a href="Eventos.jsp" class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">EVENTOS</a>
+								</div>
+
+
+
+								<!-- columna derecha: menú desplegable -->
+								<div
+									class="col-2 d-flex justify-content-end align-items-center pe-4">
+									<div class="dropdown">
+										<button class="btn btn-secondary " type="button"
+											data-bs-toggle="dropdown" aria-expanded="false"
+											style="background-color: #004000; width: 7.5vw; height: 3.9vw; border-radius: 5px; display: flex; justify-content: center; align-items: center; padding: 0;">
+											<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+												class="bi bi-list letraCabeceraAbajo" viewBox="0 0 16 16"
+												style="width: 6.5vw; height: 2.5vw; color: white;">
+										<path fill-rule="evenodd"
+													d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+									</svg>
+										</button>
+										<ul class="dropdown-menu dropdown-menu-dark"
+											style="min-width: 12vw; font-size: 2.2vw; background-color: #003300; border-radius: 5px; width: 25vw">
+
+
+											<li><a class="dropdown-item " href="InicioSesion.jsp"
+												style="color: white;">Iniciar sesión </a></li>
+											<li>
+												<hr class="dropdown-divider" style="border-color: #006600;">
+											</li>
+
+											<li><a class="dropdown-item seccion-bloqueada" href="">Alquileres
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="">Desafios<span
+													class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
+											<li><a class="dropdown-item " href="#"
+												style="color: white;">¿Quienes somos? </a></li>
+
+
+											<li>
+												<hr class="dropdown-divider" style="border-color: #006600;">
+											</li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#"
+												style="color: white;">Idioma <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#"
+												style="color: white;">Ayuda <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#"
+												style="color: white;">Configuración <span
+													class="tooltip-text">Sección en desarrollo</span></a></li>
+
+
+
+										</ul>
+									</div>
+								</div>
+
+							</div>
+
+							<%
 							}
 							%>
 						</div>
@@ -622,7 +861,9 @@ if ("jugador".equals(tipoUsuario)) {
 					urlVolver = "EventoJugador.jsp";
 				} else if ("club".equals(tipoUsuario)) {
 					urlVolver = "EventoClub.jsp";
-				}
+				} else if ("invitado".equals(tipoUsuario)) {
+					urlVolver = "Eventos.jsp";}
+				
 				%>
 				<button type="button" class="btn botonVolver"
 					onclick="window.location.href='<%=urlVolver%>';">Volver</button>
@@ -1044,6 +1285,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
             var btnAnterior = document.createElement('button');
             btnAnterior.textContent = 'Anterior';
+            btnAnterior.className = 'paginacion'; 
+
             btnAnterior.disabled = (pagina === 1);
             btnAnterior.onclick = function() {
                 paginaActual--;
@@ -1055,6 +1298,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             var btnSiguiente = document.createElement('button');
             btnSiguiente.textContent = 'Siguiente';
+            btnSiguiente.className = 'paginacion'; 
             btnSiguiente.disabled = (pagina === totalPaginas);
             btnSiguiente.onclick = function() {
                 paginaActual++;
@@ -1121,19 +1365,20 @@ document.addEventListener("DOMContentLoaded", function() {
                         if (partido.actaCerrada === true) {
                             contenido =
                                 '<div style="display:flex; flex-direction:column; justify-content:center; align-items:center; line-height:1.1vw;">' +
-                                '<div style="font-weight:bold;">' + (partido.clubLocalNombre || "-") + '</div>' +
-                                '<div style="color:#ff0; font-weight:bold;">' + (partido.golesLocal ?? "-") + '-' + (partido.golesVisitante ?? "-")
- + '</div>' +
-                                '<div style="font-weight:bold;">' + (partido.clubVisitanteNombre || "-") + '</div>' +
+                                '<div style="font-weight:bold; margin-bottom:0.2vw;">' + (partido.clubLocalNombre || "-") + '</div>' +
+                                '<div style="color:#ff0; font-weight:bold; margin:0.2vw 0;">' + (partido.golesLocal ?? "-") + '-' + (partido.golesVisitante ?? "-") + '</div>' +
+                                '<div style="font-weight:bold; margin-top:0.2vw;">' + (partido.clubVisitanteNombre || "-") + '</div>' +
                                 '</div>';
                         } else {
                             contenido =
                                 '<div style="display:flex; flex-direction:column; justify-content:center; align-items:center; line-height:1.1vw;">' +
-                                '<div style="font-weight:bold;">' + (partido.clubLocalNombre || "-") + '</div>' +
-                                '<div style="font-size:0.8em; color:#ccc;">' + (partido.fechaPartido || "-") + '</div>' +
-                                '<div style="font-weight:bold;">' + (partido.clubVisitanteNombre || "-") + '</div>' +
+                                '<div style="font-weight:bold; margin-bottom:0.2vw;">' + (partido.clubLocalNombre || "-") + '</div>' +
+                                '<div style="font-size:0.8vw; color:#ccc; margin:0.2vw 0;">' + (partido.fechaPartido || "-") + '</div>' +
+                                '<div style="font-weight:bold; margin-top:0.2vw;">' + (partido.clubVisitanteNombre || "-") + '</div>' +
                                 '</div>';
                         }
+
+
 
                         div.innerHTML =
                             '<button class="btnPartido" ' +

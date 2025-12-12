@@ -51,7 +51,7 @@ public class JugadorEstadisticaGlobalServicio {
      */
     public JugadorEstadisticaGlobalDto obtenerJugadorEstadisticasGlobal(Long jugadorId) {
         try {
-            String urlApi = "http://localhost:9527/api/jugadorEstadisticaGlobal/" + jugadorId;
+            String urlApi = "http://localhost:9527/api/jugadorEstadisticaGlobal/jugador/" + jugadorId;
             URL url = new URL(urlApi);
             HttpURLConnection conex = (HttpURLConnection) url.openConnection();
             conex.setRequestMethod("GET");

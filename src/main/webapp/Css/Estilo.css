@@ -1,30 +1,23 @@
 @charset "UTF-8";
 
-html,
-body {
-
+html, body {
 	margin: 0;
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
-
-
 }
 
 main {
-
 	background-color: rgba(223, 234, 213, 0.5);
 	display: flex;
 	flex-direction: column;
-	 justify-content: flex-start; 
-    align-items: center;
+	justify-content: flex-start;
+	align-items: center;
 	flex-grow: 1;
 	text-align: center;
 	padding: 2vw;
 	margin-top: 10%;
-	 min-height: 80vh;
-	
-
+	min-height: 80vh;
 }
 
 footer {
@@ -40,14 +33,12 @@ footer {
 	padding: 1.5vw 0;
 }
 
-
 /* CABECERA */
 .cabeceraArriba {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	font-size: 1vw;
-	;
 	color: black;
 	background-color: #43a624;
 	text-align: center;
@@ -148,7 +139,6 @@ button.botonRegistrarCabecera:hover {
 	color: black;
 }
 
-
 button.botonPremiumCabecera {
 	border-radius: 5px;
 	background-color: #d4af37;
@@ -166,7 +156,6 @@ button.botonPremiumCabecera:hover {
 	color: #000;
 	transform: scale(1.05);
 }
-
 
 button.botonRegistrarCabecera:active {
 	background-color: #004000;
@@ -206,25 +195,17 @@ button.botonRegistrarCabecera:active {
 	color: #d1d1d1;
 }
 
-
-
-
 /* INDEX */
-
 .carousel-container {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	width: 100%;
-
 }
 
 .carouselCMR {
 	width: 100%;
-
-
 }
-
 
 .carousel-inner img {
 	width: 100%;
@@ -247,8 +228,7 @@ button.botonRegistrarCabecera:active {
 }
 
 /* Estilo de las flechas de navegación */
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
+.carousel-control-prev-icon, .carousel-control-next-icon {
 	background-color: #1abc5b;
 	/* Flechas de color verde */
 	width: 2vw;
@@ -258,18 +238,15 @@ button.botonRegistrarCabecera:active {
 }
 
 /* Estilo de las flechas al pasar el cursor */
-.carousel-control-prev:hover,
-.carousel-control-next:hover {
+.carousel-control-prev:hover, .carousel-control-next:hover {
 	background-color: rgba(0, 0, 0, 0.1);
 	/* Cambio al pasar el ratón */
 }
 
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
+.carousel-control-prev-icon, .carousel-control-next-icon {
 	width: 2.5vw;
 	height: 2.5vw;
 }
-
 
 /* ADMINISTRADOR */
 .tablasAdmin-container {
@@ -281,7 +258,6 @@ button.botonRegistrarCabecera:active {
 /* ===================================
    TABLAS ADMIN - ESTILO BASE GENÉRICO
 =================================== */
-
 .tablaAdmin {
 	background-color: #fff;
 	border-radius: 1vw;
@@ -411,7 +387,7 @@ button.botonRegistrarCabecera:active {
 
 /* 🟢 INSTALACIONES */
 .tablaAdmin--instalaciones .tablaAdmin__head {
-	    background: linear-gradient(90deg, #256c25, #154515);
+	background: linear-gradient(90deg, #256c25, #154515);
 }
 
 .tablaAdmin--instalaciones tr:hover td {
@@ -455,103 +431,88 @@ button.botonRegistrarCabecera:active {
 =================================== */
 
 /* 📱 Pequeños dispositivos (móviles <768px) */
-@media (max-width: 767px) {
+@media ( max-width : 767px) {
 	.tablaAdmin {
 		border-radius: 2vw;
 		box-shadow: 0 0.6vw 1.2vw rgba(0, 0, 0, 0.15);
 	}
-
 	.tablaAdmin__head th {
 		font-size: 2.2vw;
 		padding: 1.2vw 0.8vw;
 	}
-
 	.tablaAdmin td {
 		font-size: 1.6vw;
 		padding: 1.2vw 0.8vw;
 	}
-
 	.tablaAdmin__img {
 		width: 8vw;
 		height: 8vw;
 	}
-
 	.tablaAdmin__btn {
 		width: 4vw;
 		height: 4vw;
 	}
-
 	.tablaAdmin__btn i {
 		font-size: 2vw;
 	}
-
 	.tablaAdmin__acciones {
 		gap: 2vw;
 	}
 }
 
 /* 💻 Tablets medianas (768px - 991px) */
-@media (min-width: 768px) and (max-width: 991px) {
+@media ( min-width : 768px) and (max-width: 991px) {
 	.tablaAdmin__head th {
 		font-size: 1.8vw;
 		padding: 1vw 0.7vw;
 	}
-
 	.tablaAdmin td {
 		font-size: 1.6vw;
 		padding: 1vw 0.7vw;
 	}
-
 	.tablaAdmin__img {
 		width: 4.8vw;
 		height: 4.8vw;
 	}
-
 	.tablaAdmin__btn {
 		width: 3.5vw;
 		height: 3.5vw;
 	}
-
 	.tablaAdmin__btn i {
 		font-size: 1.5vw;
 	}
-
 	.tablaAdmin__acciones {
 		gap: 1.5vw;
 	}
 }
 
 /* 🖥️ Escritorios grandes (>992px) */
-@media (min-width: 992px) {
+@media ( min-width : 992px) {
 	.tablaAdmin {
 		max-width: 100%;
 	}
-
 	.tablaAdmin__head th {
 		font-size: 1.2vw;
 	}
-
 	.tablaAdmin td {
 		font-size: 1.05vw;
 	}
-
 	.tablaAdmin__img {
 		width: 2.6vw;
 		height: 2.6vw;
 	}
-
 	.tablaAdmin__btn {
 		width: 2.2vw;
 		height: 2.2vw;
 	}
 }
 
-
 .botonFiltrar {
 	background-color: #2c2c2c;
 	border: 0.15vw solid #008f00;
 	color: white;
-	box-shadow: 0vw 0.4vw 0.8vw rgba(0, 64, 0, 0.6), 0vw -0.4vw 0.8vw rgba(0, 64, 0, 0.15);
+	box-shadow: 0vw 0.4vw 0.8vw rgba(0, 64, 0, 0.6), 0vw -0.4vw 0.8vw
+		rgba(0, 64, 0, 0.15);
 	font-size: 1.2vw;
 	width: 10.5vw;
 	height: 2.5vw;
@@ -569,9 +530,6 @@ button.botonRegistrarCabecera:active {
 	transform: scale(1.05);
 }
 
-
-
-
 .contenedorPaginacion {
 	display: flex;
 	justify-content: center;
@@ -585,7 +543,8 @@ button.botonRegistrarCabecera:active {
 	background-color: #373737;
 	border: 0.15vw solid #008f00;
 	color: white;
-	box-shadow: 0vw 0.4vw 0.8vw rgba(0, 64, 0, 0.7), 0vw -0.4vw 0.8vw rgba(0, 64, 0, 0.15);
+	box-shadow: 0vw 0.4vw 0.8vw rgba(0, 64, 0, 0.7), 0vw -0.4vw 0.8vw
+		rgba(0, 64, 0, 0.15);
 	height: auto;
 	display: flex;
 	align-items: center;
@@ -616,7 +575,7 @@ button.botonRegistrarCabecera:active {
 	margin-bottom: 0.5vw;
 }
 
-@media (max-width: 575.98px) {
+@media ( max-width : 575.98px) {
 	.botonFiltrar {
 		font-size: 2vw;
 		width: 22vw;
@@ -624,30 +583,23 @@ button.botonRegistrarCabecera:active {
 		border-radius: 2vw;
 		justify-content: center;
 	}
-
 	.filaFiltrar {
 		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: center;
 		gap: 7vw;
-
 	}
-
 	.filtroItem {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
 		width: 20vw;
 	}
-
-
-	.labelFiltrar,
-	.inputFiltrar {
+	.labelFiltrar, .inputFiltrar {
 		font-size: 1.5vw;
 		width: 20vw;
 		height: auto;
 	}
-
 	.contenedorPaginacion {
 		display: flex;
 		flex-direction: row;
@@ -656,10 +608,6 @@ button.botonRegistrarCabecera:active {
 		gap: 2vw;
 		margin-top: 3vw;
 	}
-
-
-
-
 	#paginaActual {
 		font-size: 1.5vw !important;
 	}
@@ -696,94 +644,65 @@ button.botonRegistrarCabecera:active {
 }
 
 /* Escalar todo dentro del modal de Club */
-#modalEditarClub label,
-#modalEditarClub input,
-#modalEditarClub select,
-#modalEditarClub .btn,
-#modalEditarClub .modal-title {
+#modalEditarClub label, #modalEditarClub input, #modalEditarClub select,
+	#modalEditarClub .btn, #modalEditarClub .modal-title {
 	font-size: 1rem;
 	/* tamaño base */
 }
 
-#modalEditarUsuario label,
-#modalEditarUsuario input,
-#modalEditarUsuario select,
-#modalEditarUsuario .btn,
-#modalEditarUsuario .modal-title {
+#modalEditarUsuario label, #modalEditarUsuario input,
+	#modalEditarUsuario select, #modalEditarUsuario .btn,
+	#modalEditarUsuario .modal-title {
 	font-size: 1rem;
 	/* tamaño base */
 }
 
-#modalEditarInstalacion label,
-#modalEditarInstalacion input,
-#modalEditarInstalacion select,
-#modalEditarInstalacion .btn,
-#modalEditarInstalacion .modal-title {
+#modalEditarInstalacion label, #modalEditarInstalacion input,
+	#modalEditarInstalacion select, #modalEditarInstalacion .btn,
+	#modalEditarInstalacion .modal-title {
 	font-size: 1rem;
 	/* tamaño base */
 }
 
 /* Pantallas medianas (tablets) */
-@media (max-width: 991px) {
-
-	#modalEditarClub label,
-	#modalEditarClub input,
-	#modalEditarClub select,
-	#modalEditarClub .btn,
-	#modalEditarClub .modal-title {
+@media ( max-width : 991px) {
+	#modalEditarClub label, #modalEditarClub input, #modalEditarClub select,
+		#modalEditarClub .btn, #modalEditarClub .modal-title {
 		font-size: 0.9rem;
 	}
-
-	#modalEditarUsuario label,
-	#modalEditarUsuario input,
-	#modalEditarUsuario select,
-	#modalEditarUsuario .btn,
-	#modalEditarUsuario .modal-title {
+	#modalEditarUsuario label, #modalEditarUsuario input,
+		#modalEditarUsuario select, #modalEditarUsuario .btn,
+		#modalEditarUsuario .modal-title {
 		font-size: 0.9rem;
 		/* tamaño base */
 	}
-
-	#modalEditarInstalacion label,
-	#modalEditarInstalacion input,
-	#modalEditarInstalacion select,
-	#modalEditarInstalacion .btn,
-	#modalEditarInstalacion .modal-title {
+	#modalEditarInstalacion label, #modalEditarInstalacion input,
+		#modalEditarInstalacion select, #modalEditarInstalacion .btn,
+		#modalEditarInstalacion .modal-title {
 		font-size: 0.9rem;
 		/* tamaño base */
 	}
 }
 
 /* Pantallas pequeñas (móviles) */
-@media (max-width: 576px) {
-
-	#modalEditarClub label,
-	#modalEditarClub input,
-	#modalEditarClub select,
-	#modalEditarClub .btn,
-	#modalEditarClub .modal-title {
+@media ( max-width : 576px) {
+	#modalEditarClub label, #modalEditarClub input, #modalEditarClub select,
+		#modalEditarClub .btn, #modalEditarClub .modal-title {
 		font-size: 0.8rem;
 	}
-
-	#modalEditarUsuario label,
-	#modalEditarUsuario input,
-	#modalEditarUsuario select,
-	#modalEditarUsuario .btn,
-	#modalEditarUsuario .modal-title {
+	#modalEditarUsuario label, #modalEditarUsuario input,
+		#modalEditarUsuario select, #modalEditarUsuario .btn,
+		#modalEditarUsuario .modal-title {
 		font-size: 0.8rem;
 		/* tamaño base */
 	}
-
-	#modalEditarInstalacion label,
-	#modalEditarInstalacion input,
-	#modalEditarInstalacion select,
-	#modalEditarInstalacion .btn,
-	#modalEditarInstalacion .modal-title {
+	#modalEditarInstalacion label, #modalEditarInstalacion input,
+		#modalEditarInstalacion select, #modalEditarInstalacion .btn,
+		#modalEditarInstalacion .modal-title {
 		font-size: 0.8rem;
 		/* tamaño base */
 	}
 }
-
-
 
 /* REGISTRAR */
 .columnaBotonRegistrar {
@@ -804,7 +723,6 @@ button.botonSeleccion {
 	background-color: #333333;
 	color: white;
 	border-radius: 10px;
-
 }
 
 button.botonSeleccionX {
@@ -820,7 +738,6 @@ button.botonSeleccionX {
 	background-color: #333333;
 	color: white;
 	border-radius: 10px;
-
 }
 
 .botonSeleccion:hover {
@@ -847,8 +764,7 @@ button.botonSeleccionX {
 	background-color: #142800;
 }
 
-.tablaFormulario td,
-tr {
+.tablaFormulario td, tr {
 	padding: 8px;
 	vertical-align: top;
 	border: 1.2px solid #eeeeee;
@@ -860,50 +776,39 @@ tr {
 	font-size: 1.2vw;
 }
 
-
 /* Estilos generales responsivos */
-#modalEditarUsuario label,
-#modalEditarUsuario input,
-#modalEditarUsuario select {
+#modalEditarUsuario label, #modalEditarUsuario input,
+	#modalEditarUsuario select {
 	font-size: 1.1vw;
 	/* Escalable */
 }
 
-@media (max-width: 991.98px) {
-
-	#modalEditarUsuario label,
-	#modalEditarUsuario input,
-	#modalEditarUsuario select {
+@media ( max-width : 991.98px) {
+	#modalEditarUsuario label, #modalEditarUsuario input,
+		#modalEditarUsuario select {
 		font-size: 1.5vw;
 	}
 }
 
-@media (max-width: 767.98px) {
-
-	#modalEditarUsuario label,
-	#modalEditarUsuario input,
-	#modalEditarUsuario select {
+@media ( max-width : 767.98px) {
+	#modalEditarUsuario label, #modalEditarUsuario input,
+		#modalEditarUsuario select {
 		font-size: 2.2vw;
 	}
 }
 
-@media (max-width: 575.98px) {
-
-	#modalEditarUsuario label,
-	#modalEditarUsuario input,
-	#modalEditarUsuario select {
+@media ( max-width : 575.98px) {
+	#modalEditarUsuario label, #modalEditarUsuario input,
+		#modalEditarUsuario select {
 		font-size: 2.2vw;
 	}
-
 	.modal-dialog {
 		margin: 0.5rem;
 		/* Reduce los márgenes laterales */
 	}
-
 	.formularioLabel {
 		font-size: 1.8vw;
 	}
-
 	.registrarFormulario {
 		margin-top: 0.1vw;
 	}
@@ -913,37 +818,35 @@ tr {
 	padding: 0.8vw;
 }
 
-@media (max-width: 991.98px) {
+@media ( max-width : 991.98px) {
 	#modalEditarUsuario td {
 		padding: 1vw;
 	}
 }
 
-@media (max-width: 767.98px) {
+@media ( max-width : 767.98px) {
 	#modalEditarUsuario td {
 		padding: 0.6vw;
 	}
 }
 
-@media (max-width: 575.98px) {
+@media ( max-width : 575.98px) {
 	#modalEditarUsuario td {
 		padding: 0.4vw;
 	}
 }
-
 
 /* INICIO SESION */
 .formularioInicioSesion {
 	background-color: #e0e0e0;
 	padding: 1.8vw;
 	border-radius: 12px;
-	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.65), 0px -4px 8px rgba(0, 0, 0, 0.15);
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.65), 0px -4px 8px
+		rgba(0, 0, 0, 0.15);
 	text-align: center;
 	width: 28vw;
 	max-width: 28vw;
 }
-
-
 
 .etiquetaFormulario {
 	font-weight: bold;
@@ -1042,46 +945,35 @@ tr {
 	text-decoration: underline;
 }
 
-
-@media (max-width: 576px) {
+@media ( max-width : 576px) {
 	.formularioInicioSesion {
 		max-width: 55vw;
 		width: 55vw;
 		padding: 4vw;
-		font-size:2vw;
-		
-
+		font-size: 2vw;
 	}
-	.etiquetaFormulario{
-	font-size: 2.2vw;}
-
-	.campoFormulario,
-	.botonEnviarInicioSesion,
-	.botonInicioSesionGoogle {
+	.etiquetaFormulario {
+		font-size: 2.2vw;
+	}
+	.campoFormulario, .botonEnviarInicioSesion, .botonInicioSesionGoogle {
 		font-size: 2vw;
 		padding: 2vw;
 		margin-top: 1vw;
 		/* Ajustar si hay mucho espacio entre elementos */
 	}
-
-	.botonEnviarInicioSesion,
-	.botonInicioSesionGoogle {
+	.botonEnviarInicioSesion, .botonInicioSesionGoogle {
 		margin-top: 1vw;
 		/* Reduce el espacio entre botones */
 	}
-	
-	.tituloInicioSesion{
-	font-size: 3vw;
-	
+	.tituloInicioSesion {
+		font-size: 3vw;
 	}
-	
-	.recordarContrasenia{
-	font-size:1.8vw;}
-	
-	.enlaceContraseniaOlvidada{
-	font-size:1.8vw;
+	.recordarContrasenia {
+		font-size: 1.8vw;
 	}
-
+	.enlaceContraseniaOlvidada {
+		font-size: 1.8vw;
+	}
 	.enlaceRegistroGoogle {
 		margin-top: 1vw;
 		/* También reducir el espacio final */
@@ -1089,47 +981,35 @@ tr {
 	}
 }
 
-
-
-@media screen and (max-width: 768px)  {
+@media screen and (max-width: 768px) {
 	.formularioInicioSesion {
 		max-width: 45vw;
 		width: 45vw;
 		padding: 3vw;
-		font-size:1.8vw;
-		
-
+		font-size: 1.8vw;
 	}
-	.etiquetaFormulario{
-	font-size: 2vw;}
-
-	.campoFormulario,
-	.botonEnviarInicioSesion,
-	.botonInicioSesionGoogle {
+	.etiquetaFormulario {
+		font-size: 2vw;
+	}
+	.campoFormulario, .botonEnviarInicioSesion, .botonInicioSesionGoogle {
 		font-size: 1.6vw;
 		padding: 1.6vw;
 		margin-top: 1vw;
 		/* Ajustar si hay mucho espacio entre elementos */
 	}
-
-	.botonEnviarInicioSesion,
-	.botonInicioSesionGoogle {
+	.botonEnviarInicioSesion, .botonInicioSesionGoogle {
 		margin-top: 1vw;
 		/* Reduce el espacio entre botones */
 	}
-	
-	.tituloInicioSesion{
-	font-size: 2.5vw;
-	
+	.tituloInicioSesion {
+		font-size: 2.5vw;
 	}
-	
-	.recordarContrasenia{
-	font-size:1.4vw;}
-	
-	.enlaceContraseniaOlvidada{
-	font-size:1.4vw;
+	.recordarContrasenia {
+		font-size: 1.4vw;
 	}
-
+	.enlaceContraseniaOlvidada {
+		font-size: 1.4vw;
+	}
 	.enlaceRegistroGoogle {
 		margin-top: 1vw;
 		/* También reducir el espacio final */
@@ -1137,10 +1017,7 @@ tr {
 	}
 }
 
-
 /* MARCADORES */
-
-
 .tablaDatosListaMarcadores {
 	width: 100%;
 	border-collapse: collapse;
@@ -1156,10 +1033,7 @@ tr {
 	overflow: hidden;
 }
 
-
-
-.tablaDatosListaMarcadores th,
-.tablaDatosListaMarcadores td {
+.tablaDatosListaMarcadores th, .tablaDatosListaMarcadores td {
 	text-align: center;
 	padding: 0.7vw;
 	transition: background-color 0.3s ease, color 0.3s ease;
@@ -1180,15 +1054,12 @@ tr {
 	background-color: rgba(255, 255, 255, 0.08);
 }
 
-
 .tablaClubes thead {
 	background-color: #001a40;
-
 }
 
 .tablaClubes th {
 	border: 1.5px solid #0d6ba1;
-
 }
 
 .tablaClubes td {
@@ -1198,7 +1069,6 @@ tr {
 .tablaClubes tr:hover {
 	background-color: rgba(13, 107, 161, 0.15);
 }
-
 
 .tablaJugadores thead {
 	background-color: #400000;
@@ -1216,21 +1086,17 @@ tr {
 	background-color: rgba(161, 37, 37, 0.15);
 }
 
-
-
 button.paginacion {
-  background-color: #1e1e1e;
-  color: white;
-  border: 1px solid #444;
-  padding: 0.2vw 0.8vw;
-  border-radius: 0.4vw;
-  transition: all 0.3s ease;
-  font-size: 1.1vw;
-  margin-top: 0vw;
-  cursor: pointer;
+	background-color: #1e1e1e;
+	color: white;
+	border: 1px solid #444;
+	padding: 0.2vw 0.8vw;
+	border-radius: 0.4vw;
+	transition: all 0.3s ease;
+	font-size: 1.1vw;
+	margin-top: 0vw;
+	cursor: pointer;
 }
-
-
 
 .infoPaginacion {
 	font-size: 1.1vw;
@@ -1247,10 +1113,8 @@ button.paginacion :hover {
 	color: black;
 }
 
-
-
-.tablaDatosListaMarcadores.tablaPremium,
-.table.table-striped.table-bordered {
+.tablaDatosListaMarcadores.tablaPremium, .table.table-striped.table-bordered
+	{
 	width: 100%;
 	border-collapse: collapse;
 	background-color: #121212;
@@ -1265,15 +1129,15 @@ button.paginacion :hover {
 	overflow: hidden;
 }
 
-.tablaDatosListaMarcadores.tablaPremium thead,
-.table.table-striped.table-bordered thead {
+.tablaDatosListaMarcadores.tablaPremium thead, .table.table-striped.table-bordered thead
+	{
 	background-color: #2b1b00;
 	/* dorado oscuro / bronce */
 	color: #f8f8f8;
 }
 
-.tablaDatosListaMarcadores.tablaPremium th,
-.table.table-striped.table-bordered th {
+.tablaDatosListaMarcadores.tablaPremium th, .table.table-striped.table-bordered th
+	{
 	border: 1.5px solid #d4af37;
 	text-transform: uppercase;
 	font-weight: bold;
@@ -1282,9 +1146,8 @@ button.paginacion :hover {
 	padding: 0.7vw;
 }
 
-
-.tablaDatosListaMarcadores.tablaPremium td,
-.table.table-striped.table-bordered td {
+.tablaDatosListaMarcadores.tablaPremium td, .table.table-striped.table-bordered td
+	{
 	border: 1.2px solid #bfa23b;
 	text-align: center;
 	padding: 0.7vw;
@@ -1292,20 +1155,17 @@ button.paginacion :hover {
 }
 
 /* Filas alternas */
-.tablaDatosListaMarcadores.tablaPremium tr:nth-child(even),
-.table.table-striped.table-bordered tr:nth-child(even) {
+.tablaDatosListaMarcadores.tablaPremium tr:nth-child(even), .table.table-striped.table-bordered tr:nth-child(even)
+	{
 	background-color: #181818;
 }
 
 /* Hover */
-.tablaDatosListaMarcadores.tablaPremium tr:hover,
-.table.table-striped.table-bordered tr:hover {
+.tablaDatosListaMarcadores.tablaPremium tr:hover, .table.table-striped.table-bordered tr:hover
+	{
 	background-color: rgba(212, 175, 55, 0.15);
 	transition: background-color 0.3s ease;
 }
-
-
-
 
 .imagenMarcadores {
 	width: 28vw;
@@ -1330,7 +1190,8 @@ button.paginacion :hover {
 	text-align: center;
 	border: none;
 	background-color: white;
-	box-shadow: 0vw 0.4vw 0.8vw rgba(0, 0, 0, 1), 0vw -0.4vw 0.8vw rgba(0, 0, 0, 0.15);
+	box-shadow: 0vw 0.4vw 0.8vw rgba(0, 0, 0, 1), 0vw -0.4vw 0.8vw
+		rgba(0, 0, 0, 0.15);
 	font-weight: bold;
 	font-size: 1.5vw;
 }
@@ -1339,17 +1200,14 @@ button.paginacion :hover {
 	transform: scale(1.1);
 }
 
-@media (max-width: 576px) {
+@media ( max-width : 576px) {
 	.botonMarcadores {
 		margin: -3vw;
-
 	}
-button.paginacion{
-	font-size: 2vw;
+	button.paginacion {
+		font-size: 2vw;
+	}
 }
-}
-
-
 
 .icono-unirse {
 	transition: color 0.3s ease;
@@ -1361,106 +1219,101 @@ button.paginacion{
 }
 
 /* EVENTO INSTALACION */
-@media (max-width: 576px) {
+@media ( max-width : 576px) {
 	#opcionesCopa {
 		flex-direction: column;
 		gap: 1rem;
 	}
-
 	#opcionesCopa .btn {
 		width: 100%;
 	}
 }
 /* Tabla principal */
 .tablaDatos {
-    border-collapse: collapse;
-    width: 100%;
-    font-size: 1vw; /* tamaño por defecto */
+	border-collapse: collapse;
+	width: 100%;
+	font-size: 1vw; /* tamaño por defecto */
 }
 
 /* Encabezado */
 .tablaDatos thead {
-    background-color: #c33214;
-    color: white;
+	background-color: #c33214;
+	color: white;
 }
 
 /* Bordes y alineación */
-.tablaDatos th  {
-    border: 2px solid #8a210b;
-    padding: 8px;
-    text-align: center;
+.tablaDatos th {
+	border: 2px solid #8a210b;
+	padding: 8px;
+	text-align: center;
 }
-.tablaDatos td{
+
+.tablaDatos td {
 	border: 1px solid black;
-    padding: 8px;
-    text-align: center;
-     font-weight: bold;
+	padding: 8px;
+	text-align: center;
+	font-weight: bold;
 }
 
 /* Hover sobre filas */
 .tablaDatos tbody tr:hover {
-    background-color: #f2f2f2;
-    cursor: pointer;
+	background-color: #f2f2f2;
+	cursor: pointer;
 }
 
-
-	
 /* Nombre clicable */
 .nombreEventoLink {
-    color: #0d6efd;
-    text-decoration: underline;
+	color: #0d6efd;
+	text-decoration: underline;
 }
+
 .nombreEventoLink:hover {
-    color: #084298;
+	color: #084298;
 }
 
 /* Media queries para hacer la tabla responsive */
 @media screen and (max-width: 1200px) {
-    .tablaDatos {
-        font-size: 1.6vw;
-    }
+	.tablaDatos {
+		font-size: 1.6vw;
+	}
 }
 
 @media screen and (max-width: 992px) {
-    .tablaDatos {
-        font-size: 1.6vw;
-    }
-    .tablaDatos th, .tablaDatos td {
-        padding: 6px;
-    }
+	.tablaDatos {
+		font-size: 1.6vw;
+	}
+	.tablaDatos th, .tablaDatos td {
+		padding: 6px;
+	}
 }
 
 @media screen and (max-width: 768px) {
-    .tablaDatos {
-        font-size: 1.6vw;
-    }
-    .tablaDatos th, .tablaDatos td {
-        padding: 4px;
-    }
+	.tablaDatos {
+		font-size: 1.6vw;
+	}
+	.tablaDatos th, .tablaDatos td {
+		padding: 4px;
+	}
 }
 
 @media screen and (max-width: 576px) {
-    .tablaDatos {
-        font-size: 1.8vw; /* tamaño mínimo legible */
-    }
-    .tablaDatos th, .tablaDatos td {
-        padding: 3px;
-    }
+	.tablaDatos {
+		font-size: 1.8vw; /* tamaño mínimo legible */
+	}
+	.tablaDatos th, .tablaDatos td {
+		padding: 3px;
+	}
 }
 
 /* TARJETAS USUARIOS */
-
 .tarjeta-contenedor {
 	background-color: black;
 	width: 48vw;
 	max-width: 48vw;
 	margin: 2.5vw auto;
 	border-radius: 2vw;
-	box-shadow:
-		0 0.3vw 0.6vw rgba(193, 0, 0, 0.6),
-		0 1vw 2vw rgba(193, 0, 0, 0.45),
-		0 0 0 0.2vw rgba(193, 0, 0, 0.35);
-
+	box-shadow: 0 0.3vw 0.6vw rgba(193, 0, 0, 0.6), 0 1vw 2vw
+		rgba(193, 0, 0, 0.45), 0 0 0 0.2vw rgba(193, 0, 0, 0.35);
 	padding: 2.2vw;
 	text-align: center;
 	border: 0.1vw solid #2e2e2e;
@@ -1496,22 +1349,23 @@ button.paginacion{
 
 .tarjeta-imagen {
 	width: 14vw;
-    height: 12vw;
-    border-radius: 25%;     
-    overflow: hidden;       
-    border: 0.4vw solid #c10000;
-    margin: 0.1vw auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
+	height: 12vw;
+	border-radius: 25%;
+	overflow: hidden;
+	border: 0.4vw solid #c10000;
+	margin: 0.1vw auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #fff;
 }
 
 .tarjeta-imagen img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
 }
+
 .tarjeta-estado {
 	font-size: 1.2vw;
 	font-weight: bold;
@@ -1537,7 +1391,6 @@ button.paginacion{
 	margin: 2.5vw 0;
 }
 
-
 .tarjeta-estadistica {
 	background-color: #2e2e2e;
 	padding: 1vw;
@@ -1559,8 +1412,6 @@ button.paginacion{
 	padding: 2.5vw;
 	margin-top: -1.8vw;
 	margin-bottom: -1vw;
-
-
 }
 
 .tarjeta-icono {
@@ -1570,30 +1421,27 @@ button.paginacion{
 	object-fit: cover;
 	border: 0.3vw solid rgb(192, 192, 192);
 	background-color: #fff;
-
 }
 
-
 .tarjeta-imagen-grande {
-    width: 85%;
-    height: 14vw;
-    border-radius: 1vw;
-    overflow: hidden;           
-    border: 0.3vw solid #1abc5b; 
-    margin-bottom: 1.6vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;      
+	width: 85%;
+	height: 14vw;
+	border-radius: 1vw;
+	overflow: hidden;
+	border: 0.3vw solid #1abc5b;
+	margin-bottom: 1.6vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #fff;
 }
 
 /* Imagen dentro del contenedor */
 .tarjeta-imagen-grande img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;         
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
 }
-
 
 .tarjeta-header-instalacion {
 	text-align: left;
@@ -1621,78 +1469,62 @@ button.paginacion{
 	text-align: left;
 }
 
-@media (max-width : 768px) {
-	
-	
-	.tarjeta-estadistica{
-	font-size: 1.6vw;}
-	
-	.tarjeta-estadisticas{
-	font-size: 3vw;
+@media ( max-width : 768px) {
+	.tarjeta-estadistica {
+		font-size: 1.6vw;
 	}
-	.tarjeta-info{
-	font-size:1.6vw;
+	.tarjeta-estadisticas {
+		font-size: 3vw;
 	}
-	
-	.tarjeta-contenedor{
-	width:60vw;
-	max-width: 60vw;
+	.tarjeta-info {
+		font-size: 1.6vw;
 	}
-	
-	.tarjeta-imagen{
-	width: 12.5vw;
-	height: 12.5vw;
+	.tarjeta-contenedor {
+		width: 60vw;
+		max-width: 60vw;
 	}
-	
-	.tarjeta-nombre{
-	font-size: 2vw;
+	.tarjeta-imagen {
+		width: 12.5vw;
+		height: 12.5vw;
 	}
-	
-	.tarjeta-alias{
-	font-size: 2vw;
+	.tarjeta-nombre {
+		font-size: 2vw;
 	}
-	
-	.tarjeta-estado{
-	font-size: 2vw;
+	.tarjeta-alias {
+		font-size: 2vw;
 	}
-	
+	.tarjeta-estado {
+		font-size: 2vw;
+	}
 }
 
-@media (max-width: 600px) {
-	
-	
-	.tarjeta-estadistica{
-	font-size: 1.6vw;}
-	
-	.tarjeta-estadisticas{
-	font-size: 3vw;
+@media ( max-width : 600px) {
+	.tarjeta-estadistica {
+		font-size: 1.6vw;
 	}
-	.tarjeta-info{
-	font-size:1.6vw;
+	.tarjeta-estadisticas {
+		font-size: 3vw;
 	}
-	
-	.tarjeta-contenedor{
-	width:60vw;
-	max-width: 60vw;
+	.tarjeta-info {
+		font-size: 1.6vw;
 	}
-	
-	.tarjeta-imagen{
-	width: 12.5vw;
-	height: 12.5vw;
+	.tarjeta-contenedor {
+		width: 60vw;
+		max-width: 60vw;
 	}
-	
-	.tarjeta-nombre{
-	font-size: 2vw;
+	.tarjeta-imagen {
+		width: 12.5vw;
+		height: 12.5vw;
 	}
-	
-	.tarjeta-alias{
-	font-size: 2vw;
+	.tarjeta-nombre {
+		font-size: 2vw;
 	}
-	
-	.tarjeta-estado{
-	font-size: 2vw;
+	.tarjeta-alias {
+		font-size: 2vw;
 	}
-	
+	.tarjeta-estado {
+		font-size: 2vw;
+	}
 }
 
 /* ACTA */
@@ -1708,15 +1540,12 @@ button.paginacion{
 	margin-bottom: 15px
 }
 
-
-
-
 /* TORNEO */
 .contenedorTorneo {
 	position: relative;
 	min-height: 100vh;
 	max-width: 100vw;
-	margin: 0 auto;
+	margin: 0;
 	padding: 2vw;
 	background-image: url('../Imagenes/copa.JPG');
 	background-size: cover;
@@ -1735,8 +1564,6 @@ button.paginacion{
 	right: 0;
 	bottom: 0;
 	background-color: rgba(255, 255, 255, 0.32);
-	/* blanco semitransparente */
-	/* puedes usar negro u otro color cambiando los valores rgba */
 	z-index: -1;
 }
 
@@ -1756,11 +1583,7 @@ button.paginacion{
 	user-select: none;
 	text-align: center;
 	font-style: italic;
-
 }
-
-
-
 
 .filaTorneo {
 	display: flex;
@@ -1770,32 +1593,10 @@ button.paginacion{
 
 .columnaTorneo {
 	display: grid;
-	grid-template-rows: repeat(7, minmax(6vh, 10vh));
+	grid-template-rows: repeat(7, minmax(6vh, auto));
 	/* más flexible */
 	gap: 1vh;
 	width: 13vw;
-}
-
-@media (max-width : 768px) {
-	.columnaTorneo {
-		grid-template-rows: repeat(7, minmax(4vh, 8vh));
-		/* más estrechas aún */
-		width: 20vw;
-		/* ligeramente más ancha para que no se aplaste el texto */
-	}
-
-	.casillaPartido {
-		font-size: 1.8vw;
-		padding: 1vw;
-	}
-
-	.casillaPartido small {
-		font-size: 1.5vw;
-	}
-
-	.tituloTorneo {
-		font-size: 4vw;
-	}
 }
 
 .casillaPartido {
@@ -1809,7 +1610,7 @@ button.paginacion{
 	flex-direction: column;
 	justify-content: center;
 	font-weight: 600;
-	font-size: 0.9vw;
+	font-size: 1vw;
 	color: #ecf0f1;
 	user-select: none;
 	transition: transform 0.2s, background-color 0.2s;
@@ -1822,7 +1623,6 @@ button.paginacion{
 	justify-content: center;
 	align-items: center;
 }
-
 
 .casillaPartido:hover {
 	transform: scale(1.03);
@@ -1839,7 +1639,6 @@ button.paginacion{
 /* Colores de cada fase */
 .casillaPartido[data-id^="octavos"] {
 	background-color: #0B3D0B;
-
 	;
 	/* verde oscuro */
 }
@@ -1862,8 +1661,6 @@ button.paginacion{
 	background-color: #8C4A2F;
 }
 
-
-
 .contenedorTablas {
 	display: flex;
 	justify-content: space-around;
@@ -1873,8 +1670,7 @@ button.paginacion{
 	margin-top: 3vw;
 }
 
-.tablaEquipos,
-.tablaGoleadores {
+.tablaEquipos, .tablaGoleadores {
 	flex: 1 1 40%;
 	background-color: rgba(255, 255, 255, 0.96);
 	border-radius: 1vw;
@@ -1886,24 +1682,20 @@ button.paginacion{
 	/* equivalente a ~280px en pantallas grandes */
 }
 
-.tablaEquipos h3,
-.tablaGoleadores h3 {
+.tablaEquipos h3, .tablaGoleadores h3 {
 	text-align: center;
 	font-size: 1.6vw;
 	margin-bottom: 1vw;
 	color: #34495e;
 }
 
-.tablaEquipos table,
-.tablaGoleadores table {
+.tablaEquipos table, .tablaGoleadores table {
 	width: 100%;
 	border-collapse: collapse;
 }
 
-.tablaEquipos th,
-.tablaEquipos td,
-.tablaGoleadores th,
-.tablaGoleadores td {
+.tablaEquipos th, .tablaEquipos td, .tablaGoleadores th,
+	.tablaGoleadores td {
 	padding: 0.8vw;
 	text-align: center;
 	border-bottom: 0.1vw solid #bdc3c7;
@@ -1933,7 +1725,8 @@ button.botonVolver {
 	background-color: #D3D3D3;
 	color: black;
 	font-size: 1vw;
-	box-shadow: 0vw 0.2vw 0.4vw rgba(0, 64, 0, 0.4), 0vw -0.2vw 0.4vw rgba(0, 64, 0, 0.10);
+	box-shadow: 0vw 0.2vw 0.4vw rgba(0, 64, 0, 0.4), 0vw -0.2vw 0.4vw
+		rgba(0, 64, 0, 0.10);
 	font-size: 1.2vw;
 	width: 8vw;
 	height: 2.5vw;
@@ -1946,340 +1739,352 @@ button.botonVolver {
 	justify-content: center;
 	align-items: left;
 	transition: background-color 0.3s ease, color 0.3s ease;
-
 }
 
 button.botonVolver:hover {
 	background-color: #B0B0B0;
-
-}
-
-
-
-
-/* MI CLUB JUGADOR */
-
-/* Contenedor principal de la tarjeta */
-.tarjetaMiClubJugador {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f8f9fa;
-    padding: 1.5vw;
-    margin-bottom: 2vw;
-    border-radius: 1vw;
-    box-shadow: 0 0.3vw 1vw rgba(0, 0, 255, 0.5);
-    width: 95vw;
-    max-width: 1200px;
-}
-
-/* Contenedor izquierdo (logo + info) */
-.izquierdaMiClubJugador {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 2vw;
-    flex: 1 1 auto; /* Escalable */
-}
-
-/* Logo del club */
-.logoMiClubJugador {
-    width: 12vw;
-    height: 12vw;
-    max-width: 150xp;
-    max-height: 150px;
-    border-radius: 5%;
-    box-shadow: 0 0.2vw 0.5vw rgba(0,0,0,0.2);
-    flex-shrink: 0;
-}
-
-/* Información del club */
-.infoMiClubJugador {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Centrado vertical */
-    gap: 0.5vw;
-    flex-grow: 1; /* Ocupa todo el espacio disponible */
-}
-
-/* Nombre y abreviatura */
-.nombreMiClubJugador {
-    font-size: 2vw;
-    font-weight: bold;
-}
-
-/* Localidad y país */
-.localidadMiClubJugador {
-    font-size: 1.5vw;
-}
-
-/* Descripción del club */
-.descripcionMiClubJugador {
-    font-size: 1.2vw;
-    color: #555;
-}
-
-/* Contenedor de botones (derecha) */
-.botonesMiClubJugador {
-    display: flex;
-    flex-direction: column; 
-    gap: 1vw;
-    min-width: 12vw;
-    flex-shrink: 0;
-    justify-content: center; 
-}
-
-/* Botones */
-.botonMiClubJugador {
-    padding: 0.8vw 1.5vw;
-    font-size: 1.2vw;
-    border: none;
-    border-radius: 0.5vw;
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.2s;
-}
-
-.botonMiClubJugador:hover {
-    transform: scale(1.05);
-}
-
-.botonVerMiClubJugador {
-    background-color: #0d6ba1;
-    color: white;
-}
-
-.botonVerMiClubJugador:hover {
-    background-color: #0056b3;
-}
-
-.botonSalirMiClubJugador {
-    background-color: #c33214;
-    color: white;
-}
-
-.botonSalirMiClubJugador:hover {
-    background-color: #9b0000;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 1024px) {
-    .logoMiClubJugador {
-        width: 15vw;
-        height: 15vw;
-    }
-    .nombreMiClubJugador {
-        font-size: 3vw;
-    }
-    .localidadMiClubJugador {
-        font-size: 2.2vw;
-    }
-    .descripcionMiClubJugador {
-        font-size: 2vw;
-    }
-    .botonMiClubJugador {
-        font-size: 2vw;
-        padding: 1vw 2vw;
-    }
 }
 
 @media (max-width: 768px) {
-    .tarjetaMiClubJugador {
-        width: 100vw;
-    }
-    .botonesMiClubJugador {
-        gap: 0.8vw;
-    }
-    .botonMiClubJugador {
-        font-size: 2.5vw;
-        padding: 1.2vw 2vw;
-    }
-}
 
-/* Modal backdrop */
-.modalMiClubJugador {
-    display: none;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: auto;
-    z-index: 10001; /* mayor que el footer (9999) y otros elementos */
-}
-
-/* Modal content */
-.modal-contentMiClubJugador {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 1200px;
-    max-height: 90%;
-    overflow: auto;
-    box-shadow: 0 0 15px rgba(0,0,0,0.5);
-    position: relative;
-}
-
-/* Cerrar modal */
-.cerrarModalMiClubJugador {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-/* Scroll horizontal para tablas grandes */
-.tabla-container {
-    width: 100%;
-    overflow-x: auto;
-}
-
-.tablaDatosListaMarcadores {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.tablaDatosListaMarcadores th,
-.tablaDatosListaMarcadores td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: center;
-    
-}
-.tablaDatosListaMarcadores td{
-border:0.5px solid #8a210b;
-}
-
-.tablaDatosListaMarcadores th {
-    background-color: #333;
-    color: #fff;
-    border: 1.5px solid red;
-}
-
-
-/* Botón volver */
-.botonCerrarModal {
-    margin-top: 15px;
-    padding: 10px 20px;
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    float: right;
-    margin-right:1vw;
-    margin-top:1.6vw;
-    
-}
-
-
-.botonCerrarModal:hover {
-    background-color: #c0392b;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-    .modal-contentMiClubJugador {
-        width: 95%;
-        padding: 10px;
+    /* Tamaño del título */
+    .tituloTorneo {
+        font-size: 4vw;
     }
 
-    .tablaDatosListaMarcadores th,
-    .tablaDatosListaMarcadores td {
-        font-size: 12px;
-        padding: 6px;
+    /* Letras de las tablas */
+    .tablaEquipos th, .tablaEquipos td,
+    .tablaGoleadores th, .tablaGoleadores td {
+        font-size: 1.6vw;
+    }
+
+    /* Casillas del torneo */
+    .casillaPartido {
+        font-size: 1.6vw;
+        padding: 1vw; /* ajusta el padding según convenga */
+    }
+
+    .casillaPartido small {
+        font-size: 1.5vw;
+    }
+}
+@media (max-width: 956px) {
+
+    /* Tamaño del título */
+    .tituloTorneo {
+        font-size: 4vw;
+    }
+
+    /* Letras de las tablas */
+    .tablaEquipos th, .tablaEquipos td,
+    .tablaGoleadores th, .tablaGoleadores td {
+        font-size: 1.6vw;
+    }
+
+    /* Casillas del torneo */
+    .casillaPartido {
+        font-size: 1.4vw;
+        padding: 1vw; /* ajusta el padding según convenga */
+    }
+
+    .casillaPartido small {
+        font-size: 1.5vw;
     }
 }
 
-/* EVENTO JUGADOR */
+	/* MI CLUB JUGADOR */
 
+	/* Contenedor principal de la tarjeta */
+	.tarjetaMiClubJugador {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		justify-content: space-between;
+		align-items: center;
+		background-color: #f8f9fa;
+		padding: 1.5vw;
+		margin-bottom: 2vw;
+		border-radius: 1vw;
+		box-shadow: 0 0.3vw 1vw rgba(0, 0, 255, 0.5);
+		width: 95vw;
+		max-width: 1200px;
+	}
 
+	/* Contenedor izquierdo (logo + info) */
+	.izquierdaMiClubJugador {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 2vw;
+		flex: 1 1 auto; /* Escalable */
+	}
 
+	/* Logo del club */
+	.logoMiClubJugador {
+		width: 12vw;
+		height: 12vw;
+		max-width: 150xp;
+		max-height: 150px;
+		border-radius: 5%;
+		box-shadow: 0 0.2vw 0.5vw rgba(0, 0, 0, 0.2);
+		flex-shrink: 0;
+	}
 
+	/* Información del club */
+	.infoMiClubJugador {
+		display: flex;
+		flex-direction: column;
+		justify-content: center; /* Centrado vertical */
+		gap: 0.5vw;
+		flex-grow: 1; /* Ocupa todo el espacio disponible */
+	}
 
-/* OTROS */
+	/* Nombre y abreviatura */
+	.nombreMiClubJugador {
+		font-size: 2vw;
+		font-weight: bold;
+	}
 
+	/* Localidad y país */
+	.localidadMiClubJugador {
+		font-size: 1.5vw;
+	}
 
-.seccion-bloqueada {
-    position: relative;
-    color: gray !important;
-    cursor: not-allowed;
-    text-decoration: none;
-}
+	/* Descripción del club */
+	.descripcionMiClubJugador {
+		font-size: 1.2vw;
+		color: #555;
+	}
 
-/* El tooltip inicialmente oculto */
-.seccion-bloqueada .tooltip-text {
-    visibility: hidden;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    border-radius: 5px;
-    padding: 4px 8px;
-    position: absolute;
-    bottom: 120%; /* aparece arriba del enlace */
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    font-size: 0.8rem;
-    opacity: 0;
-    transition: opacity 0.3s;
-    z-index: 10;
-}
+	/* Contenedor de botones (derecha) */
+	.botonesMiClubJugador {
+		display: flex;
+		flex-direction: column;
+		gap: 1vw;
+		min-width: 12vw;
+		flex-shrink: 0;
+		justify-content: center;
+	}
 
-.en-desarrollo {
-    position: relative;
-    opacity: 0.6;
-    filter: grayscale(35%);
-    cursor: not-allowed;
-    pointer-events: none;
-}
+	/* Botones */
+	.botonMiClubJugador {
+		padding: 0.8vw 1.5vw;
+		font-size: 1.2vw;
+		border: none;
+		border-radius: 0.5vw;
+		cursor: pointer;
+		transition: background-color 0.2s, transform 0.2s;
+	}
+	.botonMiClubJugador:hover {
+		transform: scale(1.05);
+	}
+	.botonVerMiClubJugador {
+		background-color: #0d6ba1;
+		color: white;
+	}
+	.botonVerMiClubJugador:hover {
+		background-color: #0056b3;
+	}
+	.botonSalirMiClubJugador {
+		background-color: #c33214;
+		color: white;
+	}
+	.botonSalirMiClubJugador:hover {
+		background-color: #9b0000;
+	}
 
-.badge-desarrollo {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    background: #ff9800;
-    color: white;
-    font-size: 1.2vw;
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-weight: bold;
-}
+	/* ===== RESPONSIVE ===== */
+	@media ( max-width : 1024px) {
+		.logoMiClubJugador {
+			width: 15vw;
+			height: 15vw;
+		}
+		.nombreMiClubJugador {
+			font-size: 3vw;
+		}
+		.localidadMiClubJugador {
+			font-size: 2.2vw;
+		}
+		.descripcionMiClubJugador {
+			font-size: 2vw;
+		}
+		.botonMiClubJugador {
+			font-size: 2vw;
+			padding: 1vw 2vw;
+		}
+	}
+	@media ( max-width : 768px) {
+		.tarjetaMiClubJugador {
+			width: 100vw;
+		}
+		.botonesMiClubJugador {
+			gap: 0.8vw;
+		}
+		.botonMiClubJugador {
+			font-size: 2.5vw;
+			padding: 1.2vw 2vw;
+		}
+	}
 
+	/* Modal backdrop */
+	.modalMiClubJugador {
+		display: none;
+		position: fixed;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.6);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow: auto;
+		z-index: 10001; /* mayor que el footer (9999) y otros elementos */
+	}
 
-/* Mostrar el tooltip al pasar el mouse */
-.seccion-bloqueada:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
-}
+	/* Modal content */
+	.modal-contentMiClubJugador {
+		background-color: #fff;
+		padding: 20px;
+		border-radius: 10px;
+		width: 90%;
+		max-width: 1200px;
+		max-height: 90%;
+		overflow: auto;
+		box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+		position: relative;
+	}
 
+	/* Cerrar modal */
+	.cerrarModalMiClubJugador {
+		position: absolute;
+		top: 10px;
+		right: 15px;
+		font-size: 24px;
+		cursor: pointer;
+	}
 
-.premium-badge {
-	display: flex;
-	align-items: center;
-	background: linear-gradient(90deg, #FFD700, #FFA500);
-	padding: 0.3vw 0.8vw;
-	font-weight: bold;
-	color: white;
-	font-size: 1.1vw;
-	box-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
-	animation: glow 2s infinite alternate;
-}
+	/* Scroll horizontal para tablas grandes */
+	.tabla-container {
+		width: 100%;
+		overflow-x: auto;
+	}
+	.tablaDatosListaMarcadores {
+		width: 100%;
+		border-collapse: collapse;
+	}
+	.tablaDatosListaMarcadores th, .tablaDatosListaMarcadores td {
+		border: 1px solid #ccc;
+		padding: 8px;
+		text-align: center;
+	}
+	.tablaDatosListaMarcadores td {
+		border: 0.5px solid #8a210b;
+	}
+	.tablaDatosListaMarcadores th {
+		background-color: #333;
+		color: #fff;
+		border: 1.5px solid red;
+	}
 
-.premium-badge svg {
-	margin-right: 0.3vw;
-	width: 1.2vw;
-	height: 1.2vw;
-	animation: spin 8s linear infinite;
-}
+	/* Botón volver */
+	.botonCerrarModal {
+		margin-top: 15px;
+		padding: 10px 20px;
+		background-color: #e74c3c;
+		color: white;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		float: right;
+		margin-right: 1vw;
+		margin-top: 1.6vw;
+	}
+	.botonCerrarModal:hover {
+		background-color: #c0392b;
+	}
 
+	/* Responsive */
+	@media ( max-width : 600px) {
+		.modal-contentMiClubJugador {
+			width: 95%;
+			padding: 10px;
+		}
+		.tablaDatosListaMarcadores th, .tablaDatosListaMarcadores td {
+			font-size: 12px;
+			padding: 6px;
+		}
+	}
+
+	/* EVENTO JUGADOR */
+
+	/* OTROS */
+	.seccion-bloqueada {
+		position: relative;
+		color: gray !important;
+		cursor: not-allowed;
+		text-decoration: none;
+	}
+
+	/* El tooltip inicialmente oculto */
+	.seccion-bloqueada .tooltip-text {
+		visibility: hidden;
+		background-color: #333;
+		color: #fff;
+		text-align: center;
+		border-radius: 5px;
+		padding: 4px 8px;
+		position: absolute;
+		bottom: 120%; /* aparece arriba del enlace */
+		left: 50%;
+		transform: translateX(-50%);
+		white-space: nowrap;
+		font-size: 0.8rem;
+		opacity: 0;
+		transition: opacity 0.3s;
+		z-index: 10;
+	}
+	.en-desarrollo {
+		position: relative;
+		opacity: 0.6;
+		filter: grayscale(35%);
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+	.badge-desarrollo {
+		position: absolute;
+		bottom: 8px;
+		right: 8px;
+		background: #ff9800;
+		color: white;
+		font-size: 1.2vw;
+		padding: 4px 8px;
+		border-radius: 12px;
+		font-weight: bold;
+	}
+
+	/* Mostrar el tooltip al pasar el mouse */
+	.seccion-bloqueada:hover .tooltip-text {
+		visibility: visible;
+		opacity: 1;
+	}
+	.premium-badge {
+		display: flex;
+		align-items: center;
+		background: linear-gradient(90deg, #FFD700, #FFA500);
+		padding: 0.3vw 0.8vw;
+		font-weight: bold;
+		color: white;
+		font-size: 1.1vw;
+		box-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
+		animation: glow 2s infinite alternate;
+	}
+	.premium-badge svg {
+		margin-right: 0.3vw;
+		width: 1.2vw;
+		height: 1.2vw;
+		animation: spin 8s linear infinite;
+	}
 @keyframes glow {
 	0% {
 		box-shadow: 0 0 5px rgba(255, 215, 0, 0.7);

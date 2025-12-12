@@ -32,30 +32,17 @@ public class JugadorEstadisticaGlobalControlador extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
-        String idParam = request.getParameter("id");
-
-        // Validación: debe existir sesión y debe tener usuarioId o clubId
-        if (session == null ||
-            (session.getAttribute("usuarioId") == null && session.getAttribute("clubId") == null)) {
-
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            response.setContentType("text/plain; charset=UTF-8");
-            response.getWriter().write("Acceso denegado. Debe iniciar sesión.");
-            return;
-        }
-
         try {
             Object resultado;
             ObjectMapper objectMapper = new ObjectMapper();
+            String idParam = request.getParameter("id");
 
             if (idParam != null) {
                 // Mostrar estadísticas de un jugador concreto
                 Long jugadorId = Long.parseLong(idParam);
                 resultado = jugadorEstadisticaGlobalServicio.obtenerJugadorEstadisticasGlobal(jugadorId);
-
             } else {
-                // Mostrar TODOS los jugadores SIEMPRE (usuario normal o club)
+                // Mostrar TODOS los jugadores
                 String jsonLista = jugadorEstadisticaGlobalServicio.obtenerTodosJugadorEstadisticasGlobal();
                 resultado = objectMapper.readValue(jsonLista, JugadorEstadisticaGlobalDto[].class);
             }
