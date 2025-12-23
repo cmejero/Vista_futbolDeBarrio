@@ -372,43 +372,7 @@ public class TorneoServicio {
 	}
 
 	// ---------- Métodos auxiliares ----------
-	/**
-	 * Crea una ronda de partidos y les asigna fechas válidas automáticamente.
-	 */
-	private List<PartidoTorneoDto> crearRondaConFechas(Long torneoId, String ronda, List<PartidoTorneoDto> prev,
-			int cantidad, PartidoTorneoServicio servicio, Map<Long, Long> flujo, LocalDate inicioSemana,
-			List<LocalDateTime> fechasUsadas) throws Exception {
 
-		List<PartidoTorneoDto> nueva = new ArrayList<>();
-
-		// Determinar el inicio de la semana según la última fecha usada
-		if (!fechasUsadas.isEmpty()) {
-			LocalDate ultimaFecha = fechasUsadas.stream().map(LocalDateTime::toLocalDate).max(LocalDate::compareTo)
-					.orElse(inicioSemana);
-			// La semana siguiente comienza 7 días después del lunes de la última fecha
-			// usada
-			inicioSemana = ultimaFecha.plusWeeks(1).with(java.time.DayOfWeek.MONDAY);
-		}
-
-		for (int i = 0; i < cantidad; i++) {
-			PartidoTorneoDto p = crearPartidoBase(torneoId, ronda, i + 1);
-
-			LocalDateTime fecha = asignarFechaPartido(fechasUsadas, inicioSemana);
-			p.setFechaPartido(fecha.format(FORMATO_FECHA));
-
-			Long id = servicio.guardarPartido(p);
-			p.setIdPartidoTorneo(id);
-			nueva.add(p);
-
-			// Asociar partidos de la ronda anterior al nuevo partido
-			if (prev != null && i * 2 + 1 < prev.size()) {
-				flujo.put(prev.get(i * 2).getIdPartidoTorneo(), id);
-				flujo.put(prev.get(i * 2 + 1).getIdPartidoTorneo(), id);
-			}
-		}
-
-		return nueva;
-	}
 
 	/**
 	 * Genera fecha y hora para un partido de manera aleatoria dentro del rango

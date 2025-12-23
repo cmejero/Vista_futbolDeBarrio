@@ -178,8 +178,8 @@
 										</div>
 
 										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES<span class="tooltip-text">Sección en
-													desarrollo</span></a>
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES<span
+												class="tooltip-text">Sección en desarrollo</span></a>
 										</div>
 									</div>
 								</div>
@@ -189,16 +189,15 @@
 										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
 											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo">MARCADORES</a>
 										</div>
-										<div
-											class="col-sm-6 col-md-6 cabeceraAbajo  ">
-											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span class="tooltip-text">Sección en
-													desarrollo</span></a>
+										<div class="col-sm-6 col-md-6 cabeceraAbajo  ">
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span
+												class="tooltip-text">Sección en desarrollo</span></a>
 										</div>
 
 									</div>
 								</div>
 
-								
+
 
 								<!-- columna derecha -->
 								<div class="col-sm-2 col-md-2 ">
@@ -219,16 +218,16 @@
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white; background-color: #005500;">Idioma<span class="tooltip-text">Sección en
-													desarrollo</span>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white; background-color: #005500;">Idioma<span
+															class="tooltip-text">Sección en desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white;">Ayuda <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white;">Configuración <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Ayuda <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Configuración <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
 
 												</ul>
 											</div>
@@ -269,7 +268,8 @@
 										<div
 											class="d-sm-none d-md-none col-4 d-block cabeceraMedio  d-flex justify-content-center align-items-center">
 											<a href="Registrar.jsp">
-												<button type="button" class="botonRegistrarCabecera" style="font-size:1.6vw">REGISTRARSE</button>
+												<button type="button" class="botonRegistrarCabecera"
+													style="font-size: 1.6vw">REGISTRARSE</button>
 											</a>
 										</div>
 
@@ -375,7 +375,7 @@
 			<div class="row carousel-container  " style="">
 				<div
 					class="col-md-12 col-sm-12 col-12  border-1 border-light  border-2 carouselCMR"
-					style="width: 98%">
+					style="width: 100%">
 					<div id="demo" class="carousel slide" data-bs-ride="carousel"
 						data-bs-wrap="true">
 						<div class="carousel-indicators">
@@ -422,24 +422,107 @@
 		</div>
 
 		<div class="container-fluid mt-5">
-			<img src="Imagenes/index1.png" alt="Nueva York" class="d-block w-100">
+			<img src="Imagenes/cuerpoIndex.png" alt="Nueva York"
+				class="d-block w-100">
 		</div>
 
-
 		<div class="container-fluid">
-			<img src="Imagenes/index2.png" alt="Nueva York" class="d-block w-100">
+    <div class="row justify-content-center indexRegisPrem py-5 gap-4">
 
-		</div>
+        <div class="col-5 col-sm-5 col-10 p-5 m-4 indexRegis">
+            <p><b><u style="font-size: 3vw">¡Únete Gratis!</u></b></p>
+            <p>Regístrate ahora y comienza a disfrutar de nuestra plataforma de fútbol amateur:</p>
+            <p style="font-size: 1.6vw">Organiza y participa en torneos. Compara tus estadísticas. Conecta con otros jugadores.</p>
+            <a href="Registrar.jsp">
+                <button type="button" class="botonRegistrarCabecera p-2 mt-2">REGISTRARSE</button>
+            </a>
+        </div>
+
+        <div class="col-5 col-sm-5 col-10 p-5 m-4 indexPrem">
+            <p><b><u style="font-size: 3vw">¡Hazte Premium!</u></b></p>
+            <p>Accede a los beneficios exclusivos y futuras implementaciones para llevar tu experiencia al siguiente nivel:</p>
+            <p style="font-size: 1.6vw">Estadísticas globales y de todos los torneos que hayas participado.</p>
+            <a href="PagoPremium.jsp">
+                <button type="button" class="botonPremiumCabecera p-2 mt-2" title="Accede a todas las funciones premium y ventajas exclusivas">
+                    SUSCRIBCIÓN PREMIUM
+                </button>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+		<div class="container-fluid container-torneos mt-4">
 
 
-		<div class="container-fluid">
-			<img src="Imagenes/index3.png" alt="Nueva York" class="d-block w-100">
+			<section class="container my-5">
+
+
+				<h2 class="text-center mb-5">
+					<p style="font-size: 3vw; color: white">
+						🏆 <u><b><i>PRÓXIMOS EVENTOS</i></b></u>
+				</h2>
+				<div class="row justify-content-center g-4" id="contenedorTorneos"></div>
+
+			</section>
+
+
 		</div>
 
 
 		<div class="container-fluid mt-3">
-			<img src="Imagenes/index4.png" alt="Nueva York" class="d-block w-100">
+			<section class="container my-5">
+				<h2 class="text-center mb-5">
+				<p style="font-size: 3vw;">
+						► <u><b><i>PREGUNTAS FRECUENTES</i></b></u></h2>
+
+				<div class="pregunta-frecuente mb-2">
+					<button class="boton-pregunta ">¿Cómo puedo registrarme en
+						la plataforma?</button>
+					<div class="texto-pregunta" style="display: none;">Para
+						registrarte, haz click en "Regístrate", completa tus datos y
+						confirma tu correo.</div>
+				</div>
+
+				<div class="pregunta-frecuente mb-2">
+					<button class="boton-pregunta">¿Puedo participar en más de
+						un torneo?</button>
+					<div class="texto-pregunta" style="display: none;">Sí, puedes
+						inscribirte en varios torneos siempre que no haya conflicto de
+						horarios.</div>
+				</div>
+
+				<div class="pregunta-frecuente mb-2">
+					<button class="boton-pregunta">¿Es necesario pagar para
+						utilizar la plataforma?</button>
+					<div class="texto-pregunta" style="display: none;">No, puedes
+						realizar todas las acciones, aunque suscribirse como Premium te
+						dará ventajas</div>
+				</div>
+				<div class="pregunta-frecuente mb-2">
+					<button class="boton-pregunta">¿Cómo puedo inscribirme a
+						un torneo?</button>
+					<div class="texto-pregunta" style="display: none;">Para
+						acceder a un torneo debes primero crear o unirte a un club existente, desde ahí
+						podrás ver los torneos disponible e inscribirte.</div>
+				</div>
+
+				<div class="pregunta-frecuente mb-2">
+					<button class="boton-pregunta">¿Qué ventajas tiene una
+						cuenta premium?</button>
+					<div class="texto-pregunta" style="display: none;">Actualmente
+						puedes ver tus estadísticas globales y de cada torneo que participes al detalle. En un
+						futuro se implementará mas ventajas, como acceso a desafios, prioridad
+						en reservas y más cosas que estan por venir.</div>
+				</div>
+
+
+			</section>
+
+
 		</div>
+
+
 
 	</main>
 
@@ -628,6 +711,80 @@ Avenida mujer trabajadora
 
 
 	<script>
+	
+	window.onload = function () {
+	    cargarTorneosTarjetas();
+	};
+
+	function cargarTorneosTarjetas() {
+	    fetch("torneo")
+	        .then(response => response.json())
+	        .then(torneos => mostrarTorneosProximos(torneos))
+	        .catch(e => console.error("Error cargando torneos: ", e));
+	}
+
+	function mostrarTorneosProximos(torneos) {
+	    const contenedor = document.getElementById("contenedorTorneos");
+	    contenedor.innerHTML = "";
+
+	    if (!torneos || torneos.length === 0) {
+	        contenedor.innerHTML = "<p>No hay torneos disponibles.</p>";
+	        return;
+	    }
+
+	    const hoy = new Date();
+
+	    const torneosFiltrados = torneos
+	        .filter(t => {
+	            const inicio = new Date(t.fechaInicioTorneo);
+	            const completos = t.clubesInscritos === "16 / 16";
+	            return inicio > hoy && !completos;
+	        })
+	        .sort((a, b) => new Date(a.fechaInicioTorneo) - new Date(b.fechaInicioTorneo))
+	        .slice(0, 3);
+
+	    if (torneosFiltrados.length === 0) {
+	        contenedor.innerHTML = "<p>No hay torneos próximos disponibles.</p>";
+	        return;
+	    }
+
+	    torneosFiltrados.forEach(function (t) {
+	    
+	        var card = document.createElement("div");
+	        card.className = "col-sm-4 col-md-4 col-sm-11";
+
+	        card.innerHTML =
+	            '<div class="card h-100 shadow-sm torneo-card">' +
+	                '<div class="card-body d-flex flex-column">' +
+	                    '<h5 class="card-title">' + t.nombreTorneo + '</h5>' +
+	                    '<p class="text-muted mb-2">📅 ' + t.fechaInicioTorneo + '</p>' +
+	                    '<p>⚽ Modalidad: <strong>' + t.modalidad + '</strong></p>' +
+	                    '<p>📍 Instalación: ' + (t.nombreInstalacion || '-') + '</p>' +
+	                    '<p>👥 Inscritos: ' + (t.clubesInscritos || '0 / 0') + '</p>' +
+	                    '<div class="mt-auto">' +
+	                    '<a href="Inscribirse.jsp?id=' + t.idTorneo + 
+	                    '" class="btn w-100" style="background-color: white; color: #005900; border: 2px solid #005900; font-weight: bold;">' +
+	                        'Inscribirse' +
+	                    '</a>' +
+	                    '</div>' +
+	                '</div>' +
+	            '</div>';
+
+	        contenedor.appendChild(card);
+	    });
+	}
+
+	document.querySelectorAll('.boton-pregunta').forEach(function(boton) {
+	    boton.addEventListener('click', function() {
+	        const texto = this.nextElementSibling;
+	        if (texto.style.display === "none" || texto.style.display === "") {
+	            texto.style.display = "block";
+	        } else {
+	            texto.style.display = "none";
+	        }
+	    });
+	});
+
 		function abrirGmail() {
 			const email = "futboldebarriosevilla@gmail.com";
 			const subject = "Titulo del Asunto: ";

@@ -632,7 +632,7 @@ if (esPremium == null)
 			<table class="tablaDatosListaMarcadores tablaPremium mb-4">
 				<thead>
 					<tr>
-						<th style="width: 16%">Tipo Evento</th>
+						<th style="width: 16%">Evento</th>
 						<th style="width: 8%">PJ</th>
 						<th style="width: 8%">G</th>
 						<th style="width: 8%">A</th>
@@ -671,7 +671,7 @@ if (esPremium == null)
 			<table class="tablaDatosListaMarcadores tablaPremium mb-4">
 				<thead>
 					<tr>
-						<th style="width: 12%">Tipo Evento</th>
+						<th style="width: 12%">Evento</th>
 						<th style="width: 20%">Club</th>
 						<th style="width: 20%">Nombre Evento</th>
 						<th style="width: 5%">PJ</th>
