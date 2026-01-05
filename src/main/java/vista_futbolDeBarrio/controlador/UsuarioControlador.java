@@ -194,7 +194,7 @@ public class UsuarioControlador extends HttpServlet {
         usuarioModificado.setEstadoUsuario(estado);
         usuarioModificado.setImagenUsuario(imagenBytes);
 
-        boolean actualizado = servicio.modificarUsuario(idUsuarioForm, usuarioModificado);
+        boolean actualizado = servicio.modificarUsuario(request, idUsuarioForm, usuarioModificado);
 
         if (actualizado) {
             Log.ficheroLog("Usuario modificado: id=" + idUsuarioForm + ", alias=" + alias );
@@ -238,7 +238,7 @@ public class UsuarioControlador extends HttpServlet {
 
         if (idParam != null && !idParam.isEmpty()) {
             Long idUsuario = Long.parseLong(idParam);
-            UsuarioDto usuario = servicio.obtenerUsuario(idUsuario);
+            UsuarioDto usuario = servicio.obtenerUsuario(request, idUsuario);
             if (usuario != null) {
                 response.getWriter().write(objectMapper.writeValueAsString(usuario));
             } else {
@@ -247,7 +247,7 @@ public class UsuarioControlador extends HttpServlet {
                 Log.ficheroLog("Usuario no encontrado: id=" + idUsuario);
             }
         } else {
-            ArrayList<UsuarioDto> listaUsuario = servicio.obtenerUsuarios();
+            ArrayList<UsuarioDto> listaUsuario = servicio.obtenerUsuarios(request);
             response.getWriter().write(objectMapper.writeValueAsString(listaUsuario));
         }
 
@@ -297,7 +297,7 @@ public class UsuarioControlador extends HttpServlet {
             }
 
             Long idUsuario = Long.parseLong(idUsuarioParam);
-            boolean eliminado = servicio.eliminarUsuario(idUsuario);
+            boolean eliminado = servicio.eliminarUsuario(idUsuario, request);
 
             if (eliminado) {
                 Log.ficheroLog("Usuario eliminado: id=" + idUsuario);
@@ -327,7 +327,7 @@ public class UsuarioControlador extends HttpServlet {
     	}
 
     	Long jugadorId = (Long) session.getAttribute("usuarioId");
-    	boolean actualizado = servicio.marcarPremium(jugadorId);
+    	boolean actualizado = servicio.marcarPremium(jugadorId, request);
 
     	if (actualizado) {
     	    session.setAttribute("esPremium", true);

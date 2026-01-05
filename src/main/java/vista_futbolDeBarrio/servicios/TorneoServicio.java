@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -23,6 +24,8 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import vista_futbolDeBarrio.dtos.EquipoTorneoDto;
 import vista_futbolDeBarrio.dtos.PartidoTorneoDto;
 import vista_futbolDeBarrio.dtos.TorneoDto;
@@ -38,37 +41,61 @@ public class TorneoServicio {
 	private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 	// ---------- CRUD Torneo ----------
-	public void guardarTorneo(TorneoDto torneo) {
-		try {
-			JSONObject json = crearJsonTorneo(torneo);
-			ejecutarPost("http://localhost:9527/api/guardarTorneo", json);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void guardarTorneo(TorneoDto torneo, HttpServletRequest request) {
+	    try {
+	        JSONObject json = crearJsonTorneo(torneo);
+	        ejecutarPost("http://localhost:9527/api/guardarTorneo", json, request);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 
-	public boolean modificarTorneo(long idTorneo, TorneoDto torneo) {
-		try {
-			JSONObject json = crearJsonTorneo(torneo);
-			return ejecutarPut("http://localhost:9527/api/modificarTorneo/" + idTorneo, json);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+
+	public boolean modificarTorneo(long idTorneo, TorneoDto torneo, HttpServletRequest request) {
+	    try {
+	        // 1️⃣ Obtener token JWT de la sesión
+	        HttpSession session = request.getSession(false);
+	        if (session == null) throw new IllegalStateException("No hay sesión activa");
+	        String token = (String) session.getAttribute("token");
+	        if (token == null || token.isEmpty()) throw new IllegalStateException("No se encontró token JWT");
+
+	        // 2️⃣ Crear JSON del torneo
+	        JSONObject json = crearJsonTorneo(torneo);
+
+	        // 3️⃣ Ejecutar PUT con token
+	        return ejecutarPutConToken("http://localhost:9527/api/modificarTorneo/" + idTorneo, json, token);
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 
-	public boolean eliminarTorneo(Long idTorneo) {
-		try {
-			URL url = new URL("http://localhost:9527/api/eliminarTorneo/" + idTorneo);
-			HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-			conex.setRequestMethod("DELETE");
-			conex.setRequestProperty("Accept", "application/json");
-			return conex.getResponseCode() == HttpURLConnection.HTTP_OK;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+	public boolean eliminarTorneo(Long idTorneo, HttpServletRequest request) {
+	    try {
+	        // 1️⃣ Obtener token JWT de la sesión
+	        HttpSession session = request.getSession(false);
+	        if (session == null) throw new IllegalStateException("No hay sesión activa");
+	        String token = (String) session.getAttribute("token");
+	        if (token == null || token.isEmpty()) throw new IllegalStateException("No se encontró token JWT");
+
+	        // 2️⃣ Configurar conexión HTTP DELETE
+	        URL url = new URL("http://localhost:9527/api/eliminarTorneo/" + idTorneo);
+	        HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+	        conex.setRequestMethod("DELETE");
+	        conex.setRequestProperty("Accept", "application/json");
+	        conex.setRequestProperty("Authorization", "Bearer " + token); // 🔑 enviar token
+
+	        // 3️⃣ Ejecutar y validar
+	        int responseCode = conex.getResponseCode();
+	        return responseCode == HttpURLConnection.HTTP_OK;
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
+
 
 	public List<TorneoDto> obtenerTodosLosTorneos() throws Exception {
 		return hacerLlamadaApi(API_URL);
@@ -92,7 +119,7 @@ public class TorneoServicio {
 	 * Método principal para generar bracket, usando la lógica de fechas válidas.
 	 */
 	public void generarBracket(Long torneoId, TorneoServicio torneoServicio, EquipoTorneoServicio equipoTorneoServicio,
-			PartidoTorneoServicio partidoServicio) throws Exception {
+			PartidoTorneoServicio partidoServicio, HttpServletRequest request) throws Exception {
 
 		TorneoDto torneo = torneoServicio.obtenerTorneo(torneoId);
 
@@ -137,16 +164,16 @@ public class TorneoServicio {
 			LocalDateTime fecha = torneoServicio.asignarFechaPartido(fechasUsadas, fechaInicio);
 			partido.setFechaPartido(fecha.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
 
-			partidoServicio.guardarPartido(partido);
+			partidoServicio.guardarPartido(partido, request);
 		}
 	}
 
 	public void avanzarGanador(PartidoTorneoDto partido, Long idGanador, PartidoTorneoServicio partidoServicio,
-			EquipoTorneoServicio equipoTorneoServicio, TorneoServicio torneoServicio) throws Exception {
+			EquipoTorneoServicio equipoTorneoServicio, TorneoServicio torneoServicio, HttpServletRequest request) throws Exception {
 
 		partido.setEstado("finalizado");
 		partido.setEquipoGanadorId(idGanador);
-		partidoServicio.modificarPartido(partido.getIdPartidoTorneo(), partido);
+		partidoServicio.modificarPartido(partido.getIdPartidoTorneo(), partido, request);
 
 		Map<Long, Long> flujo = Utilidades.obtenerMapa(partido.getTorneoId());
 		if (flujo == null)
@@ -214,7 +241,7 @@ public class TorneoServicio {
 					LocalDateTime fechaPartido = asignarFechaPartido(fechasUsadas, inicioSemana);
 					nuevoPartido.setFechaPartido(fechaPartido.format(FORMATO_FECHA));
 
-					Long idNuevo = partidoServicio.guardarPartido(nuevoPartido);
+					Long idNuevo = partidoServicio.guardarPartido(nuevoPartido , request);
 
 					flujo.put(partidosRondaActual.get(indexLocal).getIdPartidoTorneo(), idNuevo);
 					flujo.put(partidosRondaActual.get(indexVisitante).getIdPartidoTorneo(), idNuevo);
@@ -274,7 +301,7 @@ public class TorneoServicio {
 					LocalDateTime fechaTercer = asignarFechaPartido(fechasUsadas, inicioSemanaTercer);
 					tercerPuesto.setFechaPartido(fechaTercer.format(FORMATO_FECHA));
 
-					Long idTercer = partidoServicio.guardarPartido(tercerPuesto);
+					Long idTercer = partidoServicio.guardarPartido(tercerPuesto, request);
 					flujo.put(-1L, idTercer);
 				}
 			}
@@ -289,16 +316,30 @@ public class TorneoServicio {
 		return inscritos + " / 16";
 	}
 
-	public void actualizarClubesInscritos(Long torneoId) {
-		try {
-			int inscritos = equipoTorneoServicio.contarEquiposPorTorneo(torneoId);
-			TorneoDto torneo = obtenerTorneo(torneoId);
-			torneo.setClubesInscritos(inscritos + " / 16");
-			modificarTorneo(torneoId, torneo);
-		} catch (Exception e) {
-			Log.ficheroLog("Error al actualizar clubesInscritos: " + e.getMessage());
-		}
+	public void actualizarClubesInscritos(Long torneoId, HttpServletRequest request) {
+	    try {
+	        int inscritos = equipoTorneoServicio.contarEquiposPorTorneo(torneoId);
+
+	        TorneoDto torneo = obtenerTorneo(torneoId);
+
+	        if (torneo != null) {
+
+	            torneo.setClubesInscritos(inscritos + " / 16");
+
+	            boolean resultado = modificarTorneo(torneoId, torneo, request);
+
+	            if (!resultado) {
+	                Log.ficheroLog("No se pudo actualizar clubesInscritos para torneoId=" + torneoId);
+	            }
+	        } else {
+	            Log.ficheroLog("Torneo no encontrado para torneoId=" + torneoId);
+	        }
+	    } catch (Exception e) {
+	        Log.ficheroLog("Error al actualizar clubesInscritos: " + e.getMessage());
+	        e.printStackTrace();
+	    }
 	}
+
 
 	// ---------- Métodos privados ----------
 	private JSONObject crearJsonTorneo(TorneoDto torneo) {
@@ -317,28 +358,55 @@ public class TorneoServicio {
 		return json;
 	}
 
-	private void ejecutarPost(String urlApi, JSONObject json) throws Exception {
-		URL url = new URL(urlApi);
-		HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-		conex.setRequestMethod("POST");
-		conex.setRequestProperty("Content-Type", "application/json");
-		conex.setDoOutput(true);
-		try (OutputStream os = conex.getOutputStream()) {
-			os.write(json.toString().getBytes("utf-8"), 0, json.toString().getBytes("utf-8").length);
-		}
-		conex.getResponseCode();
+	private void ejecutarPost(String urlApi, JSONObject json, HttpServletRequest request) throws Exception {
+
+	    // 1️⃣ Obtener token de la sesión
+	    HttpSession session = request.getSession(false);
+	    if (session == null) {
+	        throw new IllegalStateException("No hay sesión activa");
+	    }
+
+	    String token = (String) session.getAttribute("token");
+	    if (token == null || token.isEmpty()) {
+	        throw new IllegalStateException("No se encontró token JWT");
+	    }
+
+	    // 2️⃣ Conexión HTTP
+	    URL url = new URL(urlApi);
+	    HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+	    conex.setRequestMethod("POST");
+	    conex.setRequestProperty("Content-Type", "application/json");
+	    conex.setRequestProperty("Authorization", "Bearer " + token); // 🔑 CLAVE
+	    conex.setDoOutput(true);
+
+	    // 3️⃣ Enviar cuerpo
+	    try (OutputStream os = conex.getOutputStream()) {
+	        byte[] input = json.toString().getBytes("utf-8");
+	        os.write(input, 0, input.length);
+	    }
+
+	    // 4️⃣ Forzar ejecución y validar
+	    int responseCode = conex.getResponseCode();
+	    if (responseCode != HttpURLConnection.HTTP_OK) {
+	        throw new RuntimeException("Error POST " + urlApi + ". Código: " + responseCode);
+	    }
 	}
 
-	private boolean ejecutarPut(String urlApi, JSONObject json) throws Exception {
-		URL url = new URL(urlApi);
-		HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-		conex.setRequestMethod("PUT");
-		conex.setRequestProperty("Content-Type", "application/json");
-		conex.setDoOutput(true);
-		try (OutputStream os = conex.getOutputStream()) {
-			os.write(json.toString().getBytes("utf-8"), 0, json.toString().getBytes("utf-8").length);
-		}
-		return conex.getResponseCode() == HttpURLConnection.HTTP_OK;
+
+	private boolean ejecutarPutConToken(String urlApi, JSONObject json, String token) throws Exception {
+	    URL url = new URL(urlApi);
+	    HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+	    conex.setRequestMethod("PUT");
+	    conex.setRequestProperty("Content-Type", "application/json");
+	    conex.setRequestProperty("Authorization", "Bearer " + token); // 🔑 Token enviado
+	    conex.setDoOutput(true);
+
+	    try (OutputStream os = conex.getOutputStream()) {
+	        os.write(json.toString().getBytes(StandardCharsets.UTF_8));
+	    }
+
+	    int responseCode = conex.getResponseCode();
+	    return responseCode == HttpURLConnection.HTTP_OK;
 	}
 
 	private List<TorneoDto> hacerLlamadaApi(String urlStr) throws Exception {

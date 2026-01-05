@@ -100,10 +100,10 @@ public class PartidoTorneoControlador extends HttpServlet {
             PartidoTorneoDto partido = mapper.readValue(request.getInputStream(), PartidoTorneoDto.class);
 
             if (partido.getIdPartidoTorneo() == null) {
-                partidoServicio.guardarPartido(partido);
+                partidoServicio.guardarPartido(partido, request);
                 Log.ficheroLog("Partido guardado para torneo id=" + partido.getTorneoId());
             } else {
-                partidoServicio.modificarPartido(partido.getIdPartidoTorneo(), partido);
+                partidoServicio.modificarPartido(partido.getIdPartidoTorneo(), partido, request);
                 Log.ficheroLog("Partido modificado, id=" + partido.getIdPartidoTorneo());
             }
 

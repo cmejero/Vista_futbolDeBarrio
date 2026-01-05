@@ -211,7 +211,7 @@ public class InstalacionControlador extends HttpServlet {
         instalacionModificada.setImagenInstalacion(imagenBytes);
 
 
-        boolean actualizado = servicio.modificarInstalacion(idInstalacion, instalacionModificada);
+        boolean actualizado = servicio.modificarInstalacion(idInstalacion, instalacionModificada, request);
         
         if (actualizado) {
             Log.ficheroLog("Instalación modificada: id=" + idInstalacion + ", nombre=" + nombreInstalacionForm);
@@ -249,7 +249,7 @@ public class InstalacionControlador extends HttpServlet {
 
             if (idParam != null && !idParam.isEmpty()) {
                 long idInstalacion = Long.parseLong(idParam);
-                InstalacionDto instalacion = servicio.obtenerInstalacionPorId(idInstalacion);
+                InstalacionDto instalacion = servicio.obtenerInstalacionPorId(idInstalacion, request);
 
                 if (instalacion != null) {
                     response.setContentType("application/json");
@@ -260,7 +260,7 @@ public class InstalacionControlador extends HttpServlet {
                     response.getWriter().write("{\"error\":\"Instalación no encontrada\"}");
                 }
             } else {
-                List<InstalacionDto> listaInstalaciones = servicio.listaInstalaciones();
+                List<InstalacionDto> listaInstalaciones = servicio.listaInstalaciones(request);
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(objectMapper.writeValueAsString(listaInstalaciones));
@@ -296,7 +296,7 @@ public class InstalacionControlador extends HttpServlet {
             }
 
             Long idInstalacion = Long.parseLong(idParam);
-            boolean eliminado = servicio.eliminarInstalacion(idInstalacion);
+            boolean eliminado = servicio.eliminarInstalacion(idInstalacion, request);
 
             if (eliminado) {
                 response.setStatus(HttpServletResponse.SC_OK);

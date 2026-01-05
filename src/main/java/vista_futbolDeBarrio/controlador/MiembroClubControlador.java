@@ -65,7 +65,7 @@ public class MiembroClubControlador extends HttpServlet {
 			        nuevoMiembro.setIdClub(clubIdForm);
 			        nuevoMiembro.setUsuarioId(usuarioIdForm);
 
-			        servicio.guardarMiembroClub(nuevoMiembro);
+			        servicio.guardarMiembroClub(request, nuevoMiembro);
 
 			        // Guardado exitoso
 			        response.setStatus(HttpServletResponse.SC_OK);
@@ -300,10 +300,10 @@ public class MiembroClubControlador extends HttpServlet {
 
 		if (usuarioId != null) {
 			// Usuario elimina su propia membresía
-			eliminado = servicio.eliminarMiembroClubPorUsuario(idMiembro, usuarioId);
+			eliminado = servicio.eliminarMiembroClubPorUsuario(request,idMiembro, usuarioId);
 		} else if (clubId != null) {
 			// Club elimina a un miembro
-			eliminado = servicio.eliminarMiembroClubPorClub(idMiembro, clubId);
+			eliminado = servicio.eliminarMiembroClubPorClub(request, idMiembro, clubId);
 		} else {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			response.getWriter().write("Sesión inválida.");

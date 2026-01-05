@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -124,5 +125,20 @@ public class Utilidades {
         Object valor = obj.get(clave);
         return valor != null ? valor.toString() : null;
     }
+    
+    
+    
+        public static String extraerEmaildelToken(String token) {
+            try {
+                String[] partes = token.split("\\.");
+                if (partes.length < 2) return null;
+                String payload = new String(Base64.getUrlDecoder().decode(partes[1]));
+                JSONObject jsonPayload = new JSONObject(payload);
+                return jsonPayload.optString("sub"); 
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
 
 }

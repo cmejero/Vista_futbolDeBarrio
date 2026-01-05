@@ -13,6 +13,8 @@ import org.json.JSONObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import vista_futbolDeBarrio.dtos.ClubDto;
 import vista_futbolDeBarrio.utilidades.Utilidades;
 
@@ -77,23 +79,30 @@ public class ClubServicio {
      * 
      * @return Una lista de objetos ClubDto con los datos de los clubes.
      */
-    public ArrayList<ClubDto> listaClub() {
+    public ArrayList<ClubDto> listaClub(HttpServletRequest request) {
         ArrayList<ClubDto> lista = new ArrayList<>();
         StringBuilder response = new StringBuilder();
 
         try {
-            // URL de la API de clubes
+            // 1️⃣ Obtener el token JWT de la sesión
+            HttpSession session = request.getSession(false);
+            if (session == null) throw new IllegalStateException("No hay sesión activa");
+            String token = (String) session.getAttribute("token");
+            if (token == null || token.isEmpty()) throw new IllegalStateException("No se encontró token JWT");
+
+            // 2️⃣ URL de la API de clubes
             String urlApi = "http://localhost:9527/api/mostrarClubes";
             URL url = new URL(urlApi);
-
             HttpURLConnection conex = (HttpURLConnection) url.openConnection();
             conex.setRequestMethod("GET");
             conex.setRequestProperty("Accept", "application/json");
 
-            int responseCode = conex.getResponseCode();
+            // 🔑 Enviar token en header Authorization
+            conex.setRequestProperty("Authorization", "Bearer " + token);
 
+            // 3️⃣ Leer respuesta
+            int responseCode = conex.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                // Leer la respuesta JSON
                 BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
@@ -101,7 +110,7 @@ public class ClubServicio {
                 }
                 in.close();
 
-                // Convertir a JSONArray
+                // 4️⃣ Parsear JSON a lista de ClubDto
                 JSONArray jsonLista = new JSONArray(response.toString());
                 for (int i = 0; i < jsonLista.length(); i++) {
                     JSONObject jsonClub = jsonLista.getJSONObject(i);
@@ -116,15 +125,13 @@ public class ClubServicio {
                     club.setLocalidadClub(Utilidades.getValorSeguro(jsonClub, "localidadClub"));
                     club.setPaisClub(Utilidades.getValorSeguro(jsonClub, "paisClub"));
                     club.setEmailClub(Utilidades.getValorSeguro(jsonClub, "emailClub"));
-
-                    // Contraseña no se devuelve
-                    club.setPasswordClub(null);
+                    club.setPasswordClub(null); // nunca enviamos contraseña
 
                     // Campos opcionales
                     club.setTelefonoClub(Utilidades.getValorSeguro(jsonClub, "telefonoClub"));
                     club.setFechaCreacionClub(Utilidades.getValorSeguro(jsonClub, "fechaCreacionClub"));
 
-                    // Logo (opcional, base64)
+                    // Logo (opcional)
                     String imagenBase64 = Utilidades.getValorSeguro(jsonClub, "logoClub");
                     if (imagenBase64 != null && !imagenBase64.isEmpty()) {
                         byte[] imageBytes = Base64.getDecoder().decode(imagenBase64);
@@ -133,15 +140,14 @@ public class ClubServicio {
                         club.setLogoClub(null);
                     }
 
-                    // Premium
                     club.setEsPremium(jsonClub.optBoolean("esPremium", false));
 
-                    // Agregar a la lista
                     lista.add(club);
                 }
             } else {
                 System.err.println("Error al obtener clubes. Código HTTP: " + responseCode);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("ERROR - ServiciosClub - listaClub: " + e.getMessage());
@@ -149,53 +155,60 @@ public class ClubServicio {
 
         return lista;
     }
+
     
-    
-    public ClubDto obtenerClubPorId(long idClub) {
-    	try {
-    	String urlApi = "http://localhost:9527/api/club/" + idClub;
-    	URL url = new URL(urlApi);
-    	HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-    	conex.setRequestMethod("GET");
-    	conex.setRequestProperty("Accept", "application/json");
+    public ClubDto obtenerClubPorId(long idClub, HttpServletRequest request) {
+        try {
+            // 1️⃣ Obtener token JWT de la sesión
+            HttpSession session = request.getSession(false);
+            if (session == null) throw new IllegalStateException("No hay sesión activa");
+            String token = (String) session.getAttribute("token");
+            if (token == null || token.isEmpty()) throw new IllegalStateException("No se encontró token JWT");
 
-    	
-    	    int responseCode = conex.getResponseCode();
-    	    if (responseCode == HttpURLConnection.HTTP_OK) {
-    	        BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
-    	        StringBuilder response = new StringBuilder();
-    	        String line;
-    	        while ((line = in.readLine()) != null) {
-    	            response.append(line);
-    	        }
-    	        in.close();
+            // 2️⃣ Construir la URL de la API
+            String urlApi = "http://localhost:9527/api/club/" + idClub;
+            URL url = new URL(urlApi);
 
-    	        // Convertir JSON a ClubDto
-    	        ObjectMapper mapper = new ObjectMapper();
-    	        ClubDto club = mapper.readValue(response.toString(), ClubDto.class);
+            HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+            conex.setRequestMethod("GET");
+            conex.setRequestProperty("Accept", "application/json");
+            conex.setRequestProperty("Authorization", "Bearer " + token); // 🔑 enviar token para validar identidad
 
-    	        // Convertir logoClub de Base64 a byte[] para el DTO
-    	        // Primero parseamos el JSON para leer el campo logoClub en Base64
-    	        JSONObject jsonClub = new JSONObject(response.toString());
-    	        String imagenBase64 = Utilidades.getValorSeguro(jsonClub, "logoClub");
-    	        if (imagenBase64 != null && !imagenBase64.isEmpty()) {
-    	            byte[] imageBytes = Base64.getDecoder().decode(imagenBase64);
-    	            club.setLogoClub(imageBytes);
-    	        } else {
-    	            club.setLogoClub(null);
-    	        }
+            // 3️⃣ Leer la respuesta
+            int responseCode = conex.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = in.readLine()) != null) {
+                    response.append(line);
+                }
+                in.close();
 
-    	        return club;
-    	    } else {
-    	        System.err.println("No se encontró el club. Código HTTP: " + responseCode);
-    	    }
-    	} catch (Exception e) {
-    	    e.printStackTrace();
-    	}
-    	return null;
-    	
+                // 4️⃣ Convertir JSON a ClubDto
+                ObjectMapper mapper = new ObjectMapper();
+                ClubDto club = mapper.readValue(response.toString(), ClubDto.class);
 
-    	}
+                // 5️⃣ Convertir logoClub de Base64 a byte[]
+                JSONObject jsonClub = new JSONObject(response.toString());
+                String imagenBase64 = Utilidades.getValorSeguro(jsonClub, "logoClub");
+                if (imagenBase64 != null && !imagenBase64.isEmpty()) {
+                    club.setLogoClub(Base64.getDecoder().decode(imagenBase64));
+                } else {
+                    club.setLogoClub(null);
+                }
+
+                return club;
+            } else if (responseCode == HttpURLConnection.HTTP_FORBIDDEN) {
+                System.err.println("Acceso no autorizado al club con ID: " + idClub);
+            } else {
+                System.err.println("No se encontró el club. Código HTTP: " + responseCode);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
 
@@ -207,8 +220,15 @@ public class ClubServicio {
      * @param club El objeto ClubDto con los nuevos datos del club.
      * @return true si la modificación fue exitosa, false en caso contrario.
      */
-    public boolean modificarClub(String idClub, ClubDto club) {
+    public boolean modificarClub(String idClub, ClubDto club, HttpServletRequest request) {
         try {
+            // 1️⃣ Obtener token JWT de la sesión
+            HttpSession session = request.getSession(false);
+            if (session == null) throw new IllegalStateException("No hay sesión activa");
+            String token = (String) session.getAttribute("token");
+            if (token == null || token.isEmpty()) throw new IllegalStateException("No se encontró token JWT");
+
+            // 2️⃣ Construir JSON
             JSONObject json = new JSONObject();
             json.put("nombreClub", club.getNombreClub());
             json.put("abreviaturaClub", club.getAbreviaturaClub());
@@ -220,53 +240,59 @@ public class ClubServicio {
             json.put("emailClub", club.getEmailClub());
             json.put("passwordClub", club.getPasswordClub());
             json.put("telefonoClub", club.getTelefonoClub());
+
             byte[] imagenBytes = club.getLogoClub();
+            if (imagenBytes != null && imagenBytes.length > 0) {
+                String imagenBase64 = Base64.getEncoder().encodeToString(imagenBytes);
+                json.put("logoClub", imagenBase64);
+            } else {
+                json.put("logoClub", JSONObject.NULL);
+            }
 
-			if (imagenBytes != null && imagenBytes.length > 0) {
-
-				String imagenBase64 = Base64.getEncoder().encodeToString(imagenBytes);
-				json.put("logoClub", imagenBase64);
-			} else {
-
-				json.put("logoClub", JSONObject.NULL); 
-			}
             json.put("esPremium", club.isEsPremium());
 
+            // 3️⃣ Conexión a la API
             String urlApi = "http://localhost:9527/api/modificarClub/" + idClub;
             URL url = new URL(urlApi);
-
             HttpURLConnection conex = (HttpURLConnection) url.openConnection();
             conex.setRequestMethod("PUT");
             conex.setRequestProperty("Content-Type", "application/json");
+            conex.setRequestProperty("Authorization", "Bearer " + token); // 🔑 Enviar token
             conex.setDoOutput(true);
 
             try (OutputStream os = conex.getOutputStream()) {
-                byte[] input = json.toString().getBytes();
+                byte[] input = json.toString().getBytes("utf-8");
                 os.write(input, 0, input.length);
             }
 
             int responseCode = conex.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                return true;
-            } else {
-                return false; 
-            }
+            return responseCode == HttpURLConnection.HTTP_OK;
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
+
     
-    public boolean marcarPremium(Long idClub) {
+    public boolean marcarPremium(Long idClub, HttpServletRequest request) {
         try {
+            // 1️⃣ Obtener el token JWT de la sesión
+            HttpSession session = request.getSession(false);
+            if (session == null) throw new IllegalStateException("No hay sesión activa");
+            String token = (String) session.getAttribute("token");
+            if (token == null || token.isEmpty()) throw new IllegalStateException("No se encontró token JWT");
+
+            // 2️⃣ Preparar la conexión a la API
             String urlApi = "http://localhost:9527/api/modificarPremiumClub/" + idClub;
             URL url = new URL(urlApi);
-
             HttpURLConnection conex = (HttpURLConnection) url.openConnection();
             conex.setRequestMethod("PUT");
             conex.setRequestProperty("Content-Type", "application/json");
+            conex.setRequestProperty("Authorization", "Bearer " + token); // 🔑 enviar token
             conex.setDoOutput(true);
 
+            // 3️⃣ Preparar JSON (opcional, la API sabe que siempre será true)
             JSONObject json = new JSONObject();
             json.put("esPremium", true);
 
@@ -274,12 +300,15 @@ public class ClubServicio {
                 os.write(json.toString().getBytes("utf-8"));
             }
 
+            // 4️⃣ Leer el código de respuesta
             int responseCode = conex.getResponseCode();
             return responseCode == HttpURLConnection.HTTP_OK;
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
+
 
 }

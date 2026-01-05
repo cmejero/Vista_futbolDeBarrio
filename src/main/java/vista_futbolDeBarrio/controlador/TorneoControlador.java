@@ -87,7 +87,7 @@ public class TorneoControlador extends HttpServlet {
 				torneo.setFechaInicioTorneo(fechaInicio);
 				torneo.setFechaFinTorneo(fechaFin);
 
-				torneoServicio.guardarTorneo(torneo);
+				torneoServicio.guardarTorneo(torneo, request);
 
 				response.getWriter().write("{\"mensaje\":\"Torneo creado correctamente\"}");
 				Log.ficheroLog("Torneo creado: " + nombreTorneo);
@@ -110,7 +110,7 @@ public class TorneoControlador extends HttpServlet {
 				torneo.setModalidad(modalidad);
 				torneo.setEstaActivo(false);
 
-				boolean exito = torneoServicio.modificarTorneo(idTorneo, torneo);
+				boolean exito = torneoServicio.modificarTorneo(idTorneo, torneo, request);
 
 				if (exito) {
 					response.getWriter().write("{\"mensaje\":\"Torneo modificado correctamente\"}");
@@ -128,7 +128,7 @@ public class TorneoControlador extends HttpServlet {
 
 				Long torneoId = Long.parseLong(request.getParameter("torneoId"));
 
-				torneoServicio.generarBracket(torneoId, torneoServicio, equipoTorneoServicio, partidoTorneoServicio);
+				torneoServicio.generarBracket(torneoId, torneoServicio, equipoTorneoServicio, partidoTorneoServicio, request);
 
 				response.getWriter().write("{\"mensaje\":\"Bracket generado correctamente\"}");
 				Log.ficheroLog("Bracket generado para torneo id=" + torneoId);
@@ -142,7 +142,7 @@ public class TorneoControlador extends HttpServlet {
 				Long torneoId = Long.parseLong(request.getParameter("idTorneo"));
 
 				// Actualizar clubes inscritos
-				torneoServicio.actualizarClubesInscritos(torneoId);
+				torneoServicio.actualizarClubesInscritos(torneoId, request);
 
 				// Validar que haya 16 equipos reales
 				int inscritos = equipoTorneoServicio.contarEquiposPorTorneo(torneoId);
@@ -165,10 +165,10 @@ public class TorneoControlador extends HttpServlet {
 				try {
 					// 👉 ❗ SOLO ESTE método crea octavos
 					torneoServicio.generarBracket(torneoId, torneoServicio, equipoTorneoServicio,
-							partidoTorneoServicio);
+							partidoTorneoServicio, request);
 
 					torneo.setEstaActivo(true);
-					boolean exito = torneoServicio.modificarTorneo(torneoId, torneo);
+					boolean exito = torneoServicio.modificarTorneo(torneoId, torneo, request);
 
 					if (exito) {
 						response.setStatus(HttpServletResponse.SC_OK);
@@ -277,7 +277,7 @@ public class TorneoControlador extends HttpServlet {
 			}
 
 			Long idTorneo = Long.parseLong(idTorneoParam);
-			boolean eliminado = torneoServicio.eliminarTorneo(idTorneo);
+			boolean eliminado = torneoServicio.eliminarTorneo(idTorneo, request);
 			if (eliminado) {
 				Log.ficheroLog("Torneo eliminado: id=" + idTorneo);
 				response.setStatus(HttpServletResponse.SC_OK);

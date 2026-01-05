@@ -449,7 +449,7 @@ if (esPremium == null)
 					</div>
 
 					<!-- TABLA ESTILO INSTALACION -->
-					<table class="tablaAdmin tablaAdmin--instalaciones w-100 mb-3 mx-auto">>
+					<table class="tablaAdmin tablaAdmin--instalaciones w-100 mb-3 mx-auto">
 						<thead class="tablaAdmin__head" >
 							<tr>
 								<th >NOMBRE TORNEO</th>

@@ -60,9 +60,7 @@ public class ActaPartidoControlador extends HttpServlet {
             ActaPartidoDto acta = mapper.readValue(request.getInputStream(), ActaPartidoDto.class);
 
             if (acta.getIdActaPartido() == null) {
-                actaServicio.guardarActaPartido(acta);
-            } else {
-                actaServicio.modificarActaPartido(acta.getIdActaPartido(), acta);
+                actaServicio.guardarActaPartido(acta, request);
             }
 
             response.setStatus(HttpServletResponse.SC_OK);
@@ -99,44 +97,5 @@ public class ActaPartidoControlador extends HttpServlet {
         }
     }
 
-    @Override
-    /**
-     * Elimina un acta de partido por su ID.
-     * 
-     * @param request La solicitud HTTP que contiene el ID del acta a eliminar.
-     * @param response La respuesta HTTP con el resultado de la eliminación.
-     * @throws ServletException Si ocurre un error durante la ejecución del servlet.
-     * @throws IOException Si ocurre un error al leer o escribir datos.
-     */
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            String idParam = request.getParameter("idActaPartido");
-            if (idParam == null || idParam.isEmpty()) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.getWriter().write("ID de acta no proporcionado.");
-                Log.ficheroLog("Eliminación fallida: ID no proporcionado");
-                return;
-            }
-
-            Long idActa = Long.parseLong(idParam);
-
-            boolean eliminado = actaServicio.eliminarActaPartido(idActa);
-
-            if (eliminado) {
-                Log.ficheroLog("Acta eliminada con eventos, id=" + idActa);
-                response.setStatus(HttpServletResponse.SC_OK);
-                response.getWriter().write("Acta eliminada correctamente.");
-            } else {
-                Log.ficheroLog("Error al eliminar acta, id=" + idActa);
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                response.getWriter().write("Error al eliminar el acta.");
-            }
-
-        } catch (Exception e) {
-            Log.ficheroLog("Error en DELETE /actaPartido: " + e.getMessage());
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("Error en el servidor: " + e.getMessage());
-        }
-    }
+ 
 }

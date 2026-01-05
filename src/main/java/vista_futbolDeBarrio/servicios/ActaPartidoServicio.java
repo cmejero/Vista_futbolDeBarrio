@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import vista_futbolDeBarrio.dtos.ActaPartidoDto;
 import vista_futbolDeBarrio.dtos.EventoPartidoDto;
 import vista_futbolDeBarrio.log.Log;
@@ -74,16 +76,32 @@ public class ActaPartidoServicio {
      * @param acta Objeto ActaPartidoDto con los datos del acta a guardar.
      * @return ID del acta guardada si la operación fue exitosa, null en caso contrario.
      */
-    public Long guardarActaPartido(ActaPartidoDto acta) {
+    public Long guardarActaPartido(ActaPartidoDto acta, HttpServletRequest request) {
         try {
-            JSONObject jsonActa = mapearActaAJSON(acta);
-            String urlApi = "http://localhost:9527/api/guardarActaPartido";
-            HttpURLConnection conex = crearConexion(urlApi, "POST");
+            // 1️⃣ Obtener el token JWT de la sesión
+            HttpSession session = request.getSession(false);
+            if (session == null) throw new IllegalStateException("No hay sesión activa");
+            String token = (String) session.getAttribute("token");
+            if (token == null || token.isEmpty()) throw new IllegalStateException("No se encontró token JWT");
 
+            // 2️⃣ Mapear Acta a JSON
+            JSONObject jsonActa = mapearActaAJSON(acta);
+
+            // 3️⃣ Conexión a la API
+            String urlApi = "http://localhost:9527/api/guardarActaPartido";
+            URL url = new URL(urlApi);
+            HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+            conex.setRequestMethod("POST");
+            conex.setRequestProperty("Content-Type", "application/json");
+            conex.setRequestProperty("Authorization", "Bearer " + token); // 🔑 enviar token
+            conex.setDoOutput(true);
+
+            // 4️⃣ Enviar JSON
             try (OutputStream os = conex.getOutputStream()) {
                 os.write(jsonActa.toString().getBytes("utf-8"));
             }
 
+            // 5️⃣ Leer la respuesta
             if (conex.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
                 StringBuilder response = new StringBuilder();
@@ -95,6 +113,8 @@ public class ActaPartidoServicio {
 
                 JSONObject jsonResponse = new JSONObject(response.toString());
                 return jsonResponse.getLong("idActaPartido");
+            } else {
+                System.err.println("Error al guardar acta: HTTP " + conex.getResponseCode());
             }
 
         } catch (Exception e) {
@@ -104,52 +124,8 @@ public class ActaPartidoServicio {
         return null;
     }
 
-    /**
-     * Modifica los datos de un acta de partido existente.
-     * 
-     * @param idActa ID del acta que se desea modificar.
-     * @param acta Objeto ActaPartidoDto con los nuevos datos.
-     * @return true si la modificación fue exitosa, false en caso contrario.
-     */
-    public boolean modificarActaPartido(Long idActa, ActaPartidoDto acta) {
-        try {
-            JSONObject jsonActa = mapearActaAJSON(acta);
-            jsonActa.put("idActaPartido", idActa);
 
-            String urlApi = "http://localhost:9527/api/modificarActaPartido/" + idActa;
-            HttpURLConnection conex = crearConexion(urlApi, "PUT");
 
-            try (OutputStream os = conex.getOutputStream()) {
-                os.write(jsonActa.toString().getBytes("utf-8"));
-            }
-
-            return conex.getResponseCode() == HttpURLConnection.HTTP_OK;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.ficheroLog("Error modificando acta: " + e.getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * Elimina un acta de partido del sistema.
-     * 
-     * @param idActa ID del acta que se desea eliminar.
-     * @return true si la eliminación fue exitosa, false en caso contrario.
-     */
-    public boolean eliminarActaPartido(Long idActa) {
-        try {
-            String urlApi = "http://localhost:9527/api/eliminarActaPartido/" + idActa;
-            HttpURLConnection conex = crearConexion(urlApi, "DELETE");
-            return conex.getResponseCode() == HttpURLConnection.HTTP_OK;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.ficheroLog("Error eliminando acta: " + e.getMessage());
-            return false;
-        }
-    }
 
     // ------------------------- Utilidades -------------------------
 

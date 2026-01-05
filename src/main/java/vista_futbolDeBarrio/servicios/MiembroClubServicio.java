@@ -12,6 +12,8 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import vista_futbolDeBarrio.dtos.ClubDto;
 import vista_futbolDeBarrio.dtos.JugadorEstadisticaGlobalDto;
 import vista_futbolDeBarrio.dtos.MiembroClubDto;
@@ -31,57 +33,94 @@ public class MiembroClubServicio {
 	 * @param miembro El objeto que contiene los datos del miembro del club a
 	 *                guardar.
 	 */
-	public void guardarMiembroClub(MiembroClubDto miembro) {
-		// 1️⃣ Verificar límite de jugadores en el club
-		List<MiembroClubDto> miembrosActuales = listarMiembrosClub(miembro.getIdClub());
-		long activos = miembrosActuales.stream().filter(m -> "9999-01-01".equals(m.getFechaBajaUsuario())).count();
+	public void guardarMiembroClub(HttpServletRequest request, MiembroClubDto miembro) {
+	    try {
+	        // 1️⃣ Obtener el token de la sesión
+	        HttpSession session = request.getSession(false);
+	        if (session == null) throw new IllegalStateException("No hay sesión activa");
+	        String token = (String) session.getAttribute("token");
+	        if (token == null || token.isEmpty()) throw new IllegalStateException("No se encontró token JWT");
 
-		if (activos >= 18) {
-			throw new IllegalStateException("Este club ya tiene el máximo de 18 jugadores.");
-		}
+	        // 2️⃣ Extraer el email del token
+	        String emailLogueado = Utilidades.extraerEmaildelToken(token);
 
-		// 2️⃣ Verificar límite de clubes por jugador
-		List<MiembroClubDto> clubesDelJugador = listarMisClubesPorUsuario(miembro.getUsuarioId()).stream()
-				.filter(m -> "9999-01-01".equals(m.getFechaBajaUsuario())) // Solo activos
-				.toList();
+	        // 3️⃣ Asegurarnos que el UsuarioDto existe y tiene el email correcto
+	        if (miembro.getUsuario() == null) miembro.setUsuario(new UsuarioDto());
+	        miembro.getUsuario().setEmailUsuario(emailLogueado);
+	        miembro.getUsuario().setRolUsuario(RolUsuario.Jugador);
 
-		if (clubesDelJugador.size() >= 3) {
-			throw new IllegalStateException("Has alcanzado el límite de 3 clubes. No puedes unirte a más.");
-		}
+	        // 4️⃣ Validar límite de jugadores en el club
+	        List<MiembroClubDto> miembrosActuales = listarMiembrosClub(miembro.getIdClub());
+	        long activos = miembrosActuales.stream()
+	                .filter(m -> "9999-01-01".equals(m.getFechaBajaUsuario()))
+	                .count();
 
-		// 3️⃣ Guardar el miembro
-		try {
-			JSONObject json = new JSONObject();
-			json.put("fechaAltaUsuario", miembro.getFechaAltaUsuario().toString());
-			json.put("fechaBajaUsuario",
-					miembro.getFechaBajaUsuario() != null ? miembro.getFechaBajaUsuario().toString() : JSONObject.NULL);
-			json.put("idClub", miembro.getIdClub());
-			json.put("usuarioId", miembro.getUsuarioId());
+	        if (activos >= 18) {
+	            throw new IllegalStateException("Este club ya tiene el máximo de 18 jugadores.");
+	        }
 
-			String urlApi = "http://localhost:9527/api/guardarMiembroClub";
-			URL url = new URL(urlApi);
+	        // 5️⃣ Validar límite de clubes por jugador
+	        List<MiembroClubDto> clubesDelJugador = listarMisClubesPorUsuario(miembro.getUsuarioId())
+	                .stream()
+	                .filter(m -> "9999-01-01".equals(m.getFechaBajaUsuario())) // Solo activos
+	                .toList();
 
-			HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-			conex.setRequestMethod("POST");
-			conex.setRequestProperty("Content-Type", "application/json");
-			conex.setDoOutput(true);
+	        if (clubesDelJugador.size() >= 3) {
+	            throw new IllegalStateException("Has alcanzado el límite de 3 clubes. No puedes unirte a más.");
+	        }
 
-			try (OutputStream os = conex.getOutputStream()) {
-				byte[] input = json.toString().getBytes("utf-8");
-				os.write(input, 0, input.length);
-			}
+	        // 6️⃣ Preparar JSON para enviar a la API
+	        JSONObject json = new JSONObject();
+	        json.put("fechaAltaUsuario", miembro.getFechaAltaUsuario().toString());
+	        json.put("fechaBajaUsuario",
+	                miembro.getFechaBajaUsuario() != null ? miembro.getFechaBajaUsuario().toString() : JSONObject.NULL);
+	        json.put("idClub", miembro.getIdClub());
+	        json.put("usuarioId", miembro.getUsuarioId());
 
-			int responseCode = conex.getResponseCode();
-			if (responseCode == HttpURLConnection.HTTP_OK) {
-				// Guardado exitoso
-			} else {
-				// Manejar error
-			}
+	        JSONObject usuarioJson = new JSONObject();
+	        usuarioJson.put("emailUsuario", miembro.getUsuario().getEmailUsuario());
+	        json.put("usuario", usuarioJson);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	        // 7️⃣ Conexión a la API
+	        String urlApi = "http://localhost:9527/api/guardarMiembroClub";
+	        URL url = new URL(urlApi);
+	        HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+	        conex.setRequestMethod("POST");
+	        conex.setRequestProperty("Content-Type", "application/json");
+	        conex.setRequestProperty("Authorization", "Bearer " + token);
+	        conex.setDoOutput(true);
+
+	        try (OutputStream os = conex.getOutputStream()) {
+	            byte[] input = json.toString().getBytes("utf-8");
+	            os.write(input, 0, input.length);
+	        }
+
+	        // 8️⃣ Leer la respuesta de la API
+	        int responseCode = conex.getResponseCode();
+	        switch (responseCode) {
+	            case HttpURLConnection.HTTP_CREATED:
+	                System.out.println("Miembro guardado exitosamente");
+	                break;
+	            case HttpURLConnection.HTTP_FORBIDDEN:
+	                System.err.println("Usuario no autorizado para guardar este miembro");
+	                break;
+	            case HttpURLConnection.HTTP_CONFLICT:
+	                System.err.println("Conflicto al guardar miembro: límite alcanzado");
+	                break;
+	            default:
+	                System.err.println("Error desconocido. Código: " + responseCode);
+	        }
+
+	    } catch (IllegalStateException e) {
+	        // Captura errores de límite de jugadores o clubes
+	        System.err.println("Validación: " + e.getMessage());
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.err.println("Error al guardar miembro del club: " + e.getMessage());
+	    }
 	}
+
+
 
 	/**
 	 * Lista todos los miembros de un club.
@@ -389,23 +428,36 @@ public class MiembroClubServicio {
 	 * @param usuarioId     El ID del usuario que realiza la eliminación.
 	 * @return true si se eliminó correctamente, false en caso contrario.
 	 */
-	public boolean eliminarMiembroClubPorUsuario(Long idMiembroClub, Long usuarioId) {
-		try {
-			// Construimos la URL del API con control de usuario
-			String urlApi = "http://localhost:9527/api/eliminarMiembroClub/" + idMiembroClub + "?usuarioId="
-					+ usuarioId;
-			URL url = new URL(urlApi);
+	public boolean eliminarMiembroClubPorUsuario(HttpServletRequest request, Long idMiembroClub, Long usuarioId) {
+	    try {
+	        // 1️⃣ Obtener token de la sesión
+	        HttpSession session = request.getSession(false);
+	        if (session == null) throw new IllegalStateException("No hay sesión activa");
+	        String token = (String) session.getAttribute("token");
+	        if (token == null || token.isEmpty()) throw new IllegalStateException("No se encontró token JWT");
 
-			HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-			conex.setRequestMethod("DELETE");
-			conex.setRequestProperty("Accept", "application/json");
+	        // 2️⃣ Extraer email del token
+	        String emailLogueado = Utilidades.extraerEmaildelToken(token);
 
-			int responseCode = conex.getResponseCode();
-			return responseCode == HttpURLConnection.HTTP_OK;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+	        // 3️⃣ Construir URL del API
+	        String urlApi = "http://localhost:9527/api/eliminarMiembroClub/" + idMiembroClub + "?usuarioId=" + usuarioId;
+	        URL url = new URL(urlApi);
+
+	        // 4️⃣ Conexión DELETE
+	        HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+	        conex.setRequestMethod("DELETE");
+	        conex.setRequestProperty("Accept", "application/json");
+
+	        // 5️⃣ Enviar token en la cabecera
+	        conex.setRequestProperty("Authorization", "Bearer " + token);
+
+	        int responseCode = conex.getResponseCode();
+	        return responseCode == HttpURLConnection.HTTP_OK;
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 
 	/**
@@ -416,22 +468,36 @@ public class MiembroClubServicio {
 	 * @param clubId        El ID del club que realiza la eliminación.
 	 * @return true si se eliminó correctamente, false en caso contrario.
 	 */
-	public boolean eliminarMiembroClubPorClub(Long idMiembroClub, Long clubId) {
-		try {
-			// Construimos la URL del API con control de club
-			String urlApi = "http://localhost:9527/api/eliminarMiembroClub/" + idMiembroClub + "?clubId=" + clubId;
-			URL url = new URL(urlApi);
+	public boolean eliminarMiembroClubPorClub(HttpServletRequest request, Long idMiembroClub, Long clubId) {
+	    try {
+	        // 1️⃣ Obtener token de la sesión
+	        HttpSession session = request.getSession(false);
+	        if (session == null) throw new IllegalStateException("No hay sesión activa");
+	        String token = (String) session.getAttribute("token");
+	        if (token == null || token.isEmpty()) throw new IllegalStateException("No se encontró token JWT");
 
-			HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-			conex.setRequestMethod("DELETE");
-			conex.setRequestProperty("Accept", "application/json");
+	        // 2️⃣ Extraer email del token
+	        String emailLogueado = Utilidades.extraerEmaildelToken(token);
 
-			int responseCode = conex.getResponseCode();
-			return responseCode == HttpURLConnection.HTTP_OK;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+	        // 3️⃣ Construir URL del API
+	        String urlApi = "http://localhost:9527/api/eliminarMiembroClub/" + idMiembroClub + "?clubId=" + clubId;
+	        URL url = new URL(urlApi);
+
+	        // 4️⃣ Conexión DELETE
+	        HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+	        conex.setRequestMethod("DELETE");
+	        conex.setRequestProperty("Accept", "application/json");
+
+	        // 5️⃣ Enviar token en la cabecera
+	        conex.setRequestProperty("Authorization", "Bearer " + token);
+
+	        int responseCode = conex.getResponseCode();
+	        return responseCode == HttpURLConnection.HTTP_OK;
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 
 }

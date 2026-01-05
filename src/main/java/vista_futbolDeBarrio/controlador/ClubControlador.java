@@ -183,7 +183,7 @@ public class ClubControlador extends HttpServlet {
 		clubModificado.setTelefonoClub(telefonoClubForm);
 		clubModificado.setLogoClub(logoClubForm);
 
-		boolean actualizado = servicio.modificarClub(idClubForm, clubModificado);
+		boolean actualizado = servicio.modificarClub(idClubForm, clubModificado, request);
 
 		if (actualizado) {
 			Log.ficheroLog("Club modificado: id=" + idClubForm + ", nombre=" + nombreClubForm);
@@ -224,7 +224,7 @@ public class ClubControlador extends HttpServlet {
 	        if (idParam != null && !idParam.isEmpty()) {
 	            // Solo devolver el club solicitado
 	            long idClub = Long.parseLong(idParam);
-	            ClubDto club = servicio.obtenerClubPorId(idClub);
+	            ClubDto club = servicio.obtenerClubPorId(idClub, request);
 
 	            if (club != null) {
 	                response.setContentType("application/json");
@@ -237,7 +237,7 @@ public class ClubControlador extends HttpServlet {
 
 	        } else {
 	            // Devolver toda la lista
-	            ArrayList<ClubDto> listaClub = servicio.listaClub();
+	            ArrayList<ClubDto> listaClub = servicio.listaClub(request);
 	            response.setContentType("application/json");
 	            response.setCharacterEncoding("UTF-8");
 	            response.getWriter().write(objectMapper.writeValueAsString(listaClub));
@@ -261,7 +261,7 @@ public class ClubControlador extends HttpServlet {
 		}
 
 		Long clubId = (Long) session.getAttribute("clubId");
-		boolean actualizado = servicio.marcarPremium(clubId);
+		boolean actualizado = servicio.marcarPremium( clubId, request);
 
 		if (actualizado) {
 			session.setAttribute("esPremium", true);

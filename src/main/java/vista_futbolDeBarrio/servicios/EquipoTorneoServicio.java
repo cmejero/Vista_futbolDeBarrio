@@ -11,6 +11,8 @@ import java.util.HashSet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import vista_futbolDeBarrio.dtos.EquipoTorneoDto;
 import vista_futbolDeBarrio.dtos.TorneoDto;
 import vista_futbolDeBarrio.enums.EstadoParticipacion;
@@ -27,38 +29,51 @@ public class EquipoTorneoServicio {
 	 * @param equipoTorneo El objeto EquipoTorneoDto que contiene los datos del
 	 *                     equipo a guardar.
 	 */
-	public void guardarEquipoTorneo(EquipoTorneoDto equipoTorneo) {
-		try {
-			JSONObject json = new JSONObject();
-			json.put("fechaInicioParticipacion", equipoTorneo.getFechaInicioParticipacion().toString());
-			json.put("fechaFinParticipacion", equipoTorneo.getFechaFinParticipacion().toString());
-			json.put("estadoParticipacion", equipoTorneo.getEstadoParticipacion().name());
-			json.put("torneoId", equipoTorneo.getTorneoId());
-			json.put("clubId", equipoTorneo.getClubId());
+	public void guardarEquipoTorneo(EquipoTorneoDto equipoTorneo, HttpServletRequest request) {
+	    try {
+	        // 1️⃣ Obtener el token JWT de la sesión
+	        HttpSession session = request.getSession(false);
+	        if (session == null) throw new IllegalStateException("No hay sesión activa");
+	        String token = (String) session.getAttribute("token");
+	        if (token == null || token.isEmpty()) throw new IllegalStateException("No se encontró token JWT");
 
-			String urlApi = "http://localhost:9527/api/guardarEquipoTorneo";
-			URL url = new URL(urlApi);
+	        // 2️⃣ Preparar JSON
+	        JSONObject json = new JSONObject();
+	        json.put("fechaInicioParticipacion", equipoTorneo.getFechaInicioParticipacion().toString());
+	        json.put("fechaFinParticipacion", equipoTorneo.getFechaFinParticipacion().toString());
+	        json.put("estadoParticipacion", equipoTorneo.getEstadoParticipacion().name());
+	        json.put("torneoId", equipoTorneo.getTorneoId());
+	        json.put("clubId", equipoTorneo.getClubId());
 
-			HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-			conex.setRequestMethod("POST");
-			conex.setRequestProperty("Content-Type", "application/json");
-			conex.setDoOutput(true);
-			try (OutputStream os = conex.getOutputStream()) {
-				byte[] input = json.toString().getBytes("utf-8");
-				os.write(input, 0, input.length);
-			}
+	        // 3️⃣ Ejecutar POST con token
+	        ejecutarPostConToken("http://localhost:9527/api/guardarEquipoTorneo", json, token);
 
-			int responseCode = conex.getResponseCode();
-			if (responseCode == HttpURLConnection.HTTP_OK) {
-				// System.out.println("EquipoTorneo guardado correctamente.");
-			} else {
-				// System.out.println("Error al guardar EquipoTorneo: " + responseCode);
-			}
-
-		} catch (Exception e) {
-			// System.out.println("ERROR- [EquipoTorneoServicio] " + e);
-		}
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
+
+	private void ejecutarPostConToken(String urlApi, JSONObject json, String token) throws Exception {
+	    URL url = new URL(urlApi);
+	    HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+	    conex.setRequestMethod("POST");
+	    conex.setRequestProperty("Content-Type", "application/json");
+	    conex.setRequestProperty("Authorization", "Bearer " + token); // 🔑 Enviamos token JWT
+	    conex.setDoOutput(true);
+
+	    try (OutputStream os = conex.getOutputStream()) {
+	        byte[] input = json.toString().getBytes("utf-8");
+	        os.write(input, 0, input.length);
+	    }
+
+	    int responseCode = conex.getResponseCode();
+	    if (responseCode == HttpURLConnection.HTTP_OK) {
+	        System.out.println("EquipoTorneo guardado correctamente.");
+	    } else {
+	        System.out.println("Error al guardar EquipoTorneo: " + responseCode);
+	    }
+	}
+
 
 	/**
 	 * Obtiene la lista de equipos que están participando en torneos.

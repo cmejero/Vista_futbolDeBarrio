@@ -11,6 +11,8 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import vista_futbolDeBarrio.dtos.PartidoTorneoDto;
 import vista_futbolDeBarrio.dtos.UsuarioDto;
 import vista_futbolDeBarrio.log.Log;
@@ -121,16 +123,22 @@ public class PartidoTorneoServicio {
      * @return ID del partido guardado si la operación fue exitosa, null en caso contrario.
      * @throws Exception En caso de error al realizar la conexión o enviar el JSON.
      */
-    public Long guardarPartido(PartidoTorneoDto partido) throws Exception {
+    public Long guardarPartido(PartidoTorneoDto partido, HttpServletRequest request) throws Exception {
         JSONObject json = mapearPartidoAJSON(partido);
 
         URL url = new URL("http://localhost:9527/api/guardarPartidoTorneo");
         HttpURLConnection conex = (HttpURLConnection) url.openConnection();
         conex.setRequestMethod("POST");
         conex.setRequestProperty("Content-Type", "application/json");
-        conex.setDoOutput(true);
 
-        System.out.println("JSON a enviar: " + json.toString(4));
+        // 🔑 Enviar token JWT
+        HttpSession session = request.getSession(false);
+        if (session == null) throw new IllegalStateException("No hay sesión activa");
+        String token = (String) session.getAttribute("token");
+        if (token == null || token.isEmpty()) throw new IllegalStateException("No se encontró token JWT");
+        conex.setRequestProperty("Authorization", "Bearer " + token);
+
+        conex.setDoOutput(true);
 
         try (OutputStream os = conex.getOutputStream()) {
             byte[] input = json.toString().getBytes("utf-8");
@@ -187,23 +195,37 @@ public class PartidoTorneoServicio {
      * @param partido Objeto PartidoTorneoDto con los nuevos datos.
      * @return true si la modificación fue exitosa, false en caso contrario.
      */
-    public boolean modificarPartido(Long idPartido, PartidoTorneoDto partido) {
+    public boolean modificarPartido(Long idPartido, PartidoTorneoDto partido, HttpServletRequest request) {
         try {
             JSONObject json = mapearPartidoAJSON(partido);
+
             String urlApi = "http://localhost:9527/api/modificarPartidoTorneo/" + idPartido;
-            HttpURLConnection conex = crearConexion(urlApi, "PUT");
+            HttpURLConnection conex = (HttpURLConnection) new URL(urlApi).openConnection();
+            conex.setRequestMethod("PUT");
+            conex.setRequestProperty("Content-Type", "application/json");
+
+            // 🔑 Enviar token JWT de la sesión
+            HttpSession session = request.getSession(false);
+            if (session == null) throw new IllegalStateException("No hay sesión activa");
+            String token = (String) session.getAttribute("token");
+            if (token == null || token.isEmpty()) throw new IllegalStateException("No se encontró token JWT");
+            conex.setRequestProperty("Authorization", "Bearer " + token);
+
+            conex.setDoOutput(true);
 
             try (OutputStream os = conex.getOutputStream()) {
                 os.write(json.toString().getBytes("utf-8"));
             }
 
-            return conex.getResponseCode() == HttpURLConnection.HTTP_OK;
+            int responseCode = conex.getResponseCode();
+            return responseCode == HttpURLConnection.HTTP_OK;
 
         } catch (Exception e) {
             Log.ficheroLog("Error modificando partido: " + e.getMessage());
             return false;
         }
     }
+
 
 
 

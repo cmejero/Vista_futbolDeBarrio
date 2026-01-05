@@ -78,7 +78,7 @@ public class EquipoTorneoControlador extends HttpServlet {
 	            equipoTorneo.setEstadoParticipacion(EstadoParticipacion.Activo);
 
 	            // Guardamos usando el servicio
-	            servicio.guardarEquipoTorneo(equipoTorneo);
+	            servicio.guardarEquipoTorneo(equipoTorneo, request);
 
 	            Log.ficheroLog("Club " + clubId + " inscrito correctamente en torneo " + torneoId);
 	            response.getWriter().write("Inscripción realizada correctamente.");

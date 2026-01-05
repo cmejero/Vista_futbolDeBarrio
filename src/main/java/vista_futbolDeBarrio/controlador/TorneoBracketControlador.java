@@ -170,7 +170,7 @@ public class TorneoBracketControlador extends HttpServlet {
             Log.ficheroLog("✅ Partido encontrado, avanzando ganador...");
 
             // Llamada al método con logs internos
-            torneoServicio.avanzarGanador(partido, ganadorId, partidoServicio, equipoTorneoServicio, torneoServicio);
+            torneoServicio.avanzarGanador(partido, ganadorId, partidoServicio, equipoTorneoServicio, torneoServicio, request);
 
             Map<String, String> mensaje = Map.of("mensaje", "Resultado registrado y ganador avanzado");
             response.setStatus(HttpServletResponse.SC_OK);
