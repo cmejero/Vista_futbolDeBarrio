@@ -95,6 +95,7 @@ public class FiltroDeAutoridad implements Filter {
                uri.contains("/DetallesTorneo.jsp") ||
                uri.contains("/torneo/bracket") ||
                uri.contains("/login") ||
+               uri.contains("/loginGoogle") ||
                uri.contains("/Css") ||
                uri.contains("/Imagenes");
     }

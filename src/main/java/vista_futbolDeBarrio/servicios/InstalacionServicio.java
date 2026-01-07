@@ -30,68 +30,73 @@ public class InstalacionServicio {
 	 * @param instalacion El objeto InstalacionDto que contiene los datos de la
 	 *                    instalación a guardar.
 	 */
-	public void guardarInstalacion(InstalacionDto instalacion) {
-		try {
-			JSONObject json = new JSONObject();
-			json.put("nombreInstalacion", instalacion.getNombreInstalacion());
-			json.put("direccionInstalacion", instalacion.getDireccionInstalacion());
-			json.put("telefonoInstalacion", instalacion.getTelefonoInstalacion());
-			json.put("emailInstalacion", instalacion.getEmailInstalacion());
+	public String guardarInstalacion(InstalacionDto instalacion) {
+	    try {
+	        JSONObject json = new JSONObject();
+	        json.put("nombreInstalacion", instalacion.getNombreInstalacion());
+	        json.put("direccionInstalacion", instalacion.getDireccionInstalacion());
+	        json.put("telefonoInstalacion", instalacion.getTelefonoInstalacion());
+	        json.put("emailInstalacion", instalacion.getEmailInstalacion());
+	        if (instalacion.getTipoCampo1() != null) json.put("tipoCampo1", instalacion.getTipoCampo1().name());
+	        if (instalacion.getTipoCampo2() != null) json.put("tipoCampo2", instalacion.getTipoCampo2().name());
+	        if (instalacion.getTipoCampo3() != null) json.put("tipoCampo3", instalacion.getTipoCampo3().name());
+	        json.put("serviciosInstalacion", instalacion.getServiciosInstalacion());
+	        json.put("estadoInstalacion", instalacion.getEstadoInstalacion().name());
+	        json.put("passwordInstalacion", instalacion.getPasswordInstalacion());
 
-			if (instalacion.getTipoCampo1() != null)
-				json.put("tipoCampo1", instalacion.getTipoCampo1().name());
-			if (instalacion.getTipoCampo2() != null)
-				json.put("tipoCampo2", instalacion.getTipoCampo2().name());
-			if (instalacion.getTipoCampo3() != null)
-				json.put("tipoCampo3", instalacion.getTipoCampo3().name());
+	        byte[] imagenBytes = instalacion.getImagenInstalacion();
+	        if (imagenBytes != null && imagenBytes.length > 0) {
+	            json.put("imagenInstalacion", Base64.getEncoder().encodeToString(imagenBytes));
+	        } else {
+	            json.put("imagenInstalacion", JSONObject.NULL);
+	        }
 
-			json.put("serviciosInstalacion", instalacion.getServiciosInstalacion());
-			json.put("estadoInstalacion", instalacion.getEstadoInstalacion().name());
-			json.put("passwordInstalacion", instalacion.getPasswordInstalacion());
+	        json.put("torneoId", instalacion.getTorneoIds());
 
-			byte[] imagenBytes = instalacion.getImagenInstalacion();
-			if (imagenBytes != null && imagenBytes.length > 0) {
-				json.put("imagenInstalacion", Base64.getEncoder().encodeToString(imagenBytes));
-			} else {
-				json.put("imagenInstalacion", JSONObject.NULL);
-			}
+	        String urlApi = "http://localhost:9527/api/guardarInstalacion";
+	        URL url = new URL(urlApi);
+	        HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+	        conex.setRequestMethod("POST");
+	        conex.setRequestProperty("Content-Type", "application/json");
+	        conex.setDoOutput(true);
 
-			json.put("torneoId", instalacion.getTorneoIds());
+	        try (OutputStream os = conex.getOutputStream()) {
+	            os.write(json.toString().getBytes("utf-8"));
+	        }
 
-			String urlApi = "http://localhost:9527/api/guardarInstalacion";
-			URL url = new URL(urlApi);
-			HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-			conex.setRequestMethod("POST");
-			conex.setRequestProperty("Content-Type", "application/json");
-			conex.setDoOutput(true);
+	        int responseCode = conex.getResponseCode();
+	        String responseMessage = "";
+	        try (BufferedReader in = new BufferedReader(new InputStreamReader(
+	                responseCode >= 400 ? conex.getErrorStream() : conex.getInputStream(), "utf-8"))) {
+	            StringBuilder resp = new StringBuilder();
+	            String line;
+	            while ((line = in.readLine()) != null) {
+	                resp.append(line);
+	            }
+	            responseMessage = resp.toString();
+	        }
 
-			try (OutputStream os = conex.getOutputStream()) {
-				os.write(json.toString().getBytes("utf-8"));
-			}
+	        // ✅ Evaluar resultado para mostrar mensajes
+	        if (responseCode == HttpURLConnection.HTTP_OK) {
+	            return "ok";
+	        } else if (responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
+	            if (responseMessage.contains("ya está en uso")) {
+	                return "instalacion_existente";
+	            } else if (responseMessage.toLowerCase().contains("email")) {
+	                return "email_invalido";
+	            } else {
+	                return "error_servidor";
+	            }
+	        } else {
+	            return "error_servidor";
+	        }
 
-			int responseCode = conex.getResponseCode();
-			String responseMessage = "";
-			try (BufferedReader in = new BufferedReader(new InputStreamReader(
-					responseCode >= 400 ? conex.getErrorStream() : conex.getInputStream(), "utf-8"))) {
-				String line;
-				StringBuilder resp = new StringBuilder();
-				while ((line = in.readLine()) != null) {
-					resp.append(line);
-				}
-				responseMessage = resp.toString();
-			}
-
-			if (responseCode == HttpURLConnection.HTTP_OK) {
-				System.out.println("Instalación guardada correctamente.");
-			} else {
-				System.err.println("Error al guardar instalación: " + responseCode + " -> " + responseMessage);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.err.println("ERROR - [InstalacionServicio] " + e.getMessage());
-		}
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "error_servidor";
+	    }
 	}
+
 
 	/**
 	 * Obtiene la lista de todas las instalaciones.

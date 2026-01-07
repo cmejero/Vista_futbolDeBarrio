@@ -77,7 +77,7 @@
   <path
 													d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791" />
 </svg>
-											futboldebarrio@gmail.com
+											futboldebarriosevilla@gmail.com
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraArriba">
 											<svg xmlns="http://www.w3.org/2000/svg" width="1.2vw"
@@ -145,22 +145,9 @@
 											FUTBOL DE BARRIO <span
 												style="color: #c0c0c0; margin-left: 7px;"> /</span>
 										</div>
-										<div class="col-sm-3 col-md-3 cabeceraMedio">
-											<svg xmlns="http://www.w3.org/2000/svg" width="1.3vw"
-												height="1.3vw" fill="currentColor"
-												style="margin-right: 0.7vw" class="bi bi-search"
-												viewBox="0 0 16 16">
-  <path
-													d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-</svg>
-											<div class="barra-busqueda ">
-												<input type="text" placeholder=""
-													style="width: 16vw; height: 1.65vw; border-radius: 50px; display: flex; justify-content: left; align-items: center; font-size: 1vw; margin-right: 0.7vw">
-											</div>
-
-
-										</div>
-										<div class="col-sm-3 col-md-3 cabeceraMedio"
+								
+							<div class="col-sm-2 col-md-2 cabeceraMedio"></div>
+										<div class="col-sm-4 col-md-4 cabeceraMedio"
 											style="text-decoration: underline;">
 											<a href="" class="letraCabeceraMedio">BIENVENIDO: Carlos</a>
 										</div>
@@ -206,13 +193,16 @@
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item active" href="#"
-														style="color: white; background-color: #005500;">Idioma
+													<li><a class="dropdown-item seccion-bloqueada" href="#"
+														style="color: white; ">Idioma <span class="tooltip-text">Sección en
+													desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Ayuda </a></li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Configuración </a></li>
+													<li><a class="dropdown-item seccion-bloqueada" href="#"
+														style="color: white;">Ayuda <span class="tooltip-text">Sección en
+													desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada" href="#"
+														style="color: white;">Configuración <span class="tooltip-text">Sección en
+													desarrollo</span></a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -256,19 +246,9 @@
 											</span> FUTBOL DE BARRIO <span
 												style="color: #c0c0c0; margin-left: 7px;"> /</span>
 										</div>
-										<div
-											class="d-sm-none d-md-none col-4 d-block cabeceraMedio  d-flex justify-content-center align-items-center">
-											<svg xmlns="http://www.w3.org/2000/svg" width="1.7vw"
-												height="1.7vw" fill="currentColor"
-												style="margin-right: 0.7vw" class="bi bi-search"
-												viewBox="0 0 16 16">
-  <path
-													d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-</svg>
-											<div class="barra-busqueda ">
-												<input type="text" placeholder=""
-													style="width: 18vw; height: 2.5vw; border-radius: 50px; display: flex; justify-content: left; align-items: center; font-size: 1.75vw; margin-right: 0.7vw">
-											</div>
+									<div class="d-sm-none d-md-none col-4 cabeceraMedio"
+											style="text-decoration: underline;">
+											<a href="" class="letraCabeceraMedio">BIENVENIDO: Carlos</a>
 										</div>
 
 									</div>
@@ -325,13 +305,16 @@
 												</button>
 										<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.8vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item active" href="#"
-														style="color: white; background-color: #005500;">Idioma
+													<li><a class="dropdown-item seccion-bloqueada" href="#"
+														style="color: white; background-color: #005500;">Idioma <span class="tooltip-text">Sección en
+													desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Ayuda </a></li>
-													<li><a class="dropdown-item" href="#"
-														style="color: white;">Configuración </a></li>
+													<li><a class="dropdown-item seccion-bloqueada" href="#"
+														style="color: white;">Ayuda  <span class="tooltip-text">Sección en
+													desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada" href="#"
+														style="color: white;">Configuración <span class="tooltip-text">Sección en
+													desarrollo</span> </a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -1738,14 +1721,16 @@ function eliminarClub(idClub) {
     fetch("club?idClub=" + idClub, { method: "DELETE" })
         .then(function(res) {
             if (res.ok) {
-                var fila = document.getElementById("fila-" + idClub);
-                if (fila) fila.remove();
+                cargarClubes(); // 🔥 recalcula tabla + paginación
             } else {
                 alert("No se pudo eliminar el club.");
             }
         })
-        .catch(function(err) { console.error("Error eliminando club:", err); });
+        .catch(function(err) {
+            console.error("Error eliminando club:", err);
+        });
 }
+
 
 
 

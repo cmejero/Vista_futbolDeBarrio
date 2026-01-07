@@ -427,6 +427,13 @@ if (esPremium == null)
 				<div class="col-md-12 col-sm-12 col-12 mx-auto">
 
 
+
+
+					<div class="text-end mb-3">
+						<button id="botonMostrarFiltrosEventos" class="botonFiltrar"
+							style="background-color: black;">Mostrar filtros</button>
+					</div>
+
 					<!-- Filtros -->
 					<div id="filtrosEventos" class="filaFiltrar mb-4"
 						style="display: none;">
@@ -437,28 +444,30 @@ if (esPremium == null)
 						</div>
 
 						<div class="filtroItem">
+							<label for="buscarModalidad" class="labelFiltrar"><b>-Buscar
+									por Modalidad:</b></label> <input type="text" id="buscarModalidad"
+								class="inputFiltrar" placeholder="Buscar por Modalidad">
+						</div>
+
+						<div class="filtroItem">
 							<label class="labelFiltrar"><b>- Buscar por Estado:</b></label> <input
 								type="text" id="buscarEventoEstado" class="inputFiltrar"
-								placeholder="Inscrito / Activo">
+								placeholder="Abierto / Cerrado">
 						</div>
 					</div>
 
-					<div class="text-end mb-3">
-						<button id="botonMostrarFiltrosEventos" class="botonFiltrar"
-							style="background-color: black;">Mostrar filtros</button>
-					</div>
-
 					<!-- TABLA ESTILO INSTALACION -->
-					<table class="tablaAdmin tablaAdmin--instalaciones w-100 mb-3 mx-auto">
-						<thead class="tablaAdmin__head" >
+					<table
+						class="tablaAdmin tablaAdmin--instalaciones w-100 mb-3 mx-auto">
+						<thead class="tablaAdmin__head">
 							<tr>
-								<th >NOMBRE TORNEO</th>
-								<th >INSTALACION</th>
-								<th >DIRECCION</th>
-								<th >MODALIDAD</th>
-								<th >F.INICIO</th>
-								<th >PLAZAS</th>
-								<th >ESTADO</th>
+								<th>NOMBRE TORNEO</th>
+								<th>INSTALACION</th>
+								<th>DIRECCION</th>
+								<th>MODALIDAD</th>
+								<th>F.INICIO</th>
+								<th>PLAZAS</th>
+								<th>ESTADO</th>
 							</tr>
 						</thead>
 						<tbody id="tablaEventosJugador">
@@ -661,6 +670,59 @@ Avenida mujer trabajadora
 window.onload = function () {
     cargarEventosJugador();
 };
+let torneosJugador = [];
+
+document.getElementById("buscarEventoNombre")
+.addEventListener("input", filtrarEventos);
+
+document.getElementById("buscarModalidad")
+.addEventListener("input", filtrarEventos);
+
+document.getElementById("buscarEventoEstado")
+.addEventListener("input", filtrarEventos);
+
+document.getElementById("botonMostrarFiltrosEventos")
+.addEventListener("click", function () {
+    const filtros = document.getElementById("filtrosEventos");
+
+    if (filtros.style.display === "none") {
+        filtros.style.display = "flex";
+        this.textContent = "Ocultar filtros";
+    } else {
+        filtros.style.display = "none";
+        this.textContent = "Mostrar filtros";
+    }
+});
+
+
+
+function filtrarEventos() {
+    const nombre = document.getElementById("buscarEventoNombre").value.toLowerCase();
+    const modalidad = document.getElementById("buscarModalidad").value.toLowerCase();
+    const estado = document.getElementById("buscarEventoEstado").value.toLowerCase();
+
+    const filtrados = torneosJugador.filter(t => {
+
+        const coincideNombre =
+            !nombre || (t.nombreTorneo && t.nombreTorneo.toLowerCase().includes(nombre));
+
+        const coincideModalidad =
+            !modalidad || (t.modalidad && t.modalidad.toLowerCase().includes(modalidad));
+
+        // Abierto / Cerrado según tu lógica
+        const estadoTorneo = t.estaActivo ? "cerrado" : "abierto";
+        const coincideEstado =
+            !estado || estadoTorneo.includes(estado);
+
+        return coincideNombre && coincideModalidad && coincideEstado;
+    });
+
+    pintarTablaTorneos(filtrados);
+}
+
+
+
+
 
 function cargarEventosJugador() {
     const usuarioId = sessionStorage.getItem("usuarioId");
@@ -670,10 +732,12 @@ function cargarEventosJugador() {
         return;
     }
 
-    // Obtenemos todos los torneos de todos los clubes del usuario
     fetch("equipoTorneo?usuarioId=" + usuarioId)
         .then(response => response.json())
-        .then(torneos => pintarTablaTorneos(torneos))
+        .then(torneos => {
+            torneosJugador = torneos;      
+            pintarTablaTorneos(torneos);   
+        })
         .catch(e => {
             console.error("Error cargando torneos: ", e);
             const cont = document.getElementById("tablaEventosJugador");
@@ -717,6 +781,8 @@ function pintarTablaTorneos(torneos) {
 
  
 }
+
+
 
 
 

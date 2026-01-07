@@ -402,7 +402,7 @@
 
 							<!-- Item 3 -->
 							<div class="carousel-item" data-bs-interval="3000">
-								<a href="Registrar.jsp"><img src="Imagenes/carousel3.png"
+								<a href="Eventos.jsp"><img src="Imagenes/carousel3.png"
 									alt="imagen carousel 3, unirse a eventos" class="d-block w-100"></a>
 							</div>
 						</div>

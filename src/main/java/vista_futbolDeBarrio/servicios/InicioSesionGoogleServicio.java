@@ -85,9 +85,8 @@ return null;
     loginBase.setToken(loginJson.optString("token", ""));
     loginBase.setIdTipoUsuario(loginJson.optLong("idTipoUsuario", 0));
     loginBase.setEsPremium(loginJson.optBoolean("esPremium", false));
-
-    // Mapear imagen si existe
-    
+    String token = jsonResponse.optString("token", null);
+    loginBase.setToken(token);
     // Mapear imagen si existe
     if (loginJson.has("imagenUsuario") && !loginJson.isNull("imagenUsuario")) {
         loginBase.setImagenUsuario(Base64.getDecoder().decode(loginJson.optString("imagenUsuario", "")));

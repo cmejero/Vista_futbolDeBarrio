@@ -175,12 +175,13 @@
 								<div class="col-sm-4 col-md-4 ">
 									<div class="row  ">
 										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
-											<a href="Eventos.jsp" class="letraCabeceraAbajo"  style="color: #d4af37;">EVENTOS</a>
+											<a href="Eventos.jsp" class="letraCabeceraAbajo"
+												style="color: #d4af37;">EVENTOS</a>
 										</div>
 
 										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES<span class="tooltip-text">Sección en
-													desarrollo</span></a>
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES<span
+												class="tooltip-text">Sección en desarrollo</span></a>
 										</div>
 									</div>
 								</div>
@@ -190,16 +191,15 @@
 										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
 											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo">MARCADORES</a>
 										</div>
-										<div
-											class="col-sm-6 col-md-6 cabeceraAbajo  ">
-											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span class="tooltip-text">Sección en
-													desarrollo</span></a>
+										<div class="col-sm-6 col-md-6 cabeceraAbajo  ">
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span
+												class="tooltip-text">Sección en desarrollo</span></a>
 										</div>
 
 									</div>
 								</div>
 
-								
+
 
 								<!-- columna derecha -->
 								<div class="col-sm-2 col-md-2 ">
@@ -220,16 +220,16 @@
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white; background-color: #005500;">Idioma<span class="tooltip-text">Sección en
-													desarrollo</span>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white; background-color: #005500;">Idioma<span
+															class="tooltip-text">Sección en desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white;">Ayuda <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white;">Configuración <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Ayuda <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Configuración <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
 
 												</ul>
 											</div>
@@ -270,7 +270,8 @@
 										<div
 											class="d-sm-none d-md-none col-4 d-block cabeceraMedio  d-flex justify-content-center align-items-center">
 											<a href="Registrar.jsp">
-												<button type="button" class="botonRegistrarCabecera" style="font-size:1.6vw">REGISTRARSE</button>
+												<button type="button" class="botonRegistrarCabecera"
+													style="font-size: 1.6vw">REGISTRARSE</button>
 											</a>
 										</div>
 
@@ -292,7 +293,7 @@
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-3 ">
 									<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">MARCADORES</a>
+										style="text-decoration: none; font-size: 2.5vw;">MARCADORES</a>
 								</div>
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-3 ">
@@ -383,7 +384,14 @@
 				<div class="col-md-12 col-sm-12 col-12 mx-auto">
 
 
-					<!-- Filtros -->
+
+
+					<div class="text-end mb-3">
+						<button id="botonMostrarFiltrosEventos" class="botonFiltrar"
+							style="background-color: black;">Mostrar filtros</button>
+					</div>
+
+					<!-- Filtros de búsqueda -->
 					<div id="filtrosEventos" class="filaFiltrar mb-4"
 						style="display: none;">
 						<div class="filtroItem">
@@ -393,28 +401,30 @@
 						</div>
 
 						<div class="filtroItem">
+							<label for="buscarModalidad" class="labelFiltrar"><b>-Buscar
+									por Modalidad:</b></label> <input type="text" id="buscarModalidad"
+								class="inputFiltrar" placeholder="Buscar por Modalidad">
+						</div>
+
+						<div class="filtroItem">
 							<label class="labelFiltrar"><b>- Buscar por Estado:</b></label> <input
 								type="text" id="buscarEventoEstado" class="inputFiltrar"
-								placeholder="Inscrito / Activo">
+								placeholder="Abierto / Cerrado">
 						</div>
 					</div>
 
-					<div class="text-end mb-3">
-						<button id="botonMostrarFiltrosEventos" class="botonFiltrar"
-							style="background-color: black;">Mostrar filtros</button>
-					</div>
-
 					<!-- TABLA ESTILO INSTALACION -->
-					<table class="tablaAdmin tablaAdmin--instalaciones w-100 mb-3 mx-auto">
-						<thead class="tablaAdmin__head" >
+					<table
+						class="tablaAdmin tablaAdmin--instalaciones w-100 mb-3 mx-auto">
+						<thead class="tablaAdmin__head">
 							<tr>
-								<th >NOMBRE TORNEO</th>
-								<th >INSTALACION</th>
-								<th >DIRECCION</th>
-								<th >MODALIDAD</th>
-								<th >F.INICIO</th>
-								<th >PLAZAS</th>
-								<th >ESTADO</th>
+								<th>NOMBRE TORNEO</th>
+								<th>INSTALACION</th>
+								<th>DIRECCION</th>
+								<th>MODALIDAD</th>
+								<th>F.INICIO</th>
+								<th>PLAZAS</th>
+								<th>ESTADO</th>
 							</tr>
 						</thead>
 						<tbody id="tablaEventosJugador">
@@ -613,21 +623,76 @@ Avenida mujer trabajadora
 
 
 
-<script>
+	<script>
 window.onload = function () {
     cargarTodosLosTorneos();
 };
 
+let torneosJugador = [];
+
+document.getElementById("buscarEventoNombre")
+.addEventListener("input", filtrarEventos);
+
+document.getElementById("buscarModalidad")
+.addEventListener("input", filtrarEventos);
+
+document.getElementById("buscarEventoEstado")
+.addEventListener("input", filtrarEventos);
+
+document.getElementById("botonMostrarFiltrosEventos")
+.addEventListener("click", function () {
+    const filtros = document.getElementById("filtrosEventos");
+
+    if (filtros.style.display === "none") {
+        filtros.style.display = "flex";
+        this.textContent = "Ocultar filtros";
+    } else {
+        filtros.style.display = "none";
+        this.textContent = "Mostrar filtros";
+    }
+});
+
+
+
+function filtrarEventos() {
+    const nombre = document.getElementById("buscarEventoNombre").value.toLowerCase();
+    const modalidad = document.getElementById("buscarModalidad").value.toLowerCase();
+    const estado = document.getElementById("buscarEventoEstado").value.toLowerCase();
+
+    const filtrados = torneosJugador.filter(t => {
+
+        const coincideNombre =
+            !nombre || (t.nombreTorneo && t.nombreTorneo.toLowerCase().includes(nombre));
+
+        const coincideModalidad =
+            !modalidad || (t.modalidad && t.modalidad.toLowerCase().includes(modalidad));
+
+        // Abierto / Cerrado según tu lógica
+        const estadoTorneo = t.estaActivo ? "cerrado" : "abierto";
+        const coincideEstado =
+            !estado || estadoTorneo.includes(estado);
+
+        return coincideNombre && coincideModalidad && coincideEstado;
+    });
+
+    pintarTablaTorneos(filtrados);
+}
+
+
 function cargarTodosLosTorneos() {
-    fetch("torneo") // Llama a tu servlet
+    fetch("torneo")
         .then(response => response.json())
-        .then(torneos => pintarTablaTorneos(torneos))
+        .then(torneos => {
+            torneosJugador = torneos;   // ✅ ESTO ES LO QUE FALTABA
+            pintarTablaTorneos(torneos);
+        })
         .catch(e => {
             console.error("Error cargando torneos: ", e);
             const cont = document.getElementById("tablaEventosJugador");
             cont.innerHTML = "<tr><td colspan='7'>No se pudieron cargar los torneos.</td></tr>";
         });
 }
+
 function pintarTablaTorneos(torneos) {
     const cont = document.getElementById("tablaEventosJugador");
     cont.innerHTML = "";

@@ -487,13 +487,12 @@ if (esPremium == null)
 
 
 								<!-- Filtros de búsqueda -->
-								<div id="filtrosTorneo" class="filaFiltrar mb-4"
+								<div id="filtrosEventos" class="filaFiltrar mb-4"
 									style="display: none;">
-
 									<div class="filtroItem">
-										<label for="buscarNombre" class="labelFiltrar"><b>-Buscar
-												por Nombre:</b></label> <input type="text" id="buscarNombre"
-											class="inputFiltrar" placeholder="Buscar por Nombre">
+										<label class="labelFiltrar"><b>- Buscar por
+												Nombre:</b></label> <input type="text" id="buscarEventoNombre"
+											class="inputFiltrar" placeholder="Nombre torneo">
 									</div>
 
 									<div class="filtroItem">
@@ -501,10 +500,11 @@ if (esPremium == null)
 												por Modalidad:</b></label> <input type="text" id="buscarModalidad"
 											class="inputFiltrar" placeholder="Buscar por Modalidad">
 									</div>
+
 									<div class="filtroItem">
-										<label for="buscarFechaInicio" class="labelFiltrar"><b>-Buscar
-												por fecha inicio:</b></label> <input type="text" id="buscarFechaInicio"
-											class="inputFiltrar" placeholder="Buscar por Fecha Inicio">
+										<label class="labelFiltrar"><b>- Buscar por
+												Estado:</b></label> <input type="text" id="buscarEventoEstado"
+											class="inputFiltrar" placeholder="Abierto / Cerrado">
 									</div>
 								</div>
 
@@ -745,7 +745,10 @@ document.getElementById("botonTorneo").addEventListener("click", function() {
 
 // Mostrar u ocultar filtros
 document.getElementById("mostrarFiltrosTorneo").addEventListener("click", function() {
-    const filtros = document.getElementById("filtrosTorneo");
+    const filtros = document.getElementById("filtrosEventos");
+
+    if (!filtros) return; // seguridad extra
+
     if (filtros.style.display === "none") {
         filtros.style.display = "flex";
         this.textContent = "Ocultar Filtros";
@@ -754,6 +757,7 @@ document.getElementById("mostrarFiltrosTorneo").addEventListener("click", functi
         this.textContent = "Mostrar Filtros";
     }
 });
+
 
 // Función para filtrar la tabla
 function filtrarTabla(idFiltro, columnaIndex) {
@@ -768,15 +772,20 @@ function filtrarTabla(idFiltro, columnaIndex) {
 }
 
 // Eventos de filtro
-document.getElementById("buscarNombre").addEventListener("input", function() {
-    filtrarTabla("buscarNombre", 0);
-});
-document.getElementById("buscarModalidad").addEventListener("input", function() {
-    filtrarTabla("buscarModalidad", 1);
-});
-document.getElementById("buscarFechaInicio").addEventListener("input", function() {
-    filtrarTabla("buscarFechaInicio", 2);
-});
+let torneosJugador = [];
+
+document.getElementById("buscarEventoNombre")
+.addEventListener("input", filtrarEventos);
+
+document.getElementById("buscarModalidad")
+.addEventListener("input", filtrarEventos);
+
+document.getElementById("buscarEventoEstado")
+.addEventListener("input", filtrarEventos);
+
+
+
+
 
 // Volver a la vista anterior
 document.getElementById("volverAContenidoC").addEventListener("click", function() {
@@ -846,6 +855,7 @@ $(document).ready(function() {
         dataType: 'json',
         xhrFields: { withCredentials: true },
         success: function(data) {
+        	
             var tbody = document.getElementById("tablaCuerpoTorneo");
             tbody.innerHTML = "";
 
@@ -989,6 +999,29 @@ $(document).ready(function() {
 
 		    // Si el número total de filas visibles cambió (por ejemplo filtros), recalculamos y mostramos la 1ª página
 		    mostrarPagina(1);
+		}
+		
+		function filtrarEventos() {
+		    const filtroNombre = document.getElementById("buscarEventoNombre").value.toLowerCase();
+		    const filtroModalidad = document.getElementById("buscarModalidad").value.toLowerCase();
+		    const filtroEstado = document.getElementById("buscarEventoEstado").value.toLowerCase();
+
+		    const filas = document.querySelectorAll("#tablaCuerpoTorneo tr");
+
+		    filas.forEach(fila => {
+		        const celdas = fila.getElementsByTagName("td");
+
+		        const nombre = celdas[0]?.textContent.toLowerCase() || "";
+		        const modalidad = celdas[3]?.textContent.toLowerCase() || "";
+		        const estado = celdas[6]?.textContent.toLowerCase() || "";
+
+		        const coincide =
+		            nombre.includes(filtroNombre) &&
+		            modalidad.includes(filtroModalidad) &&
+		            estado.includes(filtroEstado);
+
+		        fila.style.display = coincide ? "" : "none";
+		    });
 		}
 
 		function abrirGmail() {

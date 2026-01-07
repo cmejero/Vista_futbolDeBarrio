@@ -28,51 +28,71 @@ public class ClubServicio {
      * 
      * @param club El objeto ClubDto que contiene los datos del club a guardar.
      */
-    public void guardarClub(ClubDto club) {
-        try {
-            JSONObject json = new JSONObject();
-            json.put("nombreClub", club.getNombreClub());
-            json.put("abreviaturaClub", club.getAbreviaturaClub());
-            json.put("descripcionClub", club.getDescripcionClub());
-            json.put("fechaCreacionClub", club.getFechaCreacionClub());
-            json.put("fechaFundacionClub", club.getFechaFundacionClub());
-            json.put("localidadClub", club.getLocalidadClub());
-            json.put("paisClub", club.getPaisClub());
-            json.put("emailClub", club.getEmailClub());
-            json.put("passwordClub", club.getPasswordClub());
-            json.put("telefonoClub", club.getTelefonoClub());
-        	byte[] imagenBytes = club.getLogoClub();
-			if (imagenBytes != null && imagenBytes.length > 0) {
-				String imagenBase64 = Base64.getEncoder().encodeToString(imagenBytes);
-				json.put("logoClub", imagenBase64);
-			} else {
-				json.put("logoClub", JSONObject.NULL); 
-			}
-            json.put("esPremium", club.isEsPremium());
+	public String guardarClub(ClubDto club) {
+	    try {
+	        JSONObject json = new JSONObject();
+	        json.put("nombreClub", club.getNombreClub());
+	        json.put("abreviaturaClub", club.getAbreviaturaClub());
+	        json.put("descripcionClub", club.getDescripcionClub());
+	        json.put("fechaCreacionClub", club.getFechaCreacionClub());
+	        json.put("fechaFundacionClub", club.getFechaFundacionClub());
+	        json.put("localidadClub", club.getLocalidadClub());
+	        json.put("paisClub", club.getPaisClub());
+	        json.put("emailClub", club.getEmailClub());
+	        json.put("passwordClub", club.getPasswordClub());
+	        json.put("telefonoClub", club.getTelefonoClub());
 
-            String urlApi = "http://localhost:9527/api/guardarClub";
-            URL url = new URL(urlApi);
-            
-            HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-            conex.setRequestMethod("POST");
-            conex.setRequestProperty("Content-Type", "application/json");
-            conex.setDoOutput(true);
+	        byte[] imagenBytes = club.getLogoClub();
+	        if (imagenBytes != null && imagenBytes.length > 0) {
+	            String imagenBase64 = Base64.getEncoder().encodeToString(imagenBytes);
+	            json.put("logoClub", imagenBase64);
+	        } else {
+	            json.put("logoClub", JSONObject.NULL);
+	        }
 
-            try (OutputStream os = conex.getOutputStream()) {
-                byte[] input = json.toString().getBytes("utf-8");
-                os.write(input, 0, input.length);
-            }
+	        json.put("esPremium", club.isEsPremium());
 
-            int responseCode = conex.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                // System.out.println("Club guardado correctamente.");
-            } else {
-                // System.out.println("Error al guardar el club: " + responseCode);
-            }
-        } catch (Exception e) {
-            // System.out.println("ERROR- [ServiciosClub]" + e);
-        }
-    }
+	        String urlApi = "http://localhost:9527/api/guardarClub";
+	        URL url = new URL(urlApi);
+	        HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+	        conex.setRequestMethod("POST");
+	        conex.setRequestProperty("Content-Type", "application/json");
+	        conex.setDoOutput(true);
+
+	        try (OutputStream os = conex.getOutputStream()) {
+	            byte[] input = json.toString().getBytes("utf-8");
+	            os.write(input, 0, input.length);
+	        }
+
+	        int responseCode = conex.getResponseCode();
+	        if (responseCode == HttpURLConnection.HTTP_OK) {
+	            return "ok"; // registro correcto
+	        } else if (responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
+	            try (BufferedReader br = new BufferedReader(new InputStreamReader(conex.getErrorStream(), "utf-8"))) {
+	                StringBuilder responseText = new StringBuilder();
+	                String line;
+	                while ((line = br.readLine()) != null) {
+	                    responseText.append(line.trim());
+	                }
+	                String error = responseText.toString();
+	                if (error.contains("ya está en uso")) {
+	                    return "club_existente";
+	                } else if (error.toLowerCase().contains("email")) {
+	                    return "email_invalido";
+	                } else {
+	                    return "error_servidor";
+	                }
+	            }
+	        } else {
+	            return "error_servidor";
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "error_servidor";
+	    }
+	}
+
 
     /**
      * Obtiene una lista de clubes desde el servicio web.
@@ -273,6 +293,41 @@ public class ClubServicio {
             return false;
         }
     }
+    
+    /**
+     * Elimina un club por su ID llamando a la API REST.
+     * 
+     * @param idClub  ID del club a eliminar.
+     * @param request Solicitud HTTP para obtener la sesión y el token JWT.
+     * @return true si el club fue eliminado correctamente, false en caso contrario.
+     */
+    public boolean eliminarClub(Long idClub, HttpServletRequest request) {
+        try {
+            // 1️⃣ Obtener el token JWT de la sesión
+            HttpSession session = request.getSession(false);
+            if (session == null) throw new IllegalStateException("No hay sesión activa");
+
+            String token = (String) session.getAttribute("token");
+            if (token == null || token.isEmpty()) throw new IllegalStateException("No se encontró token JWT");
+
+            // 2️⃣ Preparar la conexión a la API
+            String urlApi = "http://localhost:9527/api/eliminarClub/" + idClub;
+            URL url = new URL(urlApi);
+            HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+            conex.setRequestMethod("DELETE");
+            conex.setRequestProperty("Accept", "application/json");
+            conex.setRequestProperty("Authorization", "Bearer " + token); // 🔑 Token JWT
+
+            // 3️⃣ Leer respuesta
+            int responseCode = conex.getResponseCode();
+            return responseCode == HttpURLConnection.HTTP_OK;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     
     public boolean marcarPremium(Long idClub, HttpServletRequest request) {

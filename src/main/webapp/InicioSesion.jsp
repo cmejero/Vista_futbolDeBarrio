@@ -378,18 +378,72 @@
 
 		<%
 		String mensajeAlta = request.getParameter("mensajeAlta");
-		if ("registro_exitoso".equals(mensajeAlta)) {
+		if (mensajeAlta != null) {
+			String color = "red";
+			String texto = "";
+
+			switch (mensajeAlta) {
+				case "registro_exitoso" :
+			texto = "¡Usuario registrado correctamente! Revisa tu correo para verificar tu cuenta.";
+			color = "green";
+			break;
+				case "error_password" :
+			texto = "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.";
+			break;
+				case "usuario_existente" :
+			texto = "El usuario ya existe. Prueba con otro alias o email.";
+			break;
+				case "email_invalido" :
+			texto = "El correo electrónico no tiene un formato válido.";
+			break;
+				case "error_servidor" :
+			texto = "Ocurrió un error en el servidor. Inténtalo más tarde.";
+			break;
+				default :
+			texto = "Ocurrió un error inesperado.";
+			break;
+			}
 		%>
-		<div id="mensajeAltaString" class="alert alert-success text-center">
-			¡Usuario registrado correctamente! Ahora puedes iniciar sesión.</div>
-		<%
-		} else if ("error_password".equals(mensajeAlta)) {
-		%>
-		<div class="alert alert-danger text-center">Las contraseñas no
-			coinciden. Por favor, inténtalo de nuevo.</div>
+		<div id="mensajeAltaString" class="alert text-center"
+			style="color:<%=color%>;">
+			<%=texto%>
+		</div>
 		<%
 		}
 		%>
+		
+		<%
+String errorLogin = request.getParameter("error");
+if (errorLogin != null) {
+    String texto = "";
+    String color = "red";
+
+    switch (errorLogin) {
+        case "credenciales":
+            texto = "Email o contraseña incorrectos.";
+            break;
+        case "servidor":
+            texto = "Ocurrió un error en el servidor. Inténtalo más tarde.";
+            break;
+        case "tipoDesconocido":
+            texto = "Tipo de usuario desconocido.";
+            break;
+    }
+%>
+<div id="mensajeLogin" class="alert text-center" style="color:<%=color%>;">
+    <%=texto%>
+</div>
+<script>
+    // Ocultar automáticamente después de 3 segundos
+    setTimeout(() => {
+        const msg = document.getElementById("mensajeLogin");
+        if (msg) msg.style.display = "none";
+    }, 3000);
+</script>
+<%
+}
+%>
+
 
 		<div
 			class="d-flex justify-content-center align-items-center  mt-4 mb-5">
@@ -648,7 +702,6 @@ Avenida mujer trabajadora
 
 
 
-
 	<script>
 function mostrarContrasena() {
     const input = document.getElementById("password");
@@ -656,22 +709,22 @@ function mostrarContrasena() {
 }
 
 window.onload = function() {
-    // Ocultar mensajes
-    const mensaje = document.getElementById("mensajeSesionCerrada");
-    if (mensaje) setTimeout(() => mensaje.style.display = "none", 2500);
+    // Ocultar mensajes automáticamente
+    const mensajeSesion = document.getElementById("mensajeSesionCerrada");
+    if (mensajeSesion) setTimeout(() => mensajeSesion.style.display = "none", 2500);
 
     const mensajeAlta = document.getElementById("mensajeAltaString");
-    if (mensajeAlta) setTimeout(() => mensajeAlta.style.display = "none", 3000);
+    if (mensajeAlta) setTimeout(() => mensajeAlta.style.display = "none", 4000);
 
     // Detectar si Google devolvió un "code" y "tipoUsuario"
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
-    const tipo = urlParams.get('tipoUsuario'); // ahora viene directamente de Google URL
+    const tipo = urlParams.get('tipoUsuario');
 
     if (code && tipo) {
         console.log("🔁 Redirigiendo al servlet con code y tipoUsuario:", tipo);
 
-        // Crear un formulario dinámico para enviar GET al servlet
+        // Crear formulario dinámico para enviar GET al servlet loginGoogle
         const form = document.createElement('form');
         form.method = 'GET';
         form.action = 'loginGoogle';
@@ -709,33 +762,33 @@ botonGoogle.addEventListener('click', function() {
     const scope = 'openid email profile';
     const responseType = 'code';
 
-    // Pasar tipoUsuario directamente en la URL
-   const state = encodeURIComponent(tipo); // tipoUsuario
-const googleUrl =
-    'https://accounts.google.com/o/oauth2/v2/auth?' +
-    'client_id=' + encodeURIComponent(clientId) +
-    '&redirect_uri=' + encodeURIComponent(redirectUri) +
-    '&response_type=' + encodeURIComponent(responseType) +
-    '&scope=' + encodeURIComponent(scope) +
-    '&state=' + state; 
+    const state = encodeURIComponent(tipo); // tipoUsuario
+    const googleUrl =
+        'https://accounts.google.com/o/oauth2/v2/auth?' +
+        'client_id=' + encodeURIComponent(clientId) +
+        '&redirect_uri=' + encodeURIComponent(redirectUri) +
+        '&response_type=' + encodeURIComponent(responseType) +
+        '&scope=' + encodeURIComponent(scope) +
+        '&state=' + state; 
 
     window.location.href = googleUrl;
 });
 
-
+// Función opcional para abrir Gmail
 function abrirGmail() {
-	const email = "futboldebarriosevilla@gmail.com";
-	const subject = "Titulo del Asunto: ";
-	const body = "Escriba aqui el mensaje....";
+    const email = "futboldebarriosevilla@gmail.com";
+    const subject = "Titulo del Asunto: ";
+    const body = "Escriba aqui el mensaje....";
 
-	const url = "https://mail.google.com/mail/?view=cm&fs=1&to="
-			+ encodeURIComponent(email) + "&su="
-			+ encodeURIComponent(subject) + "&body="
-			+ encodeURIComponent(body);
+    const url = "https://mail.google.com/mail/?view=cm&fs=1&to="
+            + encodeURIComponent(email) + "&su="
+            + encodeURIComponent(subject) + "&body="
+            + encodeURIComponent(body);
 
-	window.open(url, "_blank");
+    window.open(url, "_blank");
 }
 </script>
+
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

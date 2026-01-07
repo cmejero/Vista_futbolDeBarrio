@@ -79,7 +79,8 @@ public class InstalacionControlador extends HttpServlet {
      */
     private void crearInstalacion(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-    	   ServletContext context = request.getServletContext();
+        ServletContext context = request.getServletContext();
+
         String nombreInstalacionForm = request.getParameter("nombreInstalacion");
         String direccionInstalacionForm = request.getParameter("direccionInstalacion");
         String telefonoInstalacionForm = request.getParameter("telefonoInstalacion");
@@ -101,9 +102,8 @@ public class InstalacionControlador extends HttpServlet {
         } else {
             imagenBytes = Utilidades.obtenerImagenPorDefecto(context);
         }
-       
 
-
+        // Construir DTO de la instalación
         InstalacionDto nuevaInstalacion = new InstalacionDto();
         nuevaInstalacion.setNombreInstalacion(nombreInstalacionForm);
         nuevaInstalacion.setDireccionInstalacion(direccionInstalacionForm);
@@ -112,39 +112,43 @@ public class InstalacionControlador extends HttpServlet {
         if (tipoCampo1Form != null && !tipoCampo1Form.isEmpty()) {
             nuevaInstalacion.setTipoCampo1(Modalidad.valueOf(tipoCampo1Form));
         }
-
- 
         if (tipoCampo2Form != null && !tipoCampo2Form.isEmpty()) {
             nuevaInstalacion.setTipoCampo2(Modalidad.valueOf(tipoCampo2Form));
         } else {
             nuevaInstalacion.setTipoCampo2(nuevaInstalacion.getTipoCampo1());
         }
-
         if (tipoCampo3Form != null && !tipoCampo3Form.isEmpty()) {
             nuevaInstalacion.setTipoCampo3(Modalidad.valueOf(tipoCampo3Form));
         } else {
             nuevaInstalacion.setTipoCampo3(nuevaInstalacion.getTipoCampo1());
         }
-
-
         nuevaInstalacion.setServiciosInstalacion(serviciosInstalacionForm);
-
         if (estadoInstalacionForm != null && !estadoInstalacionForm.isEmpty()) {
             nuevaInstalacion.setEstadoInstalacion(Estado.valueOf(estadoInstalacionForm));
         }
-
         nuevaInstalacion.setPasswordInstalacion(passwordInstalacionForm);
-        if (imagenBytes == null) {
-            imagenBytes = Utilidades.obtenerImagenPorDefecto(context);
-        }
         nuevaInstalacion.setImagenInstalacion(imagenBytes);
         nuevaInstalacion.setTorneoIds(new ArrayList<>());
 
-        servicio.guardarInstalacion(nuevaInstalacion);
-        Log.ficheroLog("Instalación creada correctamente: " + nombreInstalacionForm);
-        response.sendRedirect("InicioSesion.jsp?mensajeAlta=registro_exitoso");
-    }
+        // ✅ Guardar instalación y capturar resultado
+        String resultado = servicio.guardarInstalacion(nuevaInstalacion);
 
+        // Enviar mensaje al usuario según el resultado
+        switch (resultado) {
+            case "ok":
+                response.sendRedirect("InicioSesion.jsp?mensajeAlta=registro_exitoso");
+                break;
+            case "instalacion_existente":
+                response.sendRedirect("InicioSesion.jsp?mensajeAlta=usuario_existente");
+                break;
+            case "email_invalido":
+                response.sendRedirect("InicioSesion.jsp?mensajeAlta=email_invalido");
+                break;
+            default:
+                response.sendRedirect("InicioSesion.jsp?mensajeAlta=error_servidor");
+                break;
+        }
+    }
     
     /**
      * Metodo privado que se encarga de modificar una instalación existente.

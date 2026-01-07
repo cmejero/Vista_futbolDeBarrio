@@ -166,49 +166,70 @@ public class UsuarioServicio {
      * 
      * @param usuario El usuario a guardar.
      */
-	public void guardarUsuario(UsuarioDto usuario) {
-		try {
-			JSONObject json = new JSONObject();
-			json.put("nombreCompletoUsuario", usuario.getNombreCompletoUsuario());
-			json.put("aliasUsuario", usuario.getAliasUsuario());
-			json.put("fechaNacimientoUsuario", usuario.getFechaNacimientoUsuario());
-			json.put("emailUsuario", usuario.getEmailUsuario());
-			json.put("telefonoUsuario", usuario.getTelefonoUsuario());
-			json.put("passwordUsuario", usuario.getPasswordUsuario());
-			json.put("rolUsuario", usuario.getRolUsuario().name());
-			json.put("descripcionUsuario", usuario.getDescripcionUsuario());
-			byte[] imagenBytes = usuario.getImagenUsuario();
-			if (imagenBytes != null && imagenBytes.length > 0) {
-				String imagenBase64 = Base64.getEncoder().encodeToString(imagenBytes);
-				json.put("imagenUsuario", imagenBase64);
-			} else {
-				json.put("imagenUsuario", JSONObject.NULL); 
-			}
-			json.put("estadoUsuario", usuario.getEstadoUsuario());
-			json.put("esPremium", usuario.isEsPremium());
+	public String guardarUsuario(UsuarioDto usuario) {
+	    try {
+	        JSONObject json = new JSONObject();
+	        json.put("nombreCompletoUsuario", usuario.getNombreCompletoUsuario());
+	        json.put("aliasUsuario", usuario.getAliasUsuario());
+	        json.put("fechaNacimientoUsuario", usuario.getFechaNacimientoUsuario());
+	        json.put("emailUsuario", usuario.getEmailUsuario());
+	        json.put("telefonoUsuario", usuario.getTelefonoUsuario());
+	        json.put("passwordUsuario", usuario.getPasswordUsuario());
+	        json.put("rolUsuario", usuario.getRolUsuario().name());
+	        json.put("descripcionUsuario", usuario.getDescripcionUsuario());
 
-			String urlApi = "http://localhost:9527/api/guardarUsuario";
-			URL url = new URL(urlApi);
-			HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-			conex.setRequestMethod("POST");
-			conex.setRequestProperty("Content-Type", "application/json");
-			conex.setDoOutput(true);
+	        byte[] imagenBytes = usuario.getImagenUsuario();
+	        if (imagenBytes != null && imagenBytes.length > 0) {
+	            String imagenBase64 = Base64.getEncoder().encodeToString(imagenBytes);
+	            json.put("imagenUsuario", imagenBase64);
+	        } else {
+	            json.put("imagenUsuario", JSONObject.NULL);
+	        }
 
-			try (OutputStream os = conex.getOutputStream()) {
-				byte[] input = json.toString().getBytes("utf-8");
-				os.write(input, 0, input.length);
-			}
+	        json.put("estadoUsuario", usuario.getEstadoUsuario());
+	        json.put("esPremium", usuario.isEsPremium());
 
-			int responseCode = conex.getResponseCode();
-			if (responseCode == HttpURLConnection.HTTP_OK) {
-				// System.out.println("Usuario guardado correctamente.");
-			} else {
-				// System.out.println("Error al guardar usuario: " + responseCode);
-			}
+	        String urlApi = "http://localhost:9527/api/guardarUsuario";
+	        URL url = new URL(urlApi);
+	        HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+	        conex.setRequestMethod("POST");
+	        conex.setRequestProperty("Content-Type", "application/json");
+	        conex.setDoOutput(true);
 
-		} catch (Exception e) {
-			// System.out.println("ERROR- [ServiciosUsuario]" + e);
-		}
+	        try (OutputStream os = conex.getOutputStream()) {
+	            byte[] input = json.toString().getBytes("utf-8");
+	            os.write(input, 0, input.length);
+	        }
+
+	        int responseCode = conex.getResponseCode();
+	        if (responseCode == HttpURLConnection.HTTP_OK) {
+	            return "ok"; // registro correcto
+	        } else if (responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
+	            try (BufferedReader br = new BufferedReader(new InputStreamReader(conex.getErrorStream(), "utf-8"))) {
+	                StringBuilder responseText = new StringBuilder();
+	                String line;
+	                while ((line = br.readLine()) != null) {
+	                    responseText.append(line.trim());
+	                }
+	                String error = responseText.toString();
+	                // Normalizamos los errores
+	                if (error.contains("ya está en uso")) {
+	                    return "usuario_existente";
+	                } else if (error.contains("email")) {
+	                    return "email_invalido";
+	                } else {
+	                    return "error_servidor";
+	                }
+	            }
+	        } else {
+	            return "error_servidor";
+	        }
+
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "error_servidor";
+	    }
 	}
 
 	  /**

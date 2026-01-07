@@ -86,47 +86,63 @@ public class ClubControlador extends HttpServlet {
 	 * @throws ServletException Si ocurre un error relacionado con el servlet.
 	 */
 	private void crearClub(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
-		String nombreClubForm = request.getParameter("nombreClub");
-		String abreviaturaClubForm = request.getParameter("abreviaturaClub");
-		String descripcionClubForm = request.getParameter("descripcionClub");
+	        throws IOException, ServletException {
 
-		LocalDateTime fechaCreacion = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-		String fechaCreacionClubForm = fechaCreacion.format(formatter);
+	    String nombreClubForm = request.getParameter("nombreClub");
+	    String abreviaturaClubForm = request.getParameter("abreviaturaClub");
+	    String descripcionClubForm = request.getParameter("descripcionClub");
 
-		String localidadClubForm = request.getParameter("localidadClub");
-		String paisClubForm = request.getParameter("paisClub");
-		String emailClubForm = request.getParameter("emailClub");
-		String passwordClubForm = request.getParameter("passwordClub");
-		String telefonoClubForm = request.getParameter("telefonoClub");
+	    LocalDateTime fechaCreacion = LocalDateTime.now();
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+	    String fechaCreacionClubForm = fechaCreacion.format(formatter);
 
-		Part imagenPart = request.getPart("logoClub");
-		byte[] logoClubForm = null;
-		if (imagenPart != null && imagenPart.getSize() > 0) {
-			logoClubForm = new byte[(int) imagenPart.getSize()];
-			InputStream inputStream = imagenPart.getInputStream();
-			inputStream.read(logoClubForm);
-		}
+	    String localidadClubForm = request.getParameter("localidadClub");
+	    String paisClubForm = request.getParameter("paisClub");
+	    String emailClubForm = request.getParameter("emailClub");
+	    String passwordClubForm = request.getParameter("passwordClub");
+	    String telefonoClubForm = request.getParameter("telefonoClub");
 
-		ClubDto nuevoClub = new ClubDto();
-		nuevoClub.setNombreClub(nombreClubForm);
-		nuevoClub.setAbreviaturaClub(abreviaturaClubForm);
-		nuevoClub.setDescripcionClub(descripcionClubForm);
-		nuevoClub.setFechaCreacionClub(fechaCreacionClubForm);
-		nuevoClub.setFechaFundacionClub("");
-		nuevoClub.setLocalidadClub(localidadClubForm);
-		nuevoClub.setPaisClub(paisClubForm);
-		nuevoClub.setEmailClub(emailClubForm);
-		nuevoClub.setPasswordClub(passwordClubForm);
-		nuevoClub.setTelefonoClub(telefonoClubForm);
-		nuevoClub.setLogoClub(logoClubForm);
-		servicio.guardarClub(nuevoClub);
+	    Part imagenPart = request.getPart("logoClub");
+	    byte[] logoClubForm = null;
+	    if (imagenPart != null && imagenPart.getSize() > 0) {
+	        logoClubForm = new byte[(int) imagenPart.getSize()];
+	        try (InputStream inputStream = imagenPart.getInputStream()) {
+	            inputStream.read(logoClubForm);
+	        }
+	    }
 
-		Log.ficheroLog("Club creado correctamente: " + nombreClubForm + ", " + abreviaturaClubForm);
+	    ClubDto nuevoClub = new ClubDto();
+	    nuevoClub.setNombreClub(nombreClubForm);
+	    nuevoClub.setAbreviaturaClub(abreviaturaClubForm);
+	    nuevoClub.setDescripcionClub(descripcionClubForm);
+	    nuevoClub.setFechaCreacionClub(fechaCreacionClubForm);
+	    nuevoClub.setFechaFundacionClub("");
+	    nuevoClub.setLocalidadClub(localidadClubForm);
+	    nuevoClub.setPaisClub(paisClubForm);
+	    nuevoClub.setEmailClub(emailClubForm);
+	    nuevoClub.setPasswordClub(passwordClubForm);
+	    nuevoClub.setTelefonoClub(telefonoClubForm);
+	    nuevoClub.setLogoClub(logoClubForm);
 
-		response.sendRedirect("InicioSesion.jsp?mensajeAlta=registro_exitoso");
+	    // ✅ Guardar club y capturar resultado
+	    String resultado = servicio.guardarClub(nuevoClub);
+
+	    switch (resultado) {
+	        case "ok":
+	            response.sendRedirect("InicioSesion.jsp?mensajeAlta=registro_exitoso");
+	            break;
+	        case "club_existente":
+	            response.sendRedirect("InicioSesion.jsp?mensajeAlta=usuario_existente");
+	            break;
+	        case "email_invalido":
+	            response.sendRedirect("InicioSesion.jsp?mensajeAlta=email_invalido");
+	            break;
+	        default:
+	            response.sendRedirect("InicioSesion.jsp?mensajeAlta=error_servidor");
+	            break;
+	    }
 	}
+
 
 	/**
 	 * Método privado que modifica los datos de un club existente.
@@ -251,6 +267,64 @@ public class ClubControlador extends HttpServlet {
 	        response.getWriter().write("Se ha producido un error al obtener los clubes. " + e.getMessage());
 	    }
 	}
+	
+	
+	@Override
+	/**
+	 * Elimina un club por su ID.
+	 * 
+	 * @param request  La solicitud HTTP.
+	 * @param response La respuesta HTTP.
+	 * @throws ServletException Si ocurre un error durante la ejecución del servlet.
+	 * @throws IOException      Si ocurre un error al leer o escribir datos.
+	 */
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
+
+	    try {
+	        HttpSession session = request.getSession(false);
+	        String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
+
+	        // 🔐 Solo administrador
+	        if (!"administrador".equals(tipoUsuario)) {
+	            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+	            response.getWriter().write("Acceso denegado. Solo los administradores pueden eliminar clubes.");
+	            Log.ficheroLog("Intento de eliminación de club no autorizado");
+	            return;
+	        }
+
+	        String idClubParam = request.getParameter("idClub");
+	        if (idClubParam == null || idClubParam.isEmpty()) {
+	            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	            response.getWriter().write("ID de club no proporcionado.");
+	            Log.ficheroLog("Eliminación de club fallida: ID no proporcionado");
+	            return;
+	        }
+
+	        Long idClub = Long.parseLong(idClubParam);
+	        boolean eliminado = servicio.eliminarClub(idClub, request);
+
+	        if (eliminado) {
+	            Log.ficheroLog("Club eliminado correctamente: id=" + idClub);
+	            response.setStatus(HttpServletResponse.SC_OK);
+	            response.getWriter().write("Club eliminado correctamente.");
+	        } else {
+	            Log.ficheroLog("Error al eliminar club: id=" + idClub);
+	            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	            response.getWriter().write("Error al eliminar el club.");
+	        }
+
+	    } catch (NumberFormatException e) {
+	        Log.ficheroLog("Error de formato en ID de club para eliminar: " + e.getMessage());
+	        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	        response.getWriter().write("ID de club no válido.");
+	    } catch (Exception e) {
+	        Log.ficheroLog("Error en DELETE /club: " + e.getMessage());
+	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	        response.getWriter().write("Error en el servidor: " + e.getMessage());
+	    }
+	}
+
 
 
 	private void activarPremiumClub(HttpServletRequest request, HttpServletResponse response) throws IOException {
