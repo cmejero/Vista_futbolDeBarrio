@@ -150,7 +150,7 @@
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="" class="letraCabeceraMedio">¿QUIENES SOMOS?</a>
+											<a href="QuienesSomos.jsp" class="letraCabeceraMedio">¿QUIENES SOMOS?</a>
 										</div>
 									</div>
 								</div>
@@ -331,7 +331,7 @@
 											<li><a class="dropdown-item seccion-bloqueada" href="">Desafios<span
 													class="tooltip-text">Sección en desarrollo</span>
 											</a></li>
-											<li><a class="dropdown-item " href="#"
+											<li><a class="dropdown-item " href="QuienesSomos.jsp"
 												style="color: white;">¿Quienes somos? </a></li>
 
 

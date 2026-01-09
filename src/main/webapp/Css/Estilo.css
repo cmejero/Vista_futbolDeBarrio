@@ -361,7 +361,65 @@ button.botonRegistrarCabecera:active {
 
 
 
+/* QUIENES SOMOS */
 
+/* Contenedor principal específico para QuienesSomos */
+.containerQuienesSomos {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 15px;
+}
+
+/* Tarjetas de contenido */
+.tarjetaQuienesSomos {
+    background-color: #ffffff; /* blanco para contraste */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 30px;
+    margin-bottom: 40px;
+}
+
+/* Títulos de sección */
+.tituloQuienesSomos {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #2c3e50; /* gris oscuro */
+}
+
+/* Párrafos de las tarjetas */
+.parrafoQuienesSomos {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333333;
+    text-align: center;
+}
+
+/* Iconos de las tarjetas */
+.iconoQuienesSomos {
+    font-size: 3rem;
+    color: #28a745; /* verde para iconos */
+    margin-bottom: 15px;
+    display: block;
+    text-align: center;
+}
+
+
+
+/* Filas de iconos en secciones de funcionalidades */
+.rowIconosQuienesSomos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.colIconoQuienesSomos {
+    flex: 1 1 200px; /* ancho mínimo de 200px, flexible */
+    max-width: 250px;
+}
 
 
 
@@ -374,6 +432,128 @@ button.botonRegistrarCabecera:active {
 	width: 100%;
 	overflow-x: auto;
 	-webkit-overflow-scrolling: touch;
+}
+
+/* ==========================
+   Tarjetas del inicio admin
+========================== */
+.tarjetaAdminInicio {
+    border-radius: 1rem;
+    padding: 1.5rem 1rem;
+    color: white;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Rojo - Usuarios */
+.tarjetaAdminInicio--usuarios {
+    background: linear-gradient(135deg, #c33214, #8a210b);
+}
+
+.tarjetaAdminInicio--usuarios:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.7rem 1.2rem rgba(195, 50, 20, 0.9);
+}
+
+/* Azul - Clubes */
+.tarjetaAdminInicio--clubes {
+    background: linear-gradient(135deg, #2783b8, #0d6ba1);
+}
+
+.tarjetaAdminInicio--clubes:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.7rem 1.2rem rgba(39, 131, 184, 0.9);
+}
+
+/* Verde - Instalaciones */
+.tarjetaAdminInicio--instalaciones {
+    background: linear-gradient(135deg, #256c25, #154515);
+}
+
+.tarjetaAdminInicio--instalaciones:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.7rem 1.2rem rgba(46, 139, 46, 0.9);
+}
+
+/* Títulos dentro de tarjeta */
+.tarjetaAdminInicio h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+    font-weight: bold;
+}
+
+/* Números grandes */
+.tarjetaAdminInicio p {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* ==========================
+   Botones de acción admin
+========================== */
+.botonAdminAccion {
+    border-radius: 0.8rem;
+    font-weight: bold;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    color: white !important;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+
+/* Contenedor de listas */
+.listaAdminInicioContainer {
+    border-radius: 1rem;
+    padding: 1rem;
+    background-color: white; 
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.4);
+    margin: 0 auto 1.5rem auto; 
+    width: 95%; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover suave */
+.listaAdminInicioContainer:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.7rem 1.2rem rgba(0,0,0,0.9);
+}
+
+/* Título */
+.listaAdminInicioContainer h4 {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    font-family: 'Open Sans', sans-serif;
+    color: black;
+}
+
+/* Lista sin scroll, se adapta al contenido */
+.listaAdminInicio {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Elementos de lista */
+.listaAdminInicio li {
+    padding: 0.5rem 0.8rem;
+    margin-bottom: 0.4rem;
+    border-radius: 0.6rem;
+    background-color: #f1f1f1;
+    color: black;
+    font-family: 'Open Sans', sans-serif;
+    transition: all 0.3s ease;
+}
+
+/* Hover de cada elemento */
+.listaAdminInicio li:hover {
+    background-color: #d9f0c9;
+    transform: translateX(3px);
 }
 
 

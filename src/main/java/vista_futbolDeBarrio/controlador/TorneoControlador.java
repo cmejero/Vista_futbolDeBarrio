@@ -73,10 +73,13 @@ public class TorneoControlador extends HttpServlet {
 				Long instalacionId = (Long) request.getSession().getAttribute("idInstalacion");
 				String fechaInicio = request.getParameter("fechaInicioTorneo");
 				String fechaFin = request.getParameter("fechaFinTorneo");
+
+				
 				if (fechaFin == null || fechaFin.isEmpty())
 					fechaFin = "9999-01-01";
 
 				Modalidad modalidad = Modalidad.valueOf(modalidadStr.trim());
+
 
 				TorneoDto torneo = new TorneoDto();
 				torneo.setNombreTorneo(nombreTorneo);
@@ -86,6 +89,7 @@ public class TorneoControlador extends HttpServlet {
 				torneo.setInstalacionId(instalacionId);
 				torneo.setFechaInicioTorneo(fechaInicio);
 				torneo.setFechaFinTorneo(fechaFin);
+
 
 				torneoServicio.guardarTorneo(torneo, request);
 
@@ -102,13 +106,22 @@ public class TorneoControlador extends HttpServlet {
 				String nombreTorneo = request.getParameter("nombreTorneo");
 				String descripcion = request.getParameter("descripcionTorneo");
 				String modalidadStr = request.getParameter("modalidad");
+			    String fechaInicio = request.getParameter("fechaInicioTorneo");
+			    String fechaFin = request.getParameter("fechaFinTorneo");
+			    String estaActivoStr = request.getParameter("estaActivo");
+
+			    
 				Modalidad modalidad = Modalidad.valueOf(modalidadStr.trim());
+			    boolean estaActivo = "true".equalsIgnoreCase(estaActivoStr); 
+
 
 				TorneoDto torneo = new TorneoDto();
 				torneo.setNombreTorneo(nombreTorneo);
 				torneo.setDescripcionTorneo(descripcion);
 				torneo.setModalidad(modalidad);
-				torneo.setEstaActivo(false);
+				torneo.setFechaInicioTorneo(fechaInicio);  
+			    torneo.setFechaFinTorneo(fechaFin);
+			    torneo.setEstaActivo(estaActivo);
 
 				boolean exito = torneoServicio.modificarTorneo(idTorneo, torneo, request);
 

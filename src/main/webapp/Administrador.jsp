@@ -145,8 +145,8 @@
 											FUTBOL DE BARRIO <span
 												style="color: #c0c0c0; margin-left: 7px;"> /</span>
 										</div>
-								
-							<div class="col-sm-2 col-md-2 cabeceraMedio"></div>
+
+										<div class="col-sm-2 col-md-2 cabeceraMedio"></div>
 										<div class="col-sm-4 col-md-4 cabeceraMedio"
 											style="text-decoration: underline;">
 											<a href="" class="letraCabeceraMedio">BIENVENIDO: Carlos</a>
@@ -193,16 +193,16 @@
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white; ">Idioma <span class="tooltip-text">Sección en
-													desarrollo</span>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Idioma <span
+															class="tooltip-text">Sección en desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white;">Ayuda <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white;">Configuración <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Ayuda <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Configuración <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -246,7 +246,7 @@
 											</span> FUTBOL DE BARRIO <span
 												style="color: #c0c0c0; margin-left: 7px;"> /</span>
 										</div>
-									<div class="d-sm-none d-md-none col-4 cabeceraMedio"
+										<div class="d-sm-none d-md-none col-4 cabeceraMedio"
 											style="text-decoration: underline;">
 											<a href="" class="letraCabeceraMedio">BIENVENIDO: Carlos</a>
 										</div>
@@ -268,28 +268,32 @@
 									class="col-12 d-flex justify-content-center align-items-center">
 									<div class="row">
 										<div class="col-2  cabeceraAbajo">
-											<a href="#" id="mostrarInicioBtnMobile" class="letraCabeceraAbajo">INICIO</a>
+											<a href="#" id="mostrarInicioBtnMobile"
+												class="letraCabeceraAbajo">INICIO</a>
 
 										</div>
 										<div class="col-3  cabeceraAbajo">
-											<a href="#" id="mostrarUsuariosBtnMobile" class="letraCabeceraAbajo">USUARIOS</a>
+											<a href="#" id="mostrarUsuariosBtnMobile"
+												class="letraCabeceraAbajo">USUARIOS</a>
 
 										</div>
 										<div class=" col-3 cabeceraAbajo">
-											<a href="#" id="mostrarInstalacionesBtnMobile" class="letraCabeceraAbajo">INSTALACIONES</a>
+											<a href="#" id="mostrarInstalacionesBtnMobile"
+												class="letraCabeceraAbajo">INSTALACIONES</a>
 
 										</div>
 										<div class="col-2 cabeceraAbajo">
-											<a href="#" id="mostrarClubesBtnMobile" class="letraCabeceraAbajo">CLUBES</a>
+											<a href="#" id="mostrarClubesBtnMobile"
+												class="letraCabeceraAbajo">CLUBES</a>
 
 										</div>
-										
-								
-										
-										
-										
-										
-										
+
+
+
+
+
+
+
 										<div
 											class="col-2 d-flex justify-content-end align-items-center ">
 											<div class="dropdown">
@@ -303,18 +307,19 @@
 															d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
 									</svg>
 												</button>
-										<ul class="dropdown-menu dropdown-menu-dark"
+												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.8vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white; background-color: #005500;">Idioma <span class="tooltip-text">Sección en
-													desarrollo</span>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white; background-color: #005500;">Idioma
+															<span class="tooltip-text">Sección en desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white;">Ayuda  <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white;">Configuración <span class="tooltip-text">Sección en
-													desarrollo</span> </a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Ayuda <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Configuración <span
+															class="tooltip-text">Sección en desarrollo</span>
+													</a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -355,182 +360,57 @@
 				<div class="row">
 
 
-					<!-- INICIO: !NO ENTRA ES SOLO DECORACION! -->
-					<div class="col-md-12 col-sm-11 mx-auto " id="inicioContainer">
 
 
-						<style>
-body {
-	font-family: Arial, sans-serif;
-	background-color: rgba(223, 234, 213, 0.5);
-}
-
-h2 {
-	font-size: 2rem;
-	text-decoration: underline;
-	margin-bottom: 1.5rem;
-}
-
-.chart-container {
-	background-color: #e0e0e0;
-	padding: 1.5rem;
-	box-shadow: 0 0.4rem 0.8rem rgba(0, 64, 0, 0.6), 0 -0.4rem 0.8rem
-		rgba(0, 64, 0, 0.15);
-	height: 300px;
-	margin-bottom: 2rem;
-}
-
-@media ( max-width : 768px) {
-	h2 {
-		font-size: 1.5rem;
-	}
-	.chart-container {
-		height: 250px;
-		padding: 1rem;
-	}
-}
-
-@media ( max-width : 576px) {
-	h2 {
-		font-size: 1.2rem;
-	}
-	.chart-container {
-		height: 200px;
-		padding: 0.75rem;
-	}
-}
-
-canvas {
-	width: 100% !important;
-	height: 100% !important;
-}
-</style>
 
 
-						<div class="container my-5">
-							<div class="row justify-content-center">
-								<div class="col-12 col-md-10">
-									<h2 class="text-center">📊 Estadísticas Generales</h2>
-
-									<div class="chart-container">
-										<canvas id="usuariosChart"></canvas>
-									</div>
-									<div class="chart-container">
-										<canvas id="visitasChart"></canvas>
-									</div>
-									<div class="chart-container">
-										<canvas id="categoriasChart"></canvas>
-									</div>
+					<div id="inicioContainer" class="container my-4">
+						<div class="row mb-4 justify-content-center">
+							<div class="col-md-3 mb-3">
+								<div class="tarjetaAdminInicio tarjetaAdminInicio--usuarios">
+									<h3>Total Usuarios</h3>
+									<p id="totalUsuariosInicio">0</p>
 								</div>
 							</div>
+								<div class="col-md-3 mb-3">
+								<div
+									class="tarjetaAdminInicio tarjetaAdminInicio--instalaciones">
+									<h3>Total Instalaciones</h3>
+									<p id="totalInstalacionesInicio">0</p>
+								</div>
+							</div>
+							<div class="col-md-3 mb-3">
+								<div class="tarjetaAdminInicio tarjetaAdminInicio--clubes">
+									<h3>Total Clubes</h3>
+									<p id="totalClubesInicio">0</p>
+								</div>
+							</div>
+						
 						</div>
 
-						<script>
-								function getChartOptions() {
-									return {
-										responsive : true,
-										maintainAspectRatio : false,
-										scales : {
-											x : {
-												ticks : {
-													color : 'black'
-												},
-												grid : {
-													color : 'black'
-												}
-											},
-											y : {
-												ticks : {
-													color : 'black'
-												},
-												grid : {
-													color : 'black'
-												}
-											}
-										},
-										plugins : {
-											legend : {
-												labels : {
-													color : 'black'
-												}
-											}
-										}
-									};
-								}
 
-								new Chart(
-										document
-												.getElementById('usuariosChart'),
-										{
-											type : 'bar',
-											data : {
-												labels : [ 'Enero', 'Febrero',
-														'Marzo', 'Abril',
-														'Mayo', 'Junio' ],
-												datasets : [ {
-													label : 'USUARIOS REGISTRADOS',
-													data : [ 120, 150, 180,
-															210, 250, 300 ],
-													backgroundColor : 'rgba(54, 162, 235, 0.6)',
-													borderColor : 'rgba(54, 162, 235, 1)',
-													borderWidth : 1
-												} ]
-											},
-											options : getChartOptions()
-										});
-
-								new Chart(
-										document.getElementById('visitasChart'),
-										{
-											type : 'line',
-											data : {
-												labels : [ 'Enero', 'Febrero',
-														'Marzo', 'Abril',
-														'Mayo', 'Junio' ],
-												datasets : [ {
-													label : 'VISITAS MENSUALES',
-													data : [ 500, 800, 1200,
-															1500, 2000, 2500 ],
-													borderColor : 'rgba(255, 99, 132, 1)',
-													backgroundColor : 'rgba(255, 99, 132, 0.2)',
-													borderWidth : 2,
-													fill : true
-												} ]
-											},
-											options : getChartOptions()
-										});
-
-								new Chart(document
-										.getElementById('categoriasChart'), {
-									type : 'pie',
-									data : {
-										labels : [ 'Jugadores', 'Porteros',
-												'Instalaciones', 'Clubes',
-												 'Premium' ],
-										datasets : [ {
-											data : [ 8000, 560, 100, 300, 200,
-													1200 ],
-											backgroundColor : [ '#c33214',
-													'#f94300', '#37b137',
-													'#2783b8', '#fff024',
-													'#d4af37' ]
-										} ]
-									},
-									options : {
-										responsive : true,
-										maintainAspectRatio : false,
-										plugins : {
-											legend : {
-												labels : {
-													color : 'black'
-												}
-											}
-										}
-									}
-								});
-							</script>
+						<div class="row">
+							<div class="col-md-4">
+								<div class="listaAdminInicioContainer">
+									<h4 style="color: #c33214">Últimos Usuarios</h4>
+									<ul id="ultimosUsuarios" class="listaAdminInicio"></ul>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="listaAdminInicioContainer">
+									<h4 style="color: #256c25">Últimas Instalaciones</h4>
+									<ul id="ultimasInstalaciones" class="listaAdminInicio"></ul>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="listaAdminInicioContainer">
+									<h4 style="color: #2783b8">Últimos Clubes</h4>
+									<ul id="ultimosClubes" class="listaAdminInicio"></ul>
+								</div>
+							</div>
+							
+						</div>
 					</div>
-
 
 
 
@@ -856,7 +736,8 @@ canvas {
 							</table>
 						</div>
 						<!-- Paginación -->
-						<div class="paginacion mt-4" id="tablaCuerpoInstalacion-paginacion"></div>
+						<div class="paginacion mt-4"
+							id="tablaCuerpoInstalacion-paginacion"></div>
 
 
 					</div>
@@ -1034,8 +915,6 @@ canvas {
 
 			</div>
 		</div>
-
-
 	</main>
 
 
@@ -1901,7 +1780,62 @@ function eliminarClub(idClub) {
 }
 
 
- 
+// ===========================
+// Panel Inicio Dinámico
+// ===========================
+function cargarResumenInicio() {
+    fetch("usuario")
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("totalUsuariosInicio").textContent = data.length;
+            const ul = document.getElementById("ultimosUsuarios");
+            ul.innerHTML = "";
+
+            // Ordenar por fecha de registro descendente
+            data.sort((a, b) => new Date(b.fechaRegistro) - new Date(a.fechaRegistro));
+
+            // Tomar los 5 primeros (los más recientes)
+            data.slice(0, 5).forEach(u => {
+                const li = document.createElement("li");
+                li.textContent = u.nombreCompletoUsuario;
+                ul.appendChild(li);
+            });
+        });
+
+    fetch("instalacion")
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("totalInstalacionesInicio").textContent = data.length;
+            const ul = document.getElementById("ultimasInstalaciones");
+            ul.innerHTML = "";
+
+            data.sort((a, b) => new Date(b.fechaRegistro) - new Date(a.fechaRegistro));
+            data.slice(0, 5).forEach(i => {
+                const li = document.createElement("li");
+                li.textContent = i.nombreInstalacion;
+                ul.appendChild(li);
+            });
+        });
+
+    fetch("club")
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("totalClubesInicio").textContent = data.length;
+            const ul = document.getElementById("ultimosClubes");
+            ul.innerHTML = "";
+
+            data.sort((a, b) => new Date(b.fechaRegistro) - new Date(a.fechaRegistro));
+            data.slice(0, 5).forEach(c => {
+                const li = document.createElement("li");
+                li.textContent = c.nombreClub;
+                ul.appendChild(li);
+            });
+        });
+}
+
+// Llamar al cargar inicio
+cargarResumenInicio();
+
 
 
 

@@ -206,15 +206,15 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
 													<li><a class="dropdown-item seccion-bloqueada"
-														href="#">Idioma<span
-															class="tooltip-text">Sección en desarrollo</span>
+														href="#">Idioma<span class="tooltip-text">Sección
+																en desarrollo</span>
 													</a></li>
 													<li><a class="dropdown-item seccion-bloqueada"
-														href="#">Ayuda <span
-															class="tooltip-text">Sección en desarrollo</span></a></li>
+														href="#">Ayuda <span class="tooltip-text">Sección
+																en desarrollo</span></a></li>
 													<li><a class="dropdown-item seccion-bloqueada"
-														href="#">Configuración <span
-															class="tooltip-text">Sección en desarrollo</span>
+														href="#">Configuración <span class="tooltip-text">Sección
+																en desarrollo</span>
 													</a></li>
 													<li>
 														<hr class="dropdown-divider"
@@ -552,6 +552,104 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 				</div>
 			</div>
 		</div>
+
+		<!-- Modal Editar Torneo -->
+		<div class="modal fade" id="modalEditarTorneo" tabindex="-1"
+			aria-labelledby="modalEditarTorneoLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+
+					<!-- HEADER -->
+					<div class="modal-header">
+						<h5 class="modal-title w-100 text-center"
+							id="modalEditarTorneoLabel">
+							<b>EDITAR TORNEO</b>
+						</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Cerrar"></button>
+					</div>
+
+					<!-- BODY -->
+					<div class="modal-body">
+						<form id="formEditarTorneo" method="POST">
+
+							<input type="hidden" id="editIdTorneo" name="idTorneo">
+
+							<div class="container-fluid">
+
+								<!-- Primera fila: Nombre y Modalidad -->
+								<div class="row mb-3">
+									<div class="col-md-6 mb-3">
+										<label for="editNombreTorneo"><b>Nombre del Torneo</b></label>
+										<input type="text" class="form-control" id="editNombreTorneo"
+											name="nombreTorneo" style="border: 2px solid #aaa;" required>
+									</div>
+
+									<div class="col-md-6 mb-3">
+										<label for="editModalidad"><b>Modalidad</b></label> <select
+											class="form-select" id="editModalidad" name="modalidad"
+											style="border: 2px solid #aaa;" required>
+											<option value="Futbol5">Fútbol 5</option>
+											<option value="Futbol7">Fútbol 7</option>
+											<option value="Futbol11">Fútbol 11</option>
+
+										</select>
+									</div>
+								</div>
+
+								<!-- Segunda fila: Fecha inicio y Fecha fin -->
+								<div class="row mb-3">
+									<div class="col-md-6">
+										<label for="editFechaInicio"><b>Fecha de Inicio</b></label> <input
+											type="date" class="form-control" id="editFechaInicio"
+											name="fechaInicioTorneo" required>
+									</div>
+									<div class="col-md-6">
+										<label for="editFechaFin"><b>Fecha de Fin</b></label> <input
+											type="date" class="form-control" id="editFechaFin"
+											name="fechaFinTorneo">
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<div class="col-md-6">
+										<label for="editEstaActivo"><b>Está Activo</b></label> <select
+											id="editEstaActivo" name="estaActivo" class="form-select">
+											<option value="true">Sí</option>
+											<option value="false">No</option>
+										</select>
+									</div>
+								</div>
+
+								<!-- Tercera fila: Descripción -->
+								<div class="row mb-3">
+									<div class="col-md-12 mb-3">
+										<label for="editDescripcionTorneo"><b>Descripción</b></label>
+										<textarea class="form-control" id="editDescripcionTorneo"
+											name="descripcionTorneo" rows="3"
+											style="border: 2px solid #aaa;"></textarea>
+									</div>
+								</div>
+
+							</div>
+
+						</form>
+					</div>
+
+					<!-- FOOTER -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Cancelar</button>
+						<button type="submit" class="btn btn-primary"
+							form="formEditarTorneo">Guardar Cambios</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+
+
 	</main>
 	<footer>
 
@@ -1048,6 +1146,55 @@ function abrirGmail() {
 
     window.open(url, "_blank");
 }
+function cerrarModalEditar() {
+    $('#modalEditarTorneo').fadeOut();
+}
+
+
+function abrirModalEditarTorneo(torneo) {
+    $('#editIdTorneo').val(torneo.idTorneo);
+    $('#editNombreTorneo').val(torneo.nombreTorneo);
+    $('#editDescripcionTorneo').val(torneo.descripcionTorneo);
+    $('#editModalidad').val(torneo.modalidad);
+    $('#editFechaInicio').val(torneo.fechaInicioTorneo || "");
+    $('#editFechaFin').val(torneo.fechaFinTorneo || "");
+    $('#editEstaActivo').val(torneo.estaActivo.toString());
+
+    const modal = new bootstrap.Modal(
+        document.getElementById('modalEditarTorneo')
+    );
+    modal.show();
+}
+
+
+$('#formEditarTorneo').submit(function (e) {
+    e.preventDefault();
+
+    let datos = $(this).serialize();
+    datos += '&accion=modificar';
+
+    $.ajax({
+        url: 'torneo',
+        method: 'POST',
+        data: datos,
+        success: function () {
+            const modalEl = document.getElementById('modalEditarTorneo');
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
+
+            cargarTorneos();
+            alert("Torneo modificado correctamente");
+        },
+        error: function (xhr) {
+            alert("Error al modificar torneo");
+            console.error(xhr.responseText);
+        }
+    });
+});
+
+
+
+
 
 </script>
 

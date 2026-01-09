@@ -343,21 +343,20 @@ public class TorneoServicio {
 
 	// ---------- Métodos privados ----------
 	private JSONObject crearJsonTorneo(TorneoDto torneo) {
-		JSONObject json = new JSONObject();
-		json.put("nombreTorneo", torneo.getNombreTorneo());
-		json.put("fechaInicioTorneo", torneo.getFechaInicioTorneo().toString());
-		json.put("fechaFinTorneo", torneo.getFechaFinTorneo().toString());
-		json.put("descripcionTorneo", torneo.getDescripcionTorneo());
-		json.put("clubesInscritos", torneo.getClubesInscritos());
-		json.put("modalidad", torneo.getModalidad().name());
-		json.put("estaActivo", torneo.isEstaActivo());
-		json.put("instalacionId", torneo.getInstalacionId());
-		json.put("nombreInstalacion", torneo.getNombreInstalacion());
-		json.put("direccionInstalacion", torneo.getDireccionInstalacion());
+	    JSONObject json = new JSONObject();
+	    json.put("nombreTorneo", torneo.getNombreTorneo());
+	    json.put("fechaInicioTorneo", torneo.getFechaInicioTorneo() != null ? torneo.getFechaInicioTorneo() : "");
+	    json.put("fechaFinTorneo", torneo.getFechaFinTorneo() != null ? torneo.getFechaFinTorneo() : "");
+	    json.put("descripcionTorneo", torneo.getDescripcionTorneo() != null ? torneo.getDescripcionTorneo() : "");
+	    json.put("clubesInscritos", torneo.getClubesInscritos() != null ? torneo.getClubesInscritos() : "");
+	    json.put("modalidad", torneo.getModalidad() != null ? torneo.getModalidad().name() : "");
+	    json.put("estaActivo", torneo.isEstaActivo());
+	    json.put("instalacionId", torneo.getInstalacionId());
+	    json.put("nombreInstalacion", torneo.getNombreInstalacion() != null ? torneo.getNombreInstalacion() : "");
+	    json.put("direccionInstalacion", torneo.getDireccionInstalacion() != null ? torneo.getDireccionInstalacion() : "");
 
-		return json;
+	    return json;
 	}
-
 	private void ejecutarPost(String urlApi, JSONObject json, HttpServletRequest request) throws Exception {
 
 	    // 1️⃣ Obtener token de la sesión

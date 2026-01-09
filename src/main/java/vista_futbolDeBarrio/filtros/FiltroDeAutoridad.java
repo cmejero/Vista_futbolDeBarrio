@@ -88,6 +88,7 @@ public class FiltroDeAutoridad implements Filter {
                uri.contains("/Index.jsp") ||
                uri.contains("/Eventos.jsp") ||
                uri.contains("/MarcadoresClub.jsp") ||
+               uri.contains("/QuienesSomos.jsp") ||
                uri.contains("/clubEstadisticaGlobal") ||
                uri.contains("/clubEstadisticaTorneo") ||
                uri.contains("/jugadorEstadisticaGlobal") ||
