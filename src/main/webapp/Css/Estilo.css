@@ -428,16 +428,41 @@ button.botonRegistrarCabecera:active {
 
 
 /* ADMINISTRADOR */
-.tablasAdmin-container {
-	width: 100%;
-	overflow-x: auto;
-	-webkit-overflow-scrolling: touch;
+
+
+/*Tarjetas del inicio admin */
+
+/* Centrar las tarjetas verticalmente dentro del contenedor */
+#inicioContainer {
+    position: relative;
+    min-height: 60vh;         /* ocupa casi toda la pantalla */
+    display: flex;
+    align-items: center;       /* centra verticalmente */
+    justify-content: center;   /* centra horizontalmente */
+    flex-direction: column;
+    z-index: 1;
 }
 
-/* ==========================
-   Tarjetas del inicio admin
-========================== */
+/* Logo de fondo */
+#inicioContainer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url('../Imagenes/LOGOWEB.PNG');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 80%;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+}
+
+
+
+
 .tarjetaAdminInicio {
+    position: relative;
+    z-index: 1;
     border-radius: 1rem;
     padding: 1.5rem 1rem;
     color: white;
@@ -445,6 +470,8 @@ button.botonRegistrarCabecera:active {
     font-family: 'Open Sans', sans-serif;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-clip: padding-box; 
+    margin-top: 5vw;
 }
 
 /* Rojo - Usuarios */
@@ -477,6 +504,16 @@ button.botonRegistrarCabecera:active {
     box-shadow: 0 0.7rem 1.2rem rgba(46, 139, 46, 0.9);
 }
 
+.tarjetaAdminInicio--torneos {
+    background: linear-gradient(135deg, #d4af37, #bfa23b);
+    color: black;
+}
+.tarjetaAdminInicio--torneos:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.7rem 1.2rem rgba(212, 175, 55, 0.9); 
+}
+
+
 /* Títulos dentro de tarjeta */
 .tarjetaAdminInicio h3 {
     font-size: 1.4rem;
@@ -489,6 +526,45 @@ button.botonRegistrarCabecera:active {
     font-size: 2rem;
     font-weight: bold;
     margin: 0;
+}
+
+@media (max-width: 768px) {
+   #inicioContainer .col-md-3 {
+        flex: 1 1 22%; 
+        max-width: 40%;
+    }
+
+    .tarjetaAdminInicio {
+        padding: 0.5rem 0.3rem; 
+    }
+
+    .tarjetaAdminInicio h3 {
+        font-size: 0.9rem;
+    }
+
+    .tarjetaAdminInicio p {
+        font-size: 1rem;
+    }
+}
+
+
+@media (max-width: 576px) {
+    #inicioContainer .col-md-3 {
+        flex: 1 1 22%; 
+        max-width: 35%;
+    }
+
+    .tarjetaAdminInicio {
+        padding: 0.5rem 0.3rem; 
+    }
+
+    .tarjetaAdminInicio h3 {
+        font-size: 0.9rem;
+    }
+
+    .tarjetaAdminInicio p {
+        font-size: 1rem;
+    }
 }
 
 /* ==========================
@@ -506,61 +582,17 @@ button.botonRegistrarCabecera:active {
 }
 
 
-/* Contenedor de listas */
-.listaAdminInicioContainer {
-    border-radius: 1rem;
-    padding: 1rem;
-    background-color: white; 
-    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.4);
-    margin: 0 auto 1.5rem auto; 
-    width: 95%; 
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Hover suave */
-.listaAdminInicioContainer:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0.7rem 1.2rem rgba(0,0,0,0.9);
-}
-
-/* Título */
-.listaAdminInicioContainer h4 {
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    font-family: 'Open Sans', sans-serif;
-    color: black;
-}
-
-/* Lista sin scroll, se adapta al contenido */
-.listaAdminInicio {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-/* Elementos de lista */
-.listaAdminInicio li {
-    padding: 0.5rem 0.8rem;
-    margin-bottom: 0.4rem;
-    border-radius: 0.6rem;
-    background-color: #f1f1f1;
-    color: black;
-    font-family: 'Open Sans', sans-serif;
-    transition: all 0.3s ease;
-}
-
-/* Hover de cada elemento */
-.listaAdminInicio li:hover {
-    background-color: #d9f0c9;
-    transform: translateX(3px);
-}
-
 
 
 /* ===================================
    TABLAS ADMIN - ESTILO BASE GENÉRICO
 =================================== */
+
+.tablasAdmin-container {
+	width: 100%;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
 .tablaAdmin {
 	background-color: #fff;
 	border-radius: 1vw;

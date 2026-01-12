@@ -151,7 +151,8 @@
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="QuienesSomos.jsp" class="letraCabeceraMedio">¿QUIENES SOMOS?</a>
+											<a href="QuienesSomos.jsp" class="letraCabeceraMedio">¿QUIENES
+												SOMOS?</a>
 										</div>
 									</div>
 								</div>
@@ -370,11 +371,17 @@
 		String mensaje = request.getParameter("mensaje");
 		if ("sesion_cerrada".equals(mensaje)) {
 		%>
-		<div id="mensajeSesionCerrada" class="alert alert-success text-center">
-			Sesión cerrada correctamente.</div>
+		<div class="alert alert-success text-center">Sesión cerrada
+			correctamente.</div>
+		<%
+		} else if ("sesion_recordada".equals(mensaje)) {
+		%>
+		<div class="alert alert-info text-center">Sesión recordada
+			automáticamente.</div>
 		<%
 		}
 		%>
+
 
 		<%
 		String mensajeAlta = request.getParameter("mensajeAlta");
@@ -411,7 +418,7 @@
 		<%
 		}
 		%>
-		
+
 		<%
 String errorLogin = request.getParameter("error");
 if (errorLogin != null) {
@@ -419,14 +426,20 @@ if (errorLogin != null) {
     String color = "red";
 
     switch (errorLogin) {
-        case "credenciales":
+        case "credenciales" :
             texto = "Email o contraseña incorrectos.";
             break;
-        case "servidor":
+        case "servidor" :
             texto = "Ocurrió un error en el servidor. Inténtalo más tarde.";
             break;
-        case "tipoDesconocido":
+        case "tipoDesconocido" :
             texto = "Tipo de usuario desconocido.";
+            break;
+        case "accesoDenegado" :
+            texto = "No tienes permisos para acceder a esa página.";
+            break;
+        default:
+            texto = "Ocurrió un error inesperado.";
             break;
     }
 %>
@@ -443,6 +456,8 @@ if (errorLogin != null) {
 <%
 }
 %>
+
+
 
 
 		<div
@@ -488,8 +503,8 @@ if (errorLogin != null) {
 
 					<div class="d-flex justify-content-between align-items-center">
 						<div class="recordarContrasenia">
-							<input type="checkbox" id="recordarSesion"> <label
-								for="recordarSesion">Recordar sesión</label>
+							<input type="checkbox" id="recordarSesion" name="recordarSesion">
+							<label for="recordarSesion">Recordar sesión</label>
 						</div>
 						<a href="PedirEmail.jsp" class="enlaceContraseniaOlvidada">¿Olvidaste
 							tu contraseña?</a>

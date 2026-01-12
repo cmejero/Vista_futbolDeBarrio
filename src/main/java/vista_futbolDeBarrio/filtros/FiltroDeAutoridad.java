@@ -1,5 +1,4 @@
 package vista_futbolDeBarrio.filtros;
-
 import java.io.IOException;
 
 import jakarta.servlet.Filter;
@@ -9,66 +8,111 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import vista_futbolDeBarrio.servicios.LoginServicio;
+import vista_futbolDeBarrio.utilidades.Utilidades;
 
 @WebFilter("/*")
 public class FiltroDeAutoridad implements Filter {
+	
+	
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+	 @Override
+	    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+	            throws IOException, ServletException {
 
-        HttpServletRequest http = (HttpServletRequest) request;
-        HttpServletResponse res = (HttpServletResponse) response;
-        HttpSession session = http.getSession(false);
+	        HttpServletRequest http = (HttpServletRequest) request;
+	        HttpServletResponse res = (HttpServletResponse) response;
+	        HttpSession session = http.getSession(false);
 
-        String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
-        String uri = http.getRequestURI();
-        String ctx = http.getContextPath();
-        String path = uri.substring(ctx.length());
-        String metodo = http.getMethod();
+	        String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
+	        String uri = http.getRequestURI();
+	        String ctx = http.getContextPath();
+	        String path = uri.substring(ctx.length());
+	        String metodo = http.getMethod();
 
-        // =======================
-        // 1️⃣ RUTAS PÚBLICAS
-        // =======================
-        if (esRutaPublica(path, metodo)) {
-            chain.doFilter(request, response);
-            return;
-        }
+	        // =========================
+	        // 1️⃣ Auto-login desde cookies
+	        // =========================
+	        if (tipoUsuario == null) {
+	            Cookie[] cookies = http.getCookies();
+	            String token = null;
+	            String tipo = null;
 
-        // =======================
-        // 2️⃣ SI NO HAY SESIÓN → REDIRIGE A LOGIN
-        // =======================
-        if (tipoUsuario == null) {
-            res.sendRedirect(ctx + "/InicioSesion.jsp");
-            return;
-        }
+	            if (cookies != null) {
+	                for (Cookie c : cookies) {
+	                    if ("tokenUsuario".equals(c.getName())) token = c.getValue();
+	                    if ("tipoUsuario".equals(c.getName())) tipo = c.getValue();
+	                }
+	            }
 
-        // =======================
-        // 3️⃣ CONTROL DE ROLES
-        // =======================
-        if (!tienePermisoSegunTipoUsuario(path, metodo, tipoUsuario)) {
-            res.sendRedirect(ctx + "/InicioSesion.jsp");
-            return;
-        }
+	            if (token != null && tipo != null) {
+	                try {
+	                    session = http.getSession(true);
+	                    session.setAttribute("token", token);
+	                    session.setAttribute("tipoUsuario", tipo);
 
-        chain.doFilter(request, response);
-    }
+	                    Object datosUsuario = new LoginServicio().obtenerDatosUsuario(token, tipo);
+	                    session.setAttribute("datosUsuario", datosUsuario);
 
+	                    tipoUsuario = tipo;
+
+	                    // Redirigir automáticamente si entramos a la raíz "/"
+	                    if (path.equals("/") || path.equals("")) {
+	                        res.sendRedirect(ctx + "/" + jspSegunTipoUsuario(tipoUsuario));
+	                        return;
+	                    }
+
+	                } catch (Exception e) {
+	                    Utilidades.borrarCookies(res);
+	                    res.sendRedirect(ctx + "/InicioSesion.jsp?error=accesoDenegado");
+	                    return;
+	                }
+	            }
+	        }
+
+	        // =========================
+	        // 2️⃣ Redirigir raíz "/" según sesión existente
+	        // =========================
+	        if ((path.equals("/") || path.equals("")) && tipoUsuario != null) {
+	            res.sendRedirect(ctx + "/" + jspSegunTipoUsuario(tipoUsuario));
+	            return;
+	        }
+
+	        // =========================
+	        // 3️⃣ Rutas públicas
+	        // =========================
+	        if (esRutaPublica(path, metodo) || path.equals("/login") || path.equals("/logout")) {
+	            chain.doFilter(request, response);
+	            return;
+	        }
+
+	        // =========================
+	        // 4️⃣ Control de permisos según tipoUsuario
+	        // =========================
+	        if (!tienePermisoSegunTipoUsuario(path, metodo, tipoUsuario)) {
+	            // ❌ NO cerramos sesión, solo denegamos el acceso
+	            res.sendRedirect(ctx + "/InicioSesion.jsp?error=accesoDenegado");
+	            return;
+	        }
+
+	        // =========================
+	        // 5️⃣ Continuar con la cadena de filtros
+	        // =========================
+	        chain.doFilter(request, response);
+	    }
+
+    
+    
     // =======================
     // RUTAS PÚBLICAS
     // =======================
     private boolean esRutaPublica(String uri, String metodo) {
-        // POST /usuario es público
-        if ("POST".equalsIgnoreCase(metodo) && uri.equals("/usuario")) {
-            return true;
-        }
-        if ("POST".equalsIgnoreCase(metodo) && uri.equals("/club")) {
-            return true;
-        }
-        if ("POST".equalsIgnoreCase(metodo) && uri.equals("/instalacion")) {
+        // POST /usuario, /club, /instalacion son públicos
+        if ("POST".equalsIgnoreCase(metodo) && (uri.equals("/usuario") || uri.equals("/club") || uri.equals("/instalacion"))) {
             return true;
         }
 
@@ -82,7 +126,7 @@ public class FiltroDeAutoridad implements Filter {
                uri.contains("/InicioSesion.jsp") ||
                uri.contains("/Registrar.jsp") ||
                uri.contains("/PedirEmail.jsp") ||
-               uri.contains("/recuperarPassword") ||  
+               uri.contains("/recuperarPassword") ||
                uri.contains("/RestablecerPassword.jsp") ||
                uri.contains("/restablecerPassword") ||
                uri.contains("/Index.jsp") ||
@@ -105,92 +149,76 @@ public class FiltroDeAutoridad implements Filter {
     // CONTROL DE ROLES POR MÉTODO
     // =======================
     private boolean tienePermisoSegunTipoUsuario(String uri, String metodo, String tipoUsuario) {
+        // ✅ Evitar NPE si tipoUsuario es null
+        if (tipoUsuario == null) {
+            return false;
+        }
 
         // ------------------- /torneo -------------------
         if (uri.startsWith("/torneo")) {
-            // GET ya es público
             if (!"GET".equalsIgnoreCase(metodo)) {
-                return "instalacion".equals(tipoUsuario); // POST, PUT, DELETE solo instalacion
+                return "instalacion".equals(tipoUsuario);
             }
         }
 
         // ------------------- /usuario -------------------
-        // POST /usuario es público, ya filtrado en esRutaPublica
-        // Modificación solo para admin
         if (uri.equals("/usuario")) {
-            if ("POST".equalsIgnoreCase(metodo)) {
-                return true; 
-            } else if ("GET".equalsIgnoreCase(metodo)) {
-                return "administrador".equals(tipoUsuario) || "jugador".equals(tipoUsuario);
-            } else {
-               
-                return "administrador".equals(tipoUsuario);
-            }
+            if ("POST".equalsIgnoreCase(metodo)) return true; // público
+            if ("GET".equalsIgnoreCase(metodo)) return "administrador".equals(tipoUsuario) || "jugador".equals(tipoUsuario);
+            return "administrador".equals(tipoUsuario);
         }
-        
-     // ------------------- /club -------------------
+
+        // ------------------- /club -------------------
         if (uri.equals("/club")) {
-            if ("POST".equalsIgnoreCase(metodo)) {
-                return true; // Público
-            } else if ("GET".equalsIgnoreCase(metodo)) {
-                return "administrador".equals(tipoUsuario) || "club".equals(tipoUsuario);
-            } else {
-                // PUT o DELETE
-                return "administrador".equals(tipoUsuario);
-            }
+            if ("POST".equalsIgnoreCase(metodo)) return true; // público
+            if ("GET".equalsIgnoreCase(metodo)) return "administrador".equals(tipoUsuario) || "club".equals(tipoUsuario);
+            return "administrador".equals(tipoUsuario);
         }
 
         // ------------------- /instalacion -------------------
         if (uri.equals("/instalacion")) {
-            if ("POST".equalsIgnoreCase(metodo)) {
-                return true; // Público
-            } else if ("GET".equalsIgnoreCase(metodo)) {
-                return "administrador".equals(tipoUsuario) || "instalacion".equals(tipoUsuario);
-            } else {
-                // PUT o DELETE
-                return "administrador".equals(tipoUsuario);
-            }
+            if ("POST".equalsIgnoreCase(metodo)) return true; // público
+            if ("GET".equalsIgnoreCase(metodo)) return "administrador".equals(tipoUsuario) || "instalacion".equals(tipoUsuario);
+            return "administrador".equals(tipoUsuario);
         }
 
         // ------------------- Resto de rutas -------------------
-        if (tipoUsuario.equals("jugador")) {
-            if (uri.contains("Jugador.jsp") || uri.contains("MiClubJugador.jsp") || uri.contains("MarcadoresJugador.jsp")) {
-                return true;
-            }
-            if (uri.contains("Club.jsp") || uri.contains("EventoClub.jsp") || uri.contains("PlantillaClub.jsp") ||
-                uri.contains("Instalacion.jsp") || uri.contains("EventoInstalacion.jsp") || uri.contains("TorneoInstalacion.jsp")) {
-                return false;
-            }
-        }
-
-        if (tipoUsuario.equals("club")) {
-            if (uri.contains("Club.jsp") || uri.contains("EventoClub.jsp") || uri.contains("PlantillaClub.jsp")) {
-                return true;
-            }
-            if (uri.contains("Jugador.jsp") || uri.contains("MiClubJugador.jsp") || uri.contains("MarcadoresJugador.jsp") ||
-                uri.contains("Instalacion.jsp") || uri.contains("EventoInstalacion.jsp") || uri.contains("TorneoInstalacion.jsp")) {
-                return false;
-            }
-        }
-
-        if (tipoUsuario.equals("instalacion")) {
-            if (uri.contains("Instalacion.jsp") || uri.contains("EventoInstalacion.jsp") || uri.contains("TorneoInstalacion.jsp")) {
-                return true;
-            }
-            if (uri.contains("Jugador.jsp") || uri.contains("MiClubJugador.jsp") || uri.contains("MarcadoresJugador.jsp") ||
-                uri.contains("Club.jsp") || uri.contains("EventoClub.jsp") || uri.contains("PlantillaClub.jsp")) {
-                return false;
-            }
-        }
-
-        // Administrador puede todo
-        if (tipoUsuario.equals("administrador")) {
-            return true;
+        switch (tipoUsuario) {
+            case "jugador":
+                if (uri.contains("Jugador.jsp") || uri.contains("MiClubJugador.jsp") || uri.contains("MarcadoresJugador.jsp")) return true;
+                if (uri.contains("Club.jsp") || uri.contains("EventoClub.jsp") || uri.contains("PlantillaClub.jsp") ||
+                    uri.contains("Instalacion.jsp") || uri.contains("EventoInstalacion.jsp") || uri.contains("TorneoInstalacion.jsp")) return false;
+                break;
+            case "club":
+                if (uri.contains("Club.jsp") || uri.contains("EventoClub.jsp") || uri.contains("PlantillaClub.jsp")) return true;
+                if (uri.contains("Jugador.jsp") || uri.contains("MiClubJugador.jsp") || uri.contains("MarcadoresJugador.jsp") ||
+                    uri.contains("Instalacion.jsp") || uri.contains("EventoInstalacion.jsp") || uri.contains("TorneoInstalacion.jsp")) return false;
+                break;
+            case "instalacion":
+                if (uri.contains("Instalacion.jsp") || uri.contains("EventoInstalacion.jsp") || uri.contains("TorneoInstalacion.jsp")) return true;
+                if (uri.contains("Jugador.jsp") || uri.contains("MiClubJugador.jsp") || uri.contains("MarcadoresJugador.jsp") ||
+                    uri.contains("Club.jsp") || uri.contains("EventoClub.jsp") || uri.contains("PlantillaClub.jsp")) return false;
+                break;
+            case "administrador":
+                return true; // administrador puede todo
         }
 
         // Resto de rutas “generales” accesibles por todos
         return true;
     }
+
+    
+    private String jspSegunTipoUsuario(String tipoUsuario) {
+        switch (tipoUsuario) {
+            case "administrador": return "Administrador.jsp";
+            case "jugador":       return "Jugador.jsp";
+            case "club":          return "Club.jsp";
+            case "instalacion":   return "Instalacion.jsp";
+            default:              return "InicioSesion.jsp";
+        }
+    }
+    
+    
 
     @Override
     public void init(FilterConfig fConfig) {}

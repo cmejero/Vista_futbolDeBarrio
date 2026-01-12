@@ -362,55 +362,45 @@
 
 
 
-
-
-					<div id="inicioContainer" class="container my-4">
+					<!-- CONTENEDOR DE TARJETAS -->
+					<div id="inicioContainer" class="my-4 ">
 						<div class="row mb-4 justify-content-center">
-							<div class="col-md-3 mb-3">
+
+							<div class="col-md-3 mb-3 mt-5">
 								<div class="tarjetaAdminInicio tarjetaAdminInicio--usuarios">
 									<h3>Total Usuarios</h3>
 									<p id="totalUsuariosInicio">0</p>
 								</div>
 							</div>
-								<div class="col-md-3 mb-3">
+
+							<div class="col-md-3 mb-3 mt-5">
+								<div class="tarjetaAdminInicio tarjetaAdminInicio--clubes">
+									<h3>Total Clubes</h3>
+									<p id="totalClubesInicio">0</p>
+								</div>
+							</div>
+
+							<div class="col-md-3 mb-3 mt-5">
 								<div
 									class="tarjetaAdminInicio tarjetaAdminInicio--instalaciones">
 									<h3>Total Instalaciones</h3>
 									<p id="totalInstalacionesInicio">0</p>
 								</div>
 							</div>
-							<div class="col-md-3 mb-3">
-								<div class="tarjetaAdminInicio tarjetaAdminInicio--clubes">
-									<h3>Total Clubes</h3>
-									<p id="totalClubesInicio">0</p>
-								</div>
-							</div>
-						
-						</div>
 
+							<div class="col-md-3 mb-3 mt-5">
+								<div class="tarjetaAdminInicio tarjetaAdminInicio--torneos">
+									<h3>Torneos Activos</h3>
+									<p id="totalTorneosActivos">0</p>
+								</div>
+							</div>
 
-						<div class="row">
-							<div class="col-md-4">
-								<div class="listaAdminInicioContainer">
-									<h4 style="color: #c33214">Últimos Usuarios</h4>
-									<ul id="ultimosUsuarios" class="listaAdminInicio"></ul>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="listaAdminInicioContainer">
-									<h4 style="color: #256c25">Últimas Instalaciones</h4>
-									<ul id="ultimasInstalaciones" class="listaAdminInicio"></ul>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="listaAdminInicioContainer">
-									<h4 style="color: #2783b8">Últimos Clubes</h4>
-									<ul id="ultimosClubes" class="listaAdminInicio"></ul>
-								</div>
-							</div>
-							
 						</div>
 					</div>
+
+
+
+
 
 
 
@@ -1784,54 +1774,34 @@ function eliminarClub(idClub) {
 // Panel Inicio Dinámico
 // ===========================
 function cargarResumenInicio() {
+
     fetch("usuario")
         .then(res => res.json())
         .then(data => {
             document.getElementById("totalUsuariosInicio").textContent = data.length;
-            const ul = document.getElementById("ultimosUsuarios");
-            ul.innerHTML = "";
-
-            // Ordenar por fecha de registro descendente
-            data.sort((a, b) => new Date(b.fechaRegistro) - new Date(a.fechaRegistro));
-
-            // Tomar los 5 primeros (los más recientes)
-            data.slice(0, 5).forEach(u => {
-                const li = document.createElement("li");
-                li.textContent = u.nombreCompletoUsuario;
-                ul.appendChild(li);
-            });
-        });
-
-    fetch("instalacion")
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("totalInstalacionesInicio").textContent = data.length;
-            const ul = document.getElementById("ultimasInstalaciones");
-            ul.innerHTML = "";
-
-            data.sort((a, b) => new Date(b.fechaRegistro) - new Date(a.fechaRegistro));
-            data.slice(0, 5).forEach(i => {
-                const li = document.createElement("li");
-                li.textContent = i.nombreInstalacion;
-                ul.appendChild(li);
-            });
         });
 
     fetch("club")
         .then(res => res.json())
         .then(data => {
             document.getElementById("totalClubesInicio").textContent = data.length;
-            const ul = document.getElementById("ultimosClubes");
-            ul.innerHTML = "";
+        });
 
-            data.sort((a, b) => new Date(b.fechaRegistro) - new Date(a.fechaRegistro));
-            data.slice(0, 5).forEach(c => {
-                const li = document.createElement("li");
-                li.textContent = c.nombreClub;
-                ul.appendChild(li);
-            });
+    fetch("instalacion")
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("totalInstalacionesInicio").textContent = data.length;
+        });
+
+    fetch("torneo")
+        .then(res => res.json())
+        .then(data => {
+            const activos = data.filter(t => t.estaActivo === true);
+            document.getElementById("totalTorneosActivos").textContent = activos.length;
         });
 }
+
+
 
 // Llamar al cargar inicio
 cargarResumenInicio();

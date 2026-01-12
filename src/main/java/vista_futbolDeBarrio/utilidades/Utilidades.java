@@ -12,6 +12,8 @@ import java.util.Map;
 import org.json.JSONObject;
 
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Clase que se encarga de os metodos que se usaran varias veces en la aplicacion
@@ -138,6 +140,25 @@ public class Utilidades {
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
+            }
+        }
+        
+
+        public static void borrarCookies(HttpServletResponse response) {
+            String[] nombres = {"tokenUsuario", "tipoUsuario"};
+            for (String nombre : nombres) {
+                // Cookie normal
+                Cookie c = new Cookie(nombre, "");
+                c.setMaxAge(0);
+                c.setPath("/");
+                response.addCookie(c);
+
+                // Cookie secure (solo HTTPS)
+                Cookie cSecure = new Cookie(nombre, "");
+                cSecure.setMaxAge(0);
+                cSecure.setPath("/");
+                cSecure.setSecure(true);
+                response.addCookie(cSecure);
             }
         }
 
