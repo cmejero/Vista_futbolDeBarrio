@@ -28,7 +28,7 @@ public class ClubEstadisticaGlobalControlador extends HttpServlet{
         this.clubEstadisticaGlobalServicio = new ClubEstadisticaGlobalServicio();
     }
      
-    @Override
+    /*@Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -58,5 +58,5 @@ public class ClubEstadisticaGlobalControlador extends HttpServlet{
         }
     }
 
-
+*/
 }

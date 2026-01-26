@@ -150,7 +150,8 @@
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="QuienesSomos.jsp" class="letraCabeceraMedio">¿ SOMOS?</a>
+											<a href="QuienesSomos.jsp" class="letraCabeceraMedio">¿
+												SOMOS?</a>
 										</div>
 									</div>
 								</div>
@@ -363,29 +364,62 @@
 	</header>
 
 	<main style="background-color: rgba(223, 234, 213, 0.5);">
+		<%
+		String mensaje = request.getParameter("mensaje");
 
-<div class="d-flex justify-content-center align-items-center pt-4 mt-5 mb-5">
-  <div class="formularioInicioSesion mb-4">
-    <h2 class="text-center mb-4" style="text-decoration: underline; font-size: 2.2vw">
-      <i>Recuperar Contraseña</i>
-    </h2>
+		if ("correo_enviado".equals(mensaje)) {
+		%>
+		<div class="alert alert-success text-center">Revisa tu correo
+			para restablecer la contraseña.</div>
+		<%
+		} else if ("email_no_encontrado".equals(mensaje)) {
+		%>
+		<div class="alert alert-danger text-center">Email no encontrado
+			para ese tipo de usuario.</div>
+		<%
+		} else if ("error_servidor".equals(mensaje)) {
+		%>
+		<div class="alert alert-danger text-center">Ocurrió un error en
+			el servidor. Inténtalo más tarde.</div>
+		<%
+		}
+		%>
 
-    <form action="recuperarPassword" method="POST">
-      <div class="mb-3">
-        <label for="email" class="etiquetaFormulario">-Correo Electrónico:</label>
-        <input type="email" class="campoFormulario" id="email" name="email" required>
-      </div>
+		<div
+			class="d-flex justify-content-center align-items-center pt-4 mt-5 mb-5">
+			<div class="formularioInicioSesion mb-4">
+				<h2 class="text-center mb-4"
+					style="text-decoration: underline; font-size: 2.2vw">
+					<i>Recuperar Contraseña</i>
+				</h2>
 
-      <div class="text-center mt-3">
-        <button type="submit" class="botonRegistrarCabecera pr-2 pl-2">Enviar</button>
-      </div>
-    </form>
-  </div>
-</div>
+				<form action="recuperarCuenta" method="POST">
+
+					<div class="mb-3">
+						<label for="email" class="etiquetaFormulario">-Correo
+							Electrónico:</label> <input type="email" class="campoFormulario"
+							id="email" name="email" required> <select
+							id="tipoUsuario" name="tipoUsuario" class="campoFormulario mt-2"
+							required> S
+							<option value="" disabled selected>Selecciona un tipo de
+								usuario</option>
+							<option value="usuario">Jugador</option>
+							<option value="club">Club</option>
+							<option value="instalacion">Instalación</option>
+						</select> </select>
+
+					</div>
+
+					<div class="text-center mt-3">
+						<button type="submit" class="botonRegistrarCabecera pr-2 pl-2">Enviar</button>
+					</div>
+				</form>
+			</div>
+		</div>
 
 
 
-		</main>
+	</main>
 
 
 	<footer>
@@ -570,22 +604,28 @@ Avenida mujer trabajadora
 
 	</footer>
 
-<script>
-function abrirGmail() {
-	const email = "futboldebarriosevilla@gmail.com";
-	const subject = "Titulo del Asunto: ";
-	const body = "Escriba aqui el mensaje....";
+	<script>
+		function abrirGmail() {
+			const email = "futboldebarriosevilla@gmail.com";
+			const subject = "Titulo del Asunto: ";
+			const body = "Escriba aqui el mensaje....";
 
-	const url = "https://mail.google.com/mail/?view=cm&fs=1&to="
-			+ encodeURIComponent(email) + "&su="
-			+ encodeURIComponent(subject) + "&body="
-			+ encodeURIComponent(body);
+			const url = "https://mail.google.com/mail/?view=cm&fs=1&to="
+					+ encodeURIComponent(email) + "&su="
+					+ encodeURIComponent(subject) + "&body="
+					+ encodeURIComponent(body);
 
-	window.open(url, "_blank");
-}</script>
+			window.open(url, "_blank");
+		}
+		
+		  setTimeout(() => {
+		        const mensajes = document.querySelectorAll(".alert");
+		        mensajes.forEach(msg => msg.style.display = "none");
+		    }, 3000);
+	</script>
 
 
-	
+
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -594,6 +634,6 @@ function abrirGmail() {
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
 	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>	
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

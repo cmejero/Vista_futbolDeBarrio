@@ -20,7 +20,7 @@ if (esPremium == null)
 <head>
 <meta charset="UTF-8">
 <!-- Estilos CSS -->
-<link rel="stylesheet" href="Css/Estilo.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/Css/Estilo.css">
 
 <!-- Bootstrap CSS -->
 <link
@@ -63,7 +63,7 @@ if (esPremium == null)
 						<!-- columna logo -->
 						<div class="col-sm-1 col-md-1 logo"
 							style="background-color: white; border-top: 2px solid black; border-left: 1px solid black">
-							<img src="Imagenes/LOGOWEB.PNG"></img>
+							<img src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -280,7 +280,7 @@ if (esPremium == null)
 						<!-- columna logo -->
 						<div class="d-sm-none d-md-none col-2 d-block logo  "
 							style="background-color: white; border: 2px solid black; border-top: none">
-							<img src="Imagenes/LOGOWEB.PNG"></img>
+							<img src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -732,11 +732,11 @@ function cargarEventosJugador() {
         return;
     }
 
-    fetch("equipoTorneo?usuarioId=" + usuarioId)
+    fetch("${pageContext.request.contextPath}/jugador/eventos?usuarioId=" + usuarioId)
         .then(response => response.json())
         .then(torneos => {
-            torneosJugador = torneos;      
-            pintarTablaTorneos(torneos);   
+            torneosJugador = torneos;
+            pintarTablaTorneos(torneos);
         })
         .catch(e => {
             console.error("Error cargando torneos: ", e);
@@ -744,6 +744,7 @@ function cargarEventosJugador() {
             cont.innerHTML = "<tr><td colspan='5'>No se pudieron cargar los torneos.</td></tr>";
         });
 }
+
 
 function pintarTablaTorneos(torneos) {
     const cont = document.getElementById("tablaEventosJugador");
@@ -790,7 +791,7 @@ function activarEventosTabla() {
     document.querySelectorAll(".torneoLink").forEach(el => {
         el.addEventListener("click", function () {
             const id = this.dataset.id;
-            window.location.href = "DetallesTorneo.jsp?idTorneo=" + id;
+            window.location.href = "${pageContext.request.contextPath}/detalleTorneo?idTorneo=" + id;
         });
     });
 }

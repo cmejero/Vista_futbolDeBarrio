@@ -7,7 +7,7 @@
 
     <!-- Página de bienvenida -->
     <welcome-file-list>
-        <welcome-file>Index.jsp</welcome-file>
+        <welcome-file>inicio</welcome-file>
     </welcome-file-list>
 
     <!-- Configuración del filtro de autenticación -->

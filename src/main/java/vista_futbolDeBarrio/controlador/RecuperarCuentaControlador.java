@@ -7,49 +7,57 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import vista_futbolDeBarrio.servicios.RecuperarPasswordServicio;
+import vista_futbolDeBarrio.servicios.RecuperarCuentaServicio;
 import vista_futbolDeBarrio.log.Log;
 
-@WebServlet("/recuperarPassword")
-/**
- * clase controlador encargado los metodos CRUD de Recuperar Password
- */
-public class RecuperarPasswordControlador extends HttpServlet {
+@WebServlet("/recuperarCuenta")
+public class RecuperarCuentaControlador extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    // Servicio encargado de la lógica de recuperación de contraseña
-    RecuperarPasswordServicio recuperar = new RecuperarPasswordServicio();
+    RecuperarCuentaServicio recuperar = new RecuperarCuentaServicio();
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-    /**
-     * Procesa la solicitud POST para enviar enlace de recuperación.
-     */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String email = request.getParameter("email");
-        Log.ficheroLog("Recibido request para recuperar contraseña con email: " + email);
-
-        procesarSolicitud(email, response);
+        request.getRequestDispatcher("/WEB-INF/Vistas/RecuperarCuenta.jsp")
+               .forward(request, response);
     }
 
-    /**
-     * Maneja el envío del enlace y redirecciones según resultado.
-     * @param email Email a recuperar.
-     * @param response Objeto HttpServletResponse para redirección.
-     * @throws IOException
-     */
-    private void procesarSolicitud(String email, HttpServletResponse response) throws IOException {
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String email = request.getParameter("email");
+        String tipoUsuario = request.getParameter("tipoUsuario");  // <-- NUEVO
+
+        Log.ficheroLog("Recibido request para recuperar contraseña con email: " + email);
+
+        procesarSolicitud(request, response, email, tipoUsuario);
+    }
+
+    private void procesarSolicitud(HttpServletRequest request, HttpServletResponse response, String email, String tipoUsuario)
+            throws ServletException, IOException {
+
         try {
-            boolean enviado = recuperar.enviarEnlaceRecuperacion(email);
+            boolean enviado = recuperar.enviarEnlaceRecuperacion(email, tipoUsuario);
 
             if (enviado) {
                 Log.ficheroLog("Enlace de recuperación enviado correctamente para email: " + email);
-                response.sendRedirect("mensaje.jsp?msg=Revisa tu email para restablecer la contraseña");
+
+                // 🔥 REDIRECCIÓN con mensaje en URL
+                response.sendRedirect("recuperarCuenta?mensaje=correo_enviado");
             } else {
                 Log.ficheroLog("No se pudo enviar el enlace de recuperación para email: " + email);
-                response.sendRedirect("RestablecerPassword.jsp?error=Email no encontrado");
+
+                response.sendRedirect("recuperarCuenta?mensaje=email_no_encontrado");
             }
+
         } catch (Exception e) {
             Log.ficheroLog("Error en RecuperarPasswordControlador: " + e.getMessage());
-            response.sendRedirect("RestablecerPassword.jsp?error=Error interno, inténtalo más tarde");
+
+            response.sendRedirect("recuperarCuenta?mensaje=error_servidor");
         }
     }
+
 }
+

@@ -58,9 +58,7 @@ public class UsuarioControlador extends HttpServlet {
 				return;
 			}
 
-			if (tipoUsuario == null) {
-				crearUsuario(request, response);
-			} else if ("administrador".equals(tipoUsuario)) {
+			if ("administrador".equals(tipoUsuario)) {
 				modificarUsuario(request, response);
 			} else {
 				response.sendError(HttpServletResponse.SC_FORBIDDEN, "No tienes permiso para esta acción.");
@@ -72,78 +70,6 @@ public class UsuarioControlador extends HttpServlet {
 			e.printStackTrace();
 			response.getWriter().write("Se ha producido un error en el servidor. Por favor, inténtelo más tarde.");
 		}
-	}
-
-	/**
-	 * Crea un nuevo usuario.
-	 * 
-	 * @param request  La solicitud HTTP.
-	 * @param response La respuesta HTTP.
-	 * @throws IOException      Si ocurre un error al escribir en la respuesta.
-	 * @throws ServletException Si ocurre un error durante la ejecución del servlet.
-	 */
-	private void crearUsuario(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
-		ServletContext context = request.getServletContext();
-
-		String nombreCompleto = request.getParameter("nombreCompletoUsuario");
-		String alias = request.getParameter("aliasUsuario");
-		String fechaNac = request.getParameter("fechaNacimientoUsuario");
-		String email = request.getParameter("emailUsuario");
-		String telefono = request.getParameter("telefonoUsuario");
-		String password = request.getParameter("passwordUsuario");
-		String password2 = request.getParameter("passwordUsuario2");
-		String rolString = request.getParameter("rolUsuario");
-
-		if (!password.equals(password2)) {
-			response.sendRedirect("InicioSesion.jsp?mensaje=error_password");
-			return;
-		}
-
-		RolUsuario rol = RolUsuario.valueOf(rolString);
-
-		Part imagenPart = request.getPart("imagenUsuario");
-		byte[] imagenBytes = null;
-		if (imagenPart != null && imagenPart.getSize() > 0) {
-			imagenBytes = new byte[(int) imagenPart.getSize()];
-			try (InputStream inputStream = imagenPart.getInputStream()) {
-				inputStream.read(imagenBytes);
-			}
-		} else {
-			imagenBytes = Utilidades.obtenerImagenPorDefecto(context);
-		}
-
-		UsuarioDto usuario = new UsuarioDto();
-		usuario.setNombreCompletoUsuario(nombreCompleto);
-		usuario.setAliasUsuario(alias);
-		usuario.setFechaNacimientoUsuario(fechaNac);
-		usuario.setEmailUsuario(email);
-		usuario.setTelefonoUsuario(telefono);
-		usuario.setPasswordUsuario(password);
-		usuario.setRolUsuario(rol);
-		usuario.setImagenUsuario(imagenBytes);
-		usuario.setDescripcionUsuario(request.getParameter("descripcionUsuario"));
-		usuario.setEstadoUsuario(Estado.Activo);
-
-		// ✅ Guardar usuario en API y capturar resultado
-		String resultado = servicio.guardarUsuario(usuario);
-
-		switch (resultado) {
-		    case "ok":
-		        response.sendRedirect("InicioSesion.jsp?mensajeAlta=registro_exitoso"); 
-		        break;
-		    case "usuario_existente":
-		        response.sendRedirect("InicioSesion.jsp?mensajeAlta=usuario_existente");
-		        break;
-		    case "email_invalido":
-		        response.sendRedirect("InicioSesion.jsp?mensajeAlta=email_invalido");
-		        break;
-		    default:
-		        response.sendRedirect("InicioSesion.jsp?mensajeAlta=error_servidor");
-		        break;
-		}
-
-
 	}
 
 	/**

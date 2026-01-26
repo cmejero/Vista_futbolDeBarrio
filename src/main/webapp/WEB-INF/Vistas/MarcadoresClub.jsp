@@ -7,17 +7,17 @@ String nombreUsuario = "Invitado";
 Boolean esPremium = false;
 
 if (tipoUsuario == null) {
-    tipoUsuario = "Invitado"; 
+	tipoUsuario = "Invitado";
 } else {
-    if ("club".equals(tipoUsuario)) {
-        usuarioId = (Long) session.getAttribute("clubId");
-        nombreUsuario = (String) session.getAttribute("nombreClub");
-        if (nombreUsuario == null)
-            nombreUsuario = "Club";
-        esPremium = (Boolean) session.getAttribute("esPremium");
-        if (esPremium == null)
-            esPremium = false;
-    }
+	if ("club".equals(tipoUsuario)) {
+		usuarioId = (Long) session.getAttribute("clubId");
+		nombreUsuario = (String) session.getAttribute("nombreClub");
+		if (nombreUsuario == null)
+	nombreUsuario = "Club";
+		esPremium = (Boolean) session.getAttribute("esPremium");
+		if (esPremium == null)
+	esPremium = false;
+	}
 }
 %>
 
@@ -424,7 +424,7 @@ if (tipoUsuario == null) {
 	} else if ("Invitado".equals(tipoUsuario)) {
 	%>
 
-<header class="fixed-top">
+	<header class="fixed-top">
 		<!-- Contenedor principal de -->
 		<div class="container-fluid ">
 			<div class="row ">
@@ -536,7 +536,8 @@ if (tipoUsuario == null) {
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="QuienesSomos.jsp" class="letraCabeceraMedio">¿QUIENES SOMOS?</a>
+											<a href="QuienesSomos.jsp" class="letraCabeceraMedio">¿QUIENES
+												SOMOS?</a>
 										</div>
 									</div>
 								</div>
@@ -551,7 +552,7 @@ if (tipoUsuario == null) {
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-11 col-md-11 cabeceraAbajo ">
-											<a href="Index.jsp" class="letraCabeceraAbajo" >INICIO</a>
+											<a href="Index.jsp" class="letraCabeceraAbajo">INICIO</a>
 										</div>
 
 									</div>
@@ -564,8 +565,8 @@ if (tipoUsuario == null) {
 										</div>
 
 										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES<span class="tooltip-text">Sección en
-													desarrollo</span></a>
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES<span
+												class="tooltip-text">Sección en desarrollo</span></a>
 										</div>
 									</div>
 								</div>
@@ -573,18 +574,18 @@ if (tipoUsuario == null) {
 								<div class="col-sm-4 col-md-4 ">
 									<div class="row  ">
 										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
-											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo" style="color: #d4af37;">MARCADORES</a>
+											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo"
+												style="color: #d4af37;">MARCADORES</a>
 										</div>
-										<div
-											class="col-sm-6 col-md-6 cabeceraAbajo  ">
-											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span class="tooltip-text">Sección en
-													desarrollo</span></a>
+										<div class="col-sm-6 col-md-6 cabeceraAbajo  ">
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span
+												class="tooltip-text">Sección en desarrollo</span></a>
 										</div>
 
 									</div>
 								</div>
 
-								
+
 
 								<!-- columna derecha -->
 								<div class="col-sm-2 col-md-2 ">
@@ -605,16 +606,16 @@ if (tipoUsuario == null) {
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white; background-color: #005500;">Idioma<span class="tooltip-text">Sección en
-													desarrollo</span>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white; background-color: #005500;">Idioma<span
+															class="tooltip-text">Sección en desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white;">Ayuda <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white;">Configuración <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Ayuda <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Configuración <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
 
 												</ul>
 											</div>
@@ -655,7 +656,8 @@ if (tipoUsuario == null) {
 										<div
 											class="d-sm-none d-md-none col-4 d-block cabeceraMedio  d-flex justify-content-center align-items-center">
 											<a href="Registrar.jsp">
-												<button type="button" class="botonRegistrarCabecera" style="font-size:1.6vw">REGISTRARSE</button>
+												<button type="button" class="botonRegistrarCabecera"
+													style="font-size: 1.6vw">REGISTRARSE</button>
 											</a>
 										</div>
 
@@ -672,7 +674,7 @@ if (tipoUsuario == null) {
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
 									<a href="Index.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">INICIO</a>
+										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
 								</div>
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-3 ">
@@ -1234,7 +1236,7 @@ Avenida mujer trabajadora
 	const usuarioId = '<%=usuarioId != null ? usuarioId : ""%>';
 	sessionStorage.setItem('usuarioId', usuarioId);
     const contextPath = "${pageContext.request.contextPath}";
-    console.log("Fetch URL clubes:", contextPath + "/clubEstadisticaGlobal");
+    console.log("Fetch URL clubes:", contextPath + "/marcadores");
   document.addEventListener("DOMContentLoaded", function() {
 
     // ===============================
@@ -1444,7 +1446,7 @@ Avenida mujer trabajadora
     // CARGAR JUGADORES
     // ===============================
 
-fetch(contextPath + "/jugadorEstadisticaGlobal", {
+fetch(contextPath + "/marcadores?tipo=jugadoresGlobal", {
   method: "GET",
   credentials: "include"   
 })
@@ -1488,7 +1490,7 @@ fetch(contextPath + "/jugadorEstadisticaGlobal", {
     // ===============================
     // CARGAR CLUBES
     // ===============================
-   fetch(contextPath + "/clubEstadisticaGlobal")
+fetch(contextPath + "/marcadores?tipo=clubesGlobal")
   .then(function(response) {
     if (!response.ok) throw new Error("No se encontraron estadísticas globales de clubes");
     return response.json();
@@ -1551,7 +1553,7 @@ if (botonEstadisticas) {
     if (tablaEstadisticasTorneo) tablaEstadisticasTorneo.innerHTML = "";
 
     // === Estadísticas Globales del Club ===
-    fetch(contextPath + "/clubEstadisticaGlobal?id=" + usuarioId)
+fetch(contextPath + "/marcadores?tipo=clubGlobal&id=" + usuarioId)
   .then(function(response) {
     if (!response.ok) throw new Error("No se encontraron estadísticas globales del club");
     return response.json();
@@ -1572,7 +1574,7 @@ if (botonEstadisticas) {
         console.error("❌ Error cargando estadísticas globales del club:", error);
       });
 
-    fetch(contextPath + "/clubEstadisticaTorneo?id="  + usuarioId)
+fetch(contextPath + "/marcadores?tipo=clubTorneo&id=" + usuarioId)
     .then(response => {
       if (!response.ok) throw new Error("No se encontraron estadísticas por torneo del club");
       return response.json();

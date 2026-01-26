@@ -103,15 +103,12 @@ h1 {
 		transform: scale(0.6); /* reduce tamaño en pantallas pequeñas */
 		transform-origin: top center;
 	}
-	
-	
 }
 
 @media ( max-width : 400px) {
 	.paypal-wrapper {
 		transform: scale(0.5);
 	}
-	
 }
 </style>
 <script
@@ -392,16 +389,16 @@ h1 {
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
 													<li><a class="dropdown-item seccion-bloqueada "
-														href="#">Idioma<span
-															class="tooltip-text">Sección en desarrollo</span>
+														href="#">Idioma<span class="tooltip-text">Sección
+																en desarrollo</span>
 													</a></li>
 													<li><a class="dropdown-item seccion-bloqueada"
-														href="#"">Ayuda<span
-															class="tooltip-text">Sección en desarrollo</span>
+														href="#"">Ayuda<span class="tooltip-text">Sección
+																en desarrollo</span>
 													</a></li>
 													<li><a class="dropdown-item seccion-bloqueada"
-														href="#"">Configuración <span
-															class="tooltip-text">Sección en desarrollo</span></a></li>
+														href="#"">Configuración <span class="tooltip-text">Sección
+																en desarrollo</span></a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -524,28 +521,28 @@ h1 {
 											style="min-width: 12vw; font-size: 2.2vw; background-color: #003300; border-radius: 5px; width: 25vw">
 
 
-											<li><a class="dropdown-item seccion-bloqueada" href="Jugador.jsp"
-												>Alquileres <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada"
+												href="Jugador.jsp">Alquileres <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
 											<li><a class="dropdown-item " href="EventoClub.jsp"
 												style="color: white;">Eventos </a></li>
-											<li><a class="dropdown-item seccion-bloqueada" href="Jugador.jsp"
-												>Desafios <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada"
+												href="Jugador.jsp">Desafios <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
 
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item seccion-bloqueada" href="#"
-												>Idioma <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
-											<li><a class="dropdown-item seccion-bloqueada" href="#"
-												>Ayuda <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
-											<li><a class="dropdown-item seccion-bloqueada" href="#"
-												>Configuración <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Idioma
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Ayuda
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Configuración
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
@@ -604,8 +601,8 @@ h1 {
 
 
 											<li><a class="dropdown-item seccion-bloqueada"
-												href="Jugador.jsp">Alquileres <span
-													class="tooltip-text">Sección en desarrollo</span></a></li>
+												href="Jugador.jsp">Alquileres <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
 											<li><a class="dropdown-item " href="MiClubJugador.jsp"
 												style="color: white;">Mi club </a></li>
 											<li><a class="dropdown-item seccion-bloqueada"
@@ -895,9 +892,8 @@ Avenida mujer trabajadora
     const tipoUsuario = '<%=tipoUsuario%>';
     const idUsuario = '<%=usuarioId%>';
     const idClub = '<%=clubId%>';
-    console.log("usuario: " + idUsuario);
-    
-    
+    const contextPath = '<%= request.getContextPath() %>';
+
 
     paypal.Buttons({
         style: {
@@ -912,7 +908,7 @@ Avenida mujer trabajadora
         createOrder: function(data, actions) {
             return actions.order.create({
                 purchase_units: [{
-                    amount: { value: '0.99' } // Precio del premium
+                    amount: { value: '0.99' }
                 }]
             });
         },
@@ -922,57 +918,49 @@ Avenida mujer trabajadora
             console.log("Pago aprobado por PayPal:", data);
             console.log("Tipo de usuario:", tipoUsuario);
 
-            // Determinar URL del backend según tipo de usuario
-            let urlBackend = (tipoUsuario === "club")
-                ? "club?accion=activarPremium"
-                : "usuario?accion=activarPremium";
-
-            console.log("URL backend a llamar:", urlBackend);
-
             // Llamar al backend para activar premium
-            fetch(urlBackend, { 
-                method: "POST", 
-                credentials: "same-origin" 
+            fetch(contextPath + '/pagoPremium?tipo=' + tipoUsuario, {
+                method: 'POST',
+                credentials: 'same-origin'
             })
             .then(response => {
                 if (response.ok) {
-                    window.location.href = "PagoPremium.jsp?mensajePago=exitoso";
+                    window.location.href = contextPath + '/pagoPremium?mensajePago=exitoso';
                 } else {
-                    throw new Error("Error al activar premium en backend");
+                    window.location.href = contextPath + '/pagoPremium?mensajePago=error';
                 }
             })
             .catch(err => {
-                console.error("Error al activar premium:", err);
-                window.location.href = "PagoPremium.jsp?mensajePago=error";
+                window.location.href = contextPath + '/pagoPremium?mensajePago=error';
             });
         },
 
         // Pago cancelado
         onCancel: function(data) {
             console.log("Pago cancelado:", data);
-            window.location.href = "PagoPremium.jsp?mensajePago=cancelado";
+            window.location.href = contextPath + '/pagoPremium?mensajePago=cancelado';
         },
 
         // Error en el proceso de PayPal
         onError: function(err) {
             console.error("Error con PayPal:", err);
-            window.location.href = "PagoPremium.jsp?mensajePago=error";
+            window.location.href = contextPath + '/pagoPremium?mensajePago=error';
         }
 
     }).render('#paypal-button-container');
-    
-	function abrirGmail() {
-	    const email = "futboldebarriosevilla@gmail.com";
-	    const subject = "Titulo del Asunto: ";
-	    const body = "Escriba aqui el mensaje....";
 
-	    const url = "https://mail.google.com/mail/?view=cm&fs=1&to=" 
-	                + encodeURIComponent(email) 
-	                + "&su=" + encodeURIComponent(subject) 
-	                + "&body=" + encodeURIComponent(body);
+    function abrirGmail() {
+        const email = "futboldebarriosevilla@gmail.com";
+        const subject = "Titulo del Asunto: ";
+        const body = "Escriba aqui el mensaje....";
 
-	    window.open(url, "_blank");
-	}
+        const url = "https://mail.google.com/mail/?view=cm&fs=1&to=" 
+                    + encodeURIComponent(email) 
+                    + "&su=" + encodeURIComponent(subject) 
+                    + "&body=" + encodeURIComponent(body);
+
+        window.open(url, "_blank");
+    }
 </script>
 
 

@@ -1,6 +1,8 @@
 package vista_futbolDeBarrio.servicios;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -12,8 +14,12 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 import vista_futbolDeBarrio.dtos.InstalacionDto;
 import vista_futbolDeBarrio.enums.Estado;
 import vista_futbolDeBarrio.enums.Modalidad;
@@ -23,6 +29,76 @@ import vista_futbolDeBarrio.utilidades.Utilidades;
  * Clase que se encarga de la logica de los metodos CRUD de equipo torneo
  */
 public class InstalacionServicio {
+	
+	  public String crearInstalacionDesdeFormulario(HttpServletRequest request)
+	            throws IOException, ServletException {
+
+	        ServletContext context = request.getServletContext();
+
+	        InstalacionDto instalacion = new InstalacionDto();
+	        instalacion.setNombreInstalacion(request.getParameter("nombreInstalacion"));
+	        instalacion.setDireccionInstalacion(request.getParameter("direccionInstalacion"));
+	        instalacion.setTelefonoInstalacion(request.getParameter("telefonoInstalacion"));
+	        instalacion.setEmailInstalacion(request.getParameter("emailInstalacion"));
+	        instalacion.setPasswordInstalacion(request.getParameter("passwordInstalacion"));
+
+	        // 🔐 Validación de contraseña
+	        String repassword = request.getParameter("repasswordInstalacion");
+	        if (!instalacion.getPasswordInstalacion().equals(repassword)) {
+	            return "error_password";
+	        }
+
+	        instalacion.setServiciosInstalacion(request.getParameter("serviciosInstalacion"));
+
+	        // 🏟 Modalidades de las pistas
+	        String tipoCampo1Form = request.getParameter("tipoCampo1");
+	        String tipoCampo2Form = request.getParameter("tipoCampo2");
+	        String tipoCampo3Form = request.getParameter("tipoCampo3");
+
+	        if (tipoCampo1Form != null && !tipoCampo1Form.isEmpty()) {
+	            instalacion.setTipoCampo1(Modalidad.valueOf(tipoCampo1Form));
+	        }
+
+	        if (tipoCampo2Form != null && !tipoCampo2Form.isEmpty()) {
+	            instalacion.setTipoCampo2(Modalidad.valueOf(tipoCampo2Form));
+	        } else {
+	            instalacion.setTipoCampo2(instalacion.getTipoCampo1());
+	        }
+
+	        if (tipoCampo3Form != null && !tipoCampo3Form.isEmpty()) {
+	            instalacion.setTipoCampo3(Modalidad.valueOf(tipoCampo3Form));
+	        } else {
+	            instalacion.setTipoCampo3(instalacion.getTipoCampo1());
+	        }
+
+	        // 📌 Estado de la instalación
+	        String estadoInstalacionForm = request.getParameter("estadoInstalacion");
+	        if (estadoInstalacionForm != null && !estadoInstalacionForm.isEmpty()) {
+	            instalacion.setEstadoInstalacion(Estado.valueOf(estadoInstalacionForm));
+	        }
+
+	        // 🖼 Imagen
+	        Part imagenPart = request.getPart("imagenInstalacion");
+	        byte[] imagenBytes;
+
+	        if (imagenPart != null && imagenPart.getSize() > 0) {
+	            imagenBytes = new byte[(int) imagenPart.getSize()];
+	            try (InputStream inputStream = imagenPart.getInputStream()) {
+	                inputStream.read(imagenBytes);
+	            }
+	        } else {
+	            imagenBytes = Utilidades.obtenerImagenPorDefecto(context);
+	        }
+
+	        instalacion.setImagenInstalacion(imagenBytes);
+
+	        // 🆔 Torneos (vacío por defecto)
+	        instalacion.setTorneoIds(new ArrayList<>());
+
+	        // 📡 Llamada a la API
+	        return guardarInstalacion(instalacion);
+	    }
+
 
 	/**
 	 * Guarda una nueva instalación en el sistema.

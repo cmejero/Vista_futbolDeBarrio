@@ -2420,6 +2420,12 @@ button.botonVolver:hover {
 		height: 1.2vw;
 		animation: spin 8s linear infinite;
 	}
+	.mensaje-error {
+    color: red;
+    font-size: 1.5vw;     
+    font-weight: bold;
+    margin-top: 10px;
+}
 @keyframes glow {
 	0% {
 		box-shadow: 0 0 5px rgba(255, 215, 0, 0.7);

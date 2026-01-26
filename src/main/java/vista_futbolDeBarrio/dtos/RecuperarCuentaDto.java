@@ -3,9 +3,11 @@ package vista_futbolDeBarrio.dtos;
 /**
  * Clase encargada de los campos de Recuperar Contraseña
  */
-public class RecuperarContrasenaDto {
+public class RecuperarCuentaDto {
 
     private String email;
+    private String tipoUsuario;
+
 
     // Getter y setter
 
@@ -16,5 +18,15 @@ public class RecuperarContrasenaDto {
     public void setEmail(String email) {
         this.email = email;
     }
+
+	public String getTipoUsuario() {
+		return tipoUsuario;
+	}
+
+	public void setTipoUsuario(String tipoUsuario) {
+		this.tipoUsuario = tipoUsuario;
+	}
+    
+    
 
 }

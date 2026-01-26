@@ -50,7 +50,7 @@ public class CerrarSesionControlador extends HttpServlet {
         if (session != null) session.invalidate();
 
         // 3️⃣ Redirigir a login
-        response.sendRedirect("InicioSesion.jsp?mensaje=sesion_cerrada");
+        response.sendRedirect("login?mensaje=sesion_cerrada");
     }
 
    

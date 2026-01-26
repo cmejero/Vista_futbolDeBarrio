@@ -7,7 +7,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -118,6 +120,104 @@ public class MiembroClubServicio {
 	        e.printStackTrace();
 	        System.err.println("Error al guardar miembro del club: " + e.getMessage());
 	    }
+	}
+
+	
+	public String obtenerMisClubesEnJson(Long usuarioId, Long clubId) {
+
+	    boolean esMiembro = false;
+
+	    if (clubId != null) {
+	        esMiembro = esMiembroDelClub(clubId, usuarioId);
+	    }
+
+	    List<MiembroClubDto> misClubes = listarMisClubesPorUsuario(usuarioId);
+
+	    JSONArray jsonArray = new JSONArray();
+	    for (MiembroClubDto miembro : misClubes) {
+	        jsonArray.put(convertirMiembroClubAJson(miembro));
+	    }
+
+	    JSONObject jsonResponse = new JSONObject();
+	    jsonResponse.put("esMiembro", esMiembro);
+	    jsonResponse.put("misClubes", jsonArray);
+
+	    return jsonResponse.toString();
+	}
+
+
+	
+	public String obtenerJugadoresDelClubEnJson(Long clubId) {
+	    List<JugadorEstadisticaGlobalDto> jugadores = listarJugadoresPorClub(clubId);
+	    List<MiembroClubDto> miembros = listarMiembrosClub(clubId);
+
+	    Map<Long, MiembroClubDto> mapaMiembros = new HashMap<>();
+	    for (MiembroClubDto m : miembros) {
+	        mapaMiembros.put(m.getUsuarioId(), m);
+	    }
+
+	    JSONArray jsonArray = new JSONArray();
+	    for (JugadorEstadisticaGlobalDto j : jugadores) {
+	        jsonArray.put(convertirJugadorAJson(j, mapaMiembros.get(j.getJugadorGlobalId())));
+	    }
+
+	    return jsonArray.toString();
+	}
+
+	
+	private JSONObject convertirMiembroClubAJson(MiembroClubDto miembro) {
+	    JSONObject json = new JSONObject();
+	    json.put("idMiembroClub", miembro.getIdMiembroClub());
+	    json.put("fechaAltaUsuario", miembro.getFechaAltaUsuario());
+	    json.put("fechaBajaUsuario", miembro.getFechaBajaUsuario());
+	    json.put("clubId", miembro.getIdClub());
+	    json.put("usuarioId", miembro.getUsuarioId());
+
+	    ClubDto club = miembro.getClub();
+	    json.put("club", club != null ? convertirClubAJson(club) : JSONObject.NULL);
+
+	    return json;
+	}
+
+	private JSONObject convertirClubAJson(ClubDto club) {
+	    JSONObject jsonClub = new JSONObject();
+	    jsonClub.put("idClub", club.getIdClub());
+	    jsonClub.put("nombreClub", club.getNombreClub());
+	    jsonClub.put("abreviaturaClub", club.getAbreviaturaClub());
+	    jsonClub.put("descripcionClub", club.getDescripcionClub());
+	    jsonClub.put("localidadClub", club.getLocalidadClub());
+	    jsonClub.put("paisClub", club.getPaisClub());
+	    jsonClub.put("emailClub", club.getEmailClub());
+	    jsonClub.put("telefonoClub", club.getTelefonoClub());
+	    jsonClub.put("esPremium", club.isEsPremium());
+	    jsonClub.put("logoBase64", club.getLogoClub() != null ? Base64.getEncoder().encodeToString(club.getLogoClub()) : JSONObject.NULL);
+	    return jsonClub;
+	}
+
+	private JSONObject convertirJugadorAJson(JugadorEstadisticaGlobalDto j, MiembroClubDto miembro) {
+	    JSONObject jsonJugador = new JSONObject();
+	    jsonJugador.put("nombreJugador", j.getNombreJugador());
+	    jsonJugador.put("aliasJugador", j.getAliasJugador());
+	    jsonJugador.put("partidosJugadosGlobal", j.getPartidosJugadosGlobal());
+	    jsonJugador.put("partidosGanadosGlobal", j.getPartidosGanadosGlobal());
+	    jsonJugador.put("partidosPerdidosGlobal", j.getPartidosPerdidosGlobal());
+	    jsonJugador.put("golesGlobal", j.getGolesGlobal());
+	    jsonJugador.put("asistenciasGlobal", j.getAsistenciasGlobal());
+	    jsonJugador.put("amarillasGlobal", j.getAmarillasGlobal());
+	    jsonJugador.put("rojasGlobal", j.getRojasGlobal());
+	    jsonJugador.put("minutosJugadosGlobal", j.getMinutosJugadosGlobal());
+	    jsonJugador.put("usuarioId", j.getJugadorGlobalId());
+	    jsonJugador.put("jugadorGlobalId", j.getJugadorGlobalId());
+
+	    if (miembro != null) {
+	        jsonJugador.put("idMiembroClub", miembro.getIdMiembroClub());
+	        jsonJugador.put("miembroClub", convertirMiembroClubAJson(miembro));
+	    } else {
+	        jsonJugador.put("idMiembroClub", JSONObject.NULL);
+	        jsonJugador.put("miembroClub", JSONObject.NULL);
+	    }
+
+	    return jsonJugador;
 	}
 
 

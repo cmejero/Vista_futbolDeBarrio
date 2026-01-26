@@ -25,7 +25,7 @@ if (esPremium == null)
 <head>
 <meta charset="UTF-8">
 <!-- Estilos CSS -->
-<link rel="stylesheet" href="Css/Estilo.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/Css/Estilo.css">
 
 <!-- Bootstrap CSS -->
 <link
@@ -68,7 +68,7 @@ if (esPremium == null)
 						<!-- columna logo -->
 						<div class="col-sm-1 col-md-1 logo"
 							style="background-color: white; border-top: 2px solid black; border-left: 1px solid black">
-							<img src="Imagenes/LOGOWEB.PNG"></img>
+							<img src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -283,7 +283,7 @@ if (esPremium == null)
 						<!-- columna logo -->
 						<div class="d-sm-none d-md-none col-2 d-block logo  "
 							style="background-color: white; border: 2px solid black; border-top: none">
-							<img src="Imagenes/LOGOWEB.PNG"></img>
+							<img src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -659,27 +659,28 @@ Avenida mujer trabajadora
     }
 
     // Función para salir del club (ahora global)
-function salirClub(idMiembroClub) {
-    if (!confirm("¿Seguro que deseas salir de este club?")) return;
+    function salirClub(idMiembroClub) {
+        if (!confirm("¿Seguro que deseas salir de este club?")) return;
 
-    fetch("miembroClub?idMiembroClub=" + idMiembroClub, { method: "DELETE" })
-        .then(res => {
-            if (res.ok) {
-                // Recargar la lista de clubes automáticamente
-                cargarMisClubes();
-            } else {
-                alert("No se pudo salir del club.");
-            }
+        fetch('${pageContext.request.contextPath}/jugador/misClubes?idMiembroClub=' + idMiembroClub + '&usuarioId=' + sessionStorage.getItem('usuarioId'), {
+            method: "DELETE"
         })
-        .catch(err => console.error("Error al eliminar miembro del club:", err));
-}
-
+            .then(res => {
+                if (res.ok) {
+                    // Recargar la lista de clubes automáticamente
+                    cargarMisClubes();
+                } else {
+                    alert("No se pudo salir del club.");
+                }
+            })
+            .catch(err => console.error("Error al eliminar miembro del club:", err));
+    }
 
     // Función para cargar los clubes
     function cargarMisClubes() {
         const usuarioId = sessionStorage.getItem('usuarioId');
 
-        fetch('miembroClub?usuarioId=' + usuarioId + '&tipo=json')
+        fetch('${pageContext.request.contextPath}/jugador/misClubes?tipo=json')
             .then(response => {
                 if (!response.ok) throw new Error('Error al cargar los clubes');
                 return response.json();
@@ -698,7 +699,7 @@ function salirClub(idMiembroClub) {
                     const club = misClubes[i].club;
                     let imagen = club.logoBase64
                         ? "data:image/png;base64," + club.logoBase64
-                        : "Imagenes/usuarioPorDefecto.jpg";
+                        : "${pageContext.request.contextPath}/Imagenes/usuarioPorDefecto.jpg";
 
                     let html = '';
                     html += '<div class="tarjetaMiClubJugador" data-id="' + misClubes[i].idMiembroClub + '">';
@@ -725,9 +726,9 @@ function salirClub(idMiembroClub) {
             });
     }
     
- // Abrir modal y mostrar jugadores del club
+    // Abrir modal y mostrar jugadores del club
     function verClubMiClubJugador(idClub) {
-        fetch('miembroClub?clubId=' + idClub + '&tipo=jugadores')
+        fetch('${pageContext.request.contextPath}/jugador/misClubes?clubId=' + idClub + '&tipo=jugadores')
             .then(function(res) {
                 if (!res.ok) throw new Error('Error al cargar jugadores del club');
                 return res.json();
@@ -758,8 +759,6 @@ function salirClub(idMiembroClub) {
 
                 document.getElementById("modalVerClubMiClubJugador").style.display = "flex";
             })
-
-            
             .catch(function(err) {
                 console.error("Error al cargar jugadores del club:", err);
             });
@@ -767,26 +766,26 @@ function salirClub(idMiembroClub) {
 
     // Cerrar modal
     function cerrarModalVerClubMiClubJugador() {
-    document.getElementById("modalVerClubMiClubJugador").style.display = "none";
-}
-
+        document.getElementById("modalVerClubMiClubJugador").style.display = "none";
+    }
 
     // Cargar los clubes al cargar la página
     window.onload = cargarMisClubes;
     
-	function abrirGmail() {
-	    const email = "futboldebarriosevilla@gmail.com";
-	    const subject = "Titulo del Asunto: ";
-	    const body = "Escriba aqui el mensaje....";
+    function abrirGmail() {
+        const email = "futboldebarriosevilla@gmail.com";
+        const subject = "Titulo del Asunto: ";
+        const body = "Escriba aqui el mensaje....";
 
-	    const url = "https://mail.google.com/mail/?view=cm&fs=1&to=" 
-	                + encodeURIComponent(email) 
-	                + "&su=" + encodeURIComponent(subject) 
-	                + "&body=" + encodeURIComponent(body);
+        const url = "https://mail.google.com/mail/?view=cm&fs=1&to=" 
+                    + encodeURIComponent(email) 
+                    + "&su=" + encodeURIComponent(subject) 
+                    + "&body=" + encodeURIComponent(body);
 
-	    window.open(url, "_blank");
-	}
+        window.open(url, "_blank");
+    }
 </script>
+
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

@@ -24,7 +24,7 @@ if (esPremium == null)
 <head>
 <meta charset="UTF-8">
 <!-- Estilos CSS -->
-<link rel="stylesheet" href="Css/Estilo.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/Css/Estilo.css">
 
 <!-- Bootstrap CSS -->
 <link
@@ -67,7 +67,7 @@ if (esPremium == null)
 						<!-- columna logo -->
 						<div class="col-sm-1 col-md-1 logo"
 							style="background-color: white; border-top: 2px solid black; border-left: 1px solid black">
-							<img src="Imagenes/LOGOWEB.PNG"></img>
+							<img src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -285,7 +285,7 @@ if (esPremium == null)
 						<!-- columna logo -->
 						<div class="d-sm-none d-md-none col-2 d-block logo  "
 							style="background-color: white; border: 2px solid black; border-top: none">
-							<img src="Imagenes/LOGOWEB.PNG"></img>
+							<img src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -436,7 +436,7 @@ if (esPremium == null)
 
 										<button id="botonLiga"
 											class="botonMarcadores p-4 en-desarrollo">
-											<img class="imagenMarcadores" src="Imagenes/Liga.JPG"
+											<img class="imagenMarcadores" src="${pageContext.request.contextPath}/Imagenes/Liga.JPG"
 												alt="Imagen la liga"> LIGA<span
 												class="badge-desarrollo">En desarrollo</span>
 										</button>
@@ -449,7 +449,7 @@ if (esPremium == null)
 									<div class="col-md-3 col-sm-3 col-3"
 										style="margin-bottom: 16vh; margin-top: 4vh; display: flex; justify-content: flex-start; align-items: center;">
 										<button class="botonMarcadores p-4" id="botonTorneo">
-											<img class="imagenMarcadores" src="Imagenes/copa.JPG"
+											<img class="imagenMarcadores" src="${pageContext.request.contextPath}/Imagenes/copa.JPG"
 												alt="Imagen torneo"> TORNEO
 										</button>
 									</div>
@@ -820,7 +820,7 @@ $(document).ready(function() {
 
 												$
 														.ajax({
-															url : 'equipoTorneo',
+													        url: '<%=request.getContextPath()%>/club/eventos',
 															method : 'POST',
 															data : {
 																torneoId : torneoId
@@ -850,7 +850,7 @@ $(document).ready(function() {
 		// Función para cargar torneos en la tabla
 		function cargarTorneos() {
     $.ajax({
-        url: 'torneo',
+        url: '<%=request.getContextPath()%>/club/eventos',
         method: 'GET',
         dataType: 'json',
         xhrFields: { withCredentials: true },

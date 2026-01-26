@@ -125,10 +125,10 @@ public class FiltroDeAutoridad implements Filter {
         return uri.equals("/") ||
                uri.contains("/InicioSesion.jsp") ||
                uri.contains("/Registrar.jsp") ||
-               uri.contains("/PedirEmail.jsp") ||
+               uri.contains("/RecuperarCuenta.jsp") ||
                uri.contains("/recuperarPassword") ||
                uri.contains("/RestablecerPassword.jsp") ||
-               uri.contains("/restablecerPassword") ||
+               uri.contains("/restablecerCuenta") ||
                uri.contains("/Index.jsp") ||
                uri.contains("/Eventos.jsp") ||
                uri.contains("/MarcadoresClub.jsp") ||
@@ -137,6 +137,23 @@ public class FiltroDeAutoridad implements Filter {
                uri.contains("/clubEstadisticaTorneo") ||
                uri.contains("/jugadorEstadisticaGlobal") ||
                uri.contains("/jugadorEstadisticaTorneo") ||
+               uri.contains("/Inicio") ||
+               uri.contains("/registrar") ||
+               uri.contains("/marcadores") ||
+               uri.contains("/eventos") ||
+               uri.contains("/recuperarCuenta") ||
+               uri.contains("/jugador") ||
+               uri.contains("/jugador/eventos") ||
+               uri.contains("/jugador/misClubes") ||
+               uri.contains("/jugador/marcadores") ||
+               uri.contains("/detalleTorneo") ||
+
+               uri.contains("/club") ||
+               uri.contains("/club/eventos") ||
+
+
+               
+               
                uri.contains("/DetallesTorneo.jsp") ||
                uri.contains("/torneo/bracket") ||
                uri.contains("/login") ||
@@ -153,13 +170,22 @@ public class FiltroDeAutoridad implements Filter {
         if (tipoUsuario == null) {
             return false;
         }
-
+        
+        if (uri.equals("/pagoPremium")) {
+            return "jugador".equals(tipoUsuario) || "club".equals(tipoUsuario);
+        }
+        if (uri.contains("/detalleTorneo")) {
+            return true;
+        }
         // ------------------- /torneo -------------------
         if (uri.startsWith("/torneo")) {
             if (!"GET".equalsIgnoreCase(metodo)) {
                 return "instalacion".equals(tipoUsuario);
             }
         }
+        
+      
+
 
         // ------------------- /usuario -------------------
         if (uri.equals("/usuario")) {

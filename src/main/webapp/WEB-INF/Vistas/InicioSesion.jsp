@@ -364,170 +364,177 @@
 		</div>
 	</header>
 
-	<main style="background-color: rgba(223, 234, 213, 0.5);">
-
-		<!-- Mensajes de sesión cerrada y alta -->
-		<%
-		String mensaje = request.getParameter("mensaje");
-		if ("sesion_cerrada".equals(mensaje)) {
-		%>
-		<div class="alert alert-success text-center">Sesión cerrada
-			correctamente.</div>
-		<%
-		} else if ("sesion_recordada".equals(mensaje)) {
-		%>
-		<div class="alert alert-info text-center">Sesión recordada
-			automáticamente.</div>
-		<%
-		}
-		%>
-
-
-		<%
-		String mensajeAlta = request.getParameter("mensajeAlta");
-		if (mensajeAlta != null) {
-			String color = "red";
-			String texto = "";
-
-			switch (mensajeAlta) {
-				case "registro_exitoso" :
-			texto = "¡Usuario registrado correctamente! Revisa tu correo para verificar tu cuenta.";
-			color = "green";
-			break;
-				case "error_password" :
-			texto = "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.";
-			break;
-				case "usuario_existente" :
-			texto = "El usuario ya existe. Prueba con otro alias o email.";
-			break;
-				case "email_invalido" :
-			texto = "El correo electrónico no tiene un formato válido.";
-			break;
-				case "error_servidor" :
-			texto = "Ocurrió un error en el servidor. Inténtalo más tarde.";
-			break;
-				default :
-			texto = "Ocurrió un error inesperado.";
-			break;
-			}
-		%>
-		<div id="mensajeAltaString" class="alert text-center"
-			style="color:<%=color%>;">
-			<%=texto%>
-		</div>
-		<%
-		}
-		%>
-
-		<%
-String errorLogin = request.getParameter("error");
-if (errorLogin != null) {
-    String texto = "";
-    String color = "red";
-
-    switch (errorLogin) {
-        case "credenciales" :
-            texto = "Email o contraseña incorrectos.";
-            break;
-        case "servidor" :
-            texto = "Ocurrió un error en el servidor. Inténtalo más tarde.";
-            break;
-        case "tipoDesconocido" :
-            texto = "Tipo de usuario desconocido.";
-            break;
-        case "accesoDenegado" :
-            texto = "No tienes permisos para acceder a esa página.";
-            break;
-        default:
-            texto = "Ocurrió un error inesperado.";
-            break;
-    }
-%>
-<div id="mensajeLogin" class="alert text-center" style="color:<%=color%>;">
-    <%=texto%>
-</div>
-<script>
-    // Ocultar automáticamente después de 3 segundos
-    setTimeout(() => {
-        const msg = document.getElementById("mensajeLogin");
-        if (msg) msg.style.display = "none";
-    }, 3000);
-</script>
-<%
-}
-%>
-
-
-
-
-		<div
-			class="d-flex justify-content-center align-items-center  mt-4 mb-5">
-			<div class="formularioInicioSesion mb-4">
-				<h2 class="tituloInicioSesion mb-4"
-					style="text-decoration: underline;">
-					<i>Iniciar Sesión</i>
-				</h2>
-
-				<form action="login" method="POST" enctype="multipart/form-data">
-
-					<!-- Selección única de tipo de usuario -->
-					<div class="mb-1">
-						<label for="tipoUsuario" class="etiquetaFormulario">Usuario</label>
-						<select id="tipoUsuario" name="tipoUsuario"
-							class="campoFormulario" required>
-							<option value="" disabled selected>Selecciona un tipo de
-								usuario</option>
-							<option value="jugador">Jugador</option>
-							<option value="club">Club</option>
-							<option value="instalacion">Instalación</option>
-						</select>
-					</div>
-
-					<!-- Campos email y contraseña -->
-					<div class="mb-1">
-						<label for="email" class="etiquetaFormulario">Correo
-							Electrónico</label> <input type="email" class="campoFormulario"
-							id="email" name="email" autocomplete="email" required>
-					</div>
-
-					<div class="mb-2">
-						<label for="password" class="etiquetaFormulario">Contraseña</label>
-						<div class="contenedorContrasenia">
-							<input type="password" class="campoFormulario" id="password"
-								name="password" autocomplete="current-password" required>
-							<button class="botonMostrarContrasenia" type="button"
-								onclick="mostrarContrasena()">👁️</button>
+		<main style="background-color: rgba(223, 234, 213, 0.5);">
+	
+			<%
+	    // --- MENSAJES GENERALES (sesión cerrada, recordada, contraseña actualizada) ---
+	    String mensaje = (String) request.getAttribute("mensaje");
+	    if (mensaje != null) {
+	        if ("sesion_cerrada".equals(mensaje)) {
+	%>
+	            <div class="alert alert-success text-center">Sesión cerrada correctamente.</div>
+	<%
+	        } else if ("sesion_recordada".equals(mensaje)) {
+	%>
+	            <div class="alert alert-info text-center">Sesión recordada automáticamente.</div>
+	<%
+	        } else if ("contraseña_actualizada".equals(mensaje)) {
+	%>
+	            <div class="alert alert-success text-center">Contraseña actualizada correctamente. Ya puedes iniciar sesión.</div>
+	<%
+	        }
+	    }
+	%>
+	
+	<%
+	    // --- MENSAJES DE ALTA (registro) ---
+	    String mensajeAlta = request.getParameter("mensajeAlta");
+	    if (mensajeAlta != null) {
+	        String tipo = "danger"; // por defecto error
+	        String texto = "";
+	
+	        switch (mensajeAlta) {
+	            case "registro_exitoso":
+	                texto = "¡Usuario registrado correctamente! Revisa tu correo para verificar tu cuenta.";
+	                tipo = "success";
+	                break;
+	            case "error_password":
+	                texto = "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.";
+	                break;
+	            case "usuario_existente":
+	                texto = "El usuario ya existe. Prueba con otro alias o email.";
+	                break;
+	            case "email_invalido":
+	                texto = "El correo electrónico no tiene un formato válido.";
+	                break;
+	            case "error_servidor":
+	                texto = "Ocurrió un error en el servidor. Inténtalo más tarde.";
+	                break;
+	            default:
+	                texto = "Ocurrió un error inesperado.";
+	                break;
+	        }
+	%>
+	        <div class="alert alert-<%= tipo %> text-center" id="mensajeAltaString">
+	            <%= texto %>
+	        </div>
+	<%
+	    }
+	%>
+	
+	<%
+	    // --- MENSAJES DE ERROR LOGIN ---
+	    String errorLogin = request.getParameter("error");
+	    if (errorLogin != null) {
+	        String texto = "";
+	        String tipo = "danger"; // siempre rojo
+	
+	        switch (errorLogin) {
+	            case "credenciales":
+	                texto = "Email o contraseña incorrectos.";
+	                break;
+	            case "servidor":
+	                texto = "Ocurrió un error en el servidor. Inténtalo más tarde.";
+	                break;
+	            case "tipoDesconocido":
+	                texto = "Tipo de usuario desconocido.";
+	                break;
+	            case "accesoDenegado":
+	                texto = "No tienes permisos para acceder a esa página.";
+	                break;
+	            case "token_faltante":
+	                texto = "No se encontró el token. Revisa tu correo para restablecer contraseña.";
+	                break;
+	            default:
+	                texto = "Ocurrió un error inesperado.";
+	                break;
+	        }
+	%>
+	        <div id="mensajeLogin" class="alert alert-<%= tipo %> text-center">
+	            <%= texto %>
+	        </div>
+	
+	        <script>
+	            // Ocultar automáticamente después de 3 segundos
+	            setTimeout(() => {
+	                const msg = document.getElementById("mensajeLogin");
+	                if (msg) msg.style.display = "none";
+	            }, 3000);
+	        </script>
+	<%
+	    }
+	%>
+	
+	
+	
+			<div
+				class="d-flex justify-content-center align-items-center  mt-4 mb-5">
+				<div class="formularioInicioSesion mb-4">
+					<h2 class="tituloInicioSesion mb-4"
+						style="text-decoration: underline;">
+						<i>Iniciar Sesión</i>
+					</h2>
+	
+					<form action="login" method="POST" enctype="multipart/form-data">
+	
+						<!-- Selección única de tipo de usuario -->
+						<div class="mb-1">
+							<label for="tipoUsuario" class="etiquetaFormulario">Usuario</label>
+							<select id="tipoUsuario" name="tipoUsuario"
+								class="campoFormulario" required>
+								<option value="" disabled selected>Selecciona un tipo de
+									usuario</option>
+								<option value="jugador">Jugador</option>
+								<option value="club">Club</option>
+								<option value="instalacion">Instalación</option>
+							</select>
 						</div>
-					</div>
-
-
-					<div class="d-flex justify-content-between align-items-center">
-						<div class="recordarContrasenia">
-							<input type="checkbox" id="recordarSesion" name="recordarSesion">
-							<label for="recordarSesion">Recordar sesión</label>
+	
+						<!-- Campos email y contraseña -->
+						<div class="mb-1">
+							<label for="email" class="etiquetaFormulario">Correo
+								Electrónico</label> <input type="email" class="campoFormulario"
+								id="email" name="email" autocomplete="email" required>
 						</div>
-						<a href="PedirEmail.jsp" class="enlaceContraseniaOlvidada">¿Olvidaste
-							tu contraseña?</a>
-					</div>
-
-					<div class="text-center mt-3">
-						<button type="submit" class="botonEnviarInicioSesion">Iniciar
-							Sesión</button>
-					</div>
-
-					<!-- Botón login con Google (usa el mismo select) -->
-					<div class="text-center mt-2">
-						<button type="button" id="botonGoogle"
-							class="botonInicioSesionGoogle">Iniciar con Google</button>
-					</div>
-
-					<div class="enlaceRegistroGoogle text-center mt-2">
-						¿No tienes una cuenta? <a href="Registrar.jsp">Regístrate aquí</a>
-					</div>
-				</form>
+	
+						<div class="mb-2">
+							<label for="password" class="etiquetaFormulario">Contraseña</label>
+							<div class="contenedorContrasenia">
+								<input type="password" class="campoFormulario" id="password"
+									name="password" autocomplete="current-password" required>
+								<button class="botonMostrarContrasenia" type="button"
+									onclick="mostrarContrasena()">👁️</button>
+							</div>
+						</div>
+	
+	
+						<div class="d-flex justify-content-between align-items-center">
+							<div class="recordarContrasenia">
+								<input type="checkbox" id="recordarSesion" name="recordarSesion">
+								<label for="recordarSesion">Recordar sesión</label>
+							</div>
+							<a href="${pageContext.request.contextPath}/recuperarCuenta"
+								class="enlaceContraseniaOlvidada">¿Olvidaste tu contraseña?</a>
+						</div>
+	
+						<div class="text-center mt-3">
+							<button type="submit" class="botonEnviarInicioSesion">Iniciar
+								Sesión</button>
+						</div>
+	
+						<!-- Botón login con Google (usa el mismo select) -->
+						<div class="text-center mt-2">
+							<button type="button" id="botonGoogle"
+								class="botonInicioSesionGoogle">Iniciar con Google</button>
+						</div>
+	
+						<div class="enlaceRegistroGoogle text-center mt-2">
+							¿No tienes una cuenta? <a href="Registrar.jsp">Regístrate aquí</a>
+						</div>
+					</form>
+				</div>
 			</div>
-		</div>
-	</main>
+		</main>
 
 
 	<footer>
@@ -802,6 +809,11 @@ function abrirGmail() {
 
     window.open(url, "_blank");
 }
+
+setTimeout(() => {
+    const mensajes = document.querySelectorAll(".alert");
+    mensajes.forEach(msg => msg.style.display = "none");
+}, 3000);
 </script>
 
 

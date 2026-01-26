@@ -20,12 +20,12 @@ import vista_futbolDeBarrio.dtos.ClubDto;
 import vista_futbolDeBarrio.log.Log;
 import vista_futbolDeBarrio.servicios.ClubServicio;
 
-@WebServlet("/club")
+@WebServlet("/club2")
 @MultipartConfig
 /**
  * Clase que se encarga de los metodos CRUD de la tabla de club
  */
-public class ClubControlador extends HttpServlet {
+public class Club2Controlador extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -55,9 +55,7 @@ public class ClubControlador extends HttpServlet {
 			String accion = request.getParameter("accion");
 			Log.ficheroLog("Acción recibida desde el formulario: " + accion);
 
-			if ("aniadir".equals(accion)) {
-				crearClub(request, response);
-			} else if ("modificar".equals(accion)) {
+			if ("modificar".equals(accion)) {
 				modificarClub(request, response);
 			} else if ("activarPremium".equals(accion)) {
 				activarPremiumClub(request, response);
@@ -72,75 +70,6 @@ public class ClubControlador extends HttpServlet {
 					.write("Se ha producido un error en el servidor. Por favor, inténtelo más tarde." + e.getMessage());
 			Log.ficheroLog("Error en el procesamiento de la acción: " + e.getMessage());
 		}
-	}
-
-	/**
-	 * Método privado que crea un nuevo club.
-	 * 
-	 * @param request  HttpServletRequest que contiene los parámetros del
-	 *                 formulario.
-	 * @param response HttpServletResponse que contiene la respuesta a enviar al
-	 *                 cliente.
-	 * @throws IOException      Si ocurre un error relacionado con la
-	 *                          entrada/salida.
-	 * @throws ServletException Si ocurre un error relacionado con el servlet.
-	 */
-	private void crearClub(HttpServletRequest request, HttpServletResponse response)
-	        throws IOException, ServletException {
-
-	    String nombreClubForm = request.getParameter("nombreClub");
-	    String abreviaturaClubForm = request.getParameter("abreviaturaClub");
-	    String descripcionClubForm = request.getParameter("descripcionClub");
-
-	    LocalDateTime fechaCreacion = LocalDateTime.now();
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-	    String fechaCreacionClubForm = fechaCreacion.format(formatter);
-
-	    String localidadClubForm = request.getParameter("localidadClub");
-	    String paisClubForm = request.getParameter("paisClub");
-	    String emailClubForm = request.getParameter("emailClub");
-	    String passwordClubForm = request.getParameter("passwordClub");
-	    String telefonoClubForm = request.getParameter("telefonoClub");
-
-	    Part imagenPart = request.getPart("logoClub");
-	    byte[] logoClubForm = null;
-	    if (imagenPart != null && imagenPart.getSize() > 0) {
-	        logoClubForm = new byte[(int) imagenPart.getSize()];
-	        try (InputStream inputStream = imagenPart.getInputStream()) {
-	            inputStream.read(logoClubForm);
-	        }
-	    }
-
-	    ClubDto nuevoClub = new ClubDto();
-	    nuevoClub.setNombreClub(nombreClubForm);
-	    nuevoClub.setAbreviaturaClub(abreviaturaClubForm);
-	    nuevoClub.setDescripcionClub(descripcionClubForm);
-	    nuevoClub.setFechaCreacionClub(fechaCreacionClubForm);
-	    nuevoClub.setFechaFundacionClub("");
-	    nuevoClub.setLocalidadClub(localidadClubForm);
-	    nuevoClub.setPaisClub(paisClubForm);
-	    nuevoClub.setEmailClub(emailClubForm);
-	    nuevoClub.setPasswordClub(passwordClubForm);
-	    nuevoClub.setTelefonoClub(telefonoClubForm);
-	    nuevoClub.setLogoClub(logoClubForm);
-
-	    // ✅ Guardar club y capturar resultado
-	    String resultado = servicio.guardarClub(nuevoClub);
-
-	    switch (resultado) {
-	        case "ok":
-	            response.sendRedirect("InicioSesion.jsp?mensajeAlta=registro_exitoso");
-	            break;
-	        case "club_existente":
-	            response.sendRedirect("InicioSesion.jsp?mensajeAlta=usuario_existente");
-	            break;
-	        case "email_invalido":
-	            response.sendRedirect("InicioSesion.jsp?mensajeAlta=email_invalido");
-	            break;
-	        default:
-	            response.sendRedirect("InicioSesion.jsp?mensajeAlta=error_servidor");
-	            break;
-	    }
 	}
 
 

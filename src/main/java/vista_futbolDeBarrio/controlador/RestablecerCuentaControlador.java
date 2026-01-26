@@ -10,52 +10,77 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vista_futbolDeBarrio.servicios.RestablecerPasswordServicio;
 
-@WebServlet("/restablecerPassword")
-/**
- * clase controlador encargado los metodos CRUD de Restablecer Password
- */
-public class RestablecerPasswordControlador extends HttpServlet {
-    
+@WebServlet("/restablecerCuenta")
+public class RestablecerCuentaControlador extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
-    // Servicio encargado de la lógica para restablecer contraseña
     RestablecerPasswordServicio restablecer = new RestablecerPasswordServicio();
-    
-    /**
-     * Procesa la solicitud POST para restablecer contraseña.
-     */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String token = request.getParameter("token");
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String tokenUrl = request.getParameter("token");
+
+        if (tokenUrl != null && !tokenUrl.isEmpty()) {
+            // Guardar token en sesión y redirigir sin token en URL
+            request.getSession().setAttribute("token", tokenUrl);
+            response.sendRedirect("restablecerCuenta");
+            return;
+        }
+
+        // Si no hay token en URL, verificamos sesión
+        String tokenSession = (String) request.getSession().getAttribute("token");
+
+        if (tokenSession == null || tokenSession.isEmpty()) {
+            // No existe token -> redirigir al controlador login
+            response.sendRedirect("login?error=token_faltante");
+            return;
+        }
+
+        // Token existe en sesión -> mostrar JSP
+        request.getRequestDispatcher("/WEB-INF/Vistas/RestablecerCuenta.jsp")
+               .forward(request, response);
+    }
+
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String token = (String) request.getSession().getAttribute("token");
+
         String password = request.getParameter("password");
         String passwordConfirm = request.getParameter("passwordConfirm");
 
         Log.ficheroLog("Intento de restablecer contraseña con token: " + token);
 
-        procesarRestablecimiento(token, password, passwordConfirm, response);
+        procesarRestablecimiento(token, password, passwordConfirm, request, response);
     }
 
-    /**
-     * Valida contraseñas y actualiza si todo es correcto, luego redirige.
-     * @param token Token de recuperación.
-     * @param password Nueva contraseña.
-     * @param passwordConfirm Confirmación de contraseña.
-     * @param response HttpServletResponse para redirección.
-     * @throws IOException
-     */
-    private void procesarRestablecimiento(String token, String password, String passwordConfirm, HttpServletResponse response) throws IOException {
+    private void procesarRestablecimiento(String token, String password, String passwordConfirm,
+                                          HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+    	if (token == null || token.isEmpty()) {
+    	    response.sendRedirect("login?error=token_invalido");
+    	    return;
+    	}
+
         if (!password.equals(passwordConfirm)) {
-            Log.ficheroLog("Las contraseñas no coinciden para token: " + token);
-            response.sendRedirect("resetPassword.jsp?token=" + token + "&error=Las contraseñas no coinciden");
+            response.sendRedirect("restablecerCuenta?error=Las contraseñas no coinciden");
             return;
         }
 
         boolean actualizado = restablecer.actualizarPassword(token, password);
 
         if (actualizado) {
-            Log.ficheroLog("Contraseña actualizada correctamente para token: " + token);
-            response.sendRedirect("InicioSesion.jsp?mensaje=contraseña_actualizada");
+            request.getSession().removeAttribute("token"); 
+            request.getSession().setAttribute("mensajeLogin", "contraseña_actualizada");
+            response.sendRedirect("login");
+    
+
         } else {
-            Log.ficheroLog("Error al actualizar contraseña para token: " + token);
-            response.sendRedirect("resetPassword.jsp?token=" + token + "&error=Token inválido o expirado");
+            response.sendRedirect("restablecerCuenta?error=Token inválido o expirado");
         }
     }
 }

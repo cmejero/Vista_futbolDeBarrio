@@ -212,11 +212,12 @@ if (esPremium == null)
 												style="color: #d4af37;">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES <span class="tooltip-text">Sección en
-													desarrollo</span></a>
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES
+												<span class="tooltip-text">Sección en desarrollo</span>
+											</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="EventoClub.jsp" class="letraCabeceraAbajo">EVENTOS</a>
+											<a href="${pageContext.request.contextPath}/club/eventos" class="letraCabeceraAbajo">EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -235,8 +236,9 @@ if (esPremium == null)
 											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo">MARCADORES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS <span class="tooltip-text">Sección en
-													desarrollo</span></a>
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS
+												<span class="tooltip-text">Sección en desarrollo</span>
+											</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraAbajo">
 											<div class="dropdown">
@@ -252,16 +254,16 @@ if (esPremium == null)
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white; background-color: #005500;">Idioma
-													<span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white;">Ayuda <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white;">Configuración <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white; background-color: #005500;">Idioma
+															<span class="tooltip-text">Sección en desarrollo</span>
+													</a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Ayuda <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Configuración <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -375,28 +377,28 @@ if (esPremium == null)
 											style="min-width: 12vw; font-size: 2.2vw; background-color: #003300; border-radius: 5px; width: 25vw">
 
 
-											<li><a class="dropdown-item seccion-bloqueada" href="Jugador.jsp"
-												>Alquileres <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada"
+												href="Jugador.jsp">Alquileres <span
+													class="tooltip-text">Sección en desarrollo</span></a></li>
 											<li><a class="dropdown-item " href="EventoClub.jsp"
 												style="color: white;">Eventos </a></li>
-											<li><a class="dropdown-item seccion-bloqueada" href="Jugador.jsp"
-												>Desafios <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada"
+												href="Jugador.jsp">Desafios <span
+													class="tooltip-text">Sección en desarrollo</span></a></li>
 
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item seccion-bloqueada" href="#"
-												>Idioma <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
-											<li><a class="dropdown-item seccion-bloqueada" href="#"
-												>Ayuda <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
-											<li><a class="dropdown-item seccion-bloqueada" href="#"
-												>Configuración <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Idioma
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Ayuda
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href="#">Configuración
+													<span class="tooltip-text">Sección en desarrollo</span>
+											</a></li>
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
@@ -435,18 +437,6 @@ if (esPremium == null)
 					<strong>0</strong>Partidos
 				</div>
 				<div class="tarjeta-estadistica">
-					<strong>0</strong>Eventos
-				</div>
-				<div class="tarjeta-estadistica">
-					<strong>0</strong>Ganados
-				</div>
-				<div class="tarjeta-estadistica">
-					<strong>0</strong>Empatados
-				</div>
-				<div class="tarjeta-estadistica">
-					<strong>0</strong>Perdidos
-				</div>
-				<div class="tarjeta-estadistica">
 					<strong>0</strong>GF
 				</div>
 				<div class="tarjeta-estadistica">
@@ -455,7 +445,20 @@ if (esPremium == null)
 				<div class="tarjeta-estadistica">
 					<strong>0</strong>DG
 				</div>
+				<div class="tarjeta-estadistica">
+					<strong>0</strong>Victorias
+				</div>
+				<div class="tarjeta-estadistica">
+					<strong>0</strong>Derrotas
+				</div>
+				<div class="tarjeta-estadistica">
+					<strong>0</strong>% Victorias
+				</div>
+				<div class="tarjeta-estadistica">
+					<strong>0</strong>% Derrotas
+				</div>
 			</div>
+
 
 			<div class="tarjeta-iconos">
 				<img src="Imagenes/icono1.png" alt="Icono 1" class="tarjeta-icono">
@@ -650,48 +653,58 @@ Avenida mujer trabajadora
 	</footer>
 
 	<script>
-
 sessionStorage.setItem('tipoUsuario', '<%=tipoUsuario%>');
 sessionStorage.setItem('clubId', '<%=usuarioId%>');
 
 async function cargarDatosClub() {
-    const clubId = sessionStorage.getItem('clubId');
-    if (!clubId) {
-        console.error('No hay clubId en sessionStorage');
-        return;
-    }
-
     try {
-        // 1️⃣ Obtener datos del club
-        const resClub = await fetch('<%=request.getContextPath()%>/club?idClub=' + clubId);
-        if (!resClub.ok) throw new Error('Error al cargar datos del club');
-        const club = await resClub.json();
+        // 1️⃣ Obtener datos del club + estadísticas desde el servlet
+        const res = await fetch('<%=request.getContextPath()%>/club?accion=datos');
+				if (!res.ok)
+					throw new Error('Error al cargar datos del club');
 
-        document.querySelector('.tarjeta-nombre').innerText = club.nombreClub;
-        document.querySelector('.tarjeta-alias').innerText = '"' + club.abreviaturaClub + '"';
-        document.querySelector('.tarjeta-estado').innerText = "Activo"; 
+				const data = await
+				res.json();
 
-        if (club.logoClub && club.logoClub.length > 0) {
-            document.querySelector('.tarjeta-imagen').src = "data:image/png;base64," + club.logoClub;
-        }
+				const club = data.club;
+				const stats = data.estadisticas;
 
-        // 2️⃣ Obtener estadísticas globales del club
-        const resStats = await fetch('<%=request.getContextPath()%>/clubEstadisticaGlobal?id='+ clubId);
-				if (!resStats.ok)
-					throw new Error(
-							'Error al cargar estadísticas globales del club');
-				const stats = await
-				resStats.json();
+				document.querySelector('.tarjeta-nombre').innerText = club.nombreClub;
+				document.querySelector('.tarjeta-alias').innerText = '"'
+						+ club.abreviaturaClub + '"';
+				document.querySelector('.tarjeta-estado').innerText = "Activo";
 
-				const estadisticasDivs = document
-						.querySelectorAll('.tarjeta-estadistica');
-				estadisticasDivs[0].querySelector('strong').innerText = stats.partidosJugadosGlobal || 0;
-				estadisticasDivs[1].querySelector('strong').innerText = stats.ganadosGlobal || 0;
-				estadisticasDivs[2].querySelector('strong').innerText = stats.empatadosGlobal || 0;
-				estadisticasDivs[3].querySelector('strong').innerText = stats.perdidosGlobal || 0;
-				estadisticasDivs[4].querySelector('strong').innerText = stats.golesFavorGlobal || 0;
-				estadisticasDivs[5].querySelector('strong').innerText = stats.golesContraGlobal || 0;
-				estadisticasDivs[6].querySelector('strong').innerText = (stats.golesFavorGlobal - stats.golesContraGlobal) || 0; // DG
+				if (club.logoClub && club.logoClub.length > 0) {
+					document.querySelector('.tarjeta-imagen').src = "data:image/png;base64,"
+							+ club.logoClub;
+				}
+
+				// 2️⃣ Estadísticas globales
+				const estadisticasDivs = document.querySelectorAll('.tarjeta-estadistica');
+
+				const pj = stats.partidosJugadosGlobal || 0;
+				const gf = stats.golesFavorGlobal || 0;
+				const gc = stats.golesContraGlobal || 0;
+				const v = stats.ganadosGlobal || 0;
+				const p = stats.perdidosGlobal || 0;
+
+				const dg = gf - gc;
+
+				// Porcentajes
+				const porcV = pj > 0 ? ((v / pj) * 100).toFixed(1) : 0;
+				const porcP = pj > 0 ? ((p / pj) * 100).toFixed(1) : 0;
+
+				estadisticasDivs[0].querySelector('strong').innerText = pj;
+				estadisticasDivs[1].querySelector('strong').innerText = gf;
+				estadisticasDivs[2].querySelector('strong').innerText = gc;
+				estadisticasDivs[3].querySelector('strong').innerText = dg;
+				estadisticasDivs[4].querySelector('strong').innerText = v;
+				estadisticasDivs[5].querySelector('strong').innerText = p;
+				estadisticasDivs[6].querySelector('strong').innerText = porcV + "%";
+				estadisticasDivs[7].querySelector('strong').innerText = porcP + "%";
+
+
+
 			} catch (err) {
 				console.error('Error al cargar datos del club o estadísticas:',
 						err);
@@ -713,6 +726,7 @@ async function cargarDatosClub() {
 			window.open(url, "_blank");
 		}
 	</script>
+
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 	<script

@@ -1,6 +1,8 @@
 package vista_futbolDeBarrio.servicios;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -13,8 +15,11 @@ import org.json.JSONObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 import vista_futbolDeBarrio.dtos.ClubDto;
 import vista_futbolDeBarrio.utilidades.Utilidades;
 
@@ -22,6 +27,32 @@ import vista_futbolDeBarrio.utilidades.Utilidades;
  * Clase que se encarga de la logica de los metodos CRUD de club
  */
 public class ClubServicio {
+	
+	 public String crearClubDesdeFormulario(HttpServletRequest request)
+	            throws IOException, ServletException {
+
+	        ClubDto club = new ClubDto();
+	        club.setNombreClub(request.getParameter("nombreClub"));
+	        club.setAbreviaturaClub(request.getParameter("abreviaturaClub"));
+	        club.setDescripcionClub(request.getParameter("descripcionClub"));
+	        club.setEmailClub(request.getParameter("emailClub"));
+	        club.setPasswordClub(request.getParameter("passwordClub"));
+	        club.setTelefonoClub(request.getParameter("telefonoClub"));
+
+	        // 🖼 Logo del club
+	        Part imagenPart = request.getPart("logoClub");
+	        if (imagenPart != null && imagenPart.getSize() > 0) {
+	            byte[] bytes = new byte[(int) imagenPart.getSize()];
+	            try (InputStream inputStream = imagenPart.getInputStream()) {
+	                inputStream.read(bytes);
+	            }
+	            club.setLogoClub(bytes);
+	        }
+
+	        // 📡 Llamada a la API
+	        return guardarClub(club);
+	    }
+
 
 	  /**
      * Guarda un nuevo club en el sistema.
@@ -331,33 +362,37 @@ public class ClubServicio {
 
     
     public boolean marcarPremium(Long idClub, HttpServletRequest request) {
-        try {
-            // 1️⃣ Obtener el token JWT de la sesión
-            HttpSession session = request.getSession(false);
-            if (session == null) throw new IllegalStateException("No hay sesión activa");
-            String token = (String) session.getAttribute("token");
-            if (token == null || token.isEmpty()) throw new IllegalStateException("No se encontró token JWT");
 
-            // 2️⃣ Preparar la conexión a la API
+        try {
+            // 1️⃣ Sesión y token
+            HttpSession session = request.getSession(false);
+            if (session == null)
+                throw new IllegalStateException("No hay sesión activa");
+
+            String token = (String) session.getAttribute("token");
+            if (token == null || token.isEmpty())
+                throw new IllegalStateException("No se encontró token JWT");
+
+            // 2️⃣ Llamada a la API
             String urlApi = "http://localhost:9527/api/modificarPremiumClub/" + idClub;
             URL url = new URL(urlApi);
-            HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-            conex.setRequestMethod("PUT");
-            conex.setRequestProperty("Content-Type", "application/json");
-            conex.setRequestProperty("Authorization", "Bearer " + token); // 🔑 enviar token
-            conex.setDoOutput(true);
 
-            // 3️⃣ Preparar JSON (opcional, la API sabe que siempre será true)
+            HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+            conexion.setRequestMethod("PUT");
+            conexion.setRequestProperty("Content-Type", "application/json");
+            conexion.setRequestProperty("Authorization", "Bearer " + token);
+            conexion.setDoOutput(true);
+
+            // 3️⃣ JSON
             JSONObject json = new JSONObject();
             json.put("esPremium", true);
 
-            try (OutputStream os = conex.getOutputStream()) {
+            try (OutputStream os = conexion.getOutputStream()) {
                 os.write(json.toString().getBytes("utf-8"));
             }
 
-            // 4️⃣ Leer el código de respuesta
-            int responseCode = conex.getResponseCode();
-            return responseCode == HttpURLConnection.HTTP_OK;
+            // 4️⃣ Resultado
+            return conexion.getResponseCode() == HttpURLConnection.HTTP_OK;
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -29,6 +29,7 @@ import jakarta.servlet.http.HttpSession;
 import vista_futbolDeBarrio.dtos.EquipoTorneoDto;
 import vista_futbolDeBarrio.dtos.PartidoTorneoDto;
 import vista_futbolDeBarrio.dtos.TorneoDto;
+import vista_futbolDeBarrio.enums.Modalidad;
 import vista_futbolDeBarrio.log.Log;
 import vista_futbolDeBarrio.utilidades.Utilidades;
 
@@ -39,6 +40,45 @@ public class TorneoServicio {
 	private static final String API_URL_ID = "http://localhost:9527/api/torneo";
 	private static final String API_URL = "http://localhost:9527/api/mostrarTorneo";
 	private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+	
+	
+	
+	   // ------------------ CREAR TORNEO ------------------
+    public String crearTorneoDesdeFormulario(HttpServletRequest request) {
+        try {
+            String nombreTorneo = request.getParameter("nombreTorneo");
+            String descripcion = request.getParameter("descripcionTorneo");
+            String modalidadStr = request.getParameter("modalidad");
+            Long instalacionId = (Long) request.getSession().getAttribute("idInstalacion");
+            String fechaInicio = request.getParameter("fechaInicioTorneo");
+            String fechaFin = request.getParameter("fechaFinTorneo");
+
+            if (fechaFin == null || fechaFin.isEmpty())
+                fechaFin = "9999-01-01";
+
+            Modalidad modalidad = Modalidad.valueOf(modalidadStr.trim());
+
+            TorneoDto torneo = new TorneoDto();
+            torneo.setNombreTorneo(nombreTorneo);
+            torneo.setDescripcionTorneo(descripcion);
+            torneo.setModalidad(modalidad);
+            torneo.setEstaActivo(false);
+            torneo.setInstalacionId(instalacionId);
+            torneo.setFechaInicioTorneo(fechaInicio);
+            torneo.setFechaFinTorneo(fechaFin);
+
+            guardarTorneo(torneo, request);
+
+            Log.ficheroLog("Torneo creado: " + nombreTorneo);
+            return "ok";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
+   
+  
 
 	// ---------- CRUD Torneo ----------
 	public void guardarTorneo(TorneoDto torneo, HttpServletRequest request) {
@@ -49,6 +89,41 @@ public class TorneoServicio {
 	        e.printStackTrace();
 	    }
 	}
+
+	
+	 // ------------------ MODIFICAR TORNEO ------------------
+    public boolean modificarTorneoDesdeFormulario(HttpServletRequest request) {
+        try {
+            Long idTorneo = Long.parseLong(request.getParameter("idTorneo"));
+            String nombreTorneo = request.getParameter("nombreTorneo");
+            String descripcion = request.getParameter("descripcionTorneo");
+            String modalidadStr = request.getParameter("modalidad");
+            String fechaInicio = request.getParameter("fechaInicioTorneo");
+            String fechaFin = request.getParameter("fechaFinTorneo");
+            String estaActivoStr = request.getParameter("estaActivo");
+
+            Modalidad modalidad = Modalidad.valueOf(modalidadStr.trim());
+            boolean estaActivo = "true".equalsIgnoreCase(estaActivoStr);
+
+            TorneoDto torneo = new TorneoDto();
+            torneo.setNombreTorneo(nombreTorneo);
+            torneo.setDescripcionTorneo(descripcion);
+            torneo.setModalidad(modalidad);
+            torneo.setFechaInicioTorneo(fechaInicio);
+            torneo.setFechaFinTorneo(fechaFin);
+            torneo.setEstaActivo(estaActivo);
+
+            boolean exito = modificarTorneo(idTorneo, torneo, request);
+
+            if (exito)
+                Log.ficheroLog("Torneo modificado: id=" + idTorneo);
+
+            return exito;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 
 	public boolean modificarTorneo(long idTorneo, TorneoDto torneo, HttpServletRequest request) {
@@ -70,6 +145,23 @@ public class TorneoServicio {
 	        return false;
 	    }
 	}
+	
+	  // ------------------ ELIMINAR TORNEO ------------------
+    public boolean eliminarTorneoDesdeServicio(HttpServletRequest request) {
+        try {
+            Long idTorneo = Long.parseLong(request.getParameter("idTorneo"));
+            boolean eliminado = eliminarTorneo(idTorneo, request);
+
+            if (eliminado)
+                Log.ficheroLog("Torneo eliminado: id=" + idTorneo);
+
+            return eliminado;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 	public boolean eliminarTorneo(Long idTorneo, HttpServletRequest request) {
 	    try {
@@ -114,7 +206,19 @@ public class TorneoServicio {
 		return obtenerTorneo(torneoId).getInstalacionId();
 	}
 
-	// ---------- Generación de Bracket ----------
+	
+    // ------------------ GENERAR BRACKET ------------------
+    public String generarBracketDesdeServicio(HttpServletRequest request) {
+        try {
+            Long torneoId = Long.parseLong(request.getParameter("torneoId"));
+            generarBracket(torneoId, this, equipoTorneoServicio, new PartidoTorneoServicio(), request);
+            Log.ficheroLog("Bracket generado para torneo id=" + torneoId);
+            return "ok";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
 	/**
 	 * Método principal para generar bracket, usando la lógica de fechas válidas.
 	 */
@@ -311,6 +415,37 @@ public class TorneoServicio {
 	}
 
 // ---------- Progreso de Equipos ----------
+	
+	  // ------------------ OBTENER TORNEOS CON PROGRESO ------------------
+    public List<JSONObject> obtenerTorneosConProgreso(HttpServletRequest request) {
+        try {
+            String idParam = request.getParameter("instalacionId");
+            List<TorneoDto> torneos;
+
+            if (idParam != null && !idParam.isEmpty()) {
+                Long instalacionId = Long.parseLong(idParam);
+                torneos = obtenerTorneosPorInstalacion(instalacionId);
+            } else {
+                torneos = obtenerTodosLosTorneos();
+            }
+
+            List<JSONObject> torneosJson = new ArrayList<>();
+            for (TorneoDto torneo : torneos) {
+                String progreso = progresoEquipos(torneo.getIdTorneo());
+                torneo.setClubesInscritos(progreso);
+                JSONObject obj = new JSONObject(new Gson().toJson(torneo));
+                obj.put("progresoEquipos", progreso);
+                torneosJson.add(obj);
+            }
+            return torneosJson;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+    
+    
 	public String progresoEquipos(Long torneoId) {
 		int inscritos = equipoTorneoServicio.contarEquiposPorTorneo(torneoId);
 		return inscritos + " / 16";
@@ -475,5 +610,42 @@ public class TorneoServicio {
 				.map(fp -> LocalDateTime.parse(fp, FORMATO_FECHA).toLocalDate()).max(LocalDate::compareTo)
 				.orElse(LocalDate.now());
 	}
+	
+	 // ------------------ ACTIVAR TORNEO ------------------
+    public String activarTorneoDesdeServicio(HttpServletRequest request) {
+        try {
+            Long torneoId = Long.parseLong(request.getParameter("idTorneo"));
+
+            actualizarClubesInscritos(torneoId, request);
+
+            int inscritos = equipoTorneoServicio.contarEquiposPorTorneo(torneoId);
+            if (inscritos != 16) {
+                return "no_16";
+            }
+
+            TorneoDto torneo = obtenerTodosLosTorneos().stream()
+                    .filter(t -> t.getIdTorneo() == torneoId)
+                    .findFirst()
+                    .orElse(null);
+
+            if (torneo == null) return "no_encontrado";
+
+            generarBracket(torneoId, this, equipoTorneoServicio, new PartidoTorneoServicio(), request);
+
+            torneo.setEstaActivo(true);
+            boolean exito = modificarTorneo(torneoId, torneo, request);
+
+            if (exito) {
+                Log.ficheroLog("Torneo activado: id=" + torneoId);
+                return "ok";
+            } else {
+                return "error";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
 
 }

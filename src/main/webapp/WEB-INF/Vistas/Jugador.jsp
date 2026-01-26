@@ -168,7 +168,7 @@ if (esPremium == null)
 											<%
 											} else {
 											%>
-											<a href="PagoPremium.jsp">
+											<a href="${pageContext.request.contextPath}/pagoPremium">
 												<button type="button" class=" botonPremiumCabecera"
 													title="Accede a todas las funciones premium y ventajas exclusivas">
 													HAZTE PREMIUM</button>
@@ -207,7 +207,7 @@ if (esPremium == null)
 													desarrollo</span></a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="EventoJugador.jsp" class="letraCabeceraAbajo">EVENTOS</a>
+											<a href="${pageContext.request.contextPath}/jugador/eventos" class="letraCabeceraAbajo">EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -220,11 +220,11 @@ if (esPremium == null)
 									<div class="row">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="MiClubJugador.jsp" class="letraCabeceraAbajo">MI
+											<a href="${pageContext.request.contextPath}/jugador/misClubes"class="letraCabeceraAbajo">MI
 												CLUB</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="MarcadoresJugador.jsp" class="letraCabeceraAbajo">MARCADORES</a>
+											<a href="${pageContext.request.contextPath}/jugador/marcadores" class="letraCabeceraAbajo">MARCADORES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span class="tooltip-text">Sección en
@@ -669,72 +669,55 @@ Avenida mujer trabajadora
     }
 
     async function cargarDatosUsuario() {
-        const usuarioId = sessionStorage.getItem('usuarioId');
-        if (!usuarioId) {
-            console.error('No hay ID de usuario en sessionStorage');
-            return;
-        }
-
         try {
-            const urlUsuario = '<%=request.getContextPath()%>/usuario?idUsuario=' + usuarioId;
-            const res = await fetch(urlUsuario);
-            if (!res.ok) throw new Error('Error al cargar datos del usuario');
+        	const res = await fetch('<%=request.getContextPath()%>/jugador?accion=datos');
+            if (!res.ok) throw new Error("Acceso denegado");
 
-            const usuario = await res.json();
+            const data = await res.json();
+
+            const usuario = data.usuario;
+            const estadisticas = data.estadisticas;
 
             document.querySelector('.tarjeta-nombre').innerText = usuario.nombreCompletoUsuario;
-            document.querySelector('.tarjeta-alias').innerText =usuario.aliasUsuario ;
+            document.querySelector('.tarjeta-alias').innerText = usuario.aliasUsuario;
             document.querySelector('.tarjeta-estado').innerText = usuario.estadoUsuario;
 
-            if (usuario.imagenUsuario && usuario.imagenUsuario.length > 0) {
-                document.querySelector('.tarjeta-imagen').src = "data:image/png;base64," + usuario.imagenUsuario;
+            if (usuario.imagenUsuario) {
+                document.querySelector('.tarjeta-imagen').src =
+                    "data:image/png;base64," + usuario.imagenUsuario;
             }
 
-        } catch (err) {
-            console.error('Error al cargar usuario:', err);
+            const partidosTotales =
+                (estadisticas.partidosGanadosGlobal || 0) +
+                (estadisticas.partidosPerdidosGlobal || 0);
+
+            const porcentajeVictorias =
+                partidosTotales > 0
+                    ? Math.round((estadisticas.partidosGanadosGlobal * 100) / partidosTotales)
+                    : 0;
+
+            const porcentajeDerrotas =
+                partidosTotales > 0
+                    ? Math.round((estadisticas.partidosPerdidosGlobal * 100) / partidosTotales)
+                    : 0;
+
+            const stats = document.querySelectorAll('.tarjeta-estadistica');
+            stats[0].querySelector('strong').innerText = partidosTotales;
+            stats[1].querySelector('strong').innerText = estadisticas.golesGlobal;
+            stats[2].querySelector('strong').innerText = estadisticas.amarillasGlobal;
+            stats[3].querySelector('strong').innerText = estadisticas.rojasGlobal;
+            stats[4].querySelector('strong').innerText = estadisticas.partidosGanadosGlobal;
+            stats[5].querySelector('strong').innerText = estadisticas.partidosPerdidosGlobal;
+            stats[6].querySelector('strong').innerText = porcentajeVictorias + '%';
+            stats[7].querySelector('strong').innerText = porcentajeDerrotas + '%';
+
+        } catch (e) {
+            window.location.href = "acceso_denegado.jsp";
         }
+    }
 
-        // Cargar estadísticas globales
-        try {
-        	const usuarioId = sessionStorage.getItem('usuarioId');
-        	const resStats = await fetch('<%=request.getContextPath()%>/jugadorEstadisticaGlobal?id='+ usuarioId);
+    window.onload = cargarDatosUsuario;
 
-				if (!resStats.ok) {
-					const textoError = await
-					resStats.text();
-					throw new Error('Error al cargar estadísticas: '
-							+ textoError);
-				}
-
-				const estadisticas = await
-				resStats.json();
-
-				const partidosTotales = (estadisticas.partidosGanadosGlobal || 0)
-						+ (estadisticas.partidosPerdidosGlobal || 0);
-				const porcentajeVictorias = partidosTotales > 0 ? Math
-						.round((estadisticas.partidosGanadosGlobal * 100)
-								/ partidosTotales) : 0;
-				const porcentajeDerrotas = partidosTotales > 0 ? Math
-						.round((estadisticas.partidosPerdidosGlobal * 100)
-								/ partidosTotales) : 0;
-
-				const estadisticasDivs = document
-						.querySelectorAll('.tarjeta-estadistica');
-				estadisticasDivs[0].querySelector('strong').innerText = partidosTotales;
-				estadisticasDivs[1].querySelector('strong').innerText = estadisticas.golesGlobal;
-				estadisticasDivs[2].querySelector('strong').innerText = estadisticas.amarillasGlobal;
-				estadisticasDivs[3].querySelector('strong').innerText = estadisticas.rojasGlobal;
-				estadisticasDivs[4].querySelector('strong').innerText = estadisticas.partidosGanadosGlobal;
-				estadisticasDivs[5].querySelector('strong').innerText = estadisticas.partidosPerdidosGlobal;
-				estadisticasDivs[6].querySelector('strong').innerText = porcentajeVictorias
-						+ '%';
-				estadisticasDivs[7].querySelector('strong').innerText = porcentajeDerrotas
-						+ '%';
-
-			} catch (err) {
-				console.error('Error al cargar estadísticas:', err);
-			}
-		}
 
 		window.onload = cargarDatosUsuario;
 		

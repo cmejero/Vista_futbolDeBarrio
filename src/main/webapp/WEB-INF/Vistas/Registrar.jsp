@@ -139,11 +139,10 @@
 												style="color: #c0c0c0; margin-left: 7px;"> /</span>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraMedio">
-											<a href="Registrar.jsp">
-	<a href="">
-												<button type="button" class=" botonRegistrarCabecera"
-													style="background-color: #d4af37;">REGISTRARSE</button>
-																					</a>
+											<a href="Registrar.jsp"> <a href="">
+													<button type="button" class=" botonRegistrarCabecera"
+														style="background-color: #d4af37;">REGISTRARSE</button>
+											</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraMedio"
 											style="text-decoration: underline;">
@@ -152,7 +151,8 @@
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="QuienesSomos.jsp" class="letraCabeceraMedio">¿QUIENES SOMOS?</a>
+											<a href="QuienesSomos.jsp" class="letraCabeceraMedio">¿QUIENES
+												SOMOS?</a>
 										</div>
 									</div>
 								</div>
@@ -167,7 +167,7 @@
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-11 col-md-11 cabeceraAbajo ">
-											<a href="Index.jsp" class="letraCabeceraAbajo" >INICIO</a>
+											<a href="Index.jsp" class="letraCabeceraAbajo">INICIO</a>
 										</div>
 
 									</div>
@@ -180,8 +180,8 @@
 										</div>
 
 										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES<span class="tooltip-text">Sección en
-													desarrollo</span></a>
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES<span
+												class="tooltip-text">Sección en desarrollo</span></a>
 										</div>
 									</div>
 								</div>
@@ -191,10 +191,9 @@
 										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
 											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo">MARCADORES</a>
 										</div>
-										<div
-											class="col-sm-6 col-md-6 cabeceraAbajo  ">
-											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span class="tooltip-text">Sección en
-													desarrollo</span></a>
+										<div class="col-sm-6 col-md-6 cabeceraAbajo  ">
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span
+												class="tooltip-text">Sección en desarrollo</span></a>
 										</div>
 
 									</div>
@@ -219,16 +218,16 @@
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white; background-color: #005500;">Idioma<span class="tooltip-text">Sección en
-													desarrollo</span>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white; background-color: #005500;">Idioma<span
+															class="tooltip-text">Sección en desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white;">Ayuda <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														style="color: white;">Configuración <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Ayuda <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#" style="color: white;">Configuración <span
+															class="tooltip-text">Sección en desarrollo</span></a></li>
 
 												</ul>
 											</div>
@@ -269,7 +268,8 @@
 										<div
 											class="d-sm-none d-md-none col-4 d-block cabeceraMedio  d-flex justify-content-center align-items-center">
 											<a href="Registrar.jsp">
-												<button type="button" class="botonRegistrarCabecera" style="background-color: #d4af37; font-size:1.6vw">REGISTRARSE</button>
+												<button type="button" class="botonRegistrarCabecera"
+													style="background-color: #d4af37; font-size: 1.6vw">REGISTRARSE</button>
 											</a>
 										</div>
 
@@ -286,7 +286,7 @@
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
 									<a href="Jugador.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">INICIO</a>
+										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
 								</div>
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-3 ">
@@ -375,6 +375,8 @@
 			style="display: flex; justify-content: center;">
 
 
+
+
 			<div class="row ">
 
 
@@ -398,11 +400,13 @@
 						COMO CLUB</button>
 
 
-					
+
 
 
 
 				</div>
+
+
 
 				<div
 					class="d-md-none d-sm-none col-12 d-block columnaBotonRegistrar ">
@@ -419,7 +423,7 @@
 						id="mostrarClubBtnX"
 						style="box-shadow: 3.5px 3.5px 0px blue, 3.5px 3.5px 8px rgba(0, 0, 255, 0.5);">REGISTRARSE
 						COMO CLUB</button>
-					
+
 
 
 
@@ -431,6 +435,40 @@
 		</div>
 
 		<div class="container-fluid  ">
+
+		<%
+    String mensajeAlta = request.getParameter("mensajeAlta");
+    if (mensajeAlta != null) {
+
+        String texto = "";
+        String tipo = "danger"; // siempre rojo
+
+        switch (mensajeAlta) {
+            case "usuario_existente":
+                texto = "El usuario ya existe";
+                break;
+            case "email_invalido":
+                texto = "El email no es válido";
+                break;
+            case "password_no_coincide":
+                texto = "Las contraseñas no coinciden";
+                break;
+            case "error_servidor":
+                texto = "Error interno del servidor";
+                break;
+            default:
+                texto = "Ocurrió un error inesperado";
+                break;
+        }
+%>
+        <div class="alert alert-<%= tipo %> text-center">
+            <%= texto %>
+        </div>
+<%
+    }
+%>
+
+
 			<!-- FORMULARIO USUARIO -->
 			<div class="row mt-3 mb-5" style="display: none;"
 				id="usuarioContainer">
@@ -441,8 +479,11 @@
 						<i>Formulario de Registro: Usuario</i>
 					</h2>
 					<div class="registrarFormulario">
-						<form action="usuario" method="POST" enctype="multipart/form-data"
+						<form action="registrar" method="POST"
+							enctype="multipart/form-data"
 							onsubmit="return validarFormulario()">
+							<input type="hidden" name="tipoUsuario" value="jugador">
+							<!-- Hidden para la acción -->
 							<input type="hidden" name="accion" value="aniadir">
 							<table class="tablaFormulario"
 								style="background-color: #dedede; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
@@ -534,9 +575,11 @@
 						<i>Formulario de Registro: Club</i>
 					</h2>
 					<div class="registrarFormulario">
-						<form action="club" method="POST" enctype="multipart/form-data"
+						<form action="registrar" method="POST"
+							enctype="multipart/form-data"
 							onsubmit="return validarFormulario()">
-							<input type="hidden" name="accion" value="aniadir">
+							<input type="hidden" name="tipoUsuario" value="club"> <input
+								type="hidden" name="accion" value="aniadir">
 							<table class="tablaFormulario"
 								style="background-color: #d8d8d8; color: black; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6), 0px -4px 8px rgba(0, 0, 0, 0.15)">
 								<tbody>
@@ -631,9 +674,10 @@
 						<i>Formulario de Registro: Instalación</i>
 					</h2>
 					<div class="registrarFormulario">
-						<form action="instalacion" method="POST"
+						<form action="registrar" method="POST"
 							enctype="multipart/form-data"
 							onsubmit="return validarFormulario()">
+							<input type="hidden" name="tipoUsuario" value="instalacion">
 							<input type="hidden" name="accion" value="aniadir">
 
 							<table class="tablaFormulario"
@@ -1073,10 +1117,15 @@ Avenida mujer trabajadora
 
 			window.open(url, "_blank");
 		}
+		
+		  setTimeout(() => {
+		        const mensajes = document.querySelectorAll(".alert");
+		        mensajes.forEach(msg => msg.style.display = "none");
+		    }, 3000);
 
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

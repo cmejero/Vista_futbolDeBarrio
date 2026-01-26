@@ -370,7 +370,7 @@
       <i>Restablecer Contraseña</i>
     </h2>
 
-    <form action="restablecerPassword" method="POST">
+    <form action="restablecerCuenta" method="POST">
       <input type="hidden" name="token" value="${param.token}" />
 
       <div class="mb-3">
@@ -591,6 +591,8 @@ function abrirGmail() {
 			+ encodeURIComponent(body);
 
 	window.open(url, "_blank");
+	
+	
 }</script>
 
 

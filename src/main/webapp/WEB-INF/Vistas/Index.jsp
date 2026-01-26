@@ -139,13 +139,13 @@
 												style="color: #c0c0c0; margin-left: 7px;"> /</span>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraMedio">
-											<a href="Registrar.jsp">
+											<a href="${pageContext.request.contextPath}/registrar">
 												<button type="button" class=" botonRegistrarCabecera">REGISTRARSE</button>
 											</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="InicioSesion.jsp" class="letraCabeceraMedio">INICIAR
+											<a href="${pageContext.request.contextPath}/login" class="letraCabeceraMedio">INICIAR
 												SESION</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraMedio"
@@ -174,7 +174,7 @@
 								<div class="col-sm-4 col-md-4 ">
 									<div class="row  ">
 										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
-											<a href="Eventos.jsp" class="letraCabeceraAbajo">EVENTOS</a>
+											<a href="${pageContext.request.contextPath}/eventos" class="letraCabeceraAbajo">EVENTOS</a>
 										</div>
 
 										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
@@ -187,7 +187,7 @@
 								<div class="col-sm-4 col-md-4 ">
 									<div class="row  ">
 										<div class="col-sm-6 col-md-6 cabeceraAbajo ">
-											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo">MARCADORES</a>
+											<a href="${pageContext.request.contextPath}/marcadores" class="letraCabeceraAbajo">MARCADORES</a>
 										</div>
 										<div class="col-sm-6 col-md-6 cabeceraAbajo  ">
 											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span

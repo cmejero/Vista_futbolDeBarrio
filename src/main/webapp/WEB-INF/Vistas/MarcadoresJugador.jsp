@@ -20,7 +20,8 @@ if (esPremium == null)
 <head>
 <meta charset="UTF-8">
 <!-- Estilos CSS -->
-<link rel="stylesheet" href="Css/Estilo.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/Css/Estilo.css">
 
 <!-- Bootstrap CSS -->
 <link
@@ -63,7 +64,8 @@ if (esPremium == null)
 						<!-- columna logo -->
 						<div class="col-sm-1 col-md-1 logo"
 							style="background-color: white; border-top: 2px solid black; border-left: 1px solid black">
-							<img src="Imagenes/LOGOWEB.PNG"></img>
+							<img
+								src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -280,7 +282,8 @@ if (esPremium == null)
 						<!-- columna logo -->
 						<div class="d-sm-none d-md-none col-2 d-block logo  "
 							style="background-color: white; border: 2px solid black; border-top: none">
-							<img src="Imagenes/LOGOWEB.PNG"></img>
+							<img
+								src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -432,7 +435,7 @@ if (esPremium == null)
 							<button id="botonMarcadoresPremium"
 								class="botonMarcadoresPremium p-4">
 								<img class="imagenMarcadoresPremium"
-									src="Imagenes/futbolista.PNG" alt="Premium"> ESTADÍSTICAS
+									src="${pageContext.request.contextPath}/Imagenes/futbolista.PNG" alt="Premium"> ESTADÍSTICAS
 							</button>
 						</div>
 
@@ -441,7 +444,7 @@ if (esPremium == null)
 							class="col-md-3 col-sm-3 col-3 mx-auto my-5 d-flex justify-content-center">
 							<button id="botonMarcadoresClubes"
 								class="botonMarcadoresPremium p-4">
-								<img class="imagenMarcadoresPremium" src="Imagenes/clubes.PNG"
+								<img class="imagenMarcadoresPremium" src="${pageContext.request.contextPath}/Imagenes/clubes.PNG"
 									alt="Clubes"> MARCADORES CLUBES
 							</button>
 						</div>
@@ -452,7 +455,7 @@ if (esPremium == null)
 							<button id="botonMarcadoresJugadores"
 								class="botonMarcadoresPremium p-4">
 								<img class="imagenMarcadoresPremium"
-									src="Imagenes/futbolista.PNG" alt="Jugadores"> MARCADORES
+									src="${pageContext.request.contextPath}/Imagenes/futbolista.PNG" alt="Jugadores"> MARCADORES
 								JUGADORES
 							</button>
 						</div>
@@ -477,7 +480,7 @@ if (esPremium == null)
 						<div class="col-md-3 col-sm-3 col-3 mx-auto "
 							style="margin-bottom: 16vh; margin-top: 4vh; display: flex; justify-content: flex-end; align-items: center;">
 							<button id="botonMarcadoresClubes" class="botonMarcadores p-4">
-								<img class="imagenMarcadores" src="Imagenes/clubes.PNG"
+								<img class="imagenMarcadores" src="${pageContext.request.contextPath}/Imagenes/clubes.PNG"
 									alt="Clubes"> MARCADORES CLUBES
 							</button>
 						</div>
@@ -489,7 +492,7 @@ if (esPremium == null)
 						<div class="col-md-3 col-sm-3 col-3"
 							style="margin-bottom: 16vh; margin-top: 4vh; display: flex; justify-content: flex-start; align-items: center;">
 							<button class="botonMarcadores p-4" id="botonMarcadoresJugadores">
-								<img class="imagenMarcadores" src="Imagenes/futbolista.PNG"
+								<img class="imagenMarcadores" src="${pageContext.request.contextPath}/Imagenes/futbolista.PNG"
 									alt="Jugadores"> MARCADORES JUGADORES
 							</button>
 						</div>
@@ -1105,9 +1108,9 @@ Avenida mujer trabajadora
     // CARGAR JUGADORES
     // ===============================
 
-fetch(contextPath + "/jugadorEstadisticaGlobal", {
+fetch(contextPath + "/jugador/marcadores?tipo=jugadorEstadisticaGlobal", {
   method: "GET",
-  credentials: "include"   
+  credentials: "include"
 })
   .then(function(response) { return response.json(); })
   .then(function(data) {
@@ -1151,15 +1154,15 @@ fetch(contextPath + "/jugadorEstadisticaGlobal", {
     // ===============================
 
 function cargarTablaClubes() {
-  fetch(contextPath + "/clubEstadisticaGlobal")
+	fetch(contextPath + "/jugador/marcadores?tipo=clubEstadisticaGlobal")
     .then(res => res.json())
     .then(data => {
 
       // Obtener los clubes del jugador
-      fetch(contextPath + "/miembroClub?tipo=json&usuarioId=" + sessionStorage.getItem('usuarioId'))
+fetch(contextPath + "/jugador/marcadores?tipo=miembroClub&tipoJson=json&usuarioId=" + sessionStorage.getItem('usuarioId'))
         .then(res => res.json())
         .then(usuarioData => {
-          const clubesDelJugador = usuarioData.misClubes.map(mc => mc.clubId);
+        	const clubesDelJugador = usuarioData.map(mc => mc.idClub);
 
           const tbody = document.getElementById('tablaClubes');
           if (!tbody) return;
@@ -1220,14 +1223,14 @@ function cargarTablaClubes() {
         const idClub = this.dataset.id;
         const fechaActual = new Date().toISOString().split('T')[0];
 
-        fetch('miembroClub', {
-            method: 'POST',
-            headers: {'Content-Type':'application/x-www-form-urlencoded'},
-            body: 'accion=aniadir&idClub=' + idClub + 
-                  '&usuarioId=' + sessionStorage.getItem('usuarioId') + 
-                  '&fechaAltaUsuario=' + fechaActual + 
-                  '&fechaBajaUsuario='
-        })
+        fetch(contextPath + "/jugador/marcadores?tipo=miembroClub", {
+        	  method: 'POST',
+        	  headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        	  body: 'accion=aniadir&idClub=' + idClub + 
+        	        '&usuarioId=' + sessionStorage.getItem('usuarioId') + 
+        	        '&fechaAltaUsuario=' + fechaActual + 
+        	        '&fechaBajaUsuario='
+        	})
         .then(async res => {
             const text = await res.text();
             if (!res.ok) throw new Error(text); // lanza la excepción con el mensaje del servidor
@@ -1269,7 +1272,7 @@ botonEstadisticas.addEventListener("click", function() {
  if (tablaEstadisticasTorneo) tablaEstadisticasTorneo.innerHTML = "";
 
  // Estadísticas globales
- fetch(contextPath + "/jugadorEstadisticaGlobal?id=" + usuarioId)
+fetch(contextPath + "/jugador/marcadores?tipo=jugadorEstadisticaGlobal&id=" + usuarioId)
    .then(function(response) {
      if (!response.ok) throw new Error("No se encontraron estadísticas globales del club");
      return response.json();
@@ -1298,7 +1301,7 @@ botonEstadisticas.addEventListener("click", function() {
    });
 
  // Estadísticas por torneo
- fetch(contextPath + "/jugadorEstadisticaTorneo?id=" + usuarioId)
+fetch(contextPath + "/jugador/marcadores?tipo=jugadorEstadisticaTorneo&id=" + usuarioId)
    .then(response => {
      if (!response.ok) throw new Error("No se encontraron estadísticas por torneo del club");
      return response.json();

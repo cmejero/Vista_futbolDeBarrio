@@ -13,7 +13,7 @@ import vista_futbolDeBarrio.log.Log;
 /**
  * Clase que gestiona la comunicación con la API para la recuperación de contraseña.
  */
-public class RecuperarPasswordServicio {
+public class RecuperarCuentaServicio {
 
     /**
      * Envía una solicitud POST a la API para iniciar la recuperación de contraseña.
@@ -21,12 +21,14 @@ public class RecuperarPasswordServicio {
      * @param email Email del usuario para recuperación.
      * @return true si la API responde con éxito, false en caso contrario.
      */
-    public boolean enviarEnlaceRecuperacion(String email) {
+    public boolean enviarEnlaceRecuperacion(String email, String tipoUsuario) {
         try {
             Log.ficheroLog("Iniciando recuperación de contraseña para email: " + email);
 
             JSONObject json = new JSONObject();
             json.put("email", email);
+            json.put("tipoUsuario", tipoUsuario);
+
 
             String urlApi = "http://localhost:9527/api/recuperar-contrasena";
             Log.ficheroLog("Conectando a la API en: " + urlApi);

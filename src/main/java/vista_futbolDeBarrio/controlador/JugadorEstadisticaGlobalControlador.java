@@ -27,7 +27,7 @@ public class JugadorEstadisticaGlobalControlador extends HttpServlet{
     public void init() throws ServletException {
         this.jugadorEstadisticaGlobalServicio = new JugadorEstadisticaGlobalServicio();
     }
-    
+  /*  
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -58,7 +58,7 @@ public class JugadorEstadisticaGlobalControlador extends HttpServlet{
             e.printStackTrace();
         }
     }
-
+*/
 
 
 

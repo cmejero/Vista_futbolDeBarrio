@@ -243,7 +243,8 @@ if ("jugador".equals(tipoUsuario)) {
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="QuienesSomos.jsp" class="letraCabeceraMedio">¿QUIENES SOMOS?</a>
+											<a href="QuienesSomos.jsp" class="letraCabeceraMedio">¿QUIENES
+												SOMOS?</a>
 										</div>
 									</div>
 								</div>
@@ -764,19 +765,19 @@ if ("jugador".equals(tipoUsuario)) {
 							} else if ("invitado".equals(tipoUsuario)) {
 							%>
 
-<div class="row p-1"
+							<div class="row p-1"
 								style="border-bottom: solid 2.4px black; border-top: solid 2px black; border-right: solid 2px black; border-left: none; background-color: #004000; box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, 0.45);">
 
 								<!-- columna izquierda: INICIO -->
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
 									<a href="Index.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">INICIO</a>
+										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
 								</div>
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-3 ">
 									<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">MARCADORES</a>
+										style="text-decoration: none; font-size: 2.5vw;">MARCADORES</a>
 								</div>
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-3 ">
@@ -862,8 +863,8 @@ if ("jugador".equals(tipoUsuario)) {
 				} else if ("club".equals(tipoUsuario)) {
 					urlVolver = "EventoClub.jsp";
 				} else if ("invitado".equals(tipoUsuario)) {
-					urlVolver = "Eventos.jsp";}
-				
+					urlVolver = "Eventos.jsp";
+				}
 				%>
 				<button type="button" class="btn botonVolver"
 					onclick="window.location.href='<%=urlVolver%>';">Volver</button>
@@ -1406,7 +1407,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // ----------------------------------------------------------------
 async function cargarTablas(torneoId) {
     try {
-        var urlJugadorEstadisticas = '<%=request.getContextPath()%>/jugadorEstadisticaTorneo';
+    	var urlJugadorEstadisticas = '<%=request.getContextPath()%>/detalleTorneo?accion=jugadores';
         var resp = await fetch(urlJugadorEstadisticas);
         
 
@@ -1474,7 +1475,7 @@ async function cargarTablas(torneoId) {
 async function cargarClubes(torneoId) {
     try {
         // URL del servlet que devuelve JSON de clubes
-        var urlClubEstadisticas = '<%=request.getContextPath()%>/clubEstadisticaTorneo';
+var urlClubEstadisticas = '<%=request.getContextPath()%>/detalleTorneo?accion=clubes';
         var resp = await fetch(urlClubEstadisticas);
 
         if (!resp.ok) throw new Error('Error HTTP: ' + resp.status);

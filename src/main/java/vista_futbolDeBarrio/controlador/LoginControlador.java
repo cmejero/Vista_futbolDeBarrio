@@ -5,7 +5,6 @@ import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,7 +15,6 @@ import vista_futbolDeBarrio.dtos.RespuestaLoginDto;
 import vista_futbolDeBarrio.dtos.UsuarioDto;
 import vista_futbolDeBarrio.log.Log;
 import vista_futbolDeBarrio.servicios.LoginServicio;
-import vista_futbolDeBarrio.utilidades.Utilidades;
 
 @WebServlet("/login")
 @MultipartConfig
@@ -29,55 +27,19 @@ public class LoginControlador extends HttpServlet {
     private LoginServicio servicioLogin = new LoginServicio();
     
     
-    
-    
-    /**
-     * Método GET para mostrar login o auto-login si existen cookies válidas
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Revisar cookies
-        Cookie[] cookies = request.getCookies();
-        String token = null;
-        String tipoUsuario = null;
-
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("tokenUsuario".equals(cookie.getName())) token = cookie.getValue();
-                if ("tipoUsuario".equals(cookie.getName())) tipoUsuario = cookie.getValue();
-            }
+        // Mensajes opcionales (logout, contraseña cambiada, etc.)
+        String mensaje = request.getParameter("mensaje");
+        if (mensaje != null) {
+            request.setAttribute("mensaje", mensaje);
         }
 
-        if (token != null && tipoUsuario != null) {
-            try {
-                // Crear sesión nueva sin invalidar la actual
-                HttpSession session = request.getSession(true);
-                session.setAttribute("token", token);
-                session.setAttribute("tipoUsuario", tipoUsuario);
-
-                Object datosUsuario = servicioLogin.obtenerDatosUsuario(token, tipoUsuario);
-                session.setAttribute("datosUsuario", datosUsuario);
-                asignarIdUsuarioASesion(session, tipoUsuario, datosUsuario);
-
-                // Redirigir automáticamente al JSP del usuario
-                redirigirPorTipoUsuario(response, tipoUsuario);
-                return;
-
-            } catch (Exception e) {
-                Log.ficheroLog("Error al auto-logear con cookie: " + e.getMessage());
-                Utilidades.borrarCookies(response);
-                response.sendRedirect("InicioSesion.jsp");
-                return;
-            }
-        }
-
-        // Mostrar página de login
-        request.getRequestDispatcher("InicioSesion.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/Vistas/InicioSesion.jsp")
+               .forward(request, response);
     }
-
-    
 
     @Override
     /**
@@ -91,27 +53,28 @@ public class LoginControlador extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            String tipoUsuario = request.getParameter("tipoUsuario");
+        	String tipoUsuario = request.getParameter("tipoUsuario");
             String email = request.getParameter("email");
             String password = request.getParameter("password");
-            String recordarSesion = request.getParameter("recordarSesion"); // "on" si marcado
 
-            Log.ficheroLog("Intento de login. Email: " + email);
+            Log.ficheroLog("Recibido intento de login. Email: " + email);
 
             RespuestaLoginDto respuestaLogin = servicioLogin.login(email, password, tipoUsuario);
 
+
             if (respuestaLogin != null && respuestaLogin.getToken() != null) {
-                procesarLoginExitoso(request, response, email, respuestaLogin, "on".equals(recordarSesion));
+                procesarLoginExitoso(request, response, email, respuestaLogin);
             } else {
-                Log.ficheroLog("Credenciales incorrectas para email: " + email);
+                Log.ficheroLog("Credenciales incorrectas para el email: " + email);
                 response.sendRedirect("InicioSesion.jsp?error=credenciales");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.ficheroLog("Error en el login: " + e.getMessage());
+            Log.ficheroLog("Error en el proceso de login: " + e.getMessage());
             response.sendRedirect("InicioSesion.jsp?error=servidor");
         }
     }
+
     /**
      * Procesa el inicio de sesión exitoso, guardando los datos en sesión y redirigiendo según el tipo de usuario.
      *
@@ -121,31 +84,27 @@ public class LoginControlador extends HttpServlet {
      * @param respuestaLogin  Objeto que contiene el token, tipo de usuario y datos del usuario.
      * @throws IOException Si ocurre un error al redirigir.
      */
-    private void procesarLoginExitoso(HttpServletRequest request, HttpServletResponse response, String email,
-            RespuestaLoginDto respuestaLogin, boolean recordarSesion) throws IOException {
-
+    private void procesarLoginExitoso(HttpServletRequest request, HttpServletResponse response, String email, RespuestaLoginDto respuestaLogin) throws IOException {
         String token = respuestaLogin.getToken();
         String tipoUsuario = respuestaLogin.getTipoUsuario();
         Object datosUsuario = respuestaLogin.getDatosUsuario();
 
-        Log.ficheroLog("Login exitoso para: " + email + ", Tipo: " + tipoUsuario);
+        Log.ficheroLog("Login exitoso para el usuario: " + email + ", Tipo de usuario: " + tipoUsuario);
 
-        // 1️⃣ Invalidar sesión vieja
         HttpSession oldSession = request.getSession(false);
-        if (oldSession != null) oldSession.invalidate();
+        if (oldSession != null) {
+            oldSession.invalidate();
+        }
 
-        // 2️⃣ Crear nueva sesión
         HttpSession session = request.getSession(true);
+
         session.setAttribute("token", token);
         session.setAttribute("tipoUsuario", tipoUsuario);
         session.setAttribute("datosUsuario", datosUsuario);
 
         asignarIdUsuarioASesion(session, tipoUsuario, datosUsuario);
 
-        // 3️⃣ Crear cookies solo si se quiere recordar sesión
-        crearCookies(response, token, tipoUsuario, recordarSesion);
 
-        // 4️⃣ Redirigir al JSP correspondiente
         redirigirPorTipoUsuario(response, tipoUsuario);
     }
 
@@ -157,7 +116,7 @@ public class LoginControlador extends HttpServlet {
      * @param tipoUsuario  El tipo de usuario (jugador, club, instalacion).
      * @param datosUsuario El objeto con los datos del usuario.
      */
-    public void asignarIdUsuarioASesion(HttpSession session, String tipoUsuario, Object datosUsuario) {
+    private void asignarIdUsuarioASesion(HttpSession session, String tipoUsuario, Object datosUsuario) {
         switch (tipoUsuario) {
             case "instalacion":
                 if (datosUsuario instanceof InstalacionDto) {
@@ -196,72 +155,32 @@ public class LoginControlador extends HttpServlet {
      * @param tipoUsuario  El tipo de usuario autenticado.
      * @throws IOException Si ocurre un error al redirigir.
      */
-    private void redirigirPorTipoUsuario(HttpServletResponse response, String tipoUsuario) throws IOException {
+    private void redirigirPorTipoUsuario(HttpServletResponse response, String tipoUsuario)
+            throws IOException {
+
         switch (tipoUsuario) {
             case "administrador":
-                response.sendRedirect("Administrador.jsp");
+                response.sendRedirect("administrador");
                 break;
+
             case "jugador":
-                response.sendRedirect("Jugador.jsp");
+                response.sendRedirect("jugador");
                 break;
+
             case "club":
-                response.sendRedirect("Club.jsp");
+                response.sendRedirect("club");
                 break;
+
             case "instalacion":
-                response.sendRedirect("Instalacion.jsp");
+                response.sendRedirect("instalacion");
                 break;
+
             default:
                 Log.ficheroLog("Tipo de usuario desconocido: " + tipoUsuario);
-                response.sendRedirect("InicioSesion.jsp?error=tipoDesconocido");
+                response.sendRedirect("login?error=tipoDesconocido");
+                break;
         }
     }
-    
-    /**
-     * Método para cerrar sesión y eliminar cookies
-     */
-    public static void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Borrar cookies
-        Cookie cookieToken = new Cookie("tokenUsuario", "");
-        cookieToken.setMaxAge(0);
-        cookieToken.setPath("/");
-        response.addCookie(cookieToken);
-
-        Cookie cookieTipo = new Cookie("tipoUsuario", "");
-        cookieTipo.setMaxAge(0);
-        cookieTipo.setPath("/");
-        response.addCookie(cookieTipo);
-
-        // Invalidar sesión
-        HttpSession session = request.getSession(false);
-        if (session != null) session.invalidate();
-
-        response.sendRedirect("InicioSesion.jsp");
-    }
-
-
-
-
-    
-    private void crearCookies(HttpServletResponse response, String token, String tipoUsuario, boolean recordarSesion) {
-        int maxAge = recordarSesion ? 7 * 24 * 60 * 60 : -1; // 7 días o sesión temporal
-
-        // Cookie para token
-        Cookie cookieToken = new Cookie("tokenUsuario", token);
-        cookieToken.setMaxAge(maxAge);
-        cookieToken.setHttpOnly(true);
-        cookieToken.setSecure(true); // solo HTTPS
-        cookieToken.setPath("/");
-        response.addCookie(cookieToken);
-
-        // Cookie para tipo de usuario
-        Cookie cookieTipo = new Cookie("tipoUsuario", tipoUsuario);
-        cookieTipo.setMaxAge(maxAge);
-        cookieTipo.setHttpOnly(true);
-        cookieTipo.setSecure(true);
-        cookieTipo.setPath("/");
-        response.addCookie(cookieTipo);
-    }
-
 
 
 }
