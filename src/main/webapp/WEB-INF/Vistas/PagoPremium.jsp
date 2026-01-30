@@ -270,7 +270,8 @@ h1 {
 											<a href="Club.jsp" class="letraCabeceraAbajo">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">ALQUILERES</a>
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES<span
+												class="tooltip-text">Sección en desarrollo</span></a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 											<a href="EventoClub.jsp" class="letraCabeceraAbajo">EVENTOS</a>
@@ -292,7 +293,8 @@ h1 {
 											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo">MARCADORES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="" class="letraCabeceraAbajo">DESAFIOS</a>
+											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span
+												class="tooltip-text">Sección en desarrollo</span></a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraAbajo">
 											<div class="dropdown">
@@ -892,7 +894,7 @@ Avenida mujer trabajadora
     const tipoUsuario = '<%=tipoUsuario%>';
     const idUsuario = '<%=usuarioId%>';
     const idClub = '<%=clubId%>';
-    const contextPath = '<%= request.getContextPath() %>';
+    const contextPath = '<%=request.getContextPath()%>';
 
 
     paypal.Buttons({

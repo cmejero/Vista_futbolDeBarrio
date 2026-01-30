@@ -314,14 +314,15 @@ public class EquipoTorneoServicio {
 		return contarEquiposPorTorneo(torneoId) < 16;
 	}
 
-	public boolean estaInscrito(Long torneoId, Long clubId) {
+	public boolean estaInscrito(Long torneoId, long clubId) {
 	    for (EquipoTorneoDto equipo : obtenerEquiposPorTorneo(torneoId)) {
-	        if (equipo.getClubId() == clubId) { // funciona, autounboxing convierte clubId a long
-	            return true; // ya está inscrito
+	        if (equipo.getClubId() == clubId) { 
+	            return true; 
 	        }
 	    }
 	    return false;
 	}
+
 
 
 

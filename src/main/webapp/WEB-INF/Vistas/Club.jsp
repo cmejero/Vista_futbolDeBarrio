@@ -27,7 +27,7 @@ if (esPremium == null)
 <head>
 <meta charset="UTF-8">
 <!-- Estilos CSS -->
-<link rel="stylesheet" href="Css/Estilo.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/Css/Estilo.css">
 
 <!-- Bootstrap CSS -->
 <link
@@ -70,7 +70,7 @@ if (esPremium == null)
 						<!-- columna logo -->
 						<div class="col-sm-1 col-md-1 logo"
 							style="background-color: white; border-top: 2px solid black; border-left: 1px solid black">
-							<img src="Imagenes/LOGOWEB.PNG"></img>
+							<img src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -176,7 +176,7 @@ if (esPremium == null)
 											} else {
 											%>
 											<div class=" cabeceraMedio">
-												<a href="PagoPremium.jsp">
+												<a href="${pageContext.request.contextPath}/pagoPremium">
 													<button type="button" class=" botonPremiumCabecera"
 														title="Accede a todas las funciones premium y ventajas exclusivas">
 														HAZTE PREMIUM</button>
@@ -230,10 +230,10 @@ if (esPremium == null)
 									<div class="row">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="PlantillaClub.jsp" class="letraCabeceraAbajo">PLANTILLA</a>
+											<a href="${pageContext.request.contextPath}/club/plantilla" class="letraCabeceraAbajo">PLANTILLA</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo">MARCADORES</a>
+											<a href="${pageContext.request.contextPath}/marcadores" class="letraCabeceraAbajo">MARCADORES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS
@@ -288,7 +288,7 @@ if (esPremium == null)
 						<!-- columna logo -->
 						<div class="d-sm-none d-md-none col-2 d-block logo  "
 							style="background-color: white; border: 2px solid black; border-top: none">
-							<img src="Imagenes/LOGOWEB.PNG"></img>
+							<img src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->

@@ -46,7 +46,6 @@ public class EventoClubControlador extends HttpServlet {
             return;
         }
 
-        // Si es AJAX
         String ajaxHeader = request.getHeader("X-Requested-With");
         if ("XMLHttpRequest".equals(ajaxHeader)) {
 
@@ -57,17 +56,19 @@ public class EventoClubControlador extends HttpServlet {
                 Long clubId = (Long) session.getAttribute("clubId");
 
                 List<TorneoDto> torneos = torneoServicio.obtenerTodosLosTorneos();
-
                 List<JSONObject> torneosJson = new ArrayList<>();
 
                 for (TorneoDto torneo : torneos) {
+
+                    // 🔁 EXACTAMENTE como antes
                     String progreso = torneoServicio.progresoEquipos(torneo.getIdTorneo());
                     torneo.setClubesInscritos(progreso);
 
                     JSONObject obj = new JSONObject(new Gson().toJson(torneo));
 
-                    // Si quieres, añade un campo extra de "inscrito"
-                    obj.put("estaInscrito", servicio.estaInscrito(torneo.getIdTorneo(), clubId));
+                    // 🔑 LA CLAVE
+                    boolean inscrito = servicio.estaInscrito(torneo.getIdTorneo(), clubId);
+                    obj.put("inscrito", inscrito);
 
                     torneosJson.add(obj);
                 }
@@ -75,8 +76,9 @@ public class EventoClubControlador extends HttpServlet {
                 response.getWriter().write(torneosJson.toString());
 
             } catch (Exception e) {
+                e.printStackTrace();
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                response.getWriter().write("Error al cargar torneos");
+                response.getWriter().write("{\"error\":\"Error al cargar torneos\"}");
             }
             return;
         }
@@ -84,6 +86,7 @@ public class EventoClubControlador extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/Vistas/EventoClub.jsp")
                .forward(request, response);
     }
+
 
 
 

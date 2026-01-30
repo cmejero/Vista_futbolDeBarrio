@@ -150,6 +150,11 @@ public class FiltroDeAutoridad implements Filter {
 
                uri.contains("/club") ||
                uri.contains("/club/eventos") ||
+               uri.contains("/club/plantilla") ||
+
+               uri.contains("/instalacion") ||
+               uri.contains("/instalacion/eventos") ||
+
 
 
                
@@ -170,22 +175,20 @@ public class FiltroDeAutoridad implements Filter {
         if (tipoUsuario == null) {
             return false;
         }
-        
+
         if (uri.equals("/pagoPremium")) {
             return "jugador".equals(tipoUsuario) || "club".equals(tipoUsuario);
         }
         if (uri.contains("/detalleTorneo")) {
             return true;
         }
+
         // ------------------- /torneo -------------------
         if (uri.startsWith("/torneo")) {
             if (!"GET".equalsIgnoreCase(metodo)) {
                 return "instalacion".equals(tipoUsuario);
             }
         }
-        
-      
-
 
         // ------------------- /usuario -------------------
         if (uri.equals("/usuario")) {
@@ -203,9 +206,19 @@ public class FiltroDeAutoridad implements Filter {
 
         // ------------------- /instalacion -------------------
         if (uri.equals("/instalacion")) {
-            if ("POST".equalsIgnoreCase(metodo)) return true; // público
+            if ("POST".equalsIgnoreCase(metodo)) return true; // todavía público si se usa para registrar instalaciones
             if ("GET".equalsIgnoreCase(metodo)) return "administrador".equals(tipoUsuario) || "instalacion".equals(tipoUsuario);
             return "administrador".equals(tipoUsuario);
+        }
+
+        // ------------------- /instalacion/eventos -------------------
+        if (uri.startsWith("/instalacion/eventos")) {
+            if ("POST".equalsIgnoreCase(metodo) || "DELETE".equalsIgnoreCase(metodo)) {
+                return "instalacion".equals(tipoUsuario); // Solo instalaciones pueden crear/eliminar torneos
+            }
+            if ("GET".equalsIgnoreCase(metodo)) {
+                return "instalacion".equals(tipoUsuario) || "administrador".equals(tipoUsuario); // GET también para admin
+            }
         }
 
         // ------------------- Resto de rutas -------------------

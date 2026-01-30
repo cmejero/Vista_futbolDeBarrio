@@ -44,18 +44,18 @@ public class EventoJugadorControlador extends HttpServlet {
         }
 
         // Si no viene usuarioId -> mostrar JSP
-        String clubIdParam = request.getParameter("clubId");
-        if (clubIdParam == null) {
-            request.getRequestDispatcher("/WEB-INF/Vistas/EventoClub.jsp")
+        String jugadorIdParam = request.getParameter("usuarioId");
+        if (jugadorIdParam == null) {
+            request.getRequestDispatcher("/WEB-INF/Vistas/EventoJugador.jsp")
                     .forward(request, response);
             return;
         }
 
         try {
-            Long clubId = Long.parseLong(clubIdParam);
+            Long jugadorId = Long.parseLong(jugadorIdParam);
 
             ArrayList<TorneoDto> torneos =
-                    servicio.obtenerTorneosPorUsuario(clubId);
+                    servicio.obtenerTorneosPorUsuario(jugadorId);
 
             // Convertir a JSON igual que tu controlador antiguo
             ObjectMapper objectMapper = new ObjectMapper();

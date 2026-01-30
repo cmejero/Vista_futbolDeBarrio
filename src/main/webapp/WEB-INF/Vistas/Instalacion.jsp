@@ -188,7 +188,7 @@ if (nombreInstalacion == null)
 
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo">EVENTOS</a>
+											<a href="${pageContext.request.contextPath}/instalacion/eventos" class="letraCabeceraAbajo">EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -309,7 +309,7 @@ if (nombreInstalacion == null)
 
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
-									<a href="EventoInstalacion.jsp" class="letraCabeceraAbajo "
+									<a href="${pageContext.request.contextPath}/instalacion/eventos" class="letraCabeceraAbajo "
 										style="text-decoration: none; font-size: 2.5vw; ">EVENTOS</a>
 								</div>
 
@@ -647,8 +647,8 @@ async function cargarDatosInstalacion() {
     }
 
     try {
-    	const res = await fetch('<%=request.getContextPath()%>/instalacion?idInstalacion=' 
-    		    + instalacionId);
+    	const res = await fetch('<%=request.getContextPath()%>/instalacion?accion=datos&idInstalacion=' + instalacionId);
+
 				if (!res.ok)
 					throw new Error('Error al cargar datos de la instalación');
 

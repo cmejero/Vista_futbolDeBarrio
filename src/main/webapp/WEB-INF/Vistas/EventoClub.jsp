@@ -24,7 +24,8 @@ if (esPremium == null)
 <head>
 <meta charset="UTF-8">
 <!-- Estilos CSS -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/Css/Estilo.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/Css/Estilo.css">
 
 <!-- Bootstrap CSS -->
 <link
@@ -67,7 +68,8 @@ if (esPremium == null)
 						<!-- columna logo -->
 						<div class="col-sm-1 col-md-1 logo"
 							style="background-color: white; border-top: 2px solid black; border-left: 1px solid black">
-							<img src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
+							<img
+								src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -285,7 +287,8 @@ if (esPremium == null)
 						<!-- columna logo -->
 						<div class="d-sm-none d-md-none col-2 d-block logo  "
 							style="background-color: white; border: 2px solid black; border-top: none">
-							<img src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
+							<img
+								src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -436,7 +439,8 @@ if (esPremium == null)
 
 										<button id="botonLiga"
 											class="botonMarcadores p-4 en-desarrollo">
-											<img class="imagenMarcadores" src="${pageContext.request.contextPath}/Imagenes/Liga.JPG"
+											<img class="imagenMarcadores"
+												src="${pageContext.request.contextPath}/Imagenes/Liga.JPG"
 												alt="Imagen la liga"> LIGA<span
 												class="badge-desarrollo">En desarrollo</span>
 										</button>
@@ -449,7 +453,8 @@ if (esPremium == null)
 									<div class="col-md-3 col-sm-3 col-3"
 										style="margin-bottom: 16vh; margin-top: 4vh; display: flex; justify-content: flex-start; align-items: center;">
 										<button class="botonMarcadores p-4" id="botonTorneo">
-											<img class="imagenMarcadores" src="${pageContext.request.contextPath}/Imagenes/copa.JPG"
+											<img class="imagenMarcadores"
+												src="${pageContext.request.contextPath}/Imagenes/copa.JPG"
 												alt="Imagen torneo"> TORNEO
 										</button>
 									</div>
@@ -504,7 +509,7 @@ if (esPremium == null)
 									<div class="filtroItem">
 										<label class="labelFiltrar"><b>- Buscar por
 												Estado:</b></label> <input type="text" id="buscarEventoEstado"
-											class="inputFiltrar" placeholder="Abierto / Cerrado">
+											class="inputFiltrar" placeholder="Disponible / Cerrado">
 									</div>
 								</div>
 
@@ -802,7 +807,7 @@ $(document).ready(function() {
     $('#tablaCuerpoTorneo').on('click', '.torneoLink', function() {
         var torneoId = $(this).data('id');
         if (torneoId) {
-            window.location.href = 'DetallesTorneo.jsp?idTorneo=' + torneoId;
+            window.location.href ="${pageContext.request.contextPath}/detalleTorneo?idTorneo="  + torneoId;
         } else {
             alert("No se encontró el ID del torneo.");
         }
@@ -828,10 +833,7 @@ $(document).ready(function() {
 															success : function(
 																	response) {
 																alert(response);
-																console
-																		.log(
-																				"Éxito:",
-																				response);
+																cargarTorneos();
 															},
 															error : function(
 																	xhr) {
@@ -861,40 +863,63 @@ $(document).ready(function() {
 
             if (data && Array.isArray(data) && data.length > 0) {
 
-                data.forEach(function(torneo) {
+            	data.forEach(function(torneo) {
 
-                    var nombreHTML = torneo.estaActivo
-                        ? '<span class="torneoLink" data-id="' + torneo.idTorneo + '" style="cursor:pointer; color:green; text-decoration:underline; font-weight:bold;">' 
-                          + torneo.nombreTorneo + 
-                          '</span>'
-                        : torneo.nombreTorneo;
+            	    // Nombre del torneo
+            	    var nombreHTML = torneo.estaActivo
+            	        ? '<span class="torneoLink" data-id="' + torneo.idTorneo +
+            	          '" style="cursor:pointer; color:green; text-decoration:underline; font-weight:bold;">' +
+            	          torneo.nombreTorneo +
+            	          '</span>'
+            	        : torneo.nombreTorneo;
 
-                    var iconoUnirse = torneo.estaActivo 
-                        ? '<i class="fas fa-lock" title="Torneo activo" style="color:gray;"></i>'
-                        : '<i class="fas fa-right-to-bracket icono-unirse" data-torneo-id="' + torneo.idTorneo + '" title="Unirse al torneo" style="cursor:pointer; color:green;"></i>';
+            	    var iconoUnirse = "";
 
-                    var fila = document.createElement("tr");
-                    fila.id = "fila-" + torneo.idTorneo;
+            	    // 1️⃣ YA INSCRITO → CHECK
+            	    if (torneo.inscrito) {
+            	        iconoUnirse =
+            	            '<i class="fas fa-check-circle" title="Ya estás inscrito" ' +
+            	            'style="color:green;"></i>';
 
-                    fila.innerHTML =
-                        "<td class='tablaAdmin__id'>" + nombreHTML + "</td>" +
-                        "<td>" + (torneo.nombreInstalacion || "") + "</td>" +
-                        "<td>" + (torneo.direccionInstalacion || "") + "</td>" +
-                        "<td>" + (torneo.modalidad || "") + "</td>" +
-                        "<td>" + (torneo.fechaInicioTorneo || "") + "</td>" +
-                        "<td style='color:green;'>" + (torneo.clubesInscritos || "0 / 0") + "</td>" +
-                        "<td>" + (torneo.estaActivo 
-                                    ? '<span style="color:red;font-weight:bold;">Cerrado</span>' 
-                                    : '<span style="color:green;font-weight:bold;">Disponible</span>') 
-                        + "</td>" +
-                        "<td class='tablaAdmin__opciones'>" +
-                            "<div class='tablaAdmin__acciones'>" +
-                                iconoUnirse +
-                            "</div>" +
-                        "</td>";
+            	    // 2️⃣ TORNEO ACTIVO / CERRADO
+            	    } else if (torneo.estaActivo) {
+            	        iconoUnirse =
+            	            '<i class="fas fa-lock" title="Torneo cerrado" ' +
+            	            'style="color:gray;"></i>';
 
-                    tbody.appendChild(fila);
-                });
+            	    // 3️⃣ DISPONIBLE → UNIRSE
+            	    } else {
+            	        iconoUnirse =
+            	            '<i class="fas fa-right-to-bracket icono-unirse" ' +
+            	            'data-torneo-id="' + torneo.idTorneo +
+            	            '" title="Unirse al torneo" ' +
+            	            'style="cursor:pointer; color:green;"></i>';
+            	    }
+
+            	    var fila = document.createElement("tr");
+            	    fila.id = "fila-" + torneo.idTorneo;
+
+            	    fila.innerHTML =
+            	        "<td class='tablaAdmin__id'>" + nombreHTML + "</td>" +
+            	        "<td>" + (torneo.nombreInstalacion || "") + "</td>" +
+            	        "<td>" + (torneo.direccionInstalacion || "") + "</td>" +
+            	        "<td>" + (torneo.modalidad || "") + "</td>" +
+            	        "<td>" + (torneo.fechaInicioTorneo || "") + "</td>" +
+            	        "<td style='color:green;'>" + (torneo.clubesInscritos || "0 / 16") + "</td>" +
+            	        "<td>" +
+            	            (torneo.estaActivo
+            	                ? '<span style="color:red;font-weight:bold;">Cerrado</span>'
+            	                : '<span style="color:green;font-weight:bold;">Disponible</span>') +
+            	        "</td>" +
+            	        "<td class='tablaAdmin__opciones'>" +
+            	            "<div class='tablaAdmin__acciones'>" +
+            	                iconoUnirse +
+            	            "</div>" +
+            	        "</td>";
+
+            	    tbody.appendChild(fila);
+            	});
+
 
                 paginarTabla("tablaCuerpoTorneo", 8);
 

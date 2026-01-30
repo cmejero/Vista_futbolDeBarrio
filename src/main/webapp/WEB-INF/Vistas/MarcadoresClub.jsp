@@ -1438,7 +1438,7 @@ Avenida mujer trabajadora
       aplicarFiltros('tablaEstadisticasTorneoPremium', [
         {inputId: 'buscarTipoEvento', colIndex: 0},
         {inputId: 'buscarNombreEvento', colIndex: 1},
-        {inputId: 'buscarPorVictoria', colIndex: 2}
+        {inputId: 'buscarPorVictoria', colIndex: 5}
       ]);
     }
 
@@ -1575,26 +1575,21 @@ fetch(contextPath + "/marcadores?tipo=clubGlobal&id=" + usuarioId)
       });
 
 fetch(contextPath + "/marcadores?tipo=clubTorneo&id=" + usuarioId)
-    .then(response => {
-      if (!response.ok) throw new Error("No se encontraron estadísticas por torneo del club");
-      return response.json();
-    })
-    .then(data => {
-   
-      if (!Array.isArray(data)) data = [data]; // por si el backend devuelve un solo objeto
-      data.forEach(torneo => {
-        var fila = crearFilaEstadisticasTorneoClubPremium(
-          "Torneo",
-          torneo.nombreTorneo,      
-          torneo.partidosJugados,   
-          torneo.golesFavor,         
-          torneo.golesContra,        
-          torneo.ganados,           
-          torneo.perdidos            
-        );
-        tablaEstadisticasTorneo.appendChild(fila);
-      });
-    })
+.then(response => response.json())
+.then(data => {
+  data.forEach(torneo => {
+    var fila = crearFilaEstadisticasTorneoClubPremium(
+      "Torneo",
+      torneo.nombreTorneo,      
+      torneo.partidosJugados,   
+      torneo.golesFavor,         
+      torneo.golesContra,        
+      torneo.ganados,           
+      torneo.perdidos            
+    );
+    tablaEstadisticasTorneo.appendChild(fila);
+  });
+})
     .catch(error => console.error("❌ Error cargando estadísticas de torneo del club:", error));
   });
 }

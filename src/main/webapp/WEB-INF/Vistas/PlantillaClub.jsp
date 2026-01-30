@@ -25,7 +25,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="Css/Estilo.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/Css/Estilo.css">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -68,7 +68,7 @@
 						<!-- columna logo -->
 						<div class="col-sm-1 col-md-1 logo"
 							style="background-color: white; border-top: 2px solid black; border-left: 1px solid black">
-							<img src="Imagenes/LOGOWEB.PNG"></img>
+							<img src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -284,7 +284,7 @@
 						<!-- columna logo -->
 						<div class="d-sm-none d-md-none col-2 d-block logo  "
 							style="background-color: white; border: 2px solid black; border-top: none">
-							<img src="Imagenes/LOGOWEB.PNG"></img>
+							<img src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -685,14 +685,13 @@ Avenida mujer trabajadora
    function cargarJugadoresClub() {
     const clubId = sessionStorage.getItem("clubId");
 
-    fetch("miembroClub?clubId=" + clubId + "&tipo=jugadores", {
+    fetch("<%= request.getContextPath() %>/club/plantilla?clubId=" + clubId + "&tipo=jugadores", {
         credentials: 'include'
     })
     .then(response => response.json())
-    .then(data => pintarJugadores(data)) // ✅ aquí usamos directamente la lista
+    .then(data => pintarJugadores(data)) // ✅ usamos directamente la lista
     .catch(err => console.error("Error al cargar jugadores:", err));
-
-}
+    }
 
 // Función para eliminar miembro de club desde la tabla de jugadores
    function eliminarMiembroClub(idMiembroClub) {
@@ -704,10 +703,10 @@ Avenida mujer trabajadora
            return;
        }
 
-       fetch("miembroClub?idMiembroClub=" + idMiembroClub, { 
-           method: "DELETE", 
-           credentials: 'include' // mantener la sesión
-       })
+       fetch("<%= request.getContextPath() %>/club/plantilla?idMiembroClub=" + idMiembroClub, { 
+    	    method: "DELETE", 
+    	    credentials: 'include' // mantener la sesión
+    	})
        .then(res => {
            if (res.ok) {
                alert("Miembro eliminado correctamente.");

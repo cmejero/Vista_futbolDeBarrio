@@ -1,13 +1,9 @@
 package vista_futbolDeBarrio.controlador;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,222 +11,71 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.Part;
 import vista_futbolDeBarrio.dtos.InstalacionDto;
-import vista_futbolDeBarrio.enums.Estado;
-import vista_futbolDeBarrio.enums.Modalidad;
-import vista_futbolDeBarrio.log.Log;
 import vista_futbolDeBarrio.servicios.InstalacionServicio;
-import vista_futbolDeBarrio.utilidades.Utilidades;
 
 @WebServlet("/instalacion")
 @MultipartConfig
-/**
- * Clase controlador que se encarga de los metodos CRUD de la tabla instalacion
- */
 public class InstalacionControlador extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
+    private final InstalacionServicio servicio = new InstalacionServicio();
+    private final ObjectMapper mapper = new ObjectMapper();
 
-	private InstalacionServicio servicio;
+ 
+        @Override
+        protected void doGet(HttpServletRequest request, HttpServletResponse response)
+                throws ServletException, IOException {
 
-	@Override
-	public void init() throws ServletException {
-		this.servicio = new InstalacionServicio();
-	}
+            HttpSession session = request.getSession(false);
+            String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
 
-	@Override
-	/**
-	 * Metodo POST que se encarga de guardar una nueva instalacion
-	 * 
-	 * @param request  La solicitud HTTP que contiene los parámetros del formulario.
-	 * @param response La respuesta HTTP que se enviará al cliente.
-	 * @throws ServletException Si ocurre un error en el proceso de la solicitud.
-	 * @throws IOException      Si ocurre un error en el proceso de entrada/salida.
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		try {
-			String accion = request.getParameter("accion");
-			Log.ficheroLog("Acción recibida desde el formulario: " + accion);
-			if ("modificar".equals(accion)) {
-				modificarInstalacion(request, response);
-			} else {
-				response.getWriter().write("Acción no válida.");
-				Log.ficheroLog("Acción no válida recibida: " + accion);
-			}
+            if (tipoUsuario == null || !(tipoUsuario.equals("instalacion") || tipoUsuario.equals("administrador"))) {
+                // Si es fetch JSON: enviamos status 403
+                if ("datos".equals(request.getParameter("accion"))) {
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    response.getWriter().write("{\"error\":\"Acceso denegado\"}");
+                } else {
+                    // Si es navegador directo: redirigimos al login
+                    response.sendRedirect("login?error=accesoDenegado");
+                }
+                return;
+            }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			response.getWriter().write("Se ha producido un error en el servidor. " + e.getMessage());
-			Log.ficheroLog("Error en el procesamiento de la acción: " + e.getMessage());
-		}
-	}
+            String accion = request.getParameter("accion");
+            if ("datos".equals(accion)) {
+                String idParam = request.getParameter("idInstalacion");
+                if (idParam == null) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("{\"error\":\"ID no proporcionado\"}");
+                    return;
+                }
 
-	/**
-	 * Metodo privado que se encarga de modificar una instalación existente.
-	 * 
-	 * @param request  La solicitud HTTP que contiene los parámetros del formulario.
-	 * @param response La respuesta HTTP que se enviará al cliente.
-	 * @throws IOException      Si ocurre un error durante el proceso de
-	 *                          entrada/salida.
-	 * @throws ServletException Si ocurre un error durante el proceso de la
-	 *                          solicitud.
-	 */
-	private void modificarInstalacion(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
-		ServletContext context = request.getServletContext();
+                try {
+                    long idInstalacion = Long.parseLong(idParam);
+                    InstalacionDto instalacion = servicio.obtenerInstalacionPorId(idInstalacion, request);
 
-		String idInstalacion = request.getParameter("idInstalacion");
+                    if (instalacion != null) {
+                        response.setContentType("application/json");
+                        response.setCharacterEncoding("UTF-8");
+                        response.getWriter().write(mapper.writeValueAsString(instalacion));
+                    } else {
+                        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                        response.getWriter().write("{\"error\":\"Instalación no encontrada\"}");
+                    }
 
-		if (idInstalacion == null || idInstalacion.isEmpty()) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			response.getWriter().write("ID de instalación no proporcionado.");
-			Log.ficheroLog("Modificación fallida: ID de instalación no proporcionado.");
-			return;
-		}
-		String nombreInstalacionForm = request.getParameter("nombreInstalacion");
-		String direccionInstalacionForm = request.getParameter("direccionInstalacion");
-		String telefonoInstalacionForm = request.getParameter("telefonoInstalacion");
-		String emailInstalacionForm = request.getParameter("emailInstalacion");
-		String tipoCampo1Form = request.getParameter("tipoCampo1");
-		String tipoCampo2Form = request.getParameter("tipoCampo2");
-		String tipoCampo3Form = request.getParameter("tipoCampo3");
-		String serviciosInstalacionForm = request.getParameter("serviciosInstalacion");
-		String estadoInstalacionForm = request.getParameter("estadoInstalacion");
-		String passwordInstalacionForm = request.getParameter("passwordInstalacion");
-		Part imagenPart = request.getPart("imagenInstalacion");
-		byte[] imagenBytes = null;
-		if (imagenPart != null && imagenPart.getSize() > 0) {
-			imagenBytes = new byte[(int) imagenPart.getSize()];
-			InputStream inputStream = imagenPart.getInputStream();
-			inputStream.read(imagenBytes);
-		}
+                } catch (NumberFormatException e) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("{\"error\":\"ID inválido\"}");
+                }
+                return; // Muy importante: no hacer forward al JSP
+            }
 
-		InstalacionDto instalacionModificada = new InstalacionDto();
-		instalacionModificada.setIdInstalacion(Long.parseLong(idInstalacion));
-		instalacionModificada.setNombreInstalacion(nombreInstalacionForm);
-		instalacionModificada.setDireccionInstalacion(direccionInstalacionForm);
-		instalacionModificada.setTelefonoInstalacion(telefonoInstalacionForm);
-		instalacionModificada.setEmailInstalacion(emailInstalacionForm);
-		if (tipoCampo1Form != null && !tipoCampo1Form.isEmpty()) {
-			instalacionModificada.setTipoCampo1(Modalidad.valueOf(tipoCampo1Form));
-		}
-		if (tipoCampo2Form != null && !tipoCampo2Form.isEmpty()) {
-			instalacionModificada.setTipoCampo2(Modalidad.valueOf(tipoCampo2Form));
-		}
-		if (tipoCampo3Form != null && !tipoCampo3Form.isEmpty()) {
-			instalacionModificada.setTipoCampo3(Modalidad.valueOf(tipoCampo3Form));
-		}
-		instalacionModificada.setServiciosInstalacion(serviciosInstalacionForm);
+            // =========================
+            // Solo mostrar JSP
+            // =========================
+            request.getRequestDispatcher("/WEB-INF/Vistas/Instalacion.jsp").forward(request, response);
+        }
+    }
 
-		if (estadoInstalacionForm != null && !estadoInstalacionForm.isEmpty()) {
-			instalacionModificada.setEstadoInstalacion(Estado.valueOf(estadoInstalacionForm));
-		}
-		instalacionModificada.setPasswordInstalacion(passwordInstalacionForm);
-		if (imagenBytes == null) {
-			imagenBytes = Utilidades.obtenerImagenPorDefecto(context);
-		}
-		instalacionModificada.setImagenInstalacion(imagenBytes);
 
-		boolean actualizado = servicio.modificarInstalacion(idInstalacion, instalacionModificada, request);
-
-		if (actualizado) {
-			Log.ficheroLog("Instalación modificada: id=" + idInstalacion + ", nombre=" + nombreInstalacionForm);
-			response.getWriter().write("Instalación modificada correctamente.");
-		} else {
-			Log.ficheroLog("Error al modificar instalación: id=" + idInstalacion);
-			response.getWriter().write("No se pudo modificar la instalación.");
-		}
-	}
-
-	@Override
-	/**
-	 * Metodo GET que se encarga para mostrar una lista de las instalaciones
-	 * 
-	 * @param request  La solicitud HTTP que contiene los parámetros de la consulta.
-	 * @param response La respuesta HTTP que se enviará al cliente.
-	 * @throws ServletException Si ocurre un error durante el procesamiento de la
-	 *                          solicitud.
-	 * @throws IOException      Si ocurre un error durante el procesamiento de la
-	 *                          entrada/salida.
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		try {
-			HttpSession session = request.getSession(false);
-			String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
-
-			if (tipoUsuario == null || !(tipoUsuario.equals("instalacion") || tipoUsuario.equals("administrador"))) {
-				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-				response.getWriter().write("Acceso denegado. Debe iniciar sesión como instalación o admin.");
-				return;
-			}
-
-			String idParam = request.getParameter("idInstalacion");
-			ObjectMapper objectMapper = new ObjectMapper();
-
-			if (idParam != null && !idParam.isEmpty()) {
-				long idInstalacion = Long.parseLong(idParam);
-				InstalacionDto instalacion = servicio.obtenerInstalacionPorId(idInstalacion, request);
-
-				if (instalacion != null) {
-					response.setContentType("application/json");
-					response.setCharacterEncoding("UTF-8");
-					response.getWriter().write(objectMapper.writeValueAsString(instalacion));
-				} else {
-					response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-					response.getWriter().write("{\"error\":\"Instalación no encontrada\"}");
-				}
-			} else {
-				List<InstalacionDto> listaInstalaciones = servicio.listaInstalaciones(request);
-				response.setContentType("application/json");
-				response.setCharacterEncoding("UTF-8");
-				response.getWriter().write(objectMapper.writeValueAsString(listaInstalaciones));
-			}
-
-		} catch (NumberFormatException e) {
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			response.getWriter().write("{\"error\":\"ID inválido\"}");
-		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.getWriter().write("{\"error\":\"Se ha producido un error: " + e.getMessage() + "\"}");
-		}
-	}
-
-	@Override
-	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		try {
-			String tipoUsuario = (String) request.getSession().getAttribute("tipoUsuario");
-			if (!"administrador".equals(tipoUsuario)) {
-				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-				response.getWriter().write("Acceso denegado. Solo los administradores pueden eliminar instalaciones.");
-				return;
-			}
-
-			String idParam = request.getParameter("idInstalacion");
-			if (idParam == null || idParam.isEmpty()) {
-				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				response.getWriter().write("ID de instalación no proporcionado.");
-				return;
-			}
-
-			Long idInstalacion = Long.parseLong(idParam);
-			boolean eliminado = servicio.eliminarInstalacion(idInstalacion, request);
-
-			if (eliminado) {
-				response.setStatus(HttpServletResponse.SC_OK);
-				response.getWriter().write("Instalación eliminada correctamente.");
-			} else {
-				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				response.getWriter().write("Error al eliminar la instalación.");
-			}
-		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.getWriter().write("Error en el servidor: " + e.getMessage());
-		}
-	}
-
-}

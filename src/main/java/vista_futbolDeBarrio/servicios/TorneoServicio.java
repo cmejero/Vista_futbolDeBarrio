@@ -44,40 +44,50 @@ public class TorneoServicio {
 	
 	
 	   // ------------------ CREAR TORNEO ------------------
-    public String crearTorneoDesdeFormulario(HttpServletRequest request) {
-        try {
-            String nombreTorneo = request.getParameter("nombreTorneo");
-            String descripcion = request.getParameter("descripcionTorneo");
-            String modalidadStr = request.getParameter("modalidad");
-            Long instalacionId = (Long) request.getSession().getAttribute("idInstalacion");
-            String fechaInicio = request.getParameter("fechaInicioTorneo");
-            String fechaFin = request.getParameter("fechaFinTorneo");
+	public String crearTorneoDesdeFormulario(HttpServletRequest request) {
 
-            if (fechaFin == null || fechaFin.isEmpty())
-                fechaFin = "9999-01-01";
+	    try {
+	        // Tomamos parámetros del formulario o de AJAX
+	        String nombreTorneo = request.getParameter("nombreTorneo");
+	        String descripcion = request.getParameter("descripcionTorneo");
+	        String modalidadStr = request.getParameter("modalidad");
+	        String fechaInicio = request.getParameter("fechaInicioTorneo");
+	        String fechaFin = request.getParameter("fechaFinTorneo");
+	        Long instalacionId = Long.valueOf(request.getParameter("instalacionId"));
 
-            Modalidad modalidad = Modalidad.valueOf(modalidadStr.trim());
+	        if (nombreTorneo == null || nombreTorneo.isEmpty()) return "Nombre del torneo vacío";
+	        if (modalidadStr == null || modalidadStr.isEmpty()) return "Modalidad no definida";
 
-            TorneoDto torneo = new TorneoDto();
-            torneo.setNombreTorneo(nombreTorneo);
-            torneo.setDescripcionTorneo(descripcion);
-            torneo.setModalidad(modalidad);
-            torneo.setEstaActivo(false);
-            torneo.setInstalacionId(instalacionId);
-            torneo.setFechaInicioTorneo(fechaInicio);
-            torneo.setFechaFinTorneo(fechaFin);
+	        if (fechaFin == null || fechaFin.isEmpty()) fechaFin = "9999-01-01";
 
-            guardarTorneo(torneo, request);
+	        Modalidad modalidad;
+	        try {
+	            modalidad = Modalidad.valueOf(modalidadStr.trim());
+	        } catch (IllegalArgumentException e) {
+	            return "Modalidad inválida: " + modalidadStr;
+	        }
 
-            Log.ficheroLog("Torneo creado: " + nombreTorneo);
-            return "ok";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "error";
-        }
-    }
+	        TorneoDto torneo = new TorneoDto();
+	        torneo.setNombreTorneo(nombreTorneo);
+	        torneo.setDescripcionTorneo(descripcion);
+	        torneo.setModalidad(modalidad);
+	        torneo.setEstaActivo(false);
+	        torneo.setInstalacionId(instalacionId);
+	        torneo.setFechaInicioTorneo(fechaInicio);
+	        torneo.setFechaFinTorneo(fechaFin);
 
-   
+	        // Guardamos torneo directamente usando servicio local (igual que antes)
+	        guardarTorneo(torneo, request);
+
+	        Log.ficheroLog("Torneo creado: " + nombreTorneo);
+	        return "ok";
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return e.getMessage(); // Devuelve el mensaje real al cliente
+	    }
+	}
+
   
 
 	// ---------- CRUD Torneo ----------

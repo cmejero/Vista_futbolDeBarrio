@@ -73,29 +73,57 @@ public class ClubEstadisticaTorneoServicio {
      * @param clubId ID del club
      * @return JSON con la estadística o null si ocurre un error.
      */
-    public String obtenerClubEstadisticasTorneo(Long clubId) {
-        try {
-            String urlApi = "http://localhost:9527/api/clubEstadisticaTorneo/" + clubId;
-            URL url = new URL(urlApi);
-            HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-            conex.setRequestMethod("GET");
+	 public ArrayList<ClubEstadisticaTorneoDto> obtenerClubEstadisticasTorneo(Long clubId) {
+		    ArrayList<ClubEstadisticaTorneoDto> lista = new ArrayList<>();
+		    try {
+		        // URL de tu API que devuelve las estadísticas del club
+		        String urlApi = "http://localhost:9527/api/clubEstadisticaTorneo/club/" + clubId;
+		        URL url = new URL(urlApi);
+		        HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+		        conex.setRequestMethod("GET");
+		        conex.setRequestProperty("Accept", "application/json");
 
-            int responseCode = conex.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
-                StringBuilder response = new StringBuilder();
-                String line;
-                while ((line = in.readLine()) != null) response.append(line);
-                in.close();
-                return response.toString();
-            } else {
-                System.out.println("Error al obtener estadística del club: " + responseCode);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+		        int responseCode = conex.getResponseCode();
+		        if (responseCode == HttpURLConnection.HTTP_OK) {
+		            BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
+		            StringBuilder response = new StringBuilder();
+		            String line;
+		            while ((line = in.readLine()) != null) response.append(line);
+		            in.close();
+
+		            JSONArray jsonLista = new JSONArray(response.toString());
+		            for (int i = 0; i < jsonLista.length(); i++) {
+		                JSONObject json = jsonLista.getJSONObject(i);
+		                ClubEstadisticaTorneoDto dto = new ClubEstadisticaTorneoDto();
+
+		                dto.setIdEstadisticaTorneo(json.optLong("idClubEstadisticaTorneo"));
+		                dto.setClubId(json.optLong("clubId"));
+		                dto.setNombreClub(json.optString("nombreClub", "Sin nombre"));
+		                dto.setAbreviaturaClub(json.optString("abreviaturaClub", ""));
+		                dto.setTorneoId(json.optLong("torneoId"));
+		                // Aquí el nombre del torneo, con fallback
+		                dto.setNombreTorneo(json.optString("nombreTorneo", "Torneo desconocido"));
+
+		                dto.setPartidosJugados(json.optInt("partidosJugados", 0));
+		                dto.setGanados(json.optInt("ganados", 0));
+		                dto.setEmpatados(json.optInt("empatados", 0));
+		                dto.setPerdidos(json.optInt("perdidos", 0));
+		                dto.setGolesFavor(json.optInt("golesFavor", 0));
+		                dto.setGolesContra(json.optInt("golesContra", 0));
+
+		                lista.add(dto);
+		            }
+
+		        } else {
+		            System.out.println("Error al obtener estadísticas del club: " + responseCode);
+		        }
+
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		    return lista;
+		}
+
 	
     public ArrayList<ClubEstadisticaTorneoDto> obtenerClubEstadisticasTorneoPorClubId(Long clubId) {
         ArrayList<ClubEstadisticaTorneoDto> lista = new ArrayList<>();

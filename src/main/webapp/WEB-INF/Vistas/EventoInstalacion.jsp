@@ -11,7 +11,7 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="Css/Estilo.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/Css/Estilo.css">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -36,7 +36,7 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 						<!-- columna logo -->
 						<div class="col-sm-1 col-md-1 logo"
 							style="background-color: white; border-top: 2px solid black; border-left: 1px solid black">
-							<img src="Imagenes/LOGOWEB.PNG"></img>
+							<img src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -240,7 +240,7 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 						<!-- columna logo -->
 						<div class="d-sm-none d-md-none col-2 d-block logo  "
 							style="background-color: white; border: 2px solid black; border-top: none">
-							<img src="Imagenes/LOGOWEB.PNG"></img>
+							<img src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -378,7 +378,7 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 
 										<button id="botonLiga"
 											class="botonMarcadores p-4 en-desarrollo">
-											<img class="imagenMarcadores" src="Imagenes/Liga.JPG"
+											<img class="imagenMarcadores" src="${pageContext.request.contextPath}/Imagenes/Liga.JPG"
 												alt="Imagen la liga"> LIGA <span
 												class="badge-desarrollo">En desarrollo</span>
 										</button>
@@ -393,7 +393,7 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 									<div class="col-md-3 col-sm-3 col-3"
 										style="margin-bottom: 16vh; margin-top: 4vh; display: flex; justify-content: flex-start; align-items: center;">
 										<button class="botonMarcadores p-4" id="botonTorneo">
-											<img class="imagenMarcadores" src="Imagenes/copa.JPG"
+											<img class="imagenMarcadores" src="${pageContext.request.contextPath}/Imagenes/copa.JPG"
 												alt="Imagen torneo"> TORNEO
 										</button>
 									</div>
@@ -439,7 +439,7 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 											<div class="registrarFormulario ">
 												<form action="torneo" method="POST"
 													enctype="multipart/form-data">
-													<input type="hidden" name="accion" value="aniadir">
+													<input type="hidden" name="accion" value="crear">
 													<input type="hidden" name="instalacionId"
 														value="<%=instalacionId%>">
 													<table class="tablaFormulario "
@@ -480,7 +480,7 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 																	class="formularioLabel ">Descripción torneo</label> <textarea
 																		class="form-control"
 																		style="font-size: 1vw; border: 1px solid #818181;"
-																		id="descripcionUsuario" name="descripcionUsuario"
+																		id="descripcionUsuario" name="descripcionTorneo"
 																		rows="3"></textarea></td>
 															</tr>
 
@@ -908,7 +908,7 @@ $(document).ready(function() {
 
 function cargarTorneos() {
     $.ajax({
-        url: 'torneo',
+        url: '<%=request.getContextPath()%>/instalacion/eventos',
         method: 'GET',
         dataType: 'json',
         data: { instalacionId: instalacionId },
@@ -991,7 +991,7 @@ function cargarTorneos() {
                 if ($btn.prop('disabled')) return;
 
                 $.ajax({
-                    url: 'torneo',
+                    url: '<%=request.getContextPath()%>/instalacion/eventos',
                     method: 'POST',
                     data: { accion: 'activar', idTorneo: torneoId },
                     success: function () {
@@ -1010,19 +1010,7 @@ function cargarTorneos() {
                 window.location.href = '<%=request.getContextPath()%>/TorneoInstalacion.jsp?id=' + torneoId;
             });
 
-            $(document).off('click', '.btnEliminar').on('click', '.btnEliminar', function () {
-                const torneoId = $(this).data('id');
-                if (confirm("¿Seguro que deseas borrar este torneo?")) {
-                    $.ajax({
-                        url: 'torneo/' + torneoId,
-                        method: 'DELETE',
-                        success: function () {
-                            alert("Torneo eliminado");
-                            cargarTorneos();
-                        }
-                    });
-                }
-            });
+       
 
             $(document).off('click', '.btnEditar').on('click', '.btnEditar', function () {
                 const torneo = $(this).data('usuario');
@@ -1099,11 +1087,11 @@ function paginarTabla(tablaBodyId, filasPorPagina = 8) {
 $('#crearTorneoContainer form').submit(function(e){
     e.preventDefault();
     let formData = $(this).serialize();
-    formData += '&instalacionId=' + instalacionId; // agregamos id de instalación
+    formData += '&instalacionId=' + instalacionId; 
     $.ajax({
-        url: 'torneo',
+        url: '<%=request.getContextPath()%>/instalacion/eventos',
         method: 'POST',
-        data: formData,
+        data: formData + '&accion=crear',
         success: function() {
             $('#crearTorneoContainer form')[0].reset();
             $('#crearTorneoContainer').hide();
@@ -1119,9 +1107,9 @@ $('#crearTorneoContainer form').submit(function(e){
 $('#tablaCuerpoTorneo').on('click', '.btnEliminar', function () {
     const idTorneo = $(this).data('id');
     if (confirm("¿Seguro que deseas eliminar este torneo?")) {
-        $.ajax({
-            url: 'torneo?idTorneo=' + idTorneo,
-            method: 'DELETE',
+    	$.ajax({
+    	    url: '<%=request.getContextPath()%>/instalacion/eventos?idTorneo=' + idTorneo,
+    	    method: 'DELETE',
             success: function () {
                 $('#fila-' + idTorneo).remove();
             },
@@ -1174,7 +1162,7 @@ $('#formEditarTorneo').submit(function (e) {
     datos += '&accion=modificar';
 
     $.ajax({
-        url: 'torneo',
+        url: 'instalacion/eventos',
         method: 'POST',
         data: datos,
         success: function () {
@@ -1195,7 +1183,7 @@ $('#formEditarTorneo').submit(function (e) {
 
 
 
-
+	
 </script>
 
 
