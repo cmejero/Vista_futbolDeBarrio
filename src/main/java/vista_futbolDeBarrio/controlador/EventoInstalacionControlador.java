@@ -46,6 +46,12 @@ public class EventoInstalacionControlador extends HttpServlet {
             try {
                 Long idInstalacion = (Long) session.getAttribute("idInstalacion");
                 List<TorneoDto> torneos = torneoServicio.obtenerTorneosPorInstalacion(idInstalacion);
+                
+                
+                for (TorneoDto torneo : torneos) {
+                    String progreso = torneoServicio.progresoEquipos(torneo.getIdTorneo());
+                    torneo.setClubesInscritos(progreso);
+                }
 
                 // Convertir a JSON usando Gson
                 String json = new Gson().toJson(torneos);

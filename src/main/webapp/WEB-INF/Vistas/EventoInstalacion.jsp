@@ -1007,7 +1007,20 @@ function cargarTorneos() {
 
             $(document).off('click', '.nombre-torneo-link').on('click', '.nombre-torneo-link', function () {
                 const torneoId = $(this).data('torneo-id');
-                window.location.href = '<%=request.getContextPath()%>/TorneoInstalacion.jsp?id=' + torneoId;
+
+                // Crear un formulario POST temporal para enviar el torneoId
+                const form = document.createElement("form");
+                form.method = "POST";
+                form.action = '<%= request.getContextPath() %>' + "/instalacion/torneo";
+
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = "torneoId"; // debe coincidir con doPost
+                input.value = torneoId;
+
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
             });
 
        
@@ -1162,7 +1175,7 @@ $('#formEditarTorneo').submit(function (e) {
     datos += '&accion=modificar';
 
     $.ajax({
-        url: 'instalacion/eventos',
+        url: '<%=request.getContextPath()%>/instalacion/eventos',
         method: 'POST',
         data: datos,
         success: function () {

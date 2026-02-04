@@ -68,6 +68,63 @@ public class ClubEstadisticaTorneoServicio {
 	        return lista;
 	    }
 
+	 
+	 /**
+	  * Obtiene las estadísticas de todos los clubes de un torneo concreto.
+	  * @param torneoId ID del torneo
+	  */
+	 public ArrayList<ClubEstadisticaTorneoDto> obtenerClubesPorTorneo(Long torneoId) {
+	     ArrayList<ClubEstadisticaTorneoDto> lista = new ArrayList<>();
+
+	     try {
+	         String urlApi = "http://localhost:9527/api/clubEstadisticaTorneo/torneo/" + torneoId;
+	         URL url = new URL(urlApi);
+	         HttpURLConnection conex = (HttpURLConnection) url.openConnection();
+	         conex.setRequestMethod("GET");
+	         conex.setRequestProperty("Accept", "application/json");
+
+	         int responseCode = conex.getResponseCode();
+	         if (responseCode == HttpURLConnection.HTTP_OK) {
+	             BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
+	             StringBuilder response = new StringBuilder();
+	             String line;
+	             while ((line = in.readLine()) != null) {
+	                 response.append(line);
+	             }
+	             in.close();
+
+	             JSONArray jsonLista = new JSONArray(response.toString());
+	             for (int i = 0; i < jsonLista.length(); i++) {
+	                 JSONObject json = jsonLista.getJSONObject(i);
+	                 ClubEstadisticaTorneoDto dto = new ClubEstadisticaTorneoDto();
+
+	                 dto.setIdEstadisticaTorneo(json.optLong("idClubEstadisticaTorneo"));
+	                 dto.setClubId(json.optLong("clubId"));
+	                 dto.setNombreClub(json.optString("nombreClub", "Sin nombre"));
+	                 dto.setAbreviaturaClub(json.optString("abreviaturaClub", ""));
+	                 dto.setTorneoId(json.optLong("torneoId"));
+	                 dto.setNombreTorneo(json.optString("nombreTorneo", "Sin nombre"));
+
+	                 dto.setPartidosJugados(json.optInt("partidosJugados", 0));
+	                 dto.setGanados(json.optInt("ganados", 0));
+	                 dto.setEmpatados(json.optInt("empatados", 0));
+	                 dto.setPerdidos(json.optInt("perdidos", 0));
+	                 dto.setGolesFavor(json.optInt("golesFavor", 0));
+	                 dto.setGolesContra(json.optInt("golesContra", 0));
+
+	                 lista.add(dto);
+	             }
+	         } else {
+	             System.out.println("Error al obtener clubes por torneo: " + responseCode);
+	         }
+
+	     } catch (Exception e) {
+	         e.printStackTrace();
+	     }
+
+	     return lista;
+	 }
+
     /**
      * Obtiene la estadística de un club específico en un torneo.
      * @param clubId ID del club

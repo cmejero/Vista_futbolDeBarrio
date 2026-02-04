@@ -1,11 +1,16 @@
-	
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-String torneoId = request.getParameter("torneoId");
+Long torneoId = (Long) session.getAttribute("torneoIdSeleccionado");
 String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 
+if (torneoId == null) {
+	response.sendRedirect(request.getContextPath() + "/login?error=torneoNoSeleccionado");
+	return;
+}
 %>
+
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
@@ -14,7 +19,8 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="Css/Estilo.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/Css/Estilo.css">
 
 <!-- Bootstrap CSS (solo una vez) -->
 <link
@@ -43,7 +49,8 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 						<!-- columna logo -->
 						<div class="col-sm-1 col-md-1 logo"
 							style="background-color: white; border-top: 2px solid black; border-left: 1px solid black">
-							<img src="Imagenes/LOGOWEB.PNG"></img>
+							<img
+								src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -212,16 +219,17 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														>Idioma<span class="tooltip-text">Sección en
-													desarrollo</span>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#">Idioma<span class="tooltip-text">Sección
+																en desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														>Ayuda <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														>Configuración <span class="tooltip-text">Sección en
-													desarrollo</span> </a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#">Ayuda <span class="tooltip-text">Sección
+																en desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#">Configuración <span class="tooltip-text">Sección
+																en desarrollo</span>
+													</a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -246,7 +254,8 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 						<!-- columna logo -->
 						<div class="d-sm-none d-md-none col-2 d-block logo  "
 							style="background-color: white; border: 2px solid black; border-top: none">
-							<img src="Imagenes/LOGOWEB.PNG"></img>
+							<img
+								src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -367,169 +376,169 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 
 
 
-		<main style="background-color: rgba(223, 234, 213, 0.5);">
-			<div class="contenedorTorneo">
-				<!-- Botón Volver a EventoInstalacion -->
-				<div>
-					 <button type="button" class="btn botonVolver"  
-						onclick="window.location.href='EventoInstalacion.jsp?id=<%=session.getAttribute("instalacionId")%>';">
-						Volver</button>
-	
-				</div>
-	
-				<h2 class="tituloTorneo">
-					🏆<b>-TORNEO: </b> <span
-						style="font-weight: 700; text-decoration: underline"
-						id="nombreTorneo"> Cargando torneo... </span>
-				</h2>
-				<div class="contenedorFlex">
-					<div class="separadorVisual"></div>
-					<!-- Camino a la Copa (Bracket) -->
-					<div class="filaTorneo">
-						<!-- Octavos izquierda -->
-						<div class="columnaTorneo">
-							<div class="casillaPartido" data-id="octavos1"></div>
-							<div class="celdaVacia"></div>
-							<div class="casillaPartido" data-id="octavos2"></div>
-							<div class="celdaVacia"></div>
-							<div class="casillaPartido" data-id="octavos3"></div>
-							<div class="celdaVacia"></div>
-							<div class="casillaPartido" data-id="octavos4"></div>
-						</div>
-						<!-- Cuartos izquierda -->
-						<div class="columnaTorneo">
-							<div class="celdaVacia"></div>
-							<div class="casillaPartido" data-id="cuartos1"></div>
-							<div class="celdaVacia"></div>
-							<div class="celdaVacia"></div>
-							<div class="celdaVacia"></div>
-							<div class="casillaPartido" data-id="cuartos2"></div>
-							<div class="celdaVacia"></div>
-						</div>
-						<!-- Semifinal izquierda -->
-						<div class="columnaTorneo">
-							<div class="celdaVacia"></div>
-							<div class="celdaVacia"></div>
-							<div class="celdaVacia"></div>
-							<div class="casillaPartido" data-id="semifinal1"></div>
-							<div class="celdaVacia"></div>
-							<div class="celdaVacia"></div>
-							<div class="celdaVacia"></div>
-						</div>
-						<!-- Final -->
-						<div class="columnaTorneo">
-							<div class="celdaVacia"></div>
-							<div class="celdaVacia"></div>
-							<div class="celdaVacia"></div>
-							<div class="casillaPartido" data-id="partidoFinal"></div>
-							<div class="celdaVacia"></div>
-							<div class="casillaPartido" data-id="tercerpuesto"></div>
-							<div class="celdaVacia"></div>
-						</div>
-						<!-- Semifinal derecha -->
-						<div class="columnaTorneo">
-							<div class="celdaVacia"></div>
-							<div class="celdaVacia"></div>
-							<div class="celdaVacia"></div>
-							<div class="casillaPartido" data-id="semifinal2"></div>
-							<div class="celdaVacia"></div>
-							<div class="celdaVacia"></div>
-							<div class="celdaVacia"></div>
-						</div>
-						<!-- Cuartos derecha -->
-						<div class="columnaTorneo">
-							<div class="celdaVacia"></div>
-							<div class="casillaPartido" data-id="cuartos3"></div>
-							<div class="celdaVacia"></div>
-							<div class="celdaVacia"></div>
-							<div class="celdaVacia"></div>
-							<div class="casillaPartido" data-id="cuartos4"></div>
-							<div class="celdaVacia"></div>
-						</div>
-						<!-- Octavos derecha -->
-						<div class="columnaTorneo">
-							<div class="casillaPartido" data-id="octavos5"></div>
-							<div class="celdaVacia"></div>
-							<div class="casillaPartido" data-id="octavos6"></div>
-							<div class="celdaVacia"></div>
-							<div class="casillaPartido" data-id="octavos7"></div>
-							<div class="celdaVacia"></div>
-							<div class="casillaPartido" data-id="octavos8"></div>
-						</div>
+	<main style="background-color: rgba(223, 234, 213, 0.5);">
+		<div class="contenedorTorneo">
+			<!-- Botón Volver a EventoInstalacion -->
+			<div>
+				<button type="button" class="btn botonVolver"
+					onclick="window.location.href='EventoInstalacion.jsp?id=<%=session.getAttribute("instalacionId")%>';">
+					Volver</button>
+
+			</div>
+
+			<h2 class="tituloTorneo">
+				🏆<b>-TORNEO: </b> <span
+					style="font-weight: 700; text-decoration: underline"
+					id="nombreTorneo"> Cargando torneo... </span>
+			</h2>
+			<div class="contenedorFlex">
+				<div class="separadorVisual"></div>
+				<!-- Camino a la Copa (Bracket) -->
+				<div class="filaTorneo">
+					<!-- Octavos izquierda -->
+					<div class="columnaTorneo">
+						<div class="casillaPartido" data-id="octavos1"></div>
+						<div class="celdaVacia"></div>
+						<div class="casillaPartido" data-id="octavos2"></div>
+						<div class="celdaVacia"></div>
+						<div class="casillaPartido" data-id="octavos3"></div>
+						<div class="celdaVacia"></div>
+						<div class="casillaPartido" data-id="octavos4"></div>
 					</div>
-					<div class="separadorVisual"></div>
-					<!-- Tablas (Equipos y Goleadores) -->
-					<div class="contenedorTablas">
-						<!-- Se puede rellenar dinámicamente más adelante -->
+					<!-- Cuartos izquierda -->
+					<div class="columnaTorneo">
+						<div class="celdaVacia"></div>
+						<div class="casillaPartido" data-id="cuartos1"></div>
+						<div class="celdaVacia"></div>
+						<div class="celdaVacia"></div>
+						<div class="celdaVacia"></div>
+						<div class="casillaPartido" data-id="cuartos2"></div>
+						<div class="celdaVacia"></div>
+					</div>
+					<!-- Semifinal izquierda -->
+					<div class="columnaTorneo">
+						<div class="celdaVacia"></div>
+						<div class="celdaVacia"></div>
+						<div class="celdaVacia"></div>
+						<div class="casillaPartido" data-id="semifinal1"></div>
+						<div class="celdaVacia"></div>
+						<div class="celdaVacia"></div>
+						<div class="celdaVacia"></div>
+					</div>
+					<!-- Final -->
+					<div class="columnaTorneo">
+						<div class="celdaVacia"></div>
+						<div class="celdaVacia"></div>
+						<div class="celdaVacia"></div>
+						<div class="casillaPartido" data-id="partidoFinal"></div>
+						<div class="celdaVacia"></div>
+						<div class="casillaPartido" data-id="tercerpuesto"></div>
+						<div class="celdaVacia"></div>
+					</div>
+					<!-- Semifinal derecha -->
+					<div class="columnaTorneo">
+						<div class="celdaVacia"></div>
+						<div class="celdaVacia"></div>
+						<div class="celdaVacia"></div>
+						<div class="casillaPartido" data-id="semifinal2"></div>
+						<div class="celdaVacia"></div>
+						<div class="celdaVacia"></div>
+						<div class="celdaVacia"></div>
+					</div>
+					<!-- Cuartos derecha -->
+					<div class="columnaTorneo">
+						<div class="celdaVacia"></div>
+						<div class="casillaPartido" data-id="cuartos3"></div>
+						<div class="celdaVacia"></div>
+						<div class="celdaVacia"></div>
+						<div class="celdaVacia"></div>
+						<div class="casillaPartido" data-id="cuartos4"></div>
+						<div class="celdaVacia"></div>
+					</div>
+					<!-- Octavos derecha -->
+					<div class="columnaTorneo">
+						<div class="casillaPartido" data-id="octavos5"></div>
+						<div class="celdaVacia"></div>
+						<div class="casillaPartido" data-id="octavos6"></div>
+						<div class="celdaVacia"></div>
+						<div class="casillaPartido" data-id="octavos7"></div>
+						<div class="celdaVacia"></div>
+						<div class="casillaPartido" data-id="octavos8"></div>
 					</div>
 				</div>
+				<div class="separadorVisual"></div>
+				<!-- Tablas (Equipos y Goleadores) -->
 				<div class="contenedorTablas">
-					<!-- Tabla Goleadores -->
-					<div class="tablaGoleadores" id="tablaGoleadores">
-						<h3>Goleadores</h3>
-						<input type="text" id="buscarGoleadores"
-							placeholder="Buscar jugador..."
-							onkeyup="filtrarTabla('goleadores')">
-						<table id="tablaGoleadoresBody">
-							<thead>
-								<tr>
-									<th>Jugador</th>
-									<th>Club</th>
-									<th>Goles</th>
-								</tr>
-							</thead>
-							<tbody></tbody>
-						</table>
-					</div>
-	
-					<!-- Tabla Disciplina -->
-					<div class="tablaGoleadores" id="tablaDisciplina">
-						<h3>Disciplina</h3>
-						<input type="text" id="buscarDisciplina"
-							placeholder="Buscar jugador..."
-							onkeyup="filtrarTabla('disciplina')">
-						<table id="tablaDisciplinaBody">
-							<thead>
-								<tr>
-									<th>Jugador</th>
-									<th>Club</th>
-									<th>Amarillas</th>
-									<th>Rojas</th>
-								</tr>
-							</thead>
-							<tbody></tbody>
-						</table>
-					</div>
-	
-					<!-- Tabla Equipos -->
-					<div class="tablaEquipos" id="tablaEquipos">
-						<h3>Equipos</h3>
-						<input type="text" id="buscarEquipos"
-							placeholder="Buscar equipo..." onkeyup="filtrarTabla('equipos')">
-						<table id="tablaEquiposBody">
-							<thead>
-								<tr>
-									<th>Nombre</th>
-									<th>Abreviatura</th>
-									<th>PJ</th>
-									<th>G</th>
-									<th>P</th>
-									<th>GF</th>
-									<th>GC</th>
-								</tr>
-							</thead>
-							<tbody></tbody>
-						</table>
-					</div>
+					<!-- Se puede rellenar dinámicamente más adelante -->
 				</div>
 			</div>
-		</main>
-	
-		<footer>
-	
-			<div class="container-fluid ">
-				<div class="row">
-					<div class="col-md-12 col-sm-12 d-none d-md-block d-sm-block">
+			<div class="contenedorTablas">
+				<!-- Tabla Goleadores -->
+				<div class="tablaGoleadores" id="tablaGoleadores">
+					<h3>Goleadores</h3>
+					<input type="text" id="buscarGoleadores"
+						placeholder="Buscar jugador..."
+						onkeyup="filtrarTabla('goleadores')">
+					<table id="tablaGoleadoresBody">
+						<thead>
+							<tr>
+								<th>Jugador</th>
+								<th>Club</th>
+								<th>Goles</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+
+				<!-- Tabla Disciplina -->
+				<div class="tablaGoleadores" id="tablaDisciplina">
+					<h3>Disciplina</h3>
+					<input type="text" id="buscarDisciplina"
+						placeholder="Buscar jugador..."
+						onkeyup="filtrarTabla('disciplina')">
+					<table id="tablaDisciplinaBody">
+						<thead>
+							<tr>
+								<th>Jugador</th>
+								<th>Club</th>
+								<th>Amarillas</th>
+								<th>Rojas</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+
+				<!-- Tabla Equipos -->
+				<div class="tablaEquipos" id="tablaEquipos">
+					<h3>Equipos</h3>
+					<input type="text" id="buscarEquipos"
+						placeholder="Buscar equipo..." onkeyup="filtrarTabla('equipos')">
+					<table id="tablaEquiposBody">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Abreviatura</th>
+								<th>PJ</th>
+								<th>G</th>
+								<th>P</th>
+								<th>GF</th>
+								<th>GC</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<footer>
+
+		<div class="container-fluid ">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 d-none d-md-block d-sm-block">
 					<div class="row">
 						<div class="col-md-3 col-sm-3  g-4 pieDePagina p-4 pb-1  "
 							style="margin-left: 2vw">
@@ -706,12 +715,13 @@ Avenida mujer trabajadora
 		</div>
 
 	</footer>
-	<script>
-document.addEventListener("DOMContentLoaded", function() {
+<script>
+document.addEventListener("DOMContentLoaded", async function () {
+
     console.log("DOM cargado correctamente");
 
     const searchParams = new URLSearchParams(window.location.search);
-    const torneo_id = searchParams.get("id");
+    const torneo_id = '<%=torneoId%>';
     const contextPath = '<%=request.getContextPath()%>';
 
     if (!torneo_id) {
@@ -720,12 +730,11 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
     }
 
-    const urlBracket = contextPath + '/torneo/bracket?torneoId=' + torneo_id;
-    
+    // ------------------ FILTRADO ------------------
     window.filtrarTabla = function(tipo) {
         var inputId = tipo === 'goleadores' ? 'buscarGoleadores'
-                     : tipo === 'disciplina' ? 'buscarDisciplina'
-                     : 'buscarEquipos';
+                    : tipo === 'disciplina' ? 'buscarDisciplina'
+                    : 'buscarEquipos';
         var tablaBodyId = tipo === 'goleadores' ? 'tablaGoleadoresBody'
                         : tipo === 'disciplina' ? 'tablaDisciplinaBody'
                         : 'tablaEquiposBody';
@@ -734,86 +743,86 @@ document.addEventListener("DOMContentLoaded", function() {
         var tbody = document.querySelector('#' + tablaBodyId + ' tbody');
         if(!tbody) return;
 
-        var filas = Array.from(tbody.querySelectorAll('tr'));
-        filas.forEach(function(fila) {
+        Array.from(tbody.querySelectorAll('tr')).forEach(function(fila){
             var mostrar = Array.from(fila.cells).some(function(td){
                 return td.textContent.toLowerCase().indexOf(input) > -1;
             });
             fila.style.display = mostrar ? '' : 'none';
         });
-    }
+    };
 
     // ------------------ PAGINACION ------------------
-function paginarTabla(tipo, filasPorPagina) {
-    filasPorPagina = filasPorPagina || 8;
-    var tablaBodyId = tipo === 'goleadores' ? 'tablaGoleadoresBody'
-                     : tipo === 'disciplina' ? 'tablaDisciplinaBody'
-                     : 'tablaEquiposBody';
+    function paginarTabla(tipo, filasPorPagina) {
+        filasPorPagina = filasPorPagina || 8;
 
-    var tbody = document.querySelector('#' + tablaBodyId + ' tbody');
-    if (!tbody) return;
+        var tablaBodyId = tipo === 'goleadores' ? 'tablaGoleadoresBody'
+                         : tipo === 'disciplina' ? 'tablaDisciplinaBody'
+                         : 'tablaEquiposBody';
 
-    var filas = Array.from(tbody.querySelectorAll('tr'));
-    var paginaActual = 1;
-    var totalPaginas = Math.ceil(filas.length / filasPorPagina);
+        var tbody = document.querySelector('#' + tablaBodyId + ' tbody');
+        if(!tbody) return;
 
-    var pagDiv = document.querySelector('#' + tablaBodyId + '-paginacion');
-    if (!pagDiv) {
-        pagDiv = document.createElement('div');
-        pagDiv.id = tablaBodyId + '-paginacion';
-        pagDiv.style.marginTop = '10px';
-        tbody.parentElement.appendChild(pagDiv);
+        var filas = Array.from(tbody.querySelectorAll('tr'));
+        var paginaActual = 1;
+        var totalPaginas = Math.ceil(filas.length / filasPorPagina);
+
+        var pagDiv = document.querySelector('#' + tablaBodyId + '-paginacion');
+        if(!pagDiv) {
+            pagDiv = document.createElement('div');
+            pagDiv.id = tablaBodyId + '-paginacion';
+            pagDiv.style.display = 'flex';
+            pagDiv.style.justifyContent = 'center';
+            pagDiv.style.alignItems = 'center';
+            pagDiv.style.flexWrap = 'nowrap';  
+            pagDiv.style.gap = '0.5rem';
+            pagDiv.style.marginTop = '10px';
+            tbody.parentElement.appendChild(pagDiv);
+        }
+
+        function mostrarPagina(pagina) {
+            var inicio = (pagina-1) * filasPorPagina;
+            var fin = inicio + filasPorPagina;
+            filas.forEach(function(fila, i){
+                fila.style.display = (i>=inicio && i<fin) ? '' : 'none';
+            });
+
+            pagDiv.innerHTML = '';
+
+            var btnAnterior = document.createElement('button');
+            btnAnterior.textContent = 'Anterior';
+            btnAnterior.className = 'paginacion'; 
+            btnAnterior.disabled = (pagina === 1);
+            btnAnterior.onclick = function(){ paginaActual--; mostrarPagina(paginaActual); };
+
+            var btnSiguiente = document.createElement('button');
+            btnSiguiente.textContent = 'Siguiente';
+            btnSiguiente.className = 'paginacion'; 
+            btnSiguiente.disabled = (pagina === totalPaginas);
+            btnSiguiente.onclick = function(){ paginaActual++; mostrarPagina(paginaActual); };
+
+            var spanInfo = document.createElement('span');
+            spanInfo.style.whiteSpace = 'nowrap'; 
+	
+            spanInfo.textContent = ' Página ' + pagina + ' de ' + totalPaginas + ' ';
+
+            pagDiv.appendChild(btnAnterior);
+            pagDiv.appendChild(spanInfo);
+            pagDiv.appendChild(btnSiguiente);
+        }
+
+        mostrarPagina(paginaActual);
     }
 
-    function mostrarPagina(pagina) {
-        var inicio = (pagina - 1) * filasPorPagina;
-        var fin = inicio + filasPorPagina;
-        filas.forEach(function(fila, i){
-            fila.style.display = (i >= inicio && i < fin) ? '' : 'none';
-        });
-
-        pagDiv.innerHTML = ''; // vaciamos antes de generar
-        var btnAnterior = document.createElement('button');
-        btnAnterior.textContent = 'Anterior';
-        btnAnterior.disabled = (pagina === 1);
-        btnAnterior.addEventListener('click', function() {
-            paginaActual--;
-            mostrarPagina(paginaActual);
-        });
-
-        var btnSiguiente = document.createElement('button');
-        btnSiguiente.textContent = 'Siguiente';
-        btnSiguiente.disabled = (pagina === totalPaginas);
-        btnSiguiente.addEventListener('click', function() {
-            paginaActual++;
-            mostrarPagina(paginaActual);
-        });
-
-        var spanInfo = document.createElement('span');
-        spanInfo.textContent = ' Página ' + pagina + ' de ' + totalPaginas + ' ';
-
-        pagDiv.appendChild(btnAnterior);
-        pagDiv.appendChild(spanInfo);
-        pagDiv.appendChild(btnSiguiente);
-    }
-
-    mostrarPagina(paginaActual);
-}
-
-
-
-    // ------------------ Bracket ------------------
-    async function cargarBracket(url) {
+    // ------------------ CARGAR BRACKET ------------------
+    async function cargarBracket() {
         try {
-            const resp = await fetch(url);
-            if (!resp.ok) throw new Error("HTTP error! status: " + resp.status);
-            const data = await resp.json();
+            var resp = await fetch(contextPath + '/torneo/bracket?torneoId=' + torneo_id);
+            var data = await resp.json();
 
-            // Nombre del torneo
-            const nombreTorneoElem = document.getElementById("nombreTorneo");
-            if (nombreTorneoElem) nombreTorneoElem.textContent = data.torneo?.nombreTorneo || "Torneo";
+            var nombreTorneoElem = document.getElementById("nombreTorneo");
+            if(nombreTorneoElem) nombreTorneoElem.textContent = data.torneo ? data.torneo.nombreTorneo : "Torneo";
 
-            const rondas = [
+            var rondas = [
                 { nombre: "octavos", cantidad: 8 },
                 { nombre: "cuartos", cantidad: 4 },
                 { nombre: "semifinal", cantidad: 2 },
@@ -821,7 +830,7 @@ function paginarTabla(tipo, filasPorPagina) {
                 { nombre: "tercerpuesto", cantidad: 1 }
             ];
 
-            const nombresRondaMap = {
+            var nombresRondaMap = {
                 octavos: "Octavos",
                 cuartos: "Cuartos",
                 semifinal: "Semifinal",
@@ -829,161 +838,140 @@ function paginarTabla(tipo, filasPorPagina) {
                 tercerpuesto: "Tercer Puesto"
             };
 
-            rondas.forEach(function(r) {
-                const partidos = data[r.nombre] || [];
-                const divsRonda = document.querySelectorAll(".casillaPartido[data-id^='" + r.nombre + "']");
-                divsRonda.forEach(function(div, index) {
-                    const partido = partidos.find(p => p.ubicacionRonda === index + 1);
-                    let contenidoRonda = "";
-
-                    if (partido) {
-                        if (partido.actaCerrada === true) {
-                            contenidoRonda = '<div style="display:flex; flex-direction:column; justify-content:center; align-items:center; line-height:1.1vw;">' +
-                                '<div style="margin:0; font-weight:bold;">' + (partido.clubLocalNombre || "-") + '</div>' +
-                                '<div style="margin:0; color:#ff0; font-weight:bold;">' + (partido.golesLocal ?? "-") + '-' + (partido.golesVisitante ?? "-") + '</div>' +
-                                '<div style="margin:0; font-weight:bold;">' + (partido.clubVisitanteNombre || "-") + '</div>' +
-                                '</div>';
-                        } else {
-                            contenidoRonda = '<div style="display:flex; flex-direction:column; justify-content:center; align-items:center; line-height:1.1vw;">' +
-                                '<div style="margin:0; font-weight:bold;">' + (partido.clubLocalNombre || "-") + '</div>' +
-                                '<div style="margin:0; font-size:0.8em; color:#555;">' + (partido.fechaPartido || "-") + '</div>' +
-                                '<div style="margin:0; font-weight:bold;">' + (partido.clubVisitanteNombre || "-") + '</div>' +
-                                '</div>';
-                        }
-
-                        div.innerHTML = '<button class="btnPartido" ' +
-                            'style="width:100%; height:100%; border:none; background:none; color:white; display:flex; flex-direction:column; justify-content:center; align-items:center;' +
-                            (partido.actaCerrada ? ' cursor:not-allowed;' : ' cursor:pointer;') + '"' +
-                            'data-partido-id="' + partido.idPartidoTorneo + '" ' +
-                            (partido.actaCerrada ? 'disabled' : '') + '>' +
-                            contenidoRonda + '</button>';
-                    } else {
-                        div.innerHTML = '<em>' + (nombresRondaMap[r.nombre] || r.nombre) + '</em>';
+            rondas.forEach(function(r){
+                var partidos = data[r.nombre] || [];
+                var divsRonda = document.querySelectorAll(".casillaPartido[data-id^='" + r.nombre + "']");
+                divsRonda.forEach(function(div,index){
+                    var partido = partidos.find(function(p){ return p.ubicacionRonda === index+1; });
+                    if(!partido){
+                        div.innerHTML = '<em>' + nombresRondaMap[r.nombre] + '</em>';
+                        return;
                     }
+
+                    var contenidoRonda = '';
+                    if(partido.actaCerrada){
+                        contenidoRonda = '<div style="display:flex; flex-direction:column; justify-content:center; align-items:center; ">' +
+                                            '<div style=" font-weight:bold;">' + (partido.clubLocalNombre || '-') + '</div>' +
+                                            '<div style=" color:#ff0; font-weight:bold;">' + (partido.golesLocal != null ? partido.golesLocal : '-') + '-' + (partido.golesVisitante != null ? partido.golesVisitante : '-') + '</div>' +
+                                            '<div style=" font-weight:bold;">' + (partido.clubVisitanteNombre || '-') + '</div>' +
+                                        '</div>';
+                    } else {
+                        contenidoRonda = '<div style="display:flex; flex-direction:column; justify-content:center; align-items:center; line-height:1.1vw;">' +
+                                            '<div style=" font-weight:bold;">' + (partido.clubLocalNombre || '-') + '</div>' +
+                                            '<div style=" font-size:0.8em; color:#555;">' + (partido.fechaPartido || '-') + '</div>' +
+                                            '<div style=" font-weight:bold;">' + (partido.clubVisitanteNombre || '-') + '</div>' +
+                                        '</div>';
+                    }
+
+                    div.innerHTML = '<button class="btnPartido" ' +
+                                    'style="width:100%; height:100%; border:none; background:none; color:white; display:flex; flex-direction:column; justify-content:center; align-items:center;' +
+                                    (partido.actaCerrada ? ' cursor:not-allowed;' : ' cursor:pointer;') + '" ' +
+                                    (partido.actaCerrada ? 'disabled' : '') +
+                                    ' data-partido-id="' + partido.idPartidoTorneo + '">' +
+                                    contenidoRonda +
+                                    '</button>';
                 });
             });
 
             await generarRondasAutomaticas(data);
 
-        } catch (err) {
+        } catch(err){
             console.error("Error al cargar el bracket:", err);
             alert("No se pudo cargar el bracket.");
         }
     }
 
-    async function generarRondasAutomaticas(data) {
-        const rondas = ["octavos", "cuartos", "semifinal"];
-        for (const r of rondas) {
-            const partidos = data[r] || [];
-            const todosFinalizados = partidos.length > 0 && partidos.every(p => p.estado === "finalizado");
-            if (todosFinalizados) {
-               
+    async function generarRondasAutomaticas(data){
+        var rondas = ["octavos","cuartos","semifinal"];
+        for(var i=0; i<rondas.length; i++){
+            var partidos = data[rondas[i]] || [];
+            if(partidos.length > 0 && partidos.every(function(p){ return p.estado === "finalizado"; })){
                 await generarSiguienteRonda(partidos);
             }
         }
     }
 
-    async function generarSiguienteRonda(partidos) {
-        for (const p of partidos) {
-            try {
-                const resp = await fetch(contextPath + '/torneo/bracket', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams({ partidoId: p.idPartidoTorneo, ganadorId: p.equipoGanadorId })
+    async function generarSiguienteRonda(partidos){
+        for(var i=0; i<partidos.length; i++){
+            var p = partidos[i];
+            try{
+                await fetch(contextPath + '/torneo/bracket', {
+                    method:'POST',
+                    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+                    body: 'partidoId=' + p.idPartidoTorneo + '&ganadorId=' + p.equipoGanadorId
                 });
-                const data = await resp.json();
-               
-            } catch (err) {
+            }catch(err){
                 console.error("Error generando siguiente ronda:", err);
             }
         }
     }
 
-    // ------------------ Click en partidos ------------------
-    document.addEventListener("click", function(e) {
-        const boton = e.target.closest(".btnPartido");
-        if (boton) {
-            const partidoId = boton.getAttribute("data-partido-id");
-            window.location.href = contextPath + '/Acta.jsp?idPartidoTorneo=' + partidoId;
-        }
-    });
+    // ------------------ CLICK EN PARTIDOS ------------------
+   document.addEventListener("click", function(e){
+    var boton = e.target.closest(".btnPartido");
+    if(!boton) return;
 
-    // ------------------ Tablas ------------------
+    var partidoId = boton.getAttribute("data-partido-id");
+
+    // Guardamos el partido en sesión via POST
+    fetch(contextPath + '/instalacion/actaPartido', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: '{"partidoIdSeleccionado":' + partidoId + '}'
+    }).then(function(resp){
+        if(resp.ok){
+            // Redirigimos a la página del acta sin parámetros en la URL
+            window.location.href = contextPath + '/instalacion/actaPartido';
+        } else {
+            console.error("Error al guardar el partido en sesión");
+            alert("No se pudo seleccionar el partido");
+        }
+    }).catch(function(err){
+        console.error("Error al guardar el partido en sesión:", err);
+        alert("Ocurrió un error al seleccionar el partido");
+    });
+});
+
+
+    // ------------------ CARGAR TABLAS ------------------
     async function cargarTablas(torneoId){
         try{
-        	const resp = await fetch('<%=request.getContextPath()%>/jugadorEstadisticaTorneo');
-            const datos = await resp.json();
-            const torneoDatos = datos.filter(d => d.torneoId == torneoId);
+            var resp = await fetch(contextPath + '/jugadorEstadisticaTorneo');
+            var datos = await resp.json();
+            var torneoDatos = datos.filter(function(d){ return d.torneoId == torneoId; });
 
-            var jugadoresMap = {}, clubsMap = {};
-            torneoDatos.forEach(d=>{
-                jugadoresMap[d.jugadorId] = d.nombreJugador || ("Jugador "+d.jugadorId);
-                clubsMap[d.jugadorId] = d.clubNombre || ("Club "+d.jugadorId);
-            });
-
+            // Goleadores
             var tbodyG = document.querySelector('#tablaGoleadoresBody tbody');
-            if (tbodyG) {
+            if(tbodyG){
                 tbodyG.innerHTML = '';
-                
-                torneoDatos
-                    .filter(d => d.golesTorneo > 0)
-                    .sort((a, b) => b.golesTorneo - a.golesTorneo)
-                    .forEach(d => {
-                        tbodyG.innerHTML += '<tr>' +
-                            '<td>' + (d.nombreJugador || "Jugador " + d.jugadorId) + '</td>' +
-                            '<td>' + (d.nombreClub || "Sin club") + '</td>' +
-                            '<td>' + d.golesTorneo + '</td>' +
-                        '</tr>';
-                    });
-
+                torneoDatos.filter(function(d){ return d.golesTorneo>0; })
+                           .sort(function(a,b){ return b.golesTorneo - a.golesTorneo; })
+                           .forEach(function(d){
+                               tbodyG.innerHTML += '<tr><td>' + (d.nombreJugador || ('Jugador '+d.jugadorId)) + '</td><td>' + (d.nombreClub || 'Sin club') + '</td><td>' + d.golesTorneo + '</td></tr>';
+                           });
                 paginarTabla('goleadores');
             }
 
             // Disciplina
             var tbodyD = document.querySelector('#tablaDisciplinaBody tbody');
-            if (tbodyD) {
+            if(tbodyD){
                 tbodyD.innerHTML = '';
-                
-                torneoDatos
-                    .filter(d => d.amarillasTorneo > 0 || d.rojasTorneo > 0)
-                    .forEach(d => {
-                        tbodyD.innerHTML += '<tr>' +
-                            '<td>' + (d.nombreJugador || "Jugador " + d.jugadorId) + '</td>' +
-                            '<td>' + (d.nombreClub || "Sin club") + '</td>' +
-                            '<td>' + d.amarillasTorneo + '</td>' +
-                            '<td>' + d.rojasTorneo + '</td>' +
-                        '</tr>';
-                    });
-
+                torneoDatos.filter(function(d){ return d.amarillasTorneo>0 || d.rojasTorneo>0; })
+                           .forEach(function(d){
+                               tbodyD.innerHTML += '<tr><td>' + (d.nombreJugador || ('Jugador '+d.jugadorId)) + '</td><td>' + (d.nombreClub || 'Sin club') + '</td><td>' + d.amarillasTorneo + '</td><td>' + d.rojasTorneo + '</td></tr>';
+                           });
                 paginarTabla('disciplina');
             }
 
-
-        }catch(err){
-            console.error(err);
-        }
-    }
-
-    // ------------------ CARGAR CLUBES ------------------
-    async function cargarClubes(torneoId){
-        try{
-        	const resp = await fetch('<%=request.getContextPath()%>/clubEstadisticaTorneo');
-            const datos = await resp.json();
-            const torneoDatos = datos.filter(d => d.torneoId == torneoId);
-
+            // Clubes
             var tbodyE = document.querySelector('#tablaEquiposBody tbody');
             if(tbodyE){
                 tbodyE.innerHTML = '';
-                torneoDatos.forEach(c=>{
-                    tbodyE.innerHTML += '<tr>'+
-                        '<td>'+c.nombreClub+'</td>'+
-                        '<td>'+c.abreviaturaClub+'</td>'+
-                        '<td>'+c.partidosJugados+'</td>'+
-                        '<td>'+c.ganados+'</td>'+
-                        '<td>'+c.empatados+'</td>'+
-                        '<td>'+c.golesFavor+'</td>'+
-                        '<td>'+c.golesContra+'</td>'+
-                    '</tr>';
+                var respC = await fetch(contextPath + '/clubEstadisticaTorneo');
+                var datosC = await respC.json();
+                var torneoClubs = datosC.filter(function(d){ return d.torneoId==torneoId; });
+                torneoClubs.forEach(function(c){
+                    tbodyE.innerHTML += '<tr><td>'+c.nombreClub+'</td><td>'+c.abreviaturaClub+'</td><td>'+c.partidosJugados+'</td><td>'+c.ganados+'</td><td>'+c.empatados+'</td><td>'+c.golesFavor+'</td><td>'+c.golesContra+'</td></tr>';
                 });
                 paginarTabla('equipos');
             }
@@ -991,15 +979,12 @@ function paginarTabla(tipo, filasPorPagina) {
         }catch(err){ console.error(err); }
     }
 
-    cargarBracket(contextPath+'/torneo/bracket?torneoId='+torneo_id);
+    // ------------------ INIT ------------------
+    cargarBracket();
     cargarTablas(torneo_id);
-    cargarClubes(torneo_id);
+
 });
 </script>
-
-
-
-
 
 
 

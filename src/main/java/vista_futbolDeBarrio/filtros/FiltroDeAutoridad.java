@@ -154,6 +154,10 @@ public class FiltroDeAutoridad implements Filter {
 
                uri.contains("/instalacion") ||
                uri.contains("/instalacion/eventos") ||
+               uri.contains("/instalacion/torneo") ||
+               uri.contains("/instalacion/actaPartido") ||
+
+
 
 
 

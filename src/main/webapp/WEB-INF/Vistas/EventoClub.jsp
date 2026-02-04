@@ -803,14 +803,33 @@ document.getElementById("volverAContenidoC").addEventListener("click", function(
 $(document).ready(function() {
     cargarTorneos();
 
-    // Delegación para abrir detalles de torneo
+ // Delegación para abrir detalles de torneo
     $('#tablaCuerpoTorneo').on('click', '.torneoLink', function() {
         var torneoId = $(this).data('id');
-        if (torneoId) {
-            window.location.href ="${pageContext.request.contextPath}/detalleTorneo?idTorneo="  + torneoId;
-        } else {
+        if (!torneoId) {
             alert("No se encontró el ID del torneo.");
+            return;
         }
+
+        // Guardamos el torneo en sesión vía POST
+        fetch('${pageContext.request.contextPath}/detalleTorneo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ torneoIdSeleccionado: torneoId })
+        })
+        .then(resp => {
+            if (resp.ok) {
+                // Redirigimos a la página de detalles sin parámetros en la URL
+                window.location.href = '${pageContext.request.contextPath}/detalleTorneo';
+            } else {
+                console.error("Error al guardar el torneo en sesión");
+                alert("No se pudo seleccionar el torneo");
+            }
+        })
+        .catch(err => {
+            console.error("Error al guardar el torneo en sesión:", err);
+            alert("Ocurrió un error al seleccionar el torneo");
+        });
     });
 
     // Delegación para unirse al torneo

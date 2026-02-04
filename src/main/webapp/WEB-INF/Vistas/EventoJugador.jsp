@@ -784,17 +784,39 @@ function pintarTablaTorneos(torneos) {
 }
 
 
-
-
-
 function activarEventosTabla() {
     document.querySelectorAll(".torneoLink").forEach(el => {
         el.addEventListener("click", function () {
-            const id = this.dataset.id;
-            window.location.href = "${pageContext.request.contextPath}/detalleTorneo?idTorneo=" + id;
+            const torneoId = this.dataset.id;
+
+            if (!torneoId) {
+                alert("No se encontró el ID del torneo.");
+                return;
+            }
+
+            // Guardar torneo en sesión vía POST
+            fetch("${pageContext.request.contextPath}/detalleTorneo", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ torneoIdSeleccionado: torneoId })
+            })
+            .then(resp => {
+                if (resp.ok) {
+                    // Redirigir a la página de detalles sin parámetros en la URL
+                    window.location.href = "${pageContext.request.contextPath}/detalleTorneo";
+                } else {
+                    console.error("Error al guardar el torneo en sesión");
+                    alert("No se pudo seleccionar el torneo");
+                }
+            })
+            .catch(err => {
+                console.error("Error al guardar el torneo en sesión:", err);
+                alert("Ocurrió un error al seleccionar el torneo");
+            });
         });
     });
 }
+
 
 function abrirGmail() {
     const email = "futboldebarrio@gmail.com";

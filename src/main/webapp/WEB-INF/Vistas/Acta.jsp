@@ -8,12 +8,11 @@
 
 
 <%
-PartidoTorneoServicio partidoTorneoServicio = new PartidoTorneoServicio();
-Long partidoId = Long.parseLong(request.getParameter("idPartidoTorneo"));
-PartidoTorneoDto partido = partidoTorneoServicio.obtenerPartidoPorId(partidoId);
-String torneoId = request.getParameter("torneoId");
-String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
+    PartidoTorneoDto partido = (PartidoTorneoDto) request.getAttribute("partido");
+    Long torneoId = partido.getTorneoId();
+    String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 %>
+
 
 
 
@@ -21,7 +20,8 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="Css/Estilo.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/Css/Estilo.css">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -30,8 +30,8 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
 	rel="stylesheet">
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-	
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
 
 <title>FUTBOL DE BARRIO</title>
 </head>
@@ -46,7 +46,8 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 						<!-- columna logo -->
 						<div class="col-sm-1 col-md-1 logo"
 							style="background-color: white; border-top: 2px solid black; border-left: 1px solid black">
-							<img src="Imagenes/LOGOWEB.PNG"></img>
+							<img
+								src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -215,16 +216,17 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 												</button>
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														>Idioma<span class="tooltip-text">Sección en
-													desarrollo</span>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#">Idioma<span class="tooltip-text">Sección
+																en desarrollo</span>
 													</a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														>Ayuda <span class="tooltip-text">Sección en
-													desarrollo</span></a></li>
-													<li><a class="dropdown-item seccion-bloqueada" href="#"
-														>Configuración <span class="tooltip-text">Sección en
-													desarrollo</span> </a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#">Ayuda <span class="tooltip-text">Sección
+																en desarrollo</span></a></li>
+													<li><a class="dropdown-item seccion-bloqueada"
+														href="#">Configuración <span class="tooltip-text">Sección
+																en desarrollo</span>
+													</a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -249,7 +251,8 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 						<!-- columna logo -->
 						<div class="d-sm-none d-md-none col-2 d-block logo  "
 							style="background-color: white; border: 2px solid black; border-top: none">
-							<img src="Imagenes/LOGOWEB.PNG"></img>
+							<img
+								src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -415,38 +418,37 @@ button.add-btn {
 .seccion {
 	margin-bottom: 2.5vw;
 }
+
 .resultado {
-    display: flex;
-    align-items: center;
-        justify-content: center; /* 🔑 CENTRADO HORIZONTAL */
-    gap: 2vw;
+	display: flex;
+	align-items: center;
+	justify-content: center; /* 🔑 CENTRADO HORIZONTAL */
+	gap: 2vw;
 }
 
 .equipo {
-    display: flex;
-    align-items: center;
-    gap: 0.5vw;
+	display: flex;
+	align-items: center;
+	gap: 0.5vw;
 }
 
 .vs {
-    font-weight: bold;
-}
-@media (max-width: 600px) {
-    .resultado {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .equipo {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .vs {
-        margin: 0.1vw 0;
-    }
+	font-weight: bold;
 }
 
+@media ( max-width : 600px) {
+	.resultado {
+		flex-direction: column;
+		align-items: center;
+	}
+	.equipo {
+		flex-direction: column;
+		align-items: center;
+	}
+	.vs {
+		margin: 0.1vw 0;
+	}
+}
 </style>
 
 		<div class="container col-10 mt-4 mb-5 letraActa"
@@ -487,17 +489,16 @@ button.add-btn {
 							<%= partido.getClubVisitanteNombre() %></p>
 					</div>
 
-					<form id="actaForm" action="GuardarActaServlet" method="post">
+					<form id="actaForm">
+						<!-- Hidden con ID del partido -->
 						<input type="hidden" id="partidoId"
 							value="<%= partido.getIdPartidoTorneo() %>">
 
-
 						<!-- Resultado -->
 						<div class="seccion resultado">
-
 							<div class="equipo local">
 								<label><b>Goles:</b> <span><%= partido.getClubLocalNombre() %></span></label>
-								<input name="golesLocal" type="number" id="golesLocal" min="0"
+								<input type="number" id="golesLocal" min="0"
 									value="<%= partido.getGolesLocal() %>">
 							</div>
 
@@ -505,13 +506,10 @@ button.add-btn {
 
 							<div class="equipo visitante">
 								<label><b>Goles:</b> <span><%= partido.getClubVisitanteNombre() %></span></label>
-								<input name="golesVisitante" type="number" id="golesVisitante"
-									min="0" value="<%= partido.getGolesVisitante() %>">
+								<input type="number" id="golesVisitante" min="0"
+									value="<%= partido.getGolesVisitante() %>">
 							</div>
-
 						</div>
-
-
 
 						<!-- Penales -->
 						<div class="seccion">
@@ -559,12 +557,10 @@ button.add-btn {
 									<!-- Filas dinámicas via JS -->
 								</tbody>
 							</table>
-							<button type="button" class="btn " onclick="agregarEvento()"
-								style="margin-top: 1vw; font-size: 1.1vw; background-color: #004000;">Añadir
-								Evento</button>
+							<button type="button" class="btn" onclick="agregarEvento()"
+								style="margin-top: 1vw; font-size: 1.1vw; background-color: #004000;">
+								Añadir Evento</button>
 						</div>
-
-
 
 						<!-- Observaciones -->
 						<div class="seccion">
@@ -573,11 +569,8 @@ button.add-btn {
 						</div>
 
 						<!-- Botón Guardar -->
-						<button type="submit" class="btn botonRegistrarCabecera">Guardar
-							Acta</button>
-
-
-
+						<button type="button" class="btn botonRegistrarCabecera"
+							onclick="guardarActa()">Guardar Acta</button>
 					</form>
 				</div>
 			</div>
@@ -787,7 +780,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Evento submit del formulario
     const actaForm = document.getElementById("actaForm");
-    actaForm.addEventListener("submit", guardarActa);
 
     // -------------------------
     // Función para agregar eventos a la tabla
@@ -864,26 +856,22 @@ window.eliminarEvento = function(boton) {
     // -------------------------
     // Función para guardar acta
     // -------------------------
-    function guardarActa(event) {
-        event.preventDefault();
-        console.log("Formulario enviado");
-
+ window.guardarActa = function()  {
         const clubGanadorSelect = document.getElementById("clubGanador");
         const clubGanadorId = clubGanadorSelect.value ? parseInt(clubGanadorSelect.value) : null;
 
         const acta = {
-            idActaPartido: null,
+            partidoTorneoId: parseInt(document.getElementById("partidoId").value),
             torneoId: <%=partido.getTorneoId()%>,
             instalacionId: <%=partido.getInstalacionId()%>,
             clubLocalId: <%=partido.getClubLocalId()%>,
             clubVisitanteId: <%=partido.getClubVisitanteId()%>,
             equipoLocalId: <%=partido.getEquipoLocalId()%>,
             equipoVisitanteId: <%=partido.getEquipoVisitanteId()%>,
-            partidoTorneoId: <%=partido.getIdPartidoTorneo()%>,
             golesLocal: parseInt(document.getElementById("golesLocal").value || 0),
             golesVisitante: parseInt(document.getElementById("golesVisitante").value || 0),
-            golesPenaltisLocal: parseInt(document.getElementById("penalesLocal").value || 0),
-            golesPenaltisVisitante: parseInt(document.getElementById("penalesVisitante").value || 0),
+            golesPenaltisLocal: parseInt(document.getElementById("penalesLocal")?.value || 0),
+            golesPenaltisVisitante: parseInt(document.getElementById("penalesVisitante")?.value || 0),
             clubGanadorId: clubGanadorId,
             fechaPartido: new Date().toISOString(),
             observaciones: document.getElementById("observaciones").value || "",
@@ -893,37 +881,25 @@ window.eliminarEvento = function(boton) {
 
         // Recolectar eventos de la tabla
         const filas = document.querySelectorAll("#tablaEventos tbody tr");
-        filas.forEach((fila, index) => {
-            const clubValue = fila.querySelector(".clubEvento").value;
-            const jugadorValue = fila.querySelector(".jugadorEvento").value;
-
-            // Mapear clubId -> equipoTorneoId
-            let equipoTorneoId = null;
-            if (clubValue == "<%=partido.getClubLocalId()%>") {
-                equipoTorneoId = <%=partido.getEquipoLocalId()%>;
-            } else if (clubValue == "<%=partido.getClubVisitanteId()%>") {
-                equipoTorneoId = <%=partido.getEquipoVisitanteId()%>;
-            }
-
+        filas.forEach(fila => {
             const evento = {
-                idEventoPartido: null,
-                actaPartidoId: null,
-                jugadorId: jugadorValue ? parseInt(jugadorValue) : null,  // <-- ahora se guarda el id real
-                clubId: clubValue ? parseInt(clubValue) : null,
-                equipoTorneoId: equipoTorneoId,
+                jugadorId: parseInt(fila.querySelector(".jugadorEvento").value || 0),
+                clubId: parseInt(fila.querySelector(".clubEvento").value || 0),
+                equipoTorneoId: parseInt(
+                    fila.querySelector(".clubEvento").value == "<%=partido.getClubLocalId()%>" 
+                    ? <%=partido.getEquipoLocalId()%> 
+                    : <%=partido.getEquipoVisitanteId()%>
+                ),
                 tipoEvento: fila.querySelector(".tipoEvento").value,
                 minuto: parseInt(fila.querySelector(".minutoEvento").value || 0)
             };
-
             acta.eventos.push(evento);
-            console.log(`Evento ${index + 1}:`, evento);
         });
 
-        console.log("OBJETO COMPLETO QUE SE VA A ENVIAR:", acta);
-        console.log("JSON que se envía:", JSON.stringify(acta));
+        console.log("OBJETO A ENVIAR:", acta);
 
         // Enviar al backend
-        fetch("<%=request.getContextPath()%>/actaPartido", {
+        fetch("<%=request.getContextPath()%>/instalacion/actaPartido", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(acta)
@@ -934,13 +910,17 @@ window.eliminarEvento = function(boton) {
         })
         .then(msg => {
             console.log("Respuesta del servidor:", msg);
-            alert("✅ Acta guardada correctamente: " + msg);
+            alert("✅ Acta guardada correctamente.");
         })
         .catch(err => {
-            console.error("Error al guardar acta:", err);
+            console.error(err);
             alert("❌ Hubo un error al guardar el acta.");
         });
     }
+
+    document.getElementById("actaForm").addEventListener("submit", e => e.preventDefault());
+
+    
 
 });
 </script>
