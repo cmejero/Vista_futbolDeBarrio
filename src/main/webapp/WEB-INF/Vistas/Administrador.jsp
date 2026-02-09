@@ -591,12 +591,12 @@
 													<div class="col-md-6 mb-3">
 														<label for="nombreInstalacionEditar"><b>Nombre</b></label>
 														<input type="text" id="nombreInstalacionEditar"
-															name="nombreInstalacion" class="form-control" required>
+															name="nombreInstalacionEditar" class="form-control" required>
 													</div>
 													<div class="col-md-6 mb-3">
 														<label for="direccionInstalacionEditar"><b>Dirección</b></label>
 														<input type="text" id="direccionInstalacionEditar"
-															name="direccionInstalacion" class="form-control" required>
+															name="direccionInstalacionEditar" class="form-control" required>
 													</div>
 												</div>
 
@@ -604,19 +604,19 @@
 													<div class="col-md-6 mb-3">
 														<label for="telefonoInstalacionEditar"><b>Teléfono</b></label>
 														<input type="text" id="telefonoInstalacionEditar"
-															name="telefonoInstalacion" class="form-control">
+															name="telefonoInstalacionEditar" class="form-control">
 													</div>
 													<div class="col-md-6 mb-3">
 														<label for="emailInstalacionEditar"><b>Email</b></label> <input
 															type="email" id="emailInstalacionEditar"
-															name="emailInstalacion" class="form-control">
+															name="emailInstalacionEditar" class="form-control">
 													</div>
 												</div>
 
 												<div class="row mb-3">
 													<div class="col-md-4 mb-3">
 														<label for="tipoCampo1Editar"><b>Tipo Campo 1</b></label>
-														<select id="tipoCampo1Editar" name="tipoCampo1"
+														<select id="tipoCampo1Editar" name="tipoCampo1Editar"
 															class="form-select">
 															<option value="">-- Seleccione --</option>
 															<option value="Futbol5">FUTBOL 5</option>
@@ -626,7 +626,7 @@
 													</div>
 													<div class="col-md-4 mb-3">
 														<label for="tipoCampo2Editar"><b>Tipo Campo 2</b></label>
-														<select id="tipoCampo2Editar" name="tipoCampo2"
+														<select id="tipoCampo2Editar" name="tipoCampo2Editar"
 															class="form-select">
 															<option value="">-- Seleccione --</option>
 															<option value="Futbol5">FUTBOL 5</option>
@@ -636,7 +636,7 @@
 													</div>
 													<div class="col-md-4 mb-3">
 														<label for="tipoCampo3Editar"><b>Tipo Campo 3</b></label>
-														<select id="tipoCampo3Editar" name="tipoCampo3"
+														<select id="tipoCampo3Editar" name="tipoCampo3Editar"
 															class="form-select">
 															<option value="">-- Seleccione --</option>
 															<option value="Futbol5">FUTBOL 5</option>
@@ -650,12 +650,12 @@
 													<div class="col-md-6 mb-3">
 														<label for="serviciosInstalacionEditar"><b>Servicios</b></label>
 														<textarea id="serviciosInstalacionEditar"
-															name="serviciosInstalacion" class="form-control"></textarea>
+															name="serviciosInstalacionEditar" class="form-control"></textarea>
 													</div>
 													<div class="col-md-6 mb-3">
 														<label for="estadoInstalacionEditar"><b>Estado</b></label>
 														<select id="estadoInstalacionEditar"
-															name="estadoInstalacion" class="form-select">
+															name="estadoInstalacionEditar" class="form-select">
 															<option value="">-- Seleccione --</option>
 															<option value="Activo">ACTIVO</option>
 															<option value="Inactivo">INACTIVO</option>
@@ -667,7 +667,7 @@
 													<div class="col-md-6 mb-3">
 														<label for="imagenInstalacionEditar"><b>Imagen
 																(opcional)</b></label> <input type="file"
-															id="imagenInstalacionEditar" name="imagenInstalacion"
+															id="imagenInstalacionEditar" name="imagenInstalacionEditar"
 															class="form-control" accept="image/*">
 													</div>
 												</div>
@@ -1181,7 +1181,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 function cargarUsuarios() {
-    fetch("usuario")
+	fetch("administrador?entidad=usuario", {
+	    headers: {
+	        "X-Requested-With": "XMLHttpRequest"
+	    }
+	})
         .then(function(res) { return res.json(); })
         .then(function(data) { mostrarUsuarios(data); })
         .catch(function(err) { console.error("Error cargando usuarios:", err); });
@@ -1257,10 +1261,10 @@ document.getElementById("formEditarUsuario").addEventListener("submit", function
     var formData = new FormData(e.target);
     formData.append("accion", "modificar");
 
-    fetch("usuario", {
-        method: "POST",
-        body: formData
-    })
+    fetch("administrador?entidad=usuario", {
+    	   method: "POST",
+    	   body: formData
+    	})
     .then(function(res) { return res.text(); })
     .then(function(data) {
         var mensaje = document.getElementById("mensajeModificacion");
@@ -1290,17 +1294,20 @@ document.getElementById("formEditarUsuario").addEventListener("submit", function
 function eliminarUsuario(idUsuario) {
     if (!confirm("¿Seguro que deseas eliminar este usuario?")) return;
 
-    fetch("usuario?idUsuario=" + idUsuario, { method: "DELETE" })
+    fetch("administrador?entidad=usuario&idUsuario=" + idUsuario, {
+           method: "DELETE"
+        })
         .then(function(res) {
             if (res.ok) {
                 var fila = document.getElementById("fila-" + idUsuario);
                 if (fila) fila.remove();
             } else {
-                alert("No se pudo eliminar el usuario.");
+                res.text().then(msg => alert(msg)); // muestra mensaje del servidor
             }
         })
         .catch(function(err) { console.error("Error eliminando usuario:", err); });
 }
+
 //==================== INSTALACIONES ====================
 
 
@@ -1308,7 +1315,7 @@ var modalEditarInstalacionBootstrap;
 
 // Cargar instalaciones
 function cargarInstalaciones() {
-    fetch("instalacion")
+	fetch("administrador?entidad=instalacion", { headers: { "X-Requested-With": "XMLHttpRequest" } })
     .then(function(res) { return res.json(); })
     .then(function(data) { mostrarInstalaciones(data); })
     .catch(function(err) { console.error("Error al cargar instalaciones:", err); });
@@ -1390,11 +1397,14 @@ document.getElementById("formEditarInstalacion").addEventListener("submit", func
 
     var formData = new FormData(e.target);
     formData.append("accion", "modificar");
+    formData.append("entidad", "instalacion");
 
-    fetch("instalacion", {
+
+    fetch("administrador", {
         method: "POST",
         body: formData
     })
+
     .then(function(res) { return res.text(); })
     .then(function(data) {
         alert(data);
@@ -1408,17 +1418,26 @@ document.getElementById("formEditarInstalacion").addEventListener("submit", func
 function eliminarInstalacion(id) {
     if (!confirm("¿Seguro que deseas eliminar esta instalación?")) return;
 
-    fetch("instalacion?idInstalacion=" + id, { method: "DELETE" })
-    .then(function(res) {
-        if (res.ok) {
-            var fila = document.getElementById("fila-" + id);
-            if (fila) fila.remove();
+    fetch("administrador?entidad=instalacion&idInstalacion=" + id, {
+        method: "DELETE"
+    })
+    .then(res => res.text().then(msg => ({ ok: res.ok, text: msg })))
+    .then(result => {
+        if (result.ok) {
+            // Recargar tabla desde servidor en lugar de eliminar solo la fila
+            cargarInstalaciones();
+            console.log("Instalación eliminada correctamente");
         } else {
-            alert("No se pudo eliminar la instalación.");
+            alert(result.text);
         }
     })
-    .catch(function(err) { console.error("Error eliminando instalación:", err); });
+    .catch(err => {
+        console.error("Error eliminando instalación:", err);
+        alert("Error al eliminar la instalación.");
+    });
 }
+
+
 
 // ===========================
 // Delegación de eventos
@@ -1473,7 +1492,7 @@ function toggleFiltros(botonId, filtrosId) {
 
 // Cargar clubes
 function cargarClubes() {
-    fetch("club")
+fetch("administrador?entidad=club", { headers: { "X-Requested-With": "XMLHttpRequest" } })
         .then(function(res) { return res.json(); })
         .then(function(data) { mostrarClubes(data); })
         .catch(function(err) { console.error("Error al cargar clubes:", err); });
@@ -1551,11 +1570,13 @@ document.getElementById("formEditarClub").addEventListener("submit", function(e)
 
     // Crear FormData desde el formulario
     var formData = new FormData(e.target);
-    formData.append("accion", "modificar"); // importante para tu servlet
+    formData.append("accion", "modificar"); 
+    formData.append("entidad", "club");
 
-    fetch("club", {
+
+    fetch("administrador", {
         method: "POST",
-        body: formData // NO JSON, porque tu servlet no lo lee
+        body: formData 
     })
     .then(res => res.text())
     .then(data => {
@@ -1587,17 +1608,24 @@ document.getElementById("formEditarClub").addEventListener("submit", function(e)
 function eliminarClub(idClub) {
     if (!confirm("¿Seguro que deseas eliminar este club?")) return;
 
-    fetch("club?idClub=" + idClub, { method: "DELETE" })
-        .then(function(res) {
-            if (res.ok) {
-                cargarClubes(); // 🔥 recalcula tabla + paginación
-            } else {
-                alert("No se pudo eliminar el club.");
-            }
-        })
-        .catch(function(err) {
-            console.error("Error eliminando club:", err);
-        });
+    fetch("administrador?entidad=club&idClub=" + idClub, {
+        method: "DELETE",
+        headers: { "X-Requested-With": "XMLHttpRequest" } 
+    })
+    .then(res => res.text())
+    .then(data => {
+        if (data.includes("correctamente")) {
+            const fila = document.getElementById("fila-" + idClub);
+            if (fila) fila.remove();
+
+            cargarClubes();
+        } else {
+            alert("No se pudo eliminar el club: " + data);
+        }
+    })
+    .catch(err => {
+        console.error("Error eliminando club:", err);
+    });
 }
 
 
@@ -1773,32 +1801,42 @@ function eliminarClub(idClub) {
 // ===========================
 // Panel Inicio Dinámico
 // ===========================
+function fetchAdmin(url) {
+    return fetch(url, {
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+    });
+}
+
 function cargarResumenInicio() {
 
-    fetch("usuario")
+    fetchAdmin("administrador?entidad=usuario")
         .then(res => res.json())
         .then(data => {
             document.getElementById("totalUsuariosInicio").textContent = data.length;
-        });
+        })
+        .catch(err => console.error("Error usuarios:", err));
 
-    fetch("club")
+    fetchAdmin("administrador?entidad=club")
         .then(res => res.json())
         .then(data => {
             document.getElementById("totalClubesInicio").textContent = data.length;
-        });
+        })
+        .catch(err => console.error("Error clubes:", err));
 
-    fetch("instalacion")
+    fetchAdmin("administrador?entidad=instalacion")
         .then(res => res.json())
         .then(data => {
             document.getElementById("totalInstalacionesInicio").textContent = data.length;
-        });
+        })
+        .catch(err => console.error("Error instalaciones:", err));
 
-    fetch("torneo")
+    fetchAdmin("administrador?entidad=torneo")
         .then(res => res.json())
         .then(data => {
             const activos = data.filter(t => t.estaActivo === true);
             document.getElementById("totalTorneosActivos").textContent = activos.length;
-        });
+        })
+        .catch(err => console.error("Error torneos:", err));
 }
 
 

@@ -62,7 +62,7 @@ public class FiltroDeAutoridad implements Filter {
 
 	                    // Redirigir automáticamente si entramos a la raíz "/"
 	                    if (path.equals("/") || path.equals("")) {
-	                        res.sendRedirect(ctx + "/" + jspSegunTipoUsuario(tipoUsuario));
+	                    	res.sendRedirect(ctx + "/" + servletSegunTipoUsuario(tipoUsuario));
 	                        return;
 	                    }
 
@@ -78,7 +78,7 @@ public class FiltroDeAutoridad implements Filter {
 	        // 2️⃣ Redirigir raíz "/" según sesión existente
 	        // =========================
 	        if ((path.equals("/") || path.equals("")) && tipoUsuario != null) {
-	            res.sendRedirect(ctx + "/" + jspSegunTipoUsuario(tipoUsuario));
+	        	res.sendRedirect(ctx + "/" + servletSegunTipoUsuario(tipoUsuario));
 	            return;
 	        }
 
@@ -142,6 +142,8 @@ public class FiltroDeAutoridad implements Filter {
                uri.contains("/marcadores") ||
                uri.contains("/eventos") ||
                uri.contains("/recuperarCuenta") ||
+               
+               
                uri.contains("/jugador") ||
                uri.contains("/jugador/eventos") ||
                uri.contains("/jugador/misClubes") ||
@@ -157,6 +159,7 @@ public class FiltroDeAutoridad implements Filter {
                uri.contains("/instalacion/torneo") ||
                uri.contains("/instalacion/actaPartido") ||
 
+               uri.contains("/administrador") ||
 
 
 
@@ -251,15 +254,16 @@ public class FiltroDeAutoridad implements Filter {
     }
 
     
-    private String jspSegunTipoUsuario(String tipoUsuario) {
+    private String servletSegunTipoUsuario(String tipoUsuario) {
         switch (tipoUsuario) {
-            case "administrador": return "Administrador.jsp";
-            case "jugador":       return "Jugador.jsp";
-            case "club":          return "Club.jsp";
-            case "instalacion":   return "Instalacion.jsp";
-            default:              return "InicioSesion.jsp";
+            case "administrador": return "administrador";
+            case "jugador":       return "jugador";
+            case "club":          return "club";
+            case "instalacion":   return "instalacion";
+            default:              return "login";
         }
     }
+
     
     
 

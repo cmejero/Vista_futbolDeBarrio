@@ -724,7 +724,7 @@ Avenida mujer trabajadora
 
 
 
-	<script>
+<script>
 function mostrarContrasena() {
     const input = document.getElementById("password");
     input.type = (input.type === "password") ? "text" : "password";
@@ -738,18 +738,19 @@ window.onload = function() {
     const mensajeAlta = document.getElementById("mensajeAltaString");
     if (mensajeAlta) setTimeout(() => mensajeAlta.style.display = "none", 4000);
 
-    // Detectar si Google devolvió un "code" y "tipoUsuario"
+    // Detectar si Google devolvió un "code" y un "state"
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
-    const tipo = urlParams.get('tipoUsuario');
+    // Usar 'tipoUsuario' si existe, si no, usar 'state' que envía Google
+    const tipo = urlParams.get('tipoUsuario') || urlParams.get('state');
 
     if (code && tipo) {
         console.log("🔁 Redirigiendo al servlet con code y tipoUsuario:", tipo);
 
-        // Crear formulario dinámico para enviar GET al servlet loginGoogle
+        // Crear formulario dinámico para enviar POST al servlet login
         const form = document.createElement('form');
-        form.method = 'GET';
-        form.action = 'loginGoogle';
+        form.method = 'POST';
+        form.action = 'login';
 
         const inputCode = document.createElement('input');
         inputCode.type = 'hidden';
@@ -780,7 +781,7 @@ botonGoogle.addEventListener('click', function() {
     }
 
     const clientId = '551749312175-m2oo1bpm59bqti0o58lls3jcju911j2q.apps.googleusercontent.com';
-    const redirectUri = 'http://localhost:8080/vista_futbolDeBarrio/loginGoogle';
+    const redirectUri = 'http://localhost:8080/vista_futbolDeBarrio/login';
     const scope = 'openid email profile';
     const responseType = 'code';
 
@@ -810,11 +811,13 @@ function abrirGmail() {
     window.open(url, "_blank");
 }
 
+// Ocultar alertas después de 3 segundos
 setTimeout(() => {
     const mensajes = document.querySelectorAll(".alert");
     mensajes.forEach(msg => msg.style.display = "none");
 }, 3000);
 </script>
+
 
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
