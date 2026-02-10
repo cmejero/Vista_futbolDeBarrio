@@ -123,25 +123,14 @@ public class FiltroDeAutoridad implements Filter {
 
         // Otras rutas públicas
         return uri.equals("/") ||
-               uri.contains("/InicioSesion.jsp") ||
-               uri.contains("/Registrar.jsp") ||
-               uri.contains("/RecuperarCuenta.jsp") ||
-               uri.contains("/recuperarPassword") ||
-               uri.contains("/RestablecerPassword.jsp") ||
-               uri.contains("/restablecerCuenta") ||
-               uri.contains("/Index.jsp") ||
-               uri.contains("/Eventos.jsp") ||
-               uri.contains("/MarcadoresClub.jsp") ||
-               uri.contains("/QuienesSomos.jsp") ||
-               uri.contains("/clubEstadisticaGlobal") ||
-               uri.contains("/clubEstadisticaTorneo") ||
-               uri.contains("/jugadorEstadisticaGlobal") ||
-               uri.contains("/jugadorEstadisticaTorneo") ||
-               uri.contains("/Inicio") ||
+               uri.contains("/quienesSomos") ||
+               uri.contains("/inicio") ||
                uri.contains("/registrar") ||
                uri.contains("/marcadores") ||
                uri.contains("/eventos") ||
                uri.contains("/recuperarCuenta") ||
+               uri.contains("/restablecerCuenta") ||
+
                
                
                uri.contains("/jugador") ||
@@ -163,13 +152,8 @@ public class FiltroDeAutoridad implements Filter {
 
 
 
-
-               
-               
-               uri.contains("/DetallesTorneo.jsp") ||
                uri.contains("/torneo/bracket") ||
                uri.contains("/login") ||
-               uri.contains("/loginGoogle") ||
                uri.contains("/Css") ||
                uri.contains("/Imagenes");
     }

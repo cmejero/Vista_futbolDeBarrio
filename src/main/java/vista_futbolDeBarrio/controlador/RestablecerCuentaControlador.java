@@ -67,7 +67,7 @@ public class RestablecerCuentaControlador extends HttpServlet {
     	}
 
         if (!password.equals(passwordConfirm)) {
-            response.sendRedirect("restablecerCuenta?error=Las contraseñas no coinciden");
+            response.sendRedirect("restablecerCuenta?error=Las claves no coinciden");
             return;
         }
 
@@ -75,8 +75,8 @@ public class RestablecerCuentaControlador extends HttpServlet {
 
         if (actualizado) {
             request.getSession().removeAttribute("token"); 
-            request.getSession().setAttribute("mensajeLogin", "contraseña_actualizada");
-            response.sendRedirect("login");
+            response.sendRedirect("login?mensaje=clave_actualizada");
+
     
 
         } else {

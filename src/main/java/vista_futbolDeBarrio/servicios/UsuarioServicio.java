@@ -1,7 +1,7 @@
 package vista_futbolDeBarrio.servicios;
 
 import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -12,10 +12,9 @@ import java.util.Base64;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 import vista_futbolDeBarrio.dtos.UsuarioDto;
 import vista_futbolDeBarrio.enums.Estado;
 import vista_futbolDeBarrio.enums.RolUsuario;
@@ -171,37 +170,46 @@ public class UsuarioServicio {
 
 	public String crearUsuarioDesdeFormulario(HttpServletRequest request) {
 
-		try {
-			String nombre = request.getParameter("nombreCompletoUsuario");
-			String alias = request.getParameter("aliasUsuario");
-			String fechaNac = request.getParameter("fechaNacimientoUsuario");
-			String email = request.getParameter("emailUsuario");
-			String telefono = request.getParameter("telefonoUsuario");
-			String password = request.getParameter("passwordUsuario");
-			String password2 = request.getParameter("passwordUsuario2");
-			String rolString = request.getParameter("rolUsuario");
+	    try {
+	        String nombre = request.getParameter("nombreCompletoUsuario");
+	        String alias = request.getParameter("aliasUsuario");
+	        String fechaNac = request.getParameter("fechaNacimientoUsuario");
+	        String email = request.getParameter("emailUsuario");
+	        String telefono = request.getParameter("telefonoUsuario");
+	        String password = request.getParameter("passwordUsuario");
+	        String password2 = request.getParameter("passwordUsuario2");
+	        String rolString = request.getParameter("rolUsuario");
+	        String descripcion = request.getParameter("descripcionUsuario");
 
-			// Regla de negocio
-			if (!password.equals(password2)) {
-				return "password_no_coincide";
-			}
+	        if (!password.equals(password2)) {
+	            return "password_no_coincide";
+	        }
 
-			UsuarioDto usuario = new UsuarioDto();
-			usuario.setNombreCompletoUsuario(nombre);
-			usuario.setAliasUsuario(alias);
-			usuario.setFechaNacimientoUsuario(fechaNac);
-			usuario.setEmailUsuario(email);
-			usuario.setTelefonoUsuario(telefono);
-			usuario.setPasswordUsuario(password);
-			usuario.setRolUsuario(RolUsuario.valueOf(rolString));
+	        UsuarioDto usuario = new UsuarioDto();
+	        usuario.setNombreCompletoUsuario(nombre);
+	        usuario.setAliasUsuario(alias);
+	        usuario.setFechaNacimientoUsuario(fechaNac);
+	        usuario.setEmailUsuario(email);
+	        usuario.setTelefonoUsuario(telefono);
+	        usuario.setPasswordUsuario(password);
+	        usuario.setRolUsuario(RolUsuario.valueOf(rolString));
+	        usuario.setDescripcionUsuario(descripcion);
 
-			return guardarUsuario(usuario);
+	        Part imagenPart = request.getPart("imagenUsuario");
+	        if (imagenPart != null && imagenPart.getSize() > 0) {
+	            InputStream is = imagenPart.getInputStream();
+	            byte[] imagenBytes = is.readAllBytes();
+	            usuario.setImagenUsuario(imagenBytes);
+	        }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error_servidor";
-		}
+	        return guardarUsuario(usuario);
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "error_servidor";
+	    }
 	}
+
 
 	/**
 	 * Guarda un nuevo usuario en el sistema.
@@ -219,6 +227,12 @@ public class UsuarioServicio {
 			json.put("telefonoUsuario", usuario.getTelefonoUsuario());
 			json.put("passwordUsuario", usuario.getPasswordUsuario());
 			json.put("rolUsuario", usuario.getRolUsuario().name());
+			if (usuario.getImagenUsuario() != null) {
+			    String imagenBase64 = Base64.getEncoder().encodeToString(usuario.getImagenUsuario());
+			    json.put("imagenUsuario", imagenBase64);
+			} else {
+			    json.put("imagenUsuario", JSONObject.NULL);
+			}
 
 			String urlApi = "http://localhost:9527/api/guardarUsuario";
 			HttpURLConnection conex = (HttpURLConnection) new URL(urlApi).openConnection();
