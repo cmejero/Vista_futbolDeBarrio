@@ -114,11 +114,11 @@ public class MiembroClubServicio {
 	        }
 
 	    } catch (IllegalStateException e) {
-	        // Captura errores de límite de jugadores o clubes
-	        System.err.println("Validación: " + e.getMessage());
+	        throw e;
+	    
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	        System.err.println("Error al guardar miembro del club: " + e.getMessage());
+	        throw new RuntimeException("Error al guardar miembro del club");
 	    }
 	}
 

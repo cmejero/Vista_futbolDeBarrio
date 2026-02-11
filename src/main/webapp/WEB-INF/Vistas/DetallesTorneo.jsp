@@ -144,6 +144,8 @@ if ("jugador".equals(tipoUsuario)) {
 													class="bi bi-youtube" viewBox="0 0 16 16">
 	  <path
 														d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z" />																						
+											
+											
 											</a> <a href="https://www.tiktok.com/@fdb_sevilla"> <svg
 													xmlns="http://www.w3.org/2000/svg" width="1.4vw"
 													height="1.2vw" fill="currentColor"
@@ -183,13 +185,11 @@ if ("jugador".equals(tipoUsuario)) {
 											<%
 											} else {
 											%>
-											<div class=" cabeceraMedio">
-												<a href="PagoPremium.jsp">
-													<button type="button" class=" botonPremiumCabecera"
-														title="Accede a todas las funciones premium y ventajas exclusivas">
-														HAZTE PREMIUM</button>
-												</a>
-											</div>
+											<a href="${pageContext.request.contextPath}/pagoPremium">
+												<button type="button" class=" botonPremiumCabecera"
+													title="Accede a todas las funciones premium y ventajas exclusivas">
+													HAZTE PREMIUM</button>
+											</a>
 											<%
 											}
 											%>
@@ -198,8 +198,8 @@ if ("jugador".equals(tipoUsuario)) {
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="#" class="letraCabeceraMedio"
-												id="nombreUsuarioCabecera"> BIENVENIDO: <%="jugador".equals(tipoUsuario) ? nombreUsuario : ("club".equals(tipoUsuario) ? nombreClub : "Invitado")%>
+											<a href="" class="letraCabeceraMedio"
+												id="nombreUsuarioCabecera"> BIENVENIDO: <%=nombreUsuario%>
 											</a>
 										</div>
 
@@ -210,7 +210,7 @@ if ("jugador".equals(tipoUsuario)) {
 								%>
 
 
-										<div class="col-sm-12 col-md-12 "
+								<div class="col-sm-12 col-md-12 "
 									style="border-left: 2px solid black; border-right: 2px solid black;">
 									<div class="row">
 										<div class="col-sm-6 col-md-6 cabeceraMedioTitulo">
@@ -254,7 +254,8 @@ if ("jugador".equals(tipoUsuario)) {
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="Club.jsp" class="letraCabeceraAbajo">INICIO</a>
+											<a href="${pageContext.request.contextPath}/club" class="letraCabeceraAbajo"
+												>INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES
@@ -262,8 +263,7 @@ if ("jugador".equals(tipoUsuario)) {
 											</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="EventoClub.jsp" class="letraCabeceraAbajo"
-												style="color: #d4af37;">EVENTOS</a>
+											<a href="${pageContext.request.contextPath}/club/eventos" class="letraCabeceraAbajo" style="color: #d4af37;">EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -276,10 +276,10 @@ if ("jugador".equals(tipoUsuario)) {
 									<div class="row">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="PlantillaClub.jsp" class="letraCabeceraAbajo">PLANTILLA</a>
+											<a href="${pageContext.request.contextPath}/club/plantilla" class="letraCabeceraAbajo">PLANTILLA</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="MarcadoresClub.jsp" class="letraCabeceraAbajo">MARCADORES</a>
+											<a href="${pageContext.request.contextPath}/marcadores" class="letraCabeceraAbajo">MARCADORES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS
@@ -314,7 +314,7 @@ if ("jugador".equals(tipoUsuario)) {
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
 													</li>
-													<li><a class="dropdown-item" href="logout"
+													<li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout"
 														style="color: white;">Cerrar sesión</a></li>
 												</ul>
 											</div>
@@ -324,8 +324,6 @@ if ("jugador".equals(tipoUsuario)) {
 								</div>
 							</div>
 						</div>
-
-
 						<%
 						} else if ("jugador".equals(tipoUsuario)) {
 						%>
@@ -337,7 +335,8 @@ if ("jugador".equals(tipoUsuario)) {
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="Jugador.jsp" class="letraCabeceraAbajo">INICIO</a>
+											<a href="${pageContext.request.contextPath}/jugador"
+												class="letraCabeceraAbajo" >INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo">
 											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES
@@ -345,8 +344,8 @@ if ("jugador".equals(tipoUsuario)) {
 											</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="EventoJugador.jsp" class="letraCabeceraAbajo"
-												style="color: #d4af37;">EVENTOS</a>
+											<a href="${pageContext.request.contextPath}/jugador/eventos"
+												class="letraCabeceraAbajo" style="color: #d4af37;">EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -359,11 +358,14 @@ if ("jugador".equals(tipoUsuario)) {
 									<div class="row">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="MiClubJugador.jsp" class="letraCabeceraAbajo">MI
-												CLUB</a>
+											<a
+												href="${pageContext.request.contextPath}/jugador/misClubes"
+												class="letraCabeceraAbajo">MI CLUB</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="MarcadoresJugador.jsp" class="letraCabeceraAbajo">MARCADORES</a>
+											<a
+												href="${pageContext.request.contextPath}/jugador/marcadores"
+												class="letraCabeceraAbajo">MARCADORES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS<span
@@ -398,7 +400,8 @@ if ("jugador".equals(tipoUsuario)) {
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
 													</li>
-													<li><a class="dropdown-item" href="logout"
+													<li><a class="dropdown-item"
+														href="${pageContext.request.contextPath}/logout"
 														style="color: white;">Cerrar sesión</a></li>
 												</ul>
 											</div>
@@ -420,7 +423,8 @@ if ("jugador".equals(tipoUsuario)) {
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-11 col-md-11 cabeceraAbajo ">
-											<a href="${pageContext.request.contextPath}/inicio" class="letraCabeceraAbajo" >INICIO</a>
+											<a href="${pageContext.request.contextPath}/inicio"
+												class="letraCabeceraAbajo">INICIO</a>
 										</div>
 									</div>
 								</div>
@@ -551,7 +555,7 @@ if ("jugador".equals(tipoUsuario)) {
 								} else if ("invitado".equals(tipoUsuario)) {
 								%>
 
-									<div class="d-sm-none d-md-none col-12 d-block"
+								<div class="d-sm-none d-md-none col-12 d-block"
 									style="border: 2px solid black; border-bottom: none; border-left: none; border-top: 1px solid black;">
 									<div class="row">
 										<div
@@ -665,21 +669,19 @@ if ("jugador".equals(tipoUsuario)) {
 								<!-- columna izquierda: INICIO -->
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
-									<a href="Jugador.jsp" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
+									<a href="${pageContext.request.contextPath}/jugador" class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw; ">INICIO</a>
 								</div>
-
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-3 ">
-									<a href="MarcadoresJugador.jsp" class="letraCabeceraAbajo "
+									<a href="${pageContext.request.contextPath}/jugador/marcadores" class="letraCabeceraAbajo "
 										style="text-decoration: none; font-size: 2.5vw;">MARCADORES</a>
 								</div>
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-3 ">
-									<a href="EventoJugador.jsp" class="letraCabeceraAbajo "
+									<a href="${pageContext.request.contextPath}/jugador/eventos" class="letraCabeceraAbajo "
 										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">EVENTOS</a>
 								</div>
-
 
 
 
@@ -701,34 +703,33 @@ if ("jugador".equals(tipoUsuario)) {
 											style="min-width: 12vw; font-size: 2.2vw; background-color: #003300; border-radius: 5px; width: 25vw">
 
 
-											<li><a class="dropdown-item seccion-bloqueada"
-												href="Jugador.jsp">Alquileres <span class="tooltip-text">Sección
-														en desarrollo</span></a></li>
-											<li><a class="dropdown-item " href="MiClubJugador.jsp"
+											<li><a class="dropdown-item seccion-bloqueada" href=""
+												>Alquileres <span class="tooltip-text">Sección en
+													desarrollo</span></a></li>
+											<li><a class="dropdown-item " href="${pageContext.request.contextPath}/jugador/misClubes"
 												style="color: white;">Mi club </a></li>
-											<li><a class="dropdown-item seccion-bloqueada"
-												href="Jugador.jsp" style="color: white;">Desafios<span
-													class="tooltip-text">Sección en desarrollo</span>
-											</a></li>
+											<li><a class="dropdown-item seccion-bloqueada" href=""
+												style="color: white;">Desafios<span class="tooltip-text">Sección en
+													desarrollo</span> </a></li>
 
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
 											<li><a class="dropdown-item seccion-bloqueada" href="#"
-												style="color: white;">Idioma <span class="tooltip-text">Sección
-														en desarrollo</span></a></li>
+												style="color: white;">Idioma <span class="tooltip-text">Sección en
+													desarrollo</span></a></li>
 											<li><a class="dropdown-item seccion-bloqueada" href="#"
-												style="color: white;">Ayuda <span class="tooltip-text">Sección
-														en desarrollo</span></a></li>
+												style="color: white;">Ayuda <span class="tooltip-text">Sección en
+													desarrollo</span></a></li>
 											<li><a class="dropdown-item seccion-bloqueada" href="#"
-												style="color: white;">Configuración <span
-													class="tooltip-text">Sección en desarrollo</span></a></li>
+												style="color: white;">Configuración <span class="tooltip-text">Sección en
+													desarrollo</span></a></li>
 
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item" href="logout"
+											<li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout"
 												style="color: white;">Cerrar sesión</a></li>
 
 										</ul>
@@ -741,14 +742,14 @@ if ("jugador".equals(tipoUsuario)) {
 							} else if ("invitado".equals(tipoUsuario)) {
 							%>
 
-								<div class="row p-1"
+							<div class="row p-1"
 								style="border-bottom: solid 2.4px black; border-top: solid 2px black; border-right: solid 2px black; border-left: none; background-color: #004000; box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, 0.45);">
 								<!-- columna izquierda: INICIO -->
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
 									<a href="${pageContext.request.contextPath}/inicio"
 										class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">INICIO</a>
+										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
 								</div>
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-3 ">
@@ -1002,6 +1003,9 @@ if ("jugador".equals(tipoUsuario)) {
 								fútbol. Únete a nuestra comunidad deportiva y vive la pasión por
 								el fútbol.</p>
 						</div>
+						<%
+							if ("invitado".equals(tipoUsuario)) {
+							%>
 						<div class="col-md-3 col-sm-3 g-2 pieDePagina p-3 pb-1 ">
 							<p
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.5vw">ENLACES
@@ -1019,6 +1023,51 @@ if ("jugador".equals(tipoUsuario)) {
 									style="color: white">Marcadores</a>
 <a href="${pageContext.request.contextPath}/login" style="color: white">Iniciar Sesion</a> </pre>
 						</div>
+						
+						<%
+							} else if ("jugador".equals(tipoUsuario)) {
+							%>
+								<div class="col-md-3 col-sm-3 g-2 pieDePagina p-3 pb-1 ">
+							<p
+								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.5vw">ENLACES
+								ÚTILES</p>
+							<pre
+								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.05vw">
+<a href="${pageContext.request.contextPath}/pagoPremium" style="color: white">Hazte Premium</a>
+<a href="${pageContext.request.contextPath}/jugador"
+									style="color: white">Inicio</a>
+<a href="${pageContext.request.contextPath}/jugador/misClubes"
+									style="color: white">Mis clubes</a>
+<a href="${pageContext.request.contextPath}/jugador/marcadores"
+									style="color: white">Marcadores</a>
+<a href="${pageContext.request.contextPath}/jugador/eventos"
+									style="color: white">Eventos</a></pre>
+						</div>
+						
+						<%
+							} else if ("club".equals(tipoUsuario)) {
+							%>
+							
+							<div class="col-md-3 col-sm-3 g-2 pieDePagina p-3 pb-1 ">
+							<p
+								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.5vw">ENLACES
+								ÚTILES</p>
+							<pre
+								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.05vw">
+<a href="${pageContext.request.contextPath}/pagoPremium" style="color: white">Hazte Premium</a>
+<a href="${pageContext.request.contextPath}/club"
+									style="color: white">Inicio</a>
+<a href="${pageContext.request.contextPath}/club/plantilla"
+									style="color: white">Plantilla</a>
+<a href="${pageContext.request.contextPath}/marcadores"
+									style="color: white">Marcadores</a>
+<a href="${pageContext.request.contextPath}/club/eventos"
+									style="color: white">Eventos</a></pre>
+						</div>
+						
+						<%
+							}
+							%>
 						<div class="col-md-3 col-sm-3 g-2 pieDePagina p-3 pb-1">
 							<p style="text-decoration: underline; font-size: 1.5vw">CONTACTO</p>
 							<pre
@@ -1067,8 +1116,10 @@ if ("jugador".equals(tipoUsuario)) {
 				<div class=" col-12 d-block d-md-none d-sm-none">
 					<div class="row">
 
-						<div
-							class=" col-4 d-block d-md-none d-sm-none g-2 pieDePagina p-2  ">
+						<%
+							if ("invitado".equals(tipoUsuario)) {
+							%>
+						<div class="col-4 d-block d-md-none d-sm-none g-2 pieDePagina p-2 ">
 							<p
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 2vw">ENLACES
 								ÚTILES</p>
@@ -1085,6 +1136,52 @@ if ("jugador".equals(tipoUsuario)) {
 									style="color: white">Marcadores</a>
 <a href="${pageContext.request.contextPath}/login" style="color: white">Iniciar Sesion</a> </pre>
 						</div>
+						
+						<%
+							} else if ("jugador".equals(tipoUsuario)) {
+							%>
+								<div class="col-4 d-block d-md-none d-sm-none g-2 pieDePagina p-2 ">
+							<p
+								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 2vw">ENLACES
+								ÚTILES</p>
+							<pre
+								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.6vw">
+<a href="${pageContext.request.contextPath}/pagoPremium" style="color: white">Hazte Premium</a>
+<a href="${pageContext.request.contextPath}/jugador"
+									style="color: white">Inicio</a>
+<a href="${pageContext.request.contextPath}/jugador/misClubes"
+									style="color: white">Mis clubes</a>
+<a href="${pageContext.request.contextPath}/jugador/marcadores"
+									style="color: white">Marcadores</a>
+<a href="${pageContext.request.contextPath}/jugador/eventos"
+									style="color: white">Eventos</a></pre>
+						</div>
+						
+						<%
+							} else if ("club".equals(tipoUsuario)) {
+							%>
+							
+							<div class="col-4 d-block d-md-none d-sm-none g-2 pieDePagina p-2 ">
+							<p
+								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 2vw">ENLACES
+								ÚTILES</p>
+							<pre
+								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.6vw">
+<a href="${pageContext.request.contextPath}/pagoPremium" style="color: white">Hazte Premium</a>
+<a href="${pageContext.request.contextPath}/club"
+									style="color: white">Inicio</a>
+<a href="${pageContext.request.contextPath}/club/plantilla"
+									style="color: white">Plantilla</a>
+<a href="${pageContext.request.contextPath}/marcadores"
+									style="color: white">Marcadores</a>
+<a href="${pageContext.request.contextPath}/club/eventos"
+									style="color: white">Eventos</a></pre>
+						</div>
+						
+						<%
+							}
+							%>
+						
 						<div
 							class="col-4 d-block d-md-none d-sm-none g-2 pieDePagina p-2 ">
 							<p style="text-decoration: underline; font-size: 2vw">CONTACTO</p>

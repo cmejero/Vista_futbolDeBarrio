@@ -385,7 +385,7 @@
 						class="tablaAdmin tablaAdmin--instalaciones w-100 mb-3 mx-auto">
 						<thead class="tablaAdmin__head">
 							<tr>
-								<th>NOMBRE TORNEO</th>
+								<th>TORNEO</th>
 								<th>INSTALACION</th>
 								<th>DIRECCION</th>
 								<th>MODALIDAD</th>
