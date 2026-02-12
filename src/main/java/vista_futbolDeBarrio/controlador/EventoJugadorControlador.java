@@ -12,9 +12,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import vista_futbolDeBarrio.dtos.TorneoDto;
+import vista_futbolDeBarrio.log.Log;
 import vista_futbolDeBarrio.servicios.EquipoTorneoServicio;
 
 @WebServlet("/jugador/eventos")
+/**
+ * Controlador para gestionar los torneos desde la perspectiva de un jugador.
+ * Permite listar los torneos en los que participa un jugador.
+ * Incluye trazabilidad mediante logs.
+ */
 public class EventoJugadorControlador extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -22,42 +28,64 @@ public class EventoJugadorControlador extends HttpServlet {
     private EquipoTorneoServicio servicio;
 
     @Override
+    /**
+     * Inicializa el servicio de equipos/torneos.
+     *
+     * @throws ServletException Si ocurre un error durante la inicialización del servlet.
+     */
     public void init() throws ServletException {
         this.servicio = new EquipoTorneoServicio();
     }
 
     @Override
+    /**
+     * Maneja solicitudes GET para listar torneos de un jugador o cargar la JSP.
+     *
+     * @param request La solicitud HTTP.
+     * @param response La respuesta HTTP.
+     * @throws ServletException Si ocurre un error en el servlet.
+     * @throws IOException Si ocurre un error de entrada/salida.
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
-
-        // 🔐 Seguridad básica
-        if (session == null || session.getAttribute("token") == null) {
-            response.sendRedirect(request.getContextPath() + "/login?error=accesoDenegado");
-            return;
-        }
-
-        if (!"jugador".equals(session.getAttribute("tipoUsuario"))) {
-            response.sendRedirect(request.getContextPath() + "/login?error=accesoDenegado");
-            return;
-        }
-
-        // Si no viene usuarioId -> mostrar JSP
-        String jugadorIdParam = request.getParameter("usuarioId");
-        if (jugadorIdParam == null) {
-            request.getRequestDispatcher("/WEB-INF/Vistas/EventoJugador.jsp")
-                    .forward(request, response);
-            return;
-        }
-
         try {
-            Long jugadorId = Long.parseLong(jugadorIdParam);
+            HttpSession session = request.getSession(false);
 
-            ArrayList<TorneoDto> torneos =
-                    servicio.obtenerTorneosPorUsuario(jugadorId);
+            // 🔐 Seguridad básica
+            if (session == null || session.getAttribute("token") == null) {
+                Log.ficheroLog("EventoJugadorControlador: intento de acceso sin sesión o token inválido");
+                response.sendRedirect(request.getContextPath() + "/login?error=accesoDenegado");
+                return;
+            }
 
-            // Convertir a JSON igual que tu controlador antiguo
+            if (!"jugador".equals(session.getAttribute("tipoUsuario"))) {
+                Log.ficheroLog("EventoJugadorControlador: acceso denegado a usuario tipo=" + session.getAttribute("tipoUsuario"));
+                response.sendRedirect(request.getContextPath() + "/login?error=accesoDenegado");
+                return;
+            }
+
+            // Si no viene usuarioId -> mostrar JSP
+            String jugadorIdParam = request.getParameter("usuarioId");
+            if (jugadorIdParam == null) {
+                request.getRequestDispatcher("/WEB-INF/Vistas/EventoJugador.jsp")
+                        .forward(request, response);
+                Log.ficheroLog("EventoJugadorControlador: JSP EventoJugador.jsp cargada correctamente");
+                return;
+            }
+
+            Long jugadorId;
+            try {
+                jugadorId = Long.parseLong(jugadorIdParam);
+            } catch (NumberFormatException e) {
+                Log.ficheroLog("EventoJugadorControlador: ID de usuario inválido: " + jugadorIdParam);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("ID de usuario inválido.");
+                return;
+            }
+
+            ArrayList<TorneoDto> torneos = servicio.obtenerTorneosPorUsuario(jugadorId);
+
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(torneos);
 
@@ -65,10 +93,11 @@ public class EventoJugadorControlador extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
 
-        } catch (NumberFormatException e) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("ID de usuario inválido.");
+            Log.ficheroLog("EventoJugadorControlador: listado de torneos enviado para jugadorId=" + jugadorId);
+
         } catch (Exception e) {
+            e.printStackTrace();
+            Log.ficheroLog("Error EventoJugadorControlador: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("Error al obtener torneos: " + e.getMessage());
         }

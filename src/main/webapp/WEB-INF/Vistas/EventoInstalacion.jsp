@@ -18,6 +18,9 @@ String nombreInstalacion = (String) session.getAttribute("nombreInstalacion");
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+	
+	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+	
 
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
@@ -814,27 +817,24 @@ document.getElementById("botonTorneo").addEventListener("click", function() {
     document.getElementById("torneoContainer").style.display = "block";
 });
 
-// Mostrar u ocultar filtros
-document.getElementById("mostrarFiltrosTorneo").addEventListener("click", function() {
-    const filtros = document.getElementById("filtrosTorneo");
-    if (filtros.style.display === "none") {
-        filtros.style.display = "flex";
-        this.textContent = "Ocultar Filtros";
-    } else {
-        filtros.style.display = "none";
-        this.textContent = "Mostrar Filtros";
-    }
-});
 
 // Filtrar tabla
 function filtrarTabla(idFiltro, columnaIndex) {
     const valorFiltro = document.getElementById(idFiltro).value.toLowerCase();
-    const filas = document.querySelectorAll(".tablaDatos tbody tr");
+    const filas = document.querySelectorAll("#tablaCuerpoTorneo tr");
+
     filas.forEach(fila => {
         const celdas = fila.getElementsByTagName("td");
-        fila.style.display = celdas[columnaIndex].textContent.toLowerCase().includes(valorFiltro) ? "" : "none";
+        if (!celdas[columnaIndex]) return;
+
+        fila.style.display = celdas[columnaIndex].textContent
+            .toLowerCase()
+            .includes(valorFiltro) ? "" : "none";
     });
+
+    paginarTabla('tablaCuerpoTorneo', 8);
 }
+
 document.getElementById("buscarNombre").addEventListener("input", () => filtrarTabla("buscarNombre", 0));
 document.getElementById("buscarModalidad").addEventListener("input", () => filtrarTabla("buscarModalidad", 1));
 document.getElementById("buscarFechaInicio").addEventListener("input", () => filtrarTabla("buscarFechaInicio", 2));
@@ -846,6 +846,19 @@ document.addEventListener("DOMContentLoaded", function () {
     btnCrear.addEventListener("click", function () {
         contenedorFormulario.style.display = (contenedorFormulario.style.display === "none" || contenedorFormulario.style.display === "") ? "block" : "none";
     });
+    
+ // Mostrar u ocultar filtros
+    document.getElementById("mostrarFiltrosTorneo").addEventListener("click", function() {
+        const filtros = document.getElementById("filtrosTorneo");
+        if (filtros.style.display === "none") {
+            filtros.style.display = "flex";
+            this.textContent = "Ocultar Filtros";
+        } else {
+            filtros.style.display = "none";
+            this.textContent = "Mostrar Filtros";
+        }
+    });
+
 });
 
 // Volver a vista principal (oculta contenedor y muestra recuadros)

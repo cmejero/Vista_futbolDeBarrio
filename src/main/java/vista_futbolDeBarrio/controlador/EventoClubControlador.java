@@ -22,6 +22,11 @@ import vista_futbolDeBarrio.servicios.EquipoTorneoServicio;
 import vista_futbolDeBarrio.servicios.TorneoServicio;
 
 @WebServlet("/club/eventos")
+/**
+ * Controlador para la gestión de eventos y torneos desde la perspectiva del club.
+ * Permite listar torneos, consultar estado de inscripción y realizar inscripciones.
+ * Incluye trazabilidad completa mediante logs.
+ */
 public class EventoClubControlador extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -29,44 +34,56 @@ public class EventoClubControlador extends HttpServlet {
     private TorneoServicio torneoServicio;
 
     @Override
+    /**
+     * Inicializa los servicios de torneos y equipos inscritos.
+     *
+     * @throws ServletException Si ocurre un error durante la inicialización del servlet.
+     */
     public void init() throws ServletException {
         this.servicio = new EquipoTorneoServicio();
         this.torneoServicio = new TorneoServicio(); 
-
     }
 
     @Override
+    /**
+     * Maneja solicitudes GET para listar torneos y mostrar la vista JSP.
+     * Diferencia entre peticiones AJAX y navegación normal.
+     *
+     * @param request La solicitud HTTP.
+     * @param response La respuesta HTTP.
+     * @throws ServletException Si ocurre un error en el servlet.
+     * @throws IOException Si ocurre un error de entrada/salida.
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
+        try {
+        	 HttpSession session = request.getSession(false);
 
-        if (session == null || !"club".equals(session.getAttribute("tipoUsuario"))) {
-            response.sendRedirect("InicioSesion.jsp?error=accesoDenegado");
-            return;
-        }
+             // 🔐 Seguridad básica
+             if (session == null || session.getAttribute("token") == null) {
+                 Log.ficheroLog("EventoJugadorControlador: intento de acceso sin sesión o token inválido");
+                 response.sendRedirect(request.getContextPath() + "/login?error=accesoDenegado");
+                 return;
+             }
+         
 
-        String ajaxHeader = request.getHeader("X-Requested-With");
-        if ("XMLHttpRequest".equals(ajaxHeader)) {
+            String ajaxHeader = request.getHeader("X-Requested-With");
 
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
+            if ("XMLHttpRequest".equals(ajaxHeader)) {
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
 
-            try {
                 Long clubId = (Long) session.getAttribute("clubId");
-
                 List<TorneoDto> torneos = torneoServicio.obtenerTodosLosTorneos();
                 List<JSONObject> torneosJson = new ArrayList<>();
 
                 for (TorneoDto torneo : torneos) {
-
-                    // 🔁 EXACTAMENTE como antes
                     String progreso = torneoServicio.progresoEquipos(torneo.getIdTorneo());
                     torneo.setClubesInscritos(progreso);
 
                     JSONObject obj = new JSONObject(new Gson().toJson(torneo));
 
-                    // 🔑 LA CLAVE
                     boolean inscrito = servicio.estaInscrito(torneo.getIdTorneo(), clubId);
                     obj.put("inscrito", inscrito);
 
@@ -74,31 +91,49 @@ public class EventoClubControlador extends HttpServlet {
                 }
 
                 response.getWriter().write(torneosJson.toString());
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                response.getWriter().write("{\"error\":\"Error al cargar torneos\"}");
+                Log.ficheroLog("EventoClubControlador: listado de torneos enviado al clubId=" + clubId);
+                return;
             }
-            return;
-        }
 
-        request.getRequestDispatcher("/WEB-INF/Vistas/EventoClub.jsp")
-               .forward(request, response);
+            // 🚀 Carga de la JSP normal
+            request.getRequestDispatcher("/WEB-INF/Vistas/EventoClub.jsp")
+                   .forward(request, response);
+            Log.ficheroLog("EventoClubControlador: JSP EventoClub.jsp cargada correctamente");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.ficheroLog("Error GET EventoClubControlador: " + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"error\":\"Error al cargar torneos\"}");
+        }
     }
 
-
-
-
     @Override
+    /**
+     * Maneja solicitudes POST para inscribirse en un torneo.
+     * Valida permisos, existencia previa de inscripción y cupos del torneo.
+     *
+     * @param request La solicitud HTTP con los parámetros del torneo.
+     * @param response La respuesta HTTP.
+     * @throws ServletException Si ocurre un error en el servlet.
+     * @throws IOException Si ocurre un error de entrada/salida.
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         try {
-            HttpSession session = request.getSession();
-            Long clubId = (Long) session.getAttribute("clubId");
+            HttpSession session = request.getSession(false);
 
+            if (session == null) {
+                Log.ficheroLog("EventoClubControlador: intento de inscripción sin sesión");
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.getWriter().write("No tienes permiso para inscribirte en el torneo.");
+                return;
+            }
+
+            Long clubId = (Long) session.getAttribute("clubId");
             if (clubId == null) {
+                Log.ficheroLog("EventoClubControlador: clubId nulo en sesión");
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.getWriter().write("No tienes permiso para inscribirte en el torneo.");
                 return;
@@ -107,12 +142,14 @@ public class EventoClubControlador extends HttpServlet {
             Long torneoId = Long.parseLong(request.getParameter("torneoId"));
 
             if (servicio.estaInscrito(torneoId, clubId)) {
+                Log.ficheroLog("EventoClubControlador: clubId=" + clubId + " ya inscrito en torneoId=" + torneoId);
                 response.setStatus(HttpServletResponse.SC_CONFLICT);
                 response.getWriter().write("Ya estás inscrito en este torneo.");
                 return;
             }
 
             if (!servicio.puedeInscribirse(torneoId)) {
+                Log.ficheroLog("EventoClubControlador: torneoId=" + torneoId + " lleno, clubId=" + clubId);
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.getWriter().write("El torneo está lleno.");
                 return;
@@ -127,12 +164,12 @@ public class EventoClubControlador extends HttpServlet {
 
             servicio.guardarEquipoTorneo(equipoTorneo, request);
 
-            Log.ficheroLog("Club " + clubId + " inscrito correctamente en torneo " + torneoId);
+            Log.ficheroLog("EventoClubControlador: clubId=" + clubId + " inscrito correctamente en torneoId=" + torneoId);
             response.getWriter().write("Inscripción realizada correctamente.");
 
         } catch (Exception e) {
             e.printStackTrace();
-            Log.ficheroLog("Error al inscribirse en torneo: " + e.getMessage());
+            Log.ficheroLog("Error POST EventoClubControlador: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("Error al inscribirse en el torneo: " + e.getMessage());
         }

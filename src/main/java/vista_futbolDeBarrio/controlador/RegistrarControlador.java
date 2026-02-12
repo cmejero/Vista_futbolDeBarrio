@@ -16,109 +16,135 @@ import vista_futbolDeBarrio.servicios.UsuarioServicio;
 import vista_futbolDeBarrio.servicios.ClubServicio;
 import vista_futbolDeBarrio.servicios.InstalacionServicio;
 
+/**
+ * Controlador para el registro de usuarios, clubes e instalaciones.
+ * Gestiona la carga del formulario de registro y el procesamiento de los datos enviados.
+ */
 @WebServlet("/registrar")
 @MultipartConfig
 public class RegistrarControlador extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private UsuarioServicio usuarioServicio = new UsuarioServicio();
-	private ClubServicio clubServicio = new ClubServicio();
-	private InstalacionServicio instalacionServicio = new InstalacionServicio();
+    private final UsuarioServicio usuarioServicio = new UsuarioServicio();
+    private final ClubServicio clubServicio = new ClubServicio();
+    private final InstalacionServicio instalacionServicio = new InstalacionServicio();
 
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+    /**
+     * Muestra la página de registro.
+     *
+     * @param request La solicitud HTTP.
+     * @param response La respuesta HTTP.
+     * @throws ServletException Si ocurre un error en el servlet.
+     * @throws IOException Si ocurre un error de entrada/salida.
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		Log.ficheroLog("[INFO] GET /registrar → mostrar vista Registrar.jsp");
+        Log.ficheroLog("[INFO] GET /registrar → mostrar vista Registrar.jsp");
 
-		request.getRequestDispatcher("/WEB-INF/Vistas/Registrar.jsp").forward(request, response);
-	}
+        try {
+            request.getRequestDispatcher("/WEB-INF/Vistas/Registrar.jsp")
+                   .forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.ficheroLog("[ERROR] Excepción en RegistrarControlador doGet: " + e.getMessage());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    "Error al cargar la página de registro");
+        }
+    }
 
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+    /**
+     * Procesa el registro de un usuario, club o instalación.
+     * Valida la acción y el tipo de registro, llama al servicio correspondiente
+     * y redirige según el resultado.
+     *
+     * @param request La solicitud HTTP.
+     * @param response La respuesta HTTP.
+     * @throws ServletException Si ocurre un error en el servlet.
+     * @throws IOException Si ocurre un error de entrada/salida.
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		String accion = request.getParameter("accion");
-		String tipoRegistro = request.getParameter("tipoUsuario");
+        String accion = request.getParameter("accion");
+        String tipoRegistro = request.getParameter("tipoUsuario");
 
-		Log.ficheroLog("[INFO] POST /registrar → accion=" + accion + ", tipoRegistro=" + tipoRegistro);
+        Log.ficheroLog("[INFO] POST /registrar → accion=" + accion + ", tipoRegistro=" + tipoRegistro);
 
-		try {
-			// 🔍 Validación inicial
-			if (!"aniadir".equals(accion) || tipoRegistro == null) {
+        try {
+            // 🔍 Validación inicial
+            if (!"aniadir".equals(accion) || tipoRegistro == null) {
 
-				Log.ficheroLog(
-						"[WARN] Acción inválida en /registrar → accion=" + accion + ", tipoRegistro=" + tipoRegistro);
+                Log.ficheroLog("[WARN] Acción inválida en /registrar → accion=" + accion + ", tipoRegistro=" + tipoRegistro);
+                response.sendRedirect("registrar?error=accion_invalida");
+                return;
+            }
 
-				response.sendRedirect("registrar?error=accion_invalida");
-				return;
-			}
+            String resultado;
 
-			String resultado;
+            // ▶️ Llamada a servicio según tipo de registro
+            switch (tipoRegistro) {
+                case "jugador":
+                    Log.ficheroLog("[INFO] Registro de JUGADOR iniciado");
+                    resultado = usuarioServicio.crearUsuarioDesdeFormulario(request);
+                    break;
 
-			// ▶️ Llamada a servicio
-			switch (tipoRegistro) {
-			case "jugador":
-				Log.ficheroLog("[INFO] Registro de JUGADOR iniciado");
-				resultado = usuarioServicio.crearUsuarioDesdeFormulario(request);
-				break;
+                case "club":
+                    Log.ficheroLog("[INFO] Registro de CLUB iniciado");
+                    resultado = clubServicio.crearClubDesdeFormulario(request);
+                    break;
 
-			case "club":
-				Log.ficheroLog("[INFO] Registro de CLUB iniciado");
-				resultado = clubServicio.crearClubDesdeFormulario(request);
-				break;
+                case "instalacion":
+                    Log.ficheroLog("[INFO] Registro de INSTALACIÓN iniciado");
+                    resultado = instalacionServicio.crearInstalacionDesdeFormulario(request);
+                    break;
 
-			case "instalacion":
-				Log.ficheroLog("[INFO] Registro de INSTALACIÓN iniciado");
-				resultado = instalacionServicio.crearInstalacionDesdeFormulario(request);
-				break;
+                default:
+                    Log.ficheroLog("[WARN] Tipo de registro desconocido: " + tipoRegistro);
+                    response.sendRedirect("registrar?error=tipoDesconocido");
+                    return;
+            }
 
-			default:
-				Log.ficheroLog("[WARN] Tipo de registro desconocido: " + tipoRegistro);
-				response.sendRedirect("registrar?error=tipoDesconocido");
-				return;
-			}
+            Log.ficheroLog("[INFO] Resultado registro (" + tipoRegistro + "): " + resultado);
 
-			Log.ficheroLog("[INFO] Resultado registro (" + tipoRegistro + "): " + resultado);
+            // 🧭 Navegación según resultado del registro
+            switch (resultado) {
+                case "ok":
+                    Log.ficheroLog("[INFO] Registro correcto → redirect a /login");
+                    response.sendRedirect("login?mensajeAlta=registro_exitoso");
+                    break;
 
-			// 🧭 Navegación centralizada
-			switch (resultado) {
-			case "ok":
-				Log.ficheroLog("[INFO] Registro correcto → redirect a /login");
-				response.sendRedirect("login?mensajeAlta=registro_exitoso");
-				break;
+                case "usuario_existente":
+                    Log.ficheroLog("[WARN] Usuario / Club / Instalación ya existente");
+                    response.sendRedirect("registrar?mensajeAlta=usuario_existente");
+                    break;
 
-			case "usuario_existente":
-				Log.ficheroLog("[WARN] Usuario / Club / Instalación ya existente");
-				response.sendRedirect("registrar?mensajeAlta=usuario_existente");
-				break;
+                case "email_invalido":
+                    Log.ficheroLog("[WARN] Email inválido en registro");
+                    response.sendRedirect("registrar?mensajeAlta=email_invalido");
+                    break;
 
-			case "email_invalido":
-				Log.ficheroLog("[WARN] Email inválido en registro");
-				response.sendRedirect("registrar?mensajeAlta=email_invalido");
-				break;
+                case "password_no_coincide":
+                    Log.ficheroLog("[WARN] Password no coincide");
+                    response.sendRedirect("registrar?mensajeAlta=password_no_coincide");
+                    break;
 
-			case "password_no_coincide":
-				Log.ficheroLog("[WARN] Password no coincide");
-				response.sendRedirect("registrar?mensajeAlta=password_no_coincide");
-				break;
+                default:
+                    Log.ficheroLog("[ERROR] Resultado desconocido: " + resultado);
+                    response.sendRedirect("registrar?mensajeAlta=error_servidor");
+                    break;
+            }
 
-			default:
-				Log.ficheroLog("[ERROR] Resultado desconocido: " + resultado);
-				response.sendRedirect("registrar?mensajeAlta=error_servidor");
-				break;
-			}
+        } catch (Exception e) {
+            // 🧨 Captura completa de excepción
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            Log.ficheroLog("[ERROR] Excepción en RegistrarControlador POST\n" + sw.toString());
 
-		} catch (Exception e) {
-
-			// 🧨 Stacktrace completo al log
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-
-			Log.ficheroLog("[ERROR] Excepción en RegistrarControlador POST\n" + sw.toString());
-
-			response.sendRedirect("registrar?error=error_servidor");
-		}
-	}
+            response.sendRedirect("registrar?error=error_servidor");
+        }
+    }
 }

@@ -376,7 +376,7 @@
 						<div class="filtroItem">
 							<label class="labelFiltrar"><b>- Buscar por Estado:</b></label> <input
 								type="text" id="buscarEventoEstado" class="inputFiltrar"
-								placeholder="Abierto / Cerrado">
+								placeholder="Disponible / Cerrado">
 						</div>
 					</div>
 
@@ -604,7 +604,7 @@ function filtrarEventos() {
             !modalidad || (t.modalidad && t.modalidad.toLowerCase().includes(modalidad));
 
         // Abierto / Cerrado según tu lógica
-        const estadoTorneo = t.estaActivo ? "cerrado" : "abierto";
+        const estadoTorneo = t.estaActivo ? "cerrado" : "disponible";
         const coincideEstado =
             !estado || estadoTorneo.includes(estado);
 
@@ -616,7 +616,7 @@ function filtrarEventos() {
 
 
 function cargarTodosLosTorneos() {
-    fetch("torneo")
+	fetch("eventos?tipo=json")
         .then(response => response.json())
         .then(torneos => {
             torneosJugador = torneos;   // ✅ ESTO ES LO QUE FALTABA

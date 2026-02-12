@@ -16,11 +16,12 @@ import vista_futbolDeBarrio.dtos.ActaPartidoDto;
 import vista_futbolDeBarrio.dtos.PartidoTorneoDto;
 import vista_futbolDeBarrio.servicios.ActaPartidoServicio;
 import vista_futbolDeBarrio.servicios.PartidoTorneoServicio;
+import vista_futbolDeBarrio.log.Log;
 
 @WebServlet("/instalacion/actaPartido")
 /**
  * Clase controlador que gestiona la creación, modificación, listado y eliminación
- * de actas de partidos.
+ * de actas de partidos, con seguimiento mediante logs.
  */
 public class ActaPartidoControlador extends HttpServlet {
 
@@ -34,7 +35,11 @@ public class ActaPartidoControlador extends HttpServlet {
      * @throws ServletException Si ocurre un error durante la inicialización.
      */
     public void init() throws ServletException {
-        this.actaServicio = new ActaPartidoServicio();
+        try {
+            this.actaServicio = new ActaPartidoServicio();
+        } catch (Exception e) {
+            throw new ServletException(e);
+        }
     }
 
     @Override
@@ -53,12 +58,14 @@ public class ActaPartidoControlador extends HttpServlet {
             HttpSession session = request.getSession(false);
             if (session == null) {
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "Debe iniciar sesión.");
+                Log.ficheroLog("POST /instalacion/actaPartido falló: usuario no logueado");
                 return;
             }
 
             String tipoUsuario = (String) session.getAttribute("tipoUsuario");
             if (!"instalacion".equals(tipoUsuario)) {
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "Usuario no autorizado");
+                Log.ficheroLog("POST /instalacion/actaPartido falló: usuario no autorizado");
                 return;
             }
 
@@ -69,40 +76,54 @@ public class ActaPartidoControlador extends HttpServlet {
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
                 }
+            } catch (IOException e) {
+                Log.ficheroLog("POST /instalacion/actaPartido falló al leer body: " + e.getMessage());
+                throw e;
             }
 
             ObjectMapper mapper = new ObjectMapper();
-            // Usamos un Map para distinguir si es solo partidoId o acta
             Map<String, Object> data = mapper.readValue(sb.toString(), Map.class);
 
-            if (data.containsKey("partidoIdSeleccionado") && !data.containsKey("goles") ) {
+            if (data.containsKey("partidoIdSeleccionado") && !data.containsKey("goles")) {
                 // Solo guardar partidoId en sesión
-                Long partidoId = Long.valueOf(data.get("partidoIdSeleccionado").toString());
-                session.setAttribute("partidoIdSeleccionado", partidoId);
-                response.setStatus(HttpServletResponse.SC_OK);
-                response.getWriter().write("Partido guardado en sesión");
-                return;
+                try {
+                    Long partidoId = Long.valueOf(data.get("partidoIdSeleccionado").toString());
+                    session.setAttribute("partidoIdSeleccionado", partidoId);
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    response.getWriter().write("Partido guardado en sesión");
+                    Log.ficheroLog("POST /instalacion/actaPartido: partidoId guardado en sesión id=" + partidoId);
+                    return;
+                } catch (NumberFormatException e) {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID de partido inválido");
+                    Log.ficheroLog("POST /instalacion/actaPartido falló: partidoId inválido");
+                    return;
+                }
             }
 
             // Si hay datos de acta, seguimos con el flujo normal
-            ActaPartidoDto acta = mapper.readValue(sb.toString(), ActaPartidoDto.class);
+            try {
+                ActaPartidoDto acta = mapper.readValue(sb.toString(), ActaPartidoDto.class);
+                Long idGuardado = actaServicio.guardarActaPartido(acta, request);
 
-            ActaPartidoServicio servicio = new ActaPartidoServicio();
-            Long idGuardado = servicio.guardarActaPartido(acta, request);
-
-            if (idGuardado != null) {
-                response.setStatus(HttpServletResponse.SC_OK);
-                response.getWriter().write("Acta guardada con ID: " + idGuardado);
-            } else {
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "No se pudo guardar el acta");
+                if (idGuardado != null) {
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    response.getWriter().write("Acta guardada con ID: " + idGuardado);
+                    Log.ficheroLog("POST /instalacion/actaPartido: acta guardada correctamente, id=" + idGuardado);
+                } else {
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "No se pudo guardar el acta");
+                    Log.ficheroLog("POST /instalacion/actaPartido falló: no se pudo guardar acta");
+                }
+            } catch (Exception e) {
+                Log.ficheroLog("POST /instalacion/actaPartido error al guardar acta: " + e.getMessage());
+                throw e;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al procesar acta");
+            Log.ficheroLog("POST /instalacion/actaPartido error general: " + e.getMessage());
         }
     }
-
 
     @Override
     /**
@@ -118,8 +139,15 @@ public class ActaPartidoControlador extends HttpServlet {
 
         try {
             HttpSession session = request.getSession(false);
+            
             if (session == null) {
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "Debe iniciar sesión.");
+                Log.ficheroLog("GET /instalacion/actaPartido falló: usuario no logueado");
+                return;
+            }
+            if (session == null || session.getAttribute("token") == null) {
+                Log.ficheroLog("EventoJugadorControlador: intento de acceso sin sesión o token inválido");
+                response.sendRedirect(request.getContextPath() + "/login?error=accesoDenegado");
                 return;
             }
 
@@ -128,15 +156,25 @@ public class ActaPartidoControlador extends HttpServlet {
             Long partidoId = null;
 
             if (partidoIdParam != null) {
-                partidoId = Long.parseLong(partidoIdParam);
-                // Guardar en sesión para futuras referencias
-                session.setAttribute("partidoIdSeleccionado", partidoId);
+                try {
+                    partidoId = Long.parseLong(partidoIdParam);
+                    session.setAttribute("partidoIdSeleccionado", partidoId);
+                    Log.ficheroLog("GET /instalacion/actaPartido: partidoId recibido por parámetro id=" + partidoId);
+                } catch (NumberFormatException e) {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID de partido inválido");
+                    Log.ficheroLog("GET /instalacion/actaPartido falló: ID de partido inválido");
+                    return;
+                }
             } else {
                 partidoId = (Long) session.getAttribute("partidoIdSeleccionado");
+                if (partidoId != null) {
+                    Log.ficheroLog("GET /instalacion/actaPartido: partidoId obtenido de sesión id=" + partidoId);
+                }
             }
 
             if (partidoId == null) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "No se seleccionó ningún partido");
+                Log.ficheroLog("GET /instalacion/actaPartido falló: ningún partido seleccionado");
                 return;
             }
 
@@ -145,18 +183,18 @@ public class ActaPartidoControlador extends HttpServlet {
 
             if (partido == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Partido no encontrado");
+                Log.ficheroLog("GET /instalacion/actaPartido falló: partido no encontrado id=" + partidoId);
                 return;
             }
 
             request.setAttribute("partido", partido);
-            request.getRequestDispatcher("/WEB-INF/Vistas/Acta.jsp")
-                   .forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/Vistas/Acta.jsp").forward(request, response);
+            Log.ficheroLog("GET /instalacion/actaPartido: vista de acta cargada correctamente para partidoId=" + partidoId);
 
-        } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID de partido inválido");
         } catch (Exception e) {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error del servidor");
+            Log.ficheroLog("GET /instalacion/actaPartido error general: " + e.getMessage());
         }
     }
 }

@@ -58,6 +58,7 @@ public class TorneoBracketControlador extends HttpServlet {
 
         try {
             String torneoIdParam = request.getParameter("torneoId");
+            
 
             if (torneoIdParam == null || torneoIdParam.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

@@ -9,83 +9,119 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import vista_futbolDeBarrio.log.Log;
 import vista_futbolDeBarrio.servicios.ClubServicio;
 import vista_futbolDeBarrio.servicios.UsuarioServicio;
 
+/**
+ * Controlador para activar la suscripción Premium de un jugador o club.
+ * Permite cargar la vista de pago y actualizar el estado Premium en sesión.
+ */
 @WebServlet("/pagoPremium")
 public class PagoPremiumControlador extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final UsuarioServicio usuarioServicio = new UsuarioServicio();
-	private final ClubServicio clubServicio = new ClubServicio();
+    private final UsuarioServicio usuarioServicio = new UsuarioServicio();
+    private final ClubServicio clubServicio = new ClubServicio();
 
-	// ==========================
-	// GET → CARGA LA VISTA
-	// ==========================
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+    /**
+     * Maneja solicitudes GET.
+     * Carga la vista JSP de pago Premium.
+     *
+     * @param request La solicitud HTTP.
+     * @param response La respuesta HTTP.
+     * @throws ServletException Si ocurre un error en el servlet.
+     * @throws IOException Si ocurre un error de entrada/salida.
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		HttpSession session = request.getSession(false);
+        try {
+            HttpSession session = request.getSession(false);
 
-		if (session == null) {
-			response.sendRedirect("InicioSesion.jsp");
-			return;
-		}
+            if (session == null) {
+                response.sendRedirect("InicioSesion.jsp");
+                Log.ficheroLog("PagoPremiumControlador: Acceso denegado (sin sesión)");
+                return;
+            }
 
-		request.getRequestDispatcher("/WEB-INF/Vistas/PagoPremium.jsp").forward(request, response);
-	}
+            request.getRequestDispatcher("/WEB-INF/Vistas/PagoPremium.jsp")
+                   .forward(request, response);
+            Log.ficheroLog("PagoPremiumControlador: Cargada vista PagoPremium.jsp");
 
-	// ==========================
-	// POST → ACTIVA PREMIUM
-	// ==========================
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            Log.ficheroLog("PagoPremiumControlador - Error en doGet: " + e.getMessage());
+        }
+    }
 
-		HttpSession session = request.getSession(false);
-		if (session == null) {
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			return;
-		}
+    /**
+     * Maneja solicitudes POST.
+     * Marca al usuario o club como Premium y actualiza la sesión.
+     *
+     * @param request La solicitud HTTP.
+     * @param response La respuesta HTTP.
+     * @throws IOException Si ocurre un error de entrada/salida.
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-		String tipoUsuario = request.getParameter("tipo");
-		boolean actualizado = false;
+        try {
+            HttpSession session = request.getSession(false);
+            if (session == null) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                Log.ficheroLog("PagoPremiumControlador: POST denegado (sin sesión)");
+                return;
+            }
 
-		if ("jugador".equals(tipoUsuario)) {
+            String tipoUsuario = request.getParameter("tipo");
+            boolean actualizado = false;
 
-			Long usuarioId = (Long) session.getAttribute("usuarioId");
-			if (usuarioId == null) {
-				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				return;
-			}
+            if ("jugador".equals(tipoUsuario)) {
+                Long usuarioId = (Long) session.getAttribute("usuarioId");
+                if (usuarioId == null) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    Log.ficheroLog("PagoPremiumControlador: usuarioId nulo para tipo 'jugador'");
+                    return;
+                }
 
-			actualizado = usuarioServicio.marcarPremium(usuarioId, request);
+                actualizado = usuarioServicio.marcarPremium(usuarioId, request);
 
-			if (actualizado) {
-				session.setAttribute("esPremium", true);
-			}
+                if (actualizado) {
+                    session.setAttribute("esPremium", true);
+                    Log.ficheroLog("PagoPremiumControlador: Jugador marcado como Premium, usuarioId=" + usuarioId);
+                }
 
-		} else if ("club".equals(tipoUsuario)) {
+            } else if ("club".equals(tipoUsuario)) {
+                Long clubId = (Long) session.getAttribute("clubId");
+                if (clubId == null) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    Log.ficheroLog("PagoPremiumControlador: clubId nulo para tipo 'club'");
+                    return;
+                }
 
-			Long clubId = (Long) session.getAttribute("clubId");
-			if (clubId == null) {
-				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-				return;
-			}
+                actualizado = clubServicio.marcarPremium(clubId, request);
 
-			actualizado = clubServicio.marcarPremium(clubId, request);
+                if (actualizado) {
+                    session.setAttribute("esPremium", true);
+                    Log.ficheroLog("PagoPremiumControlador: Club marcado como Premium, clubId=" + clubId);
+                }
+            }
 
-			if (actualizado) {
-				session.setAttribute("esPremium", true);
-			}
-		}
+            if (actualizado) {
+                response.setStatus(HttpServletResponse.SC_OK);
+            } else {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                Log.ficheroLog("PagoPremiumControlador: No se pudo actualizar estado Premium para tipoUsuario=" + tipoUsuario);
+            }
 
-		if (actualizado) {
-			response.setStatus(HttpServletResponse.SC_OK);
-		} else {
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		}
-	}
-
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            Log.ficheroLog("PagoPremiumControlador - Error en doPost: " + e.getMessage());
+        }
+    }
 }

@@ -19,26 +19,48 @@ import vista_futbolDeBarrio.log.Log;
 import vista_futbolDeBarrio.servicios.InicioSesionGoogleServicio;
 import vista_futbolDeBarrio.servicios.LoginServicio;
 
+/**
+ * Controlador encargado de manejar el inicio de sesión de los usuarios.
+ * Permite login normal (email/password) y login con Google.
+ * Administra la sesión, cookies y redirección según tipo de usuario.
+ */
 @WebServlet("/login")
 @MultipartConfig
 public class LoginControlador extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    // Servicios principales de login
     private LoginServicio servicioLogin = new LoginServicio();
     private InicioSesionGoogleServicio servicioGoogle = new InicioSesionGoogleServicio();
 
+    /**
+     * GET: Muestra la página de inicio de sesión
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String mensaje = request.getParameter("mensaje");
-        if (mensaje != null) request.setAttribute("mensaje", mensaje);
+        try {
+            String mensaje = request.getParameter("mensaje");
+            if (mensaje != null) request.setAttribute("mensaje", mensaje);
 
-        request.getRequestDispatcher("/WEB-INF/Vistas/InicioSesion.jsp")
-               .forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/Vistas/InicioSesion.jsp")
+                   .forward(request, response);
+
+        } catch (Exception e) {
+            Log.ficheroLog("Error mostrando la página de login: " + e.getMessage());
+            response.sendRedirect("login?error=servidor");
+        }
     }
 
+    /**
+     * POST: Maneja el login normal o con Google
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -47,14 +69,18 @@ public class LoginControlador extends HttpServlet {
             String codeGoogle = request.getParameter("code");
             String tipoUsuario = request.getParameter("tipoUsuario");
 
+            // 🔹 LOGIN CON GOOGLE
             if (codeGoogle != null && !codeGoogle.isEmpty()) {
-                // 🔹 LOGIN CON GOOGLE
-                LoginGoogleDto loginDto = servicioGoogle.loginConGoogle(codeGoogle, tipoUsuario, request.getServletContext());
+                LoginGoogleDto loginDto = servicioGoogle.loginConGoogle(
+                        codeGoogle, tipoUsuario, request.getServletContext());
+
                 if (loginDto != null) {
+                    Log.ficheroLog("Login exitoso con Google. Usuario: " + loginDto.getNombreCompleto());
                     manejarSesion(request, response, loginDto);
                 } else {
-                	request.setAttribute("error", "googleAPI");
-                	request.getRequestDispatcher("/WEB-INF/Vistas/InicioSesion.jsp").forward(request, response);
+                    Log.ficheroLog("Error login con Google: respuesta nula");
+                    request.setAttribute("error", "googleAPI");
+                    request.getRequestDispatcher("/WEB-INF/Vistas/InicioSesion.jsp").forward(request, response);
                 }
                 return;
             }
@@ -69,6 +95,7 @@ public class LoginControlador extends HttpServlet {
             RespuestaLoginDto respuestaLogin = servicioLogin.login(email, password, tipoUsuario);
 
             if (respuestaLogin != null && respuestaLogin.getToken() != null) {
+                Log.ficheroLog("Login exitoso. Email: " + email);
                 manejarSesion(request, response, respuestaLogin);
 
                 if (recordarSesion) {
@@ -81,34 +108,43 @@ public class LoginControlador extends HttpServlet {
                     cookieTipo.setMaxAge(60 * 60 * 24 * 30);
                     cookieTipo.setPath(request.getContextPath());
                     response.addCookie(cookieTipo);
+
+                    Log.ficheroLog("Cookies de sesión agregadas para recordar al usuario: " + email);
                 }
 
             } else {
-                Log.ficheroLog("Credenciales incorrectas para el email: " + email);
+                Log.ficheroLog("Credenciales incorrectas. Email: " + email);
                 response.sendRedirect("InicioSesion.jsp?error=credenciales");
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             Log.ficheroLog("Error en el proceso de login: " + e.getMessage());
+            e.printStackTrace();
             response.sendRedirect("InicioSesion.jsp?error=servidor");
         }
     }
 
-    // ----------------- MÉTODOS AUXILIARES -----------------
+    // ================= MÉTODOS AUXILIARES =================
 
     /**
      * Maneja la sesión y redirección para LoginGoogleDto
      */
     private void manejarSesion(HttpServletRequest request, HttpServletResponse response, LoginGoogleDto loginDto) throws IOException {
         HttpSession sesion = crearSesion(request);
-        sesion.setAttribute("token", loginDto.getToken());
-        sesion.setAttribute("tipoUsuario", loginDto.getTipoUsuario());
-        sesion.setAttribute("esPremium", loginDto.isEsPremium());
 
-        asignarIdYNombreSesion(sesion, loginDto.getTipoUsuario(), loginDto.getIdTipoUsuario(), loginDto.getNombreCompleto());
+        try {
+            sesion.setAttribute("token", loginDto.getToken());
+            sesion.setAttribute("tipoUsuario", loginDto.getTipoUsuario());
+            sesion.setAttribute("esPremium", loginDto.isEsPremium());
 
-        redirigirPorTipoUsuario(response, loginDto.getTipoUsuario());
+            asignarIdYNombreSesion(sesion, loginDto.getTipoUsuario(), loginDto.getIdTipoUsuario(), loginDto.getNombreCompleto());
+
+            redirigirPorTipoUsuario(response, loginDto.getTipoUsuario());
+
+        } catch (Exception e) {
+            Log.ficheroLog("Error manejando sesión LoginGoogleDto: " + e.getMessage());
+            throw e;
+        }
     }
 
     /**
@@ -116,13 +152,20 @@ public class LoginControlador extends HttpServlet {
      */
     private void manejarSesion(HttpServletRequest request, HttpServletResponse response, RespuestaLoginDto respuestaLogin) throws IOException {
         HttpSession sesion = crearSesion(request);
-        sesion.setAttribute("token", respuestaLogin.getToken());
-        sesion.setAttribute("tipoUsuario", respuestaLogin.getTipoUsuario());
-        sesion.setAttribute("datosUsuario", respuestaLogin.getDatosUsuario());
 
-        asignarIdUsuarioASesion(sesion, respuestaLogin.getTipoUsuario(), respuestaLogin.getDatosUsuario());
+        try {
+            sesion.setAttribute("token", respuestaLogin.getToken());
+            sesion.setAttribute("tipoUsuario", respuestaLogin.getTipoUsuario());
+            sesion.setAttribute("datosUsuario", respuestaLogin.getDatosUsuario());
 
-        redirigirPorTipoUsuario(response, respuestaLogin.getTipoUsuario());
+            asignarIdUsuarioASesion(sesion, respuestaLogin.getTipoUsuario(), respuestaLogin.getDatosUsuario());
+
+            redirigirPorTipoUsuario(response, respuestaLogin.getTipoUsuario());
+
+        } catch (Exception e) {
+            Log.ficheroLog("Error manejando sesión RespuestaLoginDto: " + e.getMessage());
+            throw e;
+        }
     }
 
     /**
@@ -130,10 +173,16 @@ public class LoginControlador extends HttpServlet {
      */
     private HttpSession crearSesion(HttpServletRequest request) {
         HttpSession oldSession = request.getSession(false);
-        if (oldSession != null) oldSession.invalidate();
+        if (oldSession != null) {
+            oldSession.invalidate();
+            Log.ficheroLog("Sesión anterior invalidada");
+        }
         return request.getSession(true);
     }
 
+    /**
+     * Asigna el ID y nombre de usuario según tipo
+     */
     private void asignarIdYNombreSesion(HttpSession session, String tipoUsuario, long id, String nombreCompleto) {
         switch (tipoUsuario.toLowerCase()) {
             case "jugador":
@@ -150,9 +199,13 @@ public class LoginControlador extends HttpServlet {
                 break;
             default:
                 session.setAttribute("esPremium", false);
+                Log.ficheroLog("Tipo de usuario desconocido al asignar ID/nombre: " + tipoUsuario);
         }
     }
 
+    /**
+     * Asigna el ID de usuario según objeto de datosUsuario
+     */
     private void asignarIdUsuarioASesion(HttpSession session, String tipoUsuario, Object datosUsuario) {
         switch (tipoUsuario.toLowerCase()) {
             case "instalacion":
@@ -177,9 +230,13 @@ public class LoginControlador extends HttpServlet {
                 break;
             default:
                 session.setAttribute("esPremium", false);
+                Log.ficheroLog("Tipo de usuario desconocido al asignar datosUsuario: " + tipoUsuario);
         }
     }
 
+    /**
+     * Redirige al usuario según tipo
+     */
     private void redirigirPorTipoUsuario(HttpServletResponse response, String tipoUsuario) throws IOException {
         switch (tipoUsuario.toLowerCase()) {
             case "administrador": response.sendRedirect("administrador"); break;
@@ -187,7 +244,7 @@ public class LoginControlador extends HttpServlet {
             case "club": response.sendRedirect("club"); break;
             case "instalacion": response.sendRedirect("instalacion"); break;
             default:
-                Log.ficheroLog("Tipo de usuario desconocido: " + tipoUsuario);
+                Log.ficheroLog("Tipo de usuario desconocido al redirigir: " + tipoUsuario);
                 response.sendRedirect("login?error=tipoDesconocido");
         }
     }

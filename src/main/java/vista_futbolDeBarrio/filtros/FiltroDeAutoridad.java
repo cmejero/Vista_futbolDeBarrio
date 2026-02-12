@@ -1,4 +1,5 @@
 package vista_futbolDeBarrio.filtros;
+
 import java.io.IOException;
 
 import jakarta.servlet.Filter;
@@ -15,113 +16,132 @@ import jakarta.servlet.http.HttpSession;
 import vista_futbolDeBarrio.servicios.LoginServicio;
 import vista_futbolDeBarrio.utilidades.Utilidades;
 
+/**
+ * Filtro de autoridad para controlar el acceso a endpoints según tipo de usuario.
+ *
+ * <p>
+ * - Rutas públicas: login, registro, información, CSS/Imágenes, etc.
+ * - Rutas privadas: accesibles solo según tipo de usuario (jugador, club, instalación, administrador).
+ * - En caso de acceso denegado: hace forward al JSP de login con mensaje.
+ * - Previene que los usuarios escriban manualmente la URL de JSPs privadas.
+ */
 @WebFilter("/*")
 public class FiltroDeAutoridad implements Filter {
-	
-	
 
-	 @Override
-	    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-	            throws IOException, ServletException {
+    /**
+     * Método principal del filtro que se ejecuta antes de cualquier servlet.
+     * Controla:
+     * 1️⃣ Auto-login desde cookies si no hay sesión.
+     * 2️⃣ Redirección a raíz según tipo de usuario.
+     * 3️⃣ Permitir rutas públicas sin sesión.
+     * 4️⃣ Control de permisos por tipo de usuario.
+     * 5️⃣ Forward a login JSP si acceso denegado.
+     */
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
 
-	        HttpServletRequest http = (HttpServletRequest) request;
-	        HttpServletResponse res = (HttpServletResponse) response;
-	        HttpSession session = http.getSession(false);
+        HttpServletRequest http = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+        HttpSession session = http.getSession(false);
 
-	        String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
-	        String uri = http.getRequestURI();
-	        String ctx = http.getContextPath();
-	        String path = uri.substring(ctx.length());
-	        String metodo = http.getMethod();
+        String tipoUsuario = (session != null) ? (String) session.getAttribute("tipoUsuario") : null;
+        String uri = http.getRequestURI();
+        String ctx = http.getContextPath();
+        String path = uri.substring(ctx.length());
+        String metodo = http.getMethod();
 
-	        // =========================
-	        // 1️⃣ Auto-login desde cookies
-	        // =========================
-	        if (tipoUsuario == null) {
-	            Cookie[] cookies = http.getCookies();
-	            String token = null;
-	            String tipo = null;
+        // =========================
+        // 1️⃣ Auto-login desde cookies
+        // =========================
+        if (tipoUsuario == null) {
+            Cookie[] cookies = http.getCookies();
+            String token = null;
+            String tipo = null;
 
-	            if (cookies != null) {
-	                for (Cookie c : cookies) {
-	                    if ("tokenUsuario".equals(c.getName())) token = c.getValue();
-	                    if ("tipoUsuario".equals(c.getName())) tipo = c.getValue();
-	                }
-	            }
+            if (cookies != null) {
+                for (Cookie c : cookies) {
+                    if ("tokenUsuario".equals(c.getName())) token = c.getValue();
+                    if ("tipoUsuario".equals(c.getName())) tipo = c.getValue();
+                }
+            }
 
-	            if (token != null && tipo != null) {
-	                try {
-	                    session = http.getSession(true);
-	                    session.setAttribute("token", token);
-	                    session.setAttribute("tipoUsuario", tipo);
+            if (token != null && tipo != null) {
+                try {
+                    session = http.getSession(true);
+                    session.setAttribute("token", token);
+                    session.setAttribute("tipoUsuario", tipo);
 
-	                    Object datosUsuario = new LoginServicio().obtenerDatosUsuario(token, tipo);
-	                    session.setAttribute("datosUsuario", datosUsuario);
+                    Object datosUsuario = new LoginServicio().obtenerDatosUsuario(token, tipo);
+                    session.setAttribute("datosUsuario", datosUsuario);
 
-	                    tipoUsuario = tipo;
+                    tipoUsuario = tipo;
 
-	                    // Redirigir automáticamente si entramos a la raíz "/"
-	                    if (path.equals("/") || path.equals("")) {
-	                    	res.sendRedirect(ctx + "/" + servletSegunTipoUsuario(tipoUsuario));
-	                        return;
-	                    }
+                    // Redirigir a la página principal según tipo de usuario si entra a "/"
+                    if (path.equals("/") || path.equals("")) {
+                        res.sendRedirect(ctx + "/" + servletSegunTipoUsuario(tipoUsuario));
+                        return;
+                    }
 
-	                } catch (Exception e) {
-	                    Utilidades.borrarCookies(res);
-	                    res.sendRedirect(ctx + "/InicioSesion.jsp?error=accesoDenegado");
-	                    return;
-	                }
-	            }
-	        }
+                } catch (Exception e) {
+                    // Limpiar cookies y enviar a login con mensaje de acceso denegado
+                    Utilidades.borrarCookies(res);
+                    res.sendRedirect(ctx + "/login?error=accesoDenegado");
+                    return;
+                }
+            }
+        }
 
-	        // =========================
-	        // 2️⃣ Redirigir raíz "/" según sesión existente
-	        // =========================
-	        if ((path.equals("/") || path.equals("")) && tipoUsuario != null) {
-	        	res.sendRedirect(ctx + "/" + servletSegunTipoUsuario(tipoUsuario));
-	            return;
-	        }
+        // =========================
+        // 2️⃣ Redirigir raíz "/" según sesión existente
+        // =========================
+        if ((path.equals("/") || path.equals("")) && tipoUsuario != null) {
+            res.sendRedirect(ctx + "/" + servletSegunTipoUsuario(tipoUsuario));
+            return;
+        }
 
-	        // =========================
-	        // 3️⃣ Rutas públicas
-	        // =========================
-	        if (esRutaPublica(path, metodo) || path.equals("/login") || path.equals("/logout")) {
-	            chain.doFilter(request, response);
-	            return;
-	        }
+        // =========================
+        // 3️⃣ Rutas públicas (accesibles sin sesión)
+        // =========================
+        if (esRutaPublica(path, metodo)) {
+            chain.doFilter(request, response);
+            return;
+        }
 
-	        // =========================
-	        // 4️⃣ Control de permisos según tipoUsuario
-	        // =========================
-	        if (!tienePermisoSegunTipoUsuario(path, metodo, tipoUsuario)) {
-	            // ❌ NO cerramos sesión, solo denegamos el acceso
-	            res.sendRedirect(ctx + "/InicioSesion.jsp?error=accesoDenegado");
-	            return;
-	        }
+        // =========================
+        // 4️⃣ Control de permisos según tipoUsuario
+        // =========================
+        if (!tienePermisoSegunTipoUsuario(path, tipoUsuario)) {
+            // ⚠️ Acceso denegado: redirige al login con parámetro de error
+            res.sendRedirect(ctx + "/login?error=accesoDenegado");
+            return;
+        }
 
-	        // =========================
-	        // 5️⃣ Continuar con la cadena de filtros
-	        // =========================
-	        chain.doFilter(request, response);
-	    }
+        // =========================
+        // 5️⃣ Continuar con la cadena de filtros si todo es correcto
+        // =========================
+        chain.doFilter(request, response);
 
-    
-    
-    // =======================
-    // RUTAS PÚBLICAS
-    // =======================
+    }
+
+    /**
+     * Determina si la ruta es pública (accesible sin sesión)
+     *
+     * @param uri    Ruta solicitada
+     * @param metodo Método HTTP
+     * @return true si es pública, false si requiere sesión
+     */
     private boolean esRutaPublica(String uri, String metodo) {
-        // POST /usuario, /club, /instalacion son públicos
-        if ("POST".equalsIgnoreCase(metodo) && (uri.equals("/usuario") || uri.equals("/club") || uri.equals("/instalacion"))) {
+        // POST públicos para crear usuario, club o instalación
+        if ("POST".equalsIgnoreCase(metodo) &&
+            (uri.equals("/usuario") || uri.equals("/club") || uri.equals("/instalacion"))) {
             return true;
         }
 
-        // GET /torneo es público
-        if ("GET".equalsIgnoreCase(metodo) && uri.startsWith("/torneo")) {
-            return true;
-        }
+        // GET públicos
+        if ("GET".equalsIgnoreCase(metodo) && uri.startsWith("/torneo")) return true;
 
-        // Otras rutas públicas
+        // Otras rutas públicas de información
         return uri.equals("/") ||
                uri.contains("/quienesSomos") ||
                uri.contains("/inicio") ||
@@ -130,114 +150,62 @@ public class FiltroDeAutoridad implements Filter {
                uri.contains("/eventos") ||
                uri.contains("/recuperarCuenta") ||
                uri.contains("/restablecerCuenta") ||
-
-               
-               
-               uri.contains("/jugador") ||
-               uri.contains("/jugador/eventos") ||
-               uri.contains("/jugador/misClubes") ||
-               uri.contains("/jugador/marcadores") ||
-               uri.contains("/detalleTorneo") ||
-
-               uri.contains("/club") ||
-               uri.contains("/club/eventos") ||
-               uri.contains("/club/plantilla") ||
-
-               uri.contains("/instalacion") ||
-               uri.contains("/instalacion/eventos") ||
-               uri.contains("/instalacion/torneo") ||
-               uri.contains("/instalacion/actaPartido") ||
-
-               uri.contains("/administrador") ||
-
-
-
-               uri.contains("/torneo/bracket") ||
                uri.contains("/login") ||
+
+
                uri.contains("/Css") ||
-               uri.contains("/Imagenes");
+               uri.contains("/Imagenes") ||
+               uri.contains("/detalleTorneo");
     }
 
-    // =======================
-    // CONTROL DE ROLES POR MÉTODO
-    // =======================
-    private boolean tienePermisoSegunTipoUsuario(String uri, String metodo, String tipoUsuario) {
-        // ✅ Evitar NPE si tipoUsuario es null
-        if (tipoUsuario == null) {
-            return false;
-        }
+    /**
+     * Determina si el tipo de usuario tiene permiso para acceder al endpoint privado
+     *
+     * @param uri         Ruta solicitada
+     * @param tipoUsuario Tipo de usuario de la sesión
+     * @return true si tiene permiso, false si no
+     */
+    private boolean tienePermisoSegunTipoUsuario(String uri, String tipoUsuario) {
+        if (tipoUsuario == null) return false;
 
-        if (uri.equals("/pagoPremium")) {
-            return "jugador".equals(tipoUsuario) || "club".equals(tipoUsuario);
-        }
-        if (uri.contains("/detalleTorneo")) {
-            return true;
-        }
-
-        // ------------------- /torneo -------------------
-        if (uri.startsWith("/torneo")) {
-            if (!"GET".equalsIgnoreCase(metodo)) {
-                return "instalacion".equals(tipoUsuario);
-            }
-        }
-
-        // ------------------- /usuario -------------------
-        if (uri.equals("/usuario")) {
-            if ("POST".equalsIgnoreCase(metodo)) return true; // público
-            if ("GET".equalsIgnoreCase(metodo)) return "administrador".equals(tipoUsuario) || "jugador".equals(tipoUsuario);
-            return "administrador".equals(tipoUsuario);
-        }
-
-        // ------------------- /club -------------------
-        if (uri.equals("/club")) {
-            if ("POST".equalsIgnoreCase(metodo)) return true; // público
-            if ("GET".equalsIgnoreCase(metodo)) return "administrador".equals(tipoUsuario) || "club".equals(tipoUsuario);
-            return "administrador".equals(tipoUsuario);
-        }
-
-        // ------------------- /instalacion -------------------
-        if (uri.equals("/instalacion")) {
-            if ("POST".equalsIgnoreCase(metodo)) return true; // todavía público si se usa para registrar instalaciones
-            if ("GET".equalsIgnoreCase(metodo)) return "administrador".equals(tipoUsuario) || "instalacion".equals(tipoUsuario);
-            return "administrador".equals(tipoUsuario);
-        }
-
-        // ------------------- /instalacion/eventos -------------------
-        if (uri.startsWith("/instalacion/eventos")) {
-            if ("POST".equalsIgnoreCase(metodo) || "DELETE".equalsIgnoreCase(metodo)) {
-                return "instalacion".equals(tipoUsuario); // Solo instalaciones pueden crear/eliminar torneos
-            }
-            if ("GET".equalsIgnoreCase(metodo)) {
-                return "instalacion".equals(tipoUsuario) || "administrador".equals(tipoUsuario); // GET también para admin
-            }
-        }
-
-        // ------------------- Resto de rutas -------------------
         switch (tipoUsuario) {
             case "jugador":
-                if (uri.contains("Jugador.jsp") || uri.contains("MiClubJugador.jsp") || uri.contains("MarcadoresJugador.jsp")) return true;
-                if (uri.contains("Club.jsp") || uri.contains("EventoClub.jsp") || uri.contains("PlantillaClub.jsp") ||
-                    uri.contains("Instalacion.jsp") || uri.contains("EventoInstalacion.jsp") || uri.contains("TorneoInstalacion.jsp")) return false;
-                break;
-            case "club":
-                if (uri.contains("Club.jsp") || uri.contains("EventoClub.jsp") || uri.contains("PlantillaClub.jsp")) return true;
-                if (uri.contains("Jugador.jsp") || uri.contains("MiClubJugador.jsp") || uri.contains("MarcadoresJugador.jsp") ||
-                    uri.contains("Instalacion.jsp") || uri.contains("EventoInstalacion.jsp") || uri.contains("TorneoInstalacion.jsp")) return false;
-                break;
-            case "instalacion":
-                if (uri.contains("Instalacion.jsp") || uri.contains("EventoInstalacion.jsp") || uri.contains("TorneoInstalacion.jsp")) return true;
-                if (uri.contains("Jugador.jsp") || uri.contains("MiClubJugador.jsp") || uri.contains("MarcadoresJugador.jsp") ||
-                    uri.contains("Club.jsp") || uri.contains("EventoClub.jsp") || uri.contains("PlantillaClub.jsp")) return false;
-                break;
-            case "administrador":
-                return true; // administrador puede todo
-        }
+                return uri.contains("/jugador") ||
+                       uri.contains("/jugador/eventos") ||
+                       uri.contains("/jugador/misClubes") ||
+                       uri.contains("/jugador/marcadores") ||
+                       uri.contains("/logout") ||
+                       uri.contains("/pagoPremium");
 
-        // Resto de rutas “generales” accesibles por todos
-        return true;
+            case "club":
+                return uri.contains("/club") ||
+                       uri.contains("/club/eventos") ||
+                       uri.contains("/club/plantilla") ||
+                       uri.contains("/logout") ||
+                       uri.contains("/pagoPremium");
+
+            case "instalacion":
+                return uri.contains("/instalacion") ||
+                       uri.contains("/instalacion/eventos") ||
+                       uri.contains("/instalacion/torneo") ||
+                       uri.contains("/instalacion/actaPartido") ||
+                       uri.contains("/logout") ||
+                       uri.contains("/torneo/bracket");
+
+            case "administrador":
+                return uri.contains("/administrador");
+
+            default:
+                return false;
+        }
     }
 
-    
+    /**
+     * Devuelve el endpoint de inicio según tipo de usuario para redirección
+     *
+     * @param tipoUsuario Tipo de usuario
+     * @return Servlet de inicio correspondiente
+     */
     private String servletSegunTipoUsuario(String tipoUsuario) {
         switch (tipoUsuario) {
             case "administrador": return "administrador";
@@ -248,11 +216,9 @@ public class FiltroDeAutoridad implements Filter {
         }
     }
 
-    
-    
-
     @Override
     public void init(FilterConfig fConfig) {}
+
     @Override
     public void destroy() {}
 }

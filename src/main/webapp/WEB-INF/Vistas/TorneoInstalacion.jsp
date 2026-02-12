@@ -885,50 +885,83 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 
     // ------------------ CARGAR TABLAS ------------------
-    async function cargarTablas(torneoId){
-        try{
-            var resp = await fetch(contextPath + '/jugadorEstadisticaTorneo');
-            var datos = await resp.json();
-            var torneoDatos = datos.filter(function(d){ return d.torneoId == torneoId; });
+   async function cargarTablas(torneoId){
+	    try{
+	        var resp = await fetch(contextPath + '/instalacion/torneo?json=true', {
+	            credentials: 'include'
+	        });
 
-            // Goleadores
-            var tbodyG = document.querySelector('#tablaGoleadoresBody tbody');
-            if(tbodyG){
-                tbodyG.innerHTML = '';
-                torneoDatos.filter(function(d){ return d.golesTorneo>0; })
-                           .sort(function(a,b){ return b.golesTorneo - a.golesTorneo; })
-                           .forEach(function(d){
-                               tbodyG.innerHTML += '<tr><td>' + (d.nombreJugador || ('Jugador '+d.jugadorId)) + '</td><td>' + (d.nombreClub || 'Sin club') + '</td><td>' + d.golesTorneo + '</td></tr>';
-                           });
-                paginarTabla('goleadores');
-            }
+	        var data = await resp.json();
 
-            // Disciplina
-            var tbodyD = document.querySelector('#tablaDisciplinaBody tbody');
-            if(tbodyD){
-                tbodyD.innerHTML = '';
-                torneoDatos.filter(function(d){ return d.amarillasTorneo>0 || d.rojasTorneo>0; })
-                           .forEach(function(d){
-                               tbodyD.innerHTML += '<tr><td>' + (d.nombreJugador || ('Jugador '+d.jugadorId)) + '</td><td>' + (d.nombreClub || 'Sin club') + '</td><td>' + d.amarillasTorneo + '</td><td>' + d.rojasTorneo + '</td></tr>';
-                           });
-                paginarTabla('disciplina');
-            }
+	        var datos = data.jugadores.filter(function(d){
+	            return d.torneoId == torneoId;
+	        });
 
-            // Clubes
-            var tbodyE = document.querySelector('#tablaEquiposBody tbody');
-            if(tbodyE){
-                tbodyE.innerHTML = '';
-                var respC = await fetch(contextPath + '/clubEstadisticaTorneo');
-                var datosC = await respC.json();
-                var torneoClubs = datosC.filter(function(d){ return d.torneoId==torneoId; });
-                torneoClubs.forEach(function(c){
-                    tbodyE.innerHTML += '<tr><td>'+c.nombreClub+'</td><td>'+c.abreviaturaClub+'</td><td>'+c.partidosJugados+'</td><td>'+c.ganados+'</td><td>'+c.empatados+'</td><td>'+c.golesFavor+'</td><td>'+c.golesContra+'</td></tr>';
-                });
-                paginarTabla('equipos');
-            }
+	        var datosC = data.clubes.filter(function(d){
+	            return d.torneoId == torneoId;
+	        });
 
-        }catch(err){ console.error(err); }
-    }
+	        // ---------------- GOLEADORES ----------------
+	        var tbodyG = document.querySelector('#tablaGoleadoresBody tbody');
+	        if(tbodyG){
+	            tbodyG.innerHTML = '';
+
+	            datos.filter(function(d){ return d.golesTorneo > 0; })
+	                 .sort(function(a,b){ return b.golesTorneo - a.golesTorneo; })
+	                 .forEach(function(d){
+	                     tbodyG.innerHTML += '<tr>'
+	                         + '<td>' + (d.nombreJugador || ('Jugador ' + d.jugadorId)) + '</td>'
+	                         + '<td>' + (d.nombreClub || 'Sin club') + '</td>'
+	                         + '<td>' + d.golesTorneo + '</td>'
+	                         + '</tr>';
+	                 });
+
+	            paginarTabla('goleadores');
+	        }
+
+	        // ---------------- DISCIPLINA ----------------
+	        var tbodyD = document.querySelector('#tablaDisciplinaBody tbody');
+	        if(tbodyD){
+	            tbodyD.innerHTML = '';
+
+	            datos.filter(function(d){ return d.amarillasTorneo > 0 || d.rojasTorneo > 0; })
+	                 .forEach(function(d){
+	                     tbodyD.innerHTML += '<tr>'
+	                         + '<td>' + (d.nombreJugador || ('Jugador ' + d.jugadorId)) + '</td>'
+	                         + '<td>' + (d.nombreClub || 'Sin club') + '</td>'
+	                         + '<td>' + d.amarillasTorneo + '</td>'
+	                         + '<td>' + d.rojasTorneo + '</td>'
+	                         + '</tr>';
+	                 });
+
+	            paginarTabla('disciplina');
+	        }
+
+	        // ---------------- CLUBES ----------------
+	        var tbodyE = document.querySelector('#tablaEquiposBody tbody');
+	        if(tbodyE){
+	            tbodyE.innerHTML = '';
+
+	            datosC.forEach(function(c){
+	                tbodyE.innerHTML += '<tr>'
+	                    + '<td>' + c.nombreClub + '</td>'
+	                    + '<td>' + c.abreviaturaClub + '</td>'
+	                    + '<td>' + c.partidosJugados + '</td>'
+	                    + '<td>' + c.ganados + '</td>'
+	                    + '<td>' + c.empatados + '</td>'
+	                    + '<td>' + c.golesFavor + '</td>'
+	                    + '<td>' + c.golesContra + '</td>'
+	                    + '</tr>';
+	            });
+
+	            paginarTabla('equipos');
+	        }
+
+	    }catch(err){
+	        console.error('Error cargando estadísticas:', err);
+	    }
+	}
+
 
     // ------------------ INIT ------------------
     cargarBracket();
