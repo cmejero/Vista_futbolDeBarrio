@@ -650,7 +650,6 @@
 // Función para eliminar miembro de club desde la tabla de jugadores
    function eliminarMiembroClub(idMiembroClub) {
        if (!confirm("¿Seguro que deseas eliminar a este miembro del club?")) return;
-       console.log("Eliminando miembro con ID:", idMiembroClub);
 
        if (!idMiembroClub || idMiembroClub <= 0) {
            alert("ID de miembro no válido.");

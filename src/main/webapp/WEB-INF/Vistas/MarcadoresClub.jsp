@@ -728,21 +728,23 @@ if (tipoUsuario == null) {
 					<div class="row justify-content-center" style="gap: 5vw;">
 						<!-- Botón Premium (solo si el jugador es premium) -->
 
-						<div
-							class="col-md-3 col-sm-3 col-3 mx-auto my-5 d-flex justify-content-center">
-							<button id="botonMarcadoresPremium"
-								class="botonMarcadoresPremium p-4">
-								<img class="imagenMarcadoresPremium"
-									src="Imagenes/futbolista.PNG" alt="Premium"> ESTADÍSTICAS
-							</button>
-						</div>
+					<div class="col-md-3 col-sm-3 col-3 mx-auto my-5 d-flex justify-content-center">
+    <button id="botonMarcadoresPremium" class="botonMarcadoresPremium p-4 premium-btn">
+        <div class="premium-content">
+            <img class="imagenMarcadoresPremium"
+                 src="${pageContext.request.contextPath}/Imagenes/clubPremium.png"
+                 alt="Premium">
+            ESTADÍSTICAS PREMIUM
+        </div>
+    </button>
+</div>
 
 						<!-- Botón Clubes -->
 						<div
 							class="col-md-3 col-sm-3 col-3 mx-auto my-5 d-flex justify-content-center">
 							<button id="botonMarcadoresClubes"
 								class="botonMarcadoresPremium p-4">
-								<img class="imagenMarcadoresPremium" src="Imagenes/clubes.PNG"
+								<img class="imagenMarcadoresPremium" src="${pageContext.request.contextPath}/Imagenes/clubes.PNG"
 									alt="Clubes"> MARCADORES CLUBES
 							</button>
 						</div>
@@ -753,7 +755,7 @@ if (tipoUsuario == null) {
 							<button id="botonMarcadoresJugadores"
 								class="botonMarcadoresPremium p-4">
 								<img class="imagenMarcadoresPremium"
-									src="Imagenes/futbolista.PNG" alt="Jugadores"> MARCADORES
+									src="${pageContext.request.contextPath}/Imagenes/futbolista.PNG" alt="Jugadores"> MARCADORES
 								JUGADORES
 							</button>
 						</div>
@@ -778,7 +780,7 @@ if (tipoUsuario == null) {
 						<div class="col-md-3 col-sm-3 col-3 mx-auto "
 							style="margin-bottom: 16vh; margin-top: 4vh; display: flex; justify-content: flex-end; align-items: center;">
 							<button id="botonMarcadoresClubes" class="botonMarcadores p-4">
-								<img class="imagenMarcadores" src="Imagenes/clubes.PNG"
+								<img class="imagenMarcadores" src="${pageContext.request.contextPath}/Imagenes/clubes.PNG"
 									alt="Clubes"> MARCADORES CLUBES
 							</button>
 						</div>
@@ -790,7 +792,7 @@ if (tipoUsuario == null) {
 						<div class="col-md-3 col-sm-3 col-3"
 							style="margin-bottom: 16vh; margin-top: 4vh; display: flex; justify-content: flex-start; align-items: center;">
 							<button class="botonMarcadores p-4" id="botonMarcadoresJugadores">
-								<img class="imagenMarcadores" src="Imagenes/futbolista.PNG"
+								<img class="imagenMarcadores" src="${pageContext.request.contextPath}/Imagenes/futbolista.PNG"
 									alt="Jugadores"> MARCADORES JUGADORES
 							</button>
 						</div>
@@ -1208,7 +1210,6 @@ if (tipoUsuario == null) {
 	const usuarioId = '<%=usuarioId != null ? usuarioId : ""%>';
 	sessionStorage.setItem('usuarioId', usuarioId);
     const contextPath = "${pageContext.request.contextPath}";
-    console.log("Fetch URL clubes:", contextPath + "/marcadores");
   document.addEventListener("DOMContentLoaded", function() {
 
     // ===============================
@@ -1520,18 +1521,19 @@ fetch(contextPath + "/marcadores?tipo=clubesGlobal")
 // ===============================
 if (botonEstadisticas) {
   botonEstadisticas.addEventListener("click", function() {
+    // Mostrar contenedor y limpiar tablas
     estadisticasContainer.style.display = "block";
     tablaEstadisticasGlobal.innerHTML = "";
     if (tablaEstadisticasTorneo) tablaEstadisticasTorneo.innerHTML = "";
 
     // === Estadísticas Globales del Club ===
-fetch(contextPath + "/marcadores?tipo=clubGlobal&id=" + usuarioId)
-  .then(function(response) {
-    if (!response.ok) throw new Error("No se encontraron estadísticas globales del club");
-    return response.json();
-  })
+    fetch(contextPath + "/marcadores?tipo=clubGlobal&id=" + usuarioId)
+      .then(function(response) {
+        if (!response.ok) throw new Error("No se encontraron estadísticas globales del club");
+        return response.json();
+      })
       .then(function(data) {
-        var fila = crearFilaEstadisticasGlobalClubPremium(
+        const fila = crearFilaEstadisticasGlobalClubPremium(
           "Global",
           data.partidosJugadosGlobal,
           data.golesFavorGlobal,
@@ -1539,32 +1541,75 @@ fetch(contextPath + "/marcadores?tipo=clubGlobal&id=" + usuarioId)
           data.ganadosGlobal,
           data.perdidosGlobal
         );
-        
         tablaEstadisticasGlobal.appendChild(fila);
       })
       .catch(function(error) {
         console.error("❌ Error cargando estadísticas globales del club:", error);
       });
 
-fetch(contextPath + "/marcadores?tipo=clubTorneo&id=" + usuarioId)
-.then(response => response.json())
-.then(data => {
-  data.forEach(torneo => {
-    var fila = crearFilaEstadisticasTorneoClubPremium(
-      "Torneo",
-      torneo.nombreTorneo,      
-      torneo.partidosJugados,   
-      torneo.golesFavor,         
-      torneo.golesContra,        
-      torneo.ganados,           
-      torneo.perdidos            
-    );
-    tablaEstadisticasTorneo.appendChild(fila);
-  });
-})
-    .catch(error => console.error("❌ Error cargando estadísticas de torneo del club:", error));
+    // === Estadísticas por Torneo del Club ===
+    fetch(contextPath + "/marcadores?tipo=clubTorneo&id=" + usuarioId)
+      .then(response => response.json())
+      .then(data => {
+        if (!tablaEstadisticasTorneo) return;
+
+        // --- Si no hay torneos ---
+        if (!data || !Array.isArray(data) || data.length === 0) {
+          const fila = document.createElement("tr");
+          fila.innerHTML = `
+            <td colspan="10" style="
+              text-align: center;
+              color: #ff6600;
+              font-weight: bold;
+              padding: 1em;
+              font-style: italic;
+            ">
+              ⚠️ No hay torneos en los que tu club haya participado.
+            </td>
+          `;
+          tablaEstadisticasTorneo.appendChild(fila);
+          return;
+        }
+
+        // --- Si hay torneos, pintarlos normalmente ---
+        data.forEach(torneo => {
+          const fila = crearFilaEstadisticasTorneoClubPremium(
+            "Torneo",
+            torneo.nombreTorneo,
+            torneo.partidosJugados,
+            torneo.golesFavor,
+            torneo.golesContra,
+            torneo.ganados,
+            torneo.perdidos
+          );
+          tablaEstadisticasTorneo.appendChild(fila);
+        });
+
+        // Aplicar filtros y paginación
+        filtrosPremium();
+        paginarTabla('tablaEstadisticasTorneoPremium', 15);
+      })
+      .catch(error => {
+        console.error("❌ Error cargando estadísticas de torneo del club:", error);
+        if (tablaEstadisticasTorneo) {
+          const fila = document.createElement("tr");
+          fila.innerHTML = `
+            <td colspan="10" style="
+              text-align: center;
+              color: red;
+              font-weight: bold;
+              padding: 1em;
+              font-style: italic;
+            ">
+              ❌ Error al cargar los torneos del club.
+            </td>
+          `;
+          tablaEstadisticasTorneo.appendChild(fila);
+        }
+      });
   });
 }
+
 
 
 // ===== FUNCIONES PARA CREAR FILAS =====

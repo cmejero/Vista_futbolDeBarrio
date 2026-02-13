@@ -105,6 +105,9 @@
 													class="bi bi-youtube" viewBox="0 0 16 16">
 	  <path
 														d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z" />																						
+											
+											
+											
 											</a> <a href="https://www.tiktok.com/@fdb_sevilla"> <svg
 													xmlns="http://www.w3.org/2000/svg" width="1.4vw"
 													height="1.2vw" fill="currentColor"
@@ -128,7 +131,8 @@
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraMedio">
 											<a href="${pageContext.request.contextPath}/registrar">
-												<button type="button" class=" botonRegistrarCabecera" style="background-color: #d4af37;">REGISTRARSE</button>
+												<button type="button" class=" botonRegistrarCabecera"
+													style="background-color: #d4af37;">REGISTRARSE</button>
 											</a>
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraMedio"
@@ -145,7 +149,7 @@
 								</div>
 							</div>
 						</div>
-						
+
 						<!-- fila de abajo -->
 						<div class="col-sm-12 col-md-12  "
 							style="border: solid 2px black; background-color: #004000; box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, 0.45);">
@@ -155,7 +159,8 @@
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-11 col-md-11 cabeceraAbajo ">
-											<a href="${pageContext.request.contextPath}/inicio" class="letraCabeceraAbajo" >INICIO</a>
+											<a href="${pageContext.request.contextPath}/inicio"
+												class="letraCabeceraAbajo">INICIO</a>
 										</div>
 									</div>
 								</div>
@@ -266,7 +271,7 @@
 									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
 									<a href="${pageContext.request.contextPath}/inicio"
 										class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">INICIO</a>
+										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
 								</div>
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-3 ">
@@ -403,37 +408,37 @@
 
 		<div class="container-fluid  ">
 
-		<%
-    String mensajeAlta = request.getParameter("mensajeAlta");
-    if (mensajeAlta != null) {
+			<%
+			String mensajeAlta = request.getParameter("mensajeAlta");
+			if (mensajeAlta != null) {
 
-        String texto = "";
-        String tipo = "danger"; // siempre rojo
+				String texto = "";
+				String tipo = "danger"; // siempre rojo
 
-        switch (mensajeAlta) {
-            case "usuario_existente":
-                texto = "El usuario ya existe";
-                break;
-            case "email_invalido":
-                texto = "El email no es válido";
-                break;
-            case "password_no_coincide":
-                texto = "Las contraseñas no coinciden";
-                break;
-            case "error_servidor":
-                texto = "Error interno del servidor";
-                break;
-            default:
-                texto = "Ocurrió un error inesperado";
-                break;
-        }
-%>
-        <div class="alert alert-<%= tipo %> text-center">
-            <%= texto %>
-        </div>
-<%
-    }
-%>
+				switch (mensajeAlta) {
+					case "usuario_existente" :
+				texto = "El usuario ya existe";
+				break;
+					case "email_invalido" :
+				texto = "El email no es válido";
+				break;
+					case "password_no_coincide" :
+				texto = "Las contraseñas no coinciden";
+				break;
+					case "error_servidor" :
+				texto = "Error interno del servidor";
+				break;
+					default :
+				texto = "Ocurrió un error inesperado";
+				break;
+				}
+			%>
+			<div class="alert alert-<%=tipo%> text-center">
+				<%=texto%>
+			</div>
+			<%
+			}
+			%>
 
 
 			<!-- FORMULARIO USUARIO -->
@@ -461,28 +466,35 @@
 											type="text" class="form-control" id="nombreCompletoUsuario"
 											name="nombreCompletoUsuario"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,50}"
-											title="Solo letras y espacios, mínimo 2 caracteres" required>
-										</td>
+											pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]{3,40}" minlength="3"
+											maxlength="40"
+											title="Solo letras y espacios, entre 3 y 40 caracteres"
+											required></td>
 										<td><label for="aliasUsuario" class="formularioLabel">Alias</label>
 											<input type="text" class="form-control" id="aliasUsuario"
+											name="aliasUsuario"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											name="aliasUsuario" required></td>
+											pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ0-9]{3,12}" minlength="3"
+											maxlength="120"
+											title="Entre 3 y 12 caracteres, letras y números" required>
+										</td>
 									</tr>
 									<tr>
 										<td><label for="fechaNacimientoUsuario"
 											class="formularioLabel">Fecha de Nacimiento</label> <input
-											type="date"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="fechaNacimientoUsuario"
+											type="date" class="form-control" id="fechaNacimientoUsuario"
 											name="fechaNacimientoUsuario"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											max="<%=new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date())%>"
 											required></td>
 										<td><label for="emailUsuario" class="formularioLabel">Correo
 												Electrónico</label> <input type="email" class="form-control"
+											id="emailUsuario" name="emailUsuario"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											id="emailUsuario" name="emailUsuario" required></td>
+											minlength="3" maxlength="42" title="Entre 3 y 42 caracteres"
+											required></td>
 									</tr>
+
 									<tr>
 										<td><label for="telefonoUsuario" class="formularioLabel">Teléfono</label>
 											<input type="tel" class="form-control" id="telefonoUsuario"
@@ -552,73 +564,81 @@
 								<tbody>
 									<tr>
 										<td><label for="nombreClub" class="formularioLabel">Nombre
-												del Club</label> <input type="text"
+												del Club</label> <input type="text" class="form-control"
+											id="nombreClub" name="nombreClub"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="nombreClub" name="nombreClub"
-											required pattern="^[A-Za-zÁáÉéÍíÓóÚúÑñ ]+$"
-											title="El nombre no puede contener números ni caracteres especiales"></td>
-
+											pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{3,50}$"
+											title="Solo letras y espacios, entre 3 y 50 caracteres"
+											required></td>
 										<td><label for="abreviaturaClub" class="formularioLabel">Abreviatura</label>
-											<input type="text"
+											<input type="text" class="form-control" id="abreviaturaClub"
+											name="abreviaturaClub"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="abreviaturaClub"
-											name="abreviaturaClub" required
-											pattern="^[A-Za-zÁáÉéÍíÓóÚúÑñ]+$"
-											title="La abreviatura no puede contener números ni caracteres especiales"
-											maxlength="3" oninput="this.value = this.value.toUpperCase()"></td>
+											pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ]{2,3}$"
+											title="Solo letras, entre 2 y 3 caracteres" maxlength="3"
+											oninput="this.value = this.value.toUpperCase()" required>
+										</td>
 									</tr>
+
 									<tr>
 										<td><label for="emailClub" class="formularioLabel">Correo
-												Electrónico</label> <input type="email"
+												Electrónico</label> <input type="email" class="form-control"
+											id="emailClub" name="emailClub"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="emailClub" name="emailClub" required></td>
-
+											pattern=".{5,40}" title="Correo entre 5 y 40 caracteres"
+											required></td>
 										<td><label for="telefonoClub" class="formularioLabel">Teléfono</label>
-											<input type="tel"
+											<input type="tel" class="form-control" id="telefonoClub"
+											name="telefonoClub"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="telefonoClub" name="telefonoClub"
-											required pattern="^\+?[0-9]{9,15}$"
-											title="El teléfono debe tener entre 9 y 15 dígitos"></td>
+											pattern="^\+?[0-9]{9,15}$"
+											title="El teléfono debe tener entre 9 y 15 dígitos" required>
+										</td>
 									</tr>
+
 									<tr>
 										<td><label for="paisClub" class="formularioLabel">País</label>
-											<input type="text"
+											<input type="text" class="form-control" id="paisClub"
+											name="paisClub"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="paisClub" name="paisClub" required
-											pattern="^[A-Za-zÁáÉéÍíÓóÚúÑñ ]+$"
-											title="El país no puede contener números ni caracteres especiales"></td>
-
+											pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,30}$"
+											title="Solo letras y espacios, entre 2 y 30 caracteres"
+											required></td>
 										<td><label for="localidadClub" class="formularioLabel">Localidad</label>
-											<input type="text"
+											<input type="text" class="form-control" id="localidadClub"
+											name="localidadClub"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="localidadClub" name="localidadClub"
-											required pattern="^[A-Za-zÁáÉéÍíÓóÚúÑñ ]+$"
-											title="La localidad no puede contener números ni caracteres especiales"></td>
+											pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{2,50}$"
+											title="Solo letras y espacios, entre 2 y 50 caracteres"
+											required></td>
 									</tr>
+
 									<tr>
 										<td><label for="passwordClub" class="formularioLabel">Contraseña</label>
-											<input type="password"
+											<input type="password" class="form-control" id="passwordClub"
+											name="passwordClub"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="passwordClub" name="passwordClub"
-											required minlength="8"
-											title="La contraseña debe tener al menos 8 caracteres"></td>
-
+											minlength="8" maxlength="100"
+											title="La contraseña debe tener entre 8 y 100 caracteres"
+											required></td>
 										<td><label for="repasswordClub" class="formularioLabel">Repetir
-												Contraseña</label> <input type="password"
+												Contraseña</label> <input type="password" class="form-control"
+											id="repasswordClub" name="repasswordClub"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											class="form-control" id="repasswordClub"
-											name="repasswordClub" required></td>
+											minlength="8" maxlength="100" required></td>
 									</tr>
+
 									<tr>
 										<td><label for="logoClub" class="formularioLabel">Escudo
-												del Club</label> <input type="file"
-											style="font-size: 1vw; border: 1px solid #818181;"
-											class="form-control" id="logoClub" name="logoClub"></td>
-
+												del Club</label> <input type="file" class="form-control"
+											id="logoClub" name="logoClub"
+											style="font-size: 1vw; border: 1px solid #818181;"></td>
 										<td><label for="descripcionClub" class="formularioLabel">Descripción</label>
-											<textarea class="form-control"
-												style="font-size: 1vw; border: 1px solid #818181; border-bottom: 1px solid #818181;"
-												id="descripcionClub" name="descripcionClub" rows="3"></textarea></td>
+											<textarea class="form-control" id="descripcionClub"
+												name="descripcionClub"
+												style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+												maxlength="300" rows="3" title="Máximo 300 caracteres"></textarea>
+										</td>
 									</tr>
 								</tbody>
 							</table>
@@ -655,12 +675,15 @@
 											class="formularioLabel">Nombre de la Instalación</label> <input
 											type="text" class="form-control" id="nombreInstalacion"
 											name="nombreInstalacion" required
+											pattern="^[A-Za-zÁáÉéÍíÓóÚúÑñ ]{3,50}$"
+											title="El nombre debe tener entre 3 y 50 caracteres, solo letras y espacios"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
 										</td>
 										<td><label for="direccionInstalacion"
 											class="formularioLabel">Dirección</label> <input type="text"
 											class="form-control" id="direccionInstalacion"
-											name="direccionInstalacion" required
+											name="direccionInstalacion" required pattern="^.{5,100}$"
+											title="La dirección debe tener entre 5 y 100 caracteres"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
 										</td>
 									</tr>
@@ -668,31 +691,33 @@
 										<td><label for="emailInstalacion" class="formularioLabel">Correo
 												Electrónico</label> <input type="email" class="form-control"
 											id="emailInstalacion" name="emailInstalacion" required
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											title="Introduce un correo electrónico válido."></td>
+											pattern="^.{5,50}$"
+											title="El correo debe tener entre 5 y 50 caracteres"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
+										</td>
 										<td><label for="telefonoInstalacion"
 											class="formularioLabel">Teléfono</label> <input type="tel"
 											class="form-control" id="telefonoInstalacion"
 											name="telefonoInstalacion" required
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											pattern="^\+?[0-9]{9,15}$"
-											title="El teléfono debe tener entre 9 y 15 dígitos.">
+											title="El teléfono debe tener entre 9 y 15 dígitos"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
 										</td>
 									</tr>
 									<tr>
 										<td><label for="passwordInstalacion"
 											class="formularioLabel">Contraseña</label> <input
 											type="password" class="form-control" id="passwordInstalacion"
-											name="passwordInstalacion" required
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											minlength="8"
-											title="La contraseña debe tener al menos 8 caracteres.">
+											name="passwordInstalacion" required minlength="8"
+											maxlength="100"
+											title="La contraseña debe tener entre 8 y 100 caracteres"
+											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
 										</td>
 										<td><label for="repasswordInstalacion"
 											class="formularioLabel">Repetir Contraseña</label> <input
 											type="password" class="form-control"
 											id="repasswordInstalacion" name="repasswordInstalacion"
-											required
+											required minlength="8" maxlength="100"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;">
 										</td>
 									</tr>
@@ -701,24 +726,18 @@
 												deportiva principal</label> <select class="form-select"
 											id="tipoCampo1" name="tipoCampo1" required
 											style="font-size: 1vw; border: 1px solid #818181;">
-												<option style="font-size: 1.2vw" value="Futbol5">Fútbol
-													5</option>
-												<option style="font-size: 1.2vw" value="Futbol7">Fútbol
-													7</option>
-												<option style="font-size: 1.2vw" value="Futbol11">Fútbol
-													11</option>
+												<option value="Futbol5">Fútbol 5</option>
+												<option value="Futbol7">Fútbol 7</option>
+												<option value="Futbol11">Fútbol 11</option>
 										</select></td>
 										<td><label for="tipoCampo2" class="formularioLabel">Pista
 												deportiva secundaria</label> <select class="form-select"
 											id="tipoCampo2" name="tipoCampo2"
 											style="font-size: 1vw; border: 1px solid #818181;">
-												<option style="font-size: 1.2vw" value="">Ninguno</option>
-												<option style="font-size: 1.2vw" value="Futbol5">Fútbol
-													5</option>
-												<option style="font-size: 1.2vw" value="Futbol7">Fútbol
-													7</option>
-												<option style="font-size: 1.2vw" value="Futbol11">Fútbol
-													11</option>
+												<option value="">Ninguno</option>
+												<option value="Futbol5">Fútbol 5</option>
+												<option value="Futbol7">Fútbol 7</option>
+												<option value="Futbol11">Fútbol 11</option>
 										</select></td>
 									</tr>
 									<tr>
@@ -727,20 +746,17 @@
 											id="tipoCampo3" name="tipoCampo3"
 											style="font-size: 1vw; border: 1px solid #818181;">
 												<option value="">Ninguno</option>
-												<option style="font-size: 1.2vw" value="Futbol5">Fútbol
-													5</option>
-												<option style="font-size: 1.2vw" value="Futbol7">Fútbol
-													7</option>
-												<option style="font-size: 1.2vw" value="Futbol11">Fútbol
-													11</option>
+												<option value="Futbol5">Fútbol 5</option>
+												<option value="Futbol7">Fútbol 7</option>
+												<option value="Futbol11">Fútbol 11</option>
 										</select></td>
 										<td><label for="estadoInstalacion"
 											class="formularioLabel">Estado de la Instalación</label> <select
 											class="form-select" id="estadoInstalacion"
 											name="estadoInstalacion" required
 											style="font-size: 1vw; border: 1px solid #818181;">
-												<option style="font-size: 1.2vw" value="Activo">Activo</option>
-												<option style="font-size: 1.2vw" value="Inactivo">Inactivo</option>
+												<option value="Activo">Activo</option>
+												<option value="Inactivo">Inactivo</option>
 										</select></td>
 									</tr>
 									<tr>
@@ -754,9 +770,10 @@
 											class="formularioLabel">Servicios</label> <textarea
 												class="form-control" id="serviciosInstalacion"
 												name="serviciosInstalacion" rows="3"
-												style="font-size: 1vw; border: 1px solid #818181;"></textarea>
-										</td>
+												style="font-size: 1vw; border: 1px solid #818181;"
+												maxlength="300" title="Hasta 300 caracteres"></textarea></td>
 									</tr>
+
 								</tbody>
 							</table>
 							<div class="text-center mt-4 mb-5">

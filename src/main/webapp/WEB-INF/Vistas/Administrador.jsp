@@ -7,22 +7,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>FUTBOL DE BARRIO</title>
-
 <!-- Estilos CSS -->
-<link rel="stylesheet" href="Css/Estilo.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/Css/Estilo.css">
 
 <!-- Bootstrap CSS -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
 
-<!-- Bootstrap Icons -->
 <link
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
 	rel="stylesheet">
+
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
 
 <!-- DataTables CSS -->
 <link rel="stylesheet"
@@ -56,7 +56,8 @@
 						<!-- columna logo -->
 						<div class="col-sm-1 col-md-1 logo"
 							style="background-color: white; border-top: 2px solid black; border-left: 1px solid black">
-							<img src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
+							<img
+								src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -64,7 +65,7 @@
 							<div class="row ">
 								<!-- fila arriba -->
 								<div class="col-sm-12 col-md-12" style="border: solid 2px black">
-										<div class="row">
+									<div class="row">
 										<div class="col-sm-3 col-md-3 cabeceraArriba p-2 "></div>
 										<div class="col-sm-4 col-md-4 cabeceraArriba "
 											style="justify-content: right;">
@@ -82,10 +83,10 @@
 										<div class="col-sm-1 col-md-1 cabeceraArriba"></div>
 										<div class="col-sm-2 col-md-2 cabeceraArriba "
 											style="justify-content: left;">
-											<a href="">
-												<button type="button" class="botonCabeceraContactar"
-													onclick="abrirGmail()">CONTACTAR</button>
+											<a href="#" onclick="abrirGmail(); return false;">
+												<button type="button" class="botonCabeceraContactar">CONTACTAR</button>
 											</a>
+
 										</div>
 										<div class="col-sm-2 col-md-2 cabeceraArriba">
 											<a href="https://www.instagram.com/futboldebarriosevilla/">
@@ -112,6 +113,7 @@
 													class="bi bi-youtube" viewBox="0 0 16 16">
 	  <path
 														d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z" />																						
+											
 											</a> <a href="https://www.tiktok.com/@fdb_sevilla"> <svg
 													xmlns="http://www.w3.org/2000/svg" width="1.4vw"
 													height="1.2vw" fill="currentColor"
@@ -195,7 +197,8 @@
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
 													</li>
-													<li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout"
+													<li><a class="dropdown-item"
+														href="${pageContext.request.contextPath}/logout"
 														style="color: white;">Cerrar sesión</a></li>
 
 												</ul>
@@ -305,7 +308,8 @@
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
 													</li>
-													<li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout"
+													<li><a class="dropdown-item"
+														href="${pageContext.request.contextPath}/logout"
 														style="color: white;">Cerrar sesión</a></li>
 
 												</ul>
@@ -572,12 +576,14 @@
 													<div class="col-md-6 mb-3">
 														<label for="nombreInstalacionEditar"><b>Nombre</b></label>
 														<input type="text" id="nombreInstalacionEditar"
-															name="nombreInstalacionEditar" class="form-control" required>
+															name="nombreInstalacionEditar" class="form-control"
+															required>
 													</div>
 													<div class="col-md-6 mb-3">
 														<label for="direccionInstalacionEditar"><b>Dirección</b></label>
 														<input type="text" id="direccionInstalacionEditar"
-															name="direccionInstalacionEditar" class="form-control" required>
+															name="direccionInstalacionEditar" class="form-control"
+															required>
 													</div>
 												</div>
 
@@ -648,8 +654,9 @@
 													<div class="col-md-6 mb-3">
 														<label for="imagenInstalacionEditar"><b>Imagen
 																(opcional)</b></label> <input type="file"
-															id="imagenInstalacionEditar" name="imagenInstalacionEditar"
-															class="form-control" accept="image/*">
+															id="imagenInstalacionEditar"
+															name="imagenInstalacionEditar" class="form-control"
+															accept="image/*">
 													</div>
 												</div>
 
@@ -910,14 +917,16 @@
 								ÚTILES</p>
 							<pre
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.05vw">
-<a href="${pageContext.request.contextPath}/administrador" style="color: white">Inicio</a></pre>
+<a href="${pageContext.request.contextPath}/administrador"
+									style="color: white">Inicio</a>
+							</pre>
 						</div>
 						<div class="col-md-3 col-sm-3 g-2 pieDePagina p-3 pb-1">
 							<p style="text-decoration: underline; font-size: 1.5vw">CONTACTO</p>
 							<pre
 								style="font-family: 'Open Sans', sans-serif; font-size: 1.05vw">futboldebarriosevilla@gmail.com
 </pre>
-						</div>	
+						</div>
 						<div class="col-md-2 col-sm-2 g-2 pieDePagina p-3 pb-1">
 							<p
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.5vw">
@@ -967,7 +976,9 @@
 								ÚTILES</p>
 							<pre
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.6vw">
-<a href="${pageContext.request.contextPath}/administrador" style="color: white">Inicio</a></pre>
+<a href="${pageContext.request.contextPath}/administrador"
+									style="color: white">Inicio</a>
+							</pre>
 						</div>
 						<div
 							class="col-4 d-block d-md-none d-sm-none g-2 pieDePagina p-2 ">
@@ -1023,6 +1034,21 @@
 
 
 	<script>
+	
+	function abrirGmail() {
+		const email = "futboldebarrio@gmail.com";
+		const subject = "Titulo del Asunto: ";
+		const body = "Escriba aqui el mensaje....";
+
+		const url = "https://mail.google.com/mail/?view=cm&fs=1&to="
+				+ encodeURIComponent(email) + "&su="
+				+ encodeURIComponent(subject) + "&body="
+				+ encodeURIComponent(body);
+
+		window.open(url, "_blank");
+	}
+	
+	
 	document.addEventListener("DOMContentLoaded", () => {
     // ===========================
     // Contenedores y botones
@@ -1356,7 +1382,6 @@ function eliminarInstalacion(id) {
         if (result.ok) {
             // Recargar tabla desde servidor en lugar de eliminar solo la fila
             cargarInstalaciones();
-            console.log("Instalación eliminada correctamente");
         } else {
             alert(result.text);
         }
@@ -1785,9 +1810,16 @@ cargarResumenInicio();
     cargarInstalaciones();
     cargarClubes();
 });
-	
+
 	</script>
 
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

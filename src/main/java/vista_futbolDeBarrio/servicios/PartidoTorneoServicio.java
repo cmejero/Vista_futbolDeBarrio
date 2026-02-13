@@ -166,7 +166,7 @@ public class PartidoTorneoServicio {
 
                 if (idPartido != null && idPartido != -1) {
                     partido.setIdPartidoTorneo(idPartido);
-                    System.out.println("✅ Partido guardado con ID: " + idPartido);
+                    System.out.println("✅ Partido guardado.");
                     return idPartido;
                 } else {
                     System.err.println("⚠️ No se recibió ID del partido en la respuesta");

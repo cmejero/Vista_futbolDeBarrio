@@ -30,6 +30,15 @@ import vista_futbolDeBarrio.utilidades.Utilidades;
  */
 public class InstalacionServicio {
 	
+	
+	/**
+	 * Crea una instalación a partir de los datos enviados en un formulario HTTP.
+	 *
+	 * @param request Petición HTTP que contiene los datos del formulario de la instalación.
+	 * @return Resultado de la operación de guardado o "error_password" si las contraseñas no coinciden.
+	 * @throws IOException Si ocurre un error de entrada/salida.
+	 * @throws ServletException Si ocurre un error al procesar la solicitud multipart.
+	 */
 	  public String crearInstalacionDesdeFormulario(HttpServletRequest request)
 	            throws IOException, ServletException {
 
@@ -42,7 +51,6 @@ public class InstalacionServicio {
 	        instalacion.setEmailInstalacion(request.getParameter("emailInstalacion"));
 	        instalacion.setPasswordInstalacion(request.getParameter("passwordInstalacion"));
 
-	        // 🔐 Validación de contraseña
 	        String repassword = request.getParameter("repasswordInstalacion");
 	        if (!instalacion.getPasswordInstalacion().equals(repassword)) {
 	            return "error_password";
@@ -50,7 +58,6 @@ public class InstalacionServicio {
 
 	        instalacion.setServiciosInstalacion(request.getParameter("serviciosInstalacion"));
 
-	        // 🏟 Modalidades de las pistas
 	        String tipoCampo1Form = request.getParameter("tipoCampo1");
 	        String tipoCampo2Form = request.getParameter("tipoCampo2");
 	        String tipoCampo3Form = request.getParameter("tipoCampo3");
@@ -71,13 +78,11 @@ public class InstalacionServicio {
 	            instalacion.setTipoCampo3(instalacion.getTipoCampo1());
 	        }
 
-	        // 📌 Estado de la instalación
 	        String estadoInstalacionForm = request.getParameter("estadoInstalacion");
 	        if (estadoInstalacionForm != null && !estadoInstalacionForm.isEmpty()) {
 	            instalacion.setEstadoInstalacion(Estado.valueOf(estadoInstalacionForm));
 	        }
 
-	        // 🖼 Imagen
 	        Part imagenPart = request.getPart("imagenInstalacion");
 	        byte[] imagenBytes;
 
@@ -95,7 +100,6 @@ public class InstalacionServicio {
 	        // 🆔 Torneos (vacío por defecto)
 	        instalacion.setTorneoIds(new ArrayList<>());
 
-	        // 📡 Llamada a la API
 	        return guardarInstalacion(instalacion);
 	    }
 
@@ -270,6 +274,14 @@ public class InstalacionServicio {
 		return lista;
 	}
 
+	
+	/**
+	 * Obtiene la información de una instalación a partir de su ID.
+	 *
+	 * @param idInstalacion ID de la instalación a consultar.
+	 * @param request Petición HTTP desde la que se obtiene el token de sesión.
+	 * @return Objeto InstalacionDto con los datos de la instalación, o null si no se encuentra o ocurre un error.
+	 */
 	public InstalacionDto obtenerInstalacionPorId(Long idInstalacion, HttpServletRequest request) {
 		try {
 			// 1️⃣ Obtener token de sesión
@@ -350,6 +362,7 @@ public class InstalacionServicio {
 
 	}
 
+	
 	/**
 	 * Modifica una instalación existente.
 	 * 
@@ -438,7 +451,7 @@ public class InstalacionServicio {
 	        // 3️⃣ Leer respuesta
 	        int responseCode = conex.getResponseCode();
 	        if (responseCode == HttpURLConnection.HTTP_OK) {
-	            System.out.println("Instalación eliminada correctamente: id=" + idInstalacion);
+	            System.out.println("Instalación eliminada correctamente.");
 	            return true;
 	        } else {
 	            System.out.println("Error al eliminar instalación: " + responseCode);

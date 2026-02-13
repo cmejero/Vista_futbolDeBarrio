@@ -711,15 +711,12 @@ button.add-btn {
 	</footer>
 
 	<script>
-console.log("¡Script cargado!");
 
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("DOM cargado");
 
     // Mostrar/ocultar sección de penales
     const penalesSelect = document.getElementById("penales");
     penalesSelect.addEventListener("change", function() {
-        console.log("Cambio select penales:", this.value);
         document.getElementById("penalesInfo").style.display = this.value === "si" ? "block" : "none";
     });
 
@@ -728,7 +725,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const jugadoresVisitante = <%= new org.json.JSONArray(partido.getJugadoresVisitante()).toString() %>;
 
     const partidoId = document.getElementById("partidoId").value;
-    console.log("Partido ID:", partidoId, "Jugadores Local:", jugadoresLocal, "Jugadores Visitante:", jugadoresVisitante);
 
     // Evento submit del formulario
     const actaForm = document.getElementById("actaForm");
@@ -802,7 +798,6 @@ window.eliminarEvento = function(boton) {
             jugadorSelect.appendChild(option);
         });
 
-        console.log("Jugador actualizado para club:", clubSelect.value, "Jugadores:", jugadores);
     }
 
     // -------------------------
@@ -848,7 +843,6 @@ window.eliminarEvento = function(boton) {
             acta.eventos.push(evento);
         });
 
-        console.log("OBJETO A ENVIAR:", acta);
 
         // Enviar al backend
         fetch("<%=request.getContextPath()%>/instalacion/actaPartido", {
@@ -861,7 +855,6 @@ window.eliminarEvento = function(boton) {
             return res.text();
         })
         .then(msg => {
-            console.log("Respuesta del servidor:", msg);
             alert("✅ Acta guardada correctamente.");
         })
         .catch(err => {

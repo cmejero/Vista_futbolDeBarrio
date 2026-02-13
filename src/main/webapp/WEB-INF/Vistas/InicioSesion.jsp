@@ -697,7 +697,6 @@ window.onload = function() {
     const tipo = urlParams.get('tipoUsuario') || urlParams.get('state');
 
     if (code && tipo) {
-        console.log("🔁 Redirigiendo al servlet con code y tipoUsuario:", tipo);
 
         // Crear formulario dinámico para enviar POST al servlet login
         const form = document.createElement('form');

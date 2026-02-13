@@ -47,7 +47,6 @@ public class UsuarioServicio {
 				System.err.println("No se encontró token JWT en sesión");
 				return null;
 			}
-			System.out.println("Token recibido: " + token);
 
 			// 2️⃣ Preparar la conexión a la API
 			String urlApi = "http://localhost:9527/api/usuarios/" + idUsuario;
@@ -100,6 +99,13 @@ public class UsuarioServicio {
 		return null;
 	}
 
+	
+	/**
+	 * Obtiene la lista de usuarios desde la API utilizando el token de sesión.
+	 *
+	 * @param request Objeto HTTP que contiene la sesión con el token JWT.
+	 * @return Lista de UsuarioDto con los datos de los usuarios.
+	 */
 	public ArrayList<UsuarioDto> obtenerUsuarios(HttpServletRequest request) {
 		ArrayList<UsuarioDto> lista = new ArrayList<>();
 
@@ -168,6 +174,14 @@ public class UsuarioServicio {
 		return lista;
 	}
 
+	
+	
+	/**
+	 * Crea un nuevo usuario a partir de los datos recibidos en un formulario HTTP.
+	 *
+	 * @param request Objeto HTTP con los parámetros del formulario y la imagen del usuario.
+	 * @return Resultado de la creación: "ok", "password_no_coincide" o "error_servidor".
+	 */
 	public String crearUsuarioDesdeFormulario(HttpServletRequest request) {
 
 	    try {
@@ -188,11 +202,12 @@ public class UsuarioServicio {
 	        UsuarioDto usuario = new UsuarioDto();
 	        usuario.setNombreCompletoUsuario(nombre);
 	        usuario.setAliasUsuario(alias);
+	        usuario.setEstadoUsuario(Estado.Activo);
 	        usuario.setFechaNacimientoUsuario(fechaNac);
 	        usuario.setEmailUsuario(email);
 	        usuario.setTelefonoUsuario(telefono);
 	        usuario.setPasswordUsuario(password);
-	        usuario.setRolUsuario(RolUsuario.valueOf(rolString));
+	        usuario.setRolUsuario(RolUsuario.valueOf(rolString.trim()));
 	        usuario.setDescripcionUsuario(descripcion);
 
 	        Part imagenPart = request.getPart("imagenUsuario");
@@ -222,10 +237,12 @@ public class UsuarioServicio {
 			JSONObject json = new JSONObject();
 			json.put("nombreCompletoUsuario", usuario.getNombreCompletoUsuario());
 			json.put("aliasUsuario", usuario.getAliasUsuario());
+			json.put("estadoUsuario", usuario.getEstadoUsuario());
 			json.put("fechaNacimientoUsuario", usuario.getFechaNacimientoUsuario());
 			json.put("emailUsuario", usuario.getEmailUsuario());
 			json.put("telefonoUsuario", usuario.getTelefonoUsuario());
 			json.put("passwordUsuario", usuario.getPasswordUsuario());
+			json.put("descripcionUsuario", usuario.getDescripcionUsuario());
 			json.put("rolUsuario", usuario.getRolUsuario().name());
 			if (usuario.getImagenUsuario() != null) {
 			    String imagenBase64 = Base64.getEncoder().encodeToString(usuario.getImagenUsuario());
@@ -263,6 +280,13 @@ public class UsuarioServicio {
 					}
 				}
 			}
+			if(responseCode != HttpURLConnection.HTTP_OK){
+			    try (BufferedReader br = new BufferedReader(new InputStreamReader(conex.getErrorStream(), "utf-8"))) {
+			        String error = br.lines().reduce("", String::concat);
+			        System.out.println("Error API: " + error);
+			    }
+			}
+
 
 			return "error_servidor";
 

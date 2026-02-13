@@ -23,27 +23,30 @@ public class InicioSesionGoogleServicio {
     private static final String REDIRECT_URI = "http://localhost:8080/vista_futbolDeBarrio/login";
 
     /**
-     * Método principal para login con Google.
+     * Realiza el login de un usuario usando Google.
+     *
+     * @param codeGoogle Código recibido desde Google para obtener el token.
+     * @param tipoUsuario Tipo de usuario que intenta iniciar sesión.
+     * @param context Contexto del servlet.
+     * @return Objeto LoginGoogleDto con la información del usuario, o null si falla el login.
+     * @throws IOException Si ocurre un error durante la comunicación con la API o Google.
      */
     public LoginGoogleDto loginConGoogle(String codeGoogle, String tipoUsuario, ServletContext context) throws IOException {
 
-        // 1️⃣ Obtener token desde Google
         String respuestaToken = obtenerTokenDesdeCodigo(codeGoogle);
 
         if (respuestaToken == null) return null;
 
-        // 2️⃣ Extraer email y nombre del token
         String email = extraerEmailDesdeToken(respuestaToken);
         String nombreCompleto = extraerNombreDesdeToken(respuestaToken);
 
         if (tipoUsuario == null || tipoUsuario.isEmpty()) {
-            // Si no se seleccionó tipo de usuario, retornar null
             return null;
         }
-
-        // 3️⃣ Llamar a API interna para registrar/login del usuario
         return loginUsuarioAPI(email, tipoUsuario, nombreCompleto, context);
     }
+    
+    
 
     // ----------------- MÉTODOS AUXILIARES -----------------
 
@@ -81,6 +84,13 @@ public class InicioSesionGoogleServicio {
         }
     }
 
+    
+    /**
+     * Obtiene el token de acceso de Google a partir de un código de autorización.
+     *
+     * @param codigo Código de autorización recibido desde Google.
+     * @return Token de acceso en formato JSON, o null si ocurre un error.
+     */
     private String extraerEmailDesdeToken(String respuestaToken) {
         JSONObject json = new JSONObject(respuestaToken);
         String idToken = json.getString("id_token");
@@ -88,6 +98,13 @@ public class InicioSesionGoogleServicio {
         return new JSONObject(payload).getString("email");
     }
 
+    
+    /**
+     * Extrae el nombre completo del usuario a partir del token de Google.
+     *
+     * @param respuestaToken Token recibido desde Google en formato JSON.
+     * @return Nombre del usuario o "Desconocido" si no se encuentra.
+     */
     private String extraerNombreDesdeToken(String respuestaToken) {
         JSONObject json = new JSONObject(respuestaToken);
         String idToken = json.getString("id_token");
@@ -95,6 +112,16 @@ public class InicioSesionGoogleServicio {
         return new JSONObject(payload).optString("name", "Desconocido");
     }
 
+    
+    /**
+     * Realiza el login o registro de un usuario en la API interna usando sus datos de Google.
+     *
+     * @param email Correo del usuario.
+     * @param tipoUsuario Tipo de usuario.
+     * @param nombreCompleto Nombre completo del usuario.
+     * @param context Contexto del servlet para obtener recursos como la imagen por defecto.
+     * @return Objeto LoginGoogleDto con los datos del usuario y token, o null si falla la operación.
+     */
     private LoginGoogleDto loginUsuarioAPI(String email, String tipoUsuario, String nombreCompleto, ServletContext context) {
         try {
             JSONObject json = new JSONObject();

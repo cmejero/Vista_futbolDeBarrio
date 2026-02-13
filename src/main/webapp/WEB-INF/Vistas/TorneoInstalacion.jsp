@@ -669,7 +669,6 @@ if (torneoId == null) {
 <script>
 document.addEventListener("DOMContentLoaded", async function () {
 
-    console.log("DOM cargado correctamente");
 
     const searchParams = new URLSearchParams(window.location.search);
     const torneo_id = '<%=torneoId%>';

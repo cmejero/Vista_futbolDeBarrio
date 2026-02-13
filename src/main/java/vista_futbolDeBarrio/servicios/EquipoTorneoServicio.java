@@ -53,6 +53,15 @@ public class EquipoTorneoServicio {
 	    }
 	}
 
+	
+	/**
+	 * Ejecuta una petición POST a la API enviando un JSON con autenticación por token.
+	 *
+	 * @param urlApi URL del endpoint a invocar.
+	 * @param json Datos a enviar en el cuerpo de la petición.
+	 * @param token Token JWT para la autorización.
+	 * @throws Exception Si ocurre un error durante la comunicación.
+	 */
 	private void ejecutarPostConToken(String urlApi, JSONObject json, String token) throws Exception {
 	    URL url = new URL(urlApi);
 	    HttpURLConnection conex = (HttpURLConnection) url.openConnection();
@@ -186,6 +195,14 @@ public class EquipoTorneoServicio {
 
 		return equipos;
 	}
+	
+	
+	/**
+	 * Obtiene la lista de torneos asociados a un usuario.
+	 *
+	 * @param usuarioId ID del usuario a consultar.
+	 * @return Lista de torneos sin duplicados. Si ocurre un error, se devuelve la lista obtenida hasta el momento.
+	 */
 	public ArrayList<TorneoDto> obtenerTorneosPorUsuario(Long usuarioId) {
 	    ArrayList<TorneoDto> torneosTotales = new ArrayList<>();
 	    
@@ -250,13 +267,6 @@ public class EquipoTorneoServicio {
 	}
 
 
-	
-	
-
-	
-	
-
-
 
 	/**
 	 * Modifica los detalles de un equipo que participa en un torneo.
@@ -300,6 +310,13 @@ public class EquipoTorneoServicio {
 		}
 	}
 
+	
+	/**
+	 * Cuenta la cantidad de equipos inscritos en un torneo.
+	 *
+	 * @param torneoId ID del torneo.
+	 * @return Número de equipos asociados al torneo.
+	 */
 	public int contarEquiposPorTorneo(long torneoId) {
 		int contador = 0;
 		for (EquipoTorneoDto equipo : listaEquiposTorneo()) {
@@ -310,10 +327,25 @@ public class EquipoTorneoServicio {
 		return contador;
 	}
 
+	
+	/**
+	 * Indica si aún es posible inscribirse en un torneo según el límite de equipos.
+	 *
+	 * @param torneoId ID del torneo.
+	 * @return true si quedan plazas disponibles, false en caso contrario.
+	 */
 	public boolean puedeInscribirse(Long torneoId) {
 		return contarEquiposPorTorneo(torneoId) < 16;
 	}
 
+	
+	/**
+	 * Comprueba si un club ya está inscrito en un torneo.
+	 *
+	 * @param torneoId ID del torneo.
+	 * @param clubId ID del club.
+	 * @return true si el club está inscrito, false en caso contrario.
+	 */
 	public boolean estaInscrito(Long torneoId, long clubId) {
 	    for (EquipoTorneoDto equipo : obtenerEquiposPorTorneo(torneoId)) {
 	        if (equipo.getClubId() == clubId) { 
@@ -322,8 +354,5 @@ public class EquipoTorneoServicio {
 	    }
 	    return false;
 	}
-
-
-
 
 }

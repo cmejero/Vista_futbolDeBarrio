@@ -24,6 +24,15 @@ import jakarta.servlet.http.HttpServletResponse;
 public class FiltroErrores implements Filter {
 
     @Override
+    /**
+     * Intercepta las solicitudes y redirige a la página de login si ocurre una excepción.
+     *
+     * @param request Objeto de la solicitud HTTP.
+     * @param response Objeto de la respuesta HTTP.
+     * @param chain Cadena de filtros para continuar la ejecución.
+     * @throws IOException Si ocurre un error de E/S.
+     * @throws ServletException Si ocurre un error en el servlet.
+     */
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 

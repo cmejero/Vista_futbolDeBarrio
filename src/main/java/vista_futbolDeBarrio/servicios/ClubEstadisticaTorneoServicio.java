@@ -182,6 +182,13 @@ public class ClubEstadisticaTorneoServicio {
 		}
 
 	
+	 /**
+	  * Obtiene las estadísticas de los torneos asociadas a un club a partir de su identificador.
+	  *
+	  * @param clubId ID único del club del cual se desean recuperar las estadísticas.
+	  * @return Lista de objetos ClubEstadisticaTorneoDto con la información obtenida.
+	  *         Si ocurre un error en la comunicación con la API, se devuelve una lista vacía.
+	  */
     public ArrayList<ClubEstadisticaTorneoDto> obtenerClubEstadisticasTorneoPorClubId(Long clubId) {
         ArrayList<ClubEstadisticaTorneoDto> lista = new ArrayList<>();
         try {

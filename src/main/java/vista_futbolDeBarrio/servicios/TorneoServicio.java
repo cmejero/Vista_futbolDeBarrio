@@ -33,6 +33,9 @@ import vista_futbolDeBarrio.enums.Modalidad;
 import vista_futbolDeBarrio.log.Log;
 import vista_futbolDeBarrio.utilidades.Utilidades;
 
+/**
+ * Clase que se encarga de la logica de los metodos de torneos
+ */
 public class TorneoServicio {
 
 	private final EquipoTorneoServicio equipoTorneoServicio = new EquipoTorneoServicio();
@@ -43,7 +46,12 @@ public class TorneoServicio {
 	
 	
 	
-	   // ------------------ CREAR TORNEO ------------------
+	/**
+	 * Crea un torneo a partir de los datos recibidos en un formulario HTTP.
+	 *
+	 * @param request Petición HTTP con los parámetros del torneo.
+	 * @return "ok" si se crea correctamente, o un mensaje de error si falla la operación.
+	 */
 	public String crearTorneoDesdeFormulario(HttpServletRequest request) {
 
 	    try {
@@ -79,7 +87,6 @@ public class TorneoServicio {
 	        // Guardamos torneo directamente usando servicio local (igual que antes)
 	        guardarTorneo(torneo, request);
 
-	        Log.ficheroLog("Torneo creado: " + nombreTorneo);
 	        return "ok";
 
 	    } catch (Exception e) {
@@ -90,7 +97,12 @@ public class TorneoServicio {
 
   
 
-	// ---------- CRUD Torneo ----------
+	/**
+	 * Envía los datos de un torneo a la API para guardarlo.
+	 *
+	 * @param torneo Objeto TorneoDto con la información del torneo.
+	 * @param request Petición HTTP desde la que se puede obtener información adicional si es necesario.
+	 */
 	public void guardarTorneo(TorneoDto torneo, HttpServletRequest request) {
 	    try {
 	        JSONObject json = crearJsonTorneo(torneo);
@@ -100,8 +112,12 @@ public class TorneoServicio {
 	    }
 	}
 
-	
-	 // ------------------ MODIFICAR TORNEO ------------------
+	/**
+	 * Modifica un torneo a partir de los datos enviados en un formulario HTTP.
+	 *
+	 * @param request Petición HTTP con los parámetros del torneo a modificar.
+	 * @return true si la modificación fue exitosa, false en caso contrario.
+	 */
     public boolean modificarTorneoDesdeFormulario(HttpServletRequest request) {
         try {
             Long idTorneo = Long.parseLong(request.getParameter("idTorneo"));
@@ -126,7 +142,7 @@ public class TorneoServicio {
             boolean exito = modificarTorneo(idTorneo, torneo, request);
 
             if (exito)
-                Log.ficheroLog("Torneo modificado: id=" + idTorneo);
+                Log.ficheroLog("Torneo modificado.");
 
             return exito;
         } catch (Exception e) {
@@ -135,7 +151,14 @@ public class TorneoServicio {
         }
     }
 
-
+    /**
+     * Modifica un torneo en la API usando su ID y los datos proporcionados.
+     *
+     * @param idTorneo ID del torneo a modificar.
+     * @param torneo Objeto TorneoDto con la información actualizada.
+     * @param request Petición HTTP desde la que se obtiene el token JWT de sesión.
+     * @return true si la modificación fue exitosa, false en caso contrario.
+     */
 	public boolean modificarTorneo(long idTorneo, TorneoDto torneo, HttpServletRequest request) {
 	    try {
 	        // 1️⃣ Obtener token JWT de la sesión
@@ -156,14 +179,20 @@ public class TorneoServicio {
 	    }
 	}
 	
-	  // ------------------ ELIMINAR TORNEO ------------------
+	
+	/**
+	 * Elimina un torneo a partir del ID recibido en un formulario HTTP.
+	 *
+	 * @param request Petición HTTP que contiene el ID del torneo a eliminar.
+	 * @return true si la eliminación fue exitosa, false en caso contrario.
+	 */
     public boolean eliminarTorneoDesdeServicio(HttpServletRequest request) {
         try {
             Long idTorneo = Long.parseLong(request.getParameter("idTorneo"));
             boolean eliminado = eliminarTorneo(idTorneo, request);
 
             if (eliminado)
-                Log.ficheroLog("Torneo eliminado: id=" + idTorneo);
+                Log.ficheroLog("Torneo eliminado.");
 
             return eliminado;
 
@@ -173,6 +202,14 @@ public class TorneoServicio {
         }
     }
 
+    
+    /**
+     * Elimina un torneo en la API usando su ID y un token de sesión.
+     *
+     * @param idTorneo ID del torneo a eliminar.
+     * @param request Petición HTTP desde la que se obtiene el token JWT.
+     * @return true si la eliminación fue exitosa, false en caso contrario.
+     */
 	public boolean eliminarTorneo(Long idTorneo, HttpServletRequest request) {
 	    try {
 	        // 1️⃣ Obtener token JWT de la sesión
@@ -199,39 +236,87 @@ public class TorneoServicio {
 	}
 
 
+	/**
+	 * Obtiene la lista de todos los torneos desde la API.
+	 *
+	 * @return Lista de objetos TorneoDto con todos los torneos disponibles.
+	 * @throws Exception Si ocurre un error durante la llamada a la API.
+	 */
 	public List<TorneoDto> obtenerTodosLosTorneos() throws Exception {
 		return hacerLlamadaApi(API_URL);
 	}
 
+	
+	/**
+	 * Obtiene la lista de torneos asociados a una instalación específica desde la API.
+	 *
+	 * @param instalacionId ID de la instalación.
+	 * @return Lista de objetos TorneoDto correspondientes a la instalación.
+	 * @throws Exception Si ocurre un error durante la llamada a la API.
+	 */
 	public List<TorneoDto> obtenerTorneosPorInstalacion(Long instalacionId) throws Exception {
 		return hacerLlamadaApi(API_URL_ID + "?instalacionId=" + instalacionId);
 	}
 
+	
+	/**
+	 * Obtiene un torneo específico por su ID.
+	 *
+	 * @param torneoId ID del torneo a buscar.
+	 * @return Objeto TorneoDto correspondiente al ID proporcionado.
+	 * @throws RuntimeException Si no se encuentra un torneo con el ID dado.
+	 * @throws Exception Si ocurre un error al obtener la lista de torneos.
+	 */
 	public TorneoDto obtenerTorneo(Long torneoId) throws Exception {
 		return obtenerTodosLosTorneos().stream().filter(t -> t.getIdTorneo() == torneoId).findFirst()
 				.orElseThrow(() -> new RuntimeException("Torneo no encontrado con ID " + torneoId));
 	}
 
+	
+	/**
+	 * Obtiene el ID de la instalación asociada a un torneo específico.
+	 *
+	 * @param torneoId ID del torneo.
+	 * @return ID de la instalación correspondiente al torneo.
+	 * @throws Exception Si ocurre un error al obtener el torneo.
+	 */
 	public Long obtenerInstalacionDeTorneo(Long torneoId) throws Exception {
 		return obtenerTorneo(torneoId).getInstalacionId();
 	}
 
 	
     // ------------------ GENERAR BRACKET ------------------
+	
+	/**
+	 * Genera el bracket de un torneo a partir del ID recibido en un formulario HTTP.
+	 *
+	 * @param request Petición HTTP que contiene el ID del torneo.
+	 * @return "ok" si el bracket se generó correctamente, "error" en caso contrario.
+	 */
     public String generarBracketDesdeServicio(HttpServletRequest request) {
         try {
             Long torneoId = Long.parseLong(request.getParameter("torneoId"));
             generarBracket(torneoId, this, equipoTorneoServicio, new PartidoTorneoServicio(), request);
-            Log.ficheroLog("Bracket generado para torneo id=" + torneoId);
+            Log.ficheroLog("Bracket generado para torneo.");
             return "ok";
         } catch (Exception e) {
             e.printStackTrace();
             return "error";
         }
     }
-	/**
-	 * Método principal para generar bracket, usando la lógica de fechas válidas.
-	 */
+    
+    
+    
+    /**
+     * Genera el bracket completo de un torneo (octavos) para 16 equipos, asignando partidos y fechas automáticamente.
+     *
+     * @param torneoId ID del torneo para el cual se genera el bracket.
+     * @param torneoServicio Servicio de torneos para obtener datos y fechas.
+     * @param equipoTorneoServicio Servicio de equipos de torneo para obtener los equipos inscritos.
+     * @param partidoServicio Servicio de partidos para guardar los partidos generados.
+     * @param request Petición HTTP asociada, utilizada para operaciones que requieren contexto de sesión.
+     * @throws Exception Si no hay exactamente 16 equipos o ocurre un error durante la generación.
+     */
 	public void generarBracket(Long torneoId, TorneoServicio torneoServicio, EquipoTorneoServicio equipoTorneoServicio,
 			PartidoTorneoServicio partidoServicio, HttpServletRequest request) throws Exception {
 
@@ -282,6 +367,18 @@ public class TorneoServicio {
 		}
 	}
 
+	
+	/**
+	 * Avanza al equipo ganador a la siguiente ronda y crea los partidos necesarios.
+	 *
+	 * @param partido Partido que se ha finalizado.
+	 * @param idGanador ID del equipo ganador.
+	 * @param partidoServicio Servicio de gestión de partidos.
+	 * @param equipoTorneoServicio Servicio de gestión de equipos del torneo.
+	 * @param torneoServicio Servicio de gestión de torneos.
+	 * @param request Objeto HTTP de la solicitud.
+	 * @throws Exception Si ocurre algún error al actualizar o crear partidos.
+	 */
 	public void avanzarGanador(PartidoTorneoDto partido, Long idGanador, PartidoTorneoServicio partidoServicio,
 			EquipoTorneoServicio equipoTorneoServicio, TorneoServicio torneoServicio, HttpServletRequest request) throws Exception {
 
@@ -426,7 +523,12 @@ public class TorneoServicio {
 
 // ---------- Progreso de Equipos ----------
 	
-	  // ------------------ OBTENER TORNEOS CON PROGRESO ------------------
+	/**
+	 * Obtiene la lista de torneos con el progreso de los equipos.
+	 *
+	 * @param request Objeto HTTP que puede incluir el parámetro "instalacionId".
+	 * @return Lista de torneos en formato JSON con el progreso de los equipos.
+	 */
     public List<JSONObject> obtenerTorneosConProgreso(HttpServletRequest request) {
         try {
             String idParam = request.getParameter("instalacionId");
@@ -455,12 +557,25 @@ public class TorneoServicio {
         }
     }
     
-    
+    /**
+     * Calcula el progreso de inscripción de equipos en un torneo.
+     *
+     * @param torneoId ID del torneo.
+     * @return Cadena con el número de equipos inscritos sobre el total (16).
+     */
 	public String progresoEquipos(Long torneoId) {
 		int inscritos = equipoTorneoServicio.contarEquiposPorTorneo(torneoId);
 		return inscritos + " / 16";
 	}
 
+	
+	
+	/**
+	 * Actualiza el número de clubes inscritos en un torneo.
+	 *
+	 * @param torneoId ID del torneo a actualizar.
+	 * @param request Objeto HTTP de la solicitud.
+	 */
 	public void actualizarClubesInscritos(Long torneoId, HttpServletRequest request) {
 	    try {
 	        int inscritos = equipoTorneoServicio.contarEquiposPorTorneo(torneoId);
@@ -474,10 +589,10 @@ public class TorneoServicio {
 	            boolean resultado = modificarTorneo(torneoId, torneo, request);
 
 	            if (!resultado) {
-	                Log.ficheroLog("No se pudo actualizar clubesInscritos para torneoId=" + torneoId);
+	                Log.ficheroLog("No se pudo actualizar clubesInscritos.");
 	            }
 	        } else {
-	            Log.ficheroLog("Torneo no encontrado para torneoId=" + torneoId);
+	            Log.ficheroLog("Torneo no encontrado.");
 	        }
 	    } catch (Exception e) {
 	        Log.ficheroLog("Error al actualizar clubesInscritos: " + e.getMessage());
@@ -487,6 +602,14 @@ public class TorneoServicio {
 
 
 	// ---------- Métodos privados ----------
+	
+	
+	/**
+	 * Convierte un objeto TorneoDto en un JSONObject con sus datos principales.
+	 *
+	 * @param torneo Objeto TorneoDto a convertir.
+	 * @return JSONObject con la información del torneo.
+	 */
 	private JSONObject crearJsonTorneo(TorneoDto torneo) {
 	    JSONObject json = new JSONObject();
 	    json.put("nombreTorneo", torneo.getNombreTorneo());
@@ -502,6 +625,16 @@ public class TorneoServicio {
 
 	    return json;
 	}
+	
+	
+	/**
+	 * Realiza una solicitud HTTP POST a la URL indicada con un JSON y token de sesión.
+	 *
+	 * @param urlApi URL del endpoint al que se enviará la solicitud.
+	 * @param json Objeto JSON que se enviará en el cuerpo de la petición.
+	 * @param request Objeto HTTP que contiene la sesión con el token JWT.
+	 * @throws Exception Si ocurre un error en la conexión o la respuesta HTTP no es 200.
+	 */
 	private void ejecutarPost(String urlApi, JSONObject json, HttpServletRequest request) throws Exception {
 
 	    // 1️⃣ Obtener token de la sesión
@@ -536,7 +669,15 @@ public class TorneoServicio {
 	    }
 	}
 
-
+	/**
+	 * Realiza una solicitud HTTP PUT a la URL indicada usando un token de autorización.
+	 *
+	 * @param urlApi URL del endpoint al que se enviará la solicitud.
+	 * @param json Objeto JSON que se enviará en el cuerpo de la petición.
+	 * @param token Token JWT para autorización.
+	 * @return true si la respuesta HTTP es 200, false en caso contrario.
+	 * @throws Exception Si ocurre un error en la conexión.
+	 */
 	private boolean ejecutarPutConToken(String urlApi, JSONObject json, String token) throws Exception {
 	    URL url = new URL(urlApi);
 	    HttpURLConnection conex = (HttpURLConnection) url.openConnection();
@@ -553,6 +694,14 @@ public class TorneoServicio {
 	    return responseCode == HttpURLConnection.HTTP_OK;
 	}
 
+	
+	/**
+	 * Realiza una solicitud HTTP GET a la URL indicada y devuelve la lista de torneos.
+	 *
+	 * @param urlStr URL del endpoint de la API.
+	 * @return Lista de objetos TorneoDto obtenidos de la API.
+	 * @throws Exception Si ocurre un error en la conexión o la respuesta no es 200.
+	 */
 	private List<TorneoDto> hacerLlamadaApi(String urlStr) throws Exception {
 		URL url = new URL(urlStr);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -570,8 +719,16 @@ public class TorneoServicio {
 			throw new RuntimeException("Error en la llamada a la API: código " + conn.getResponseCode());
 	}
 
+	
+	
 	/**
-	 * Crea un partido base sin asignar equipos aún.
+	 * Crea un objeto PartidoTorneoDto básico con los datos esenciales.
+	 *
+	 * @param torneoId ID del torneo al que pertenece el partido.
+	 * @param ronda Ronda del torneo (octavos, cuartos, semifinal, etc.).
+	 * @param ubicacion Posición del partido dentro de la ronda.
+	 * @return PartidoTorneoDto inicializado y listo para usarse.
+	 * @throws Exception Si ocurre un error al obtener la instalación del torneo.
 	 */
 	private PartidoTorneoDto crearPartidoBase(Long torneoId, String ronda, int ubicacion) throws Exception {
 		PartidoTorneoDto partido = new PartidoTorneoDto();
@@ -583,12 +740,17 @@ public class TorneoServicio {
 		return partido;
 	}
 
+	
+	
 	// ---------- Métodos auxiliares ----------
 
 
 	/**
-	 * Genera fecha y hora para un partido de manera aleatoria dentro del rango
-	 * permitido, evitando solapamientos y respetando margen de 1h30 entre partidos.
+	 * Asigna la próxima fecha y hora disponible para un partido evitando conflictos.
+	 *
+	 * @param usados Lista de fechas ya asignadas.
+	 * @param inicioSemana Fecha de inicio de la semana para programar partidos.
+	 * @return LocalDateTime disponible para el partido.
 	 */
 	private LocalDateTime asignarFechaPartido(List<LocalDateTime> usados, LocalDate inicioSemana) {
 		List<LocalTime> horarios = Arrays.asList(LocalTime.of(19, 0), LocalTime.of(20, 30), LocalTime.of(22, 0));
@@ -615,13 +777,28 @@ public class TorneoServicio {
 		}
 	}
 
+	
+	/**
+	 * Obtiene la última fecha programada entre una lista de partidos.
+	 *
+	 * @param partidos Lista de partidos del torneo.
+	 * @return Última fecha de partido; si no hay fechas, retorna la fecha actual.
+	 */
 	private LocalDate obtenerUltimaFecha(List<PartidoTorneoDto> partidos) {
 		return partidos.stream().map(PartidoTorneoDto::getFechaPartido).filter(fp -> fp != null && !fp.isEmpty())
 				.map(fp -> LocalDateTime.parse(fp, FORMATO_FECHA).toLocalDate()).max(LocalDate::compareTo)
 				.orElse(LocalDate.now());
 	}
 	
-	 // ------------------ ACTIVAR TORNEO ------------------
+	
+	
+	/**
+	 * Activa un torneo si tiene 16 equipos inscritos y genera el bracket.
+	 *
+	 * @param request Objeto HTTP que contiene el parámetro "idTorneo".
+	 * @return "ok" si se activó correctamente, "no_16" si no hay 16 equipos,
+	 *         "no_encontrado" si no se encuentra el torneo, "error" en caso de fallo.
+	 */
     public String activarTorneoDesdeServicio(HttpServletRequest request) {
         try {
             Long torneoId = Long.parseLong(request.getParameter("idTorneo"));
@@ -646,7 +823,7 @@ public class TorneoServicio {
             boolean exito = modificarTorneo(torneoId, torneo, request);
 
             if (exito) {
-                Log.ficheroLog("Torneo activado: id=" + torneoId);
+                Log.ficheroLog("Torneo activado.");
                 return "ok";
             } else {
                 return "error";

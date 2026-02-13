@@ -74,6 +74,13 @@ public class JugadorEstadisticaTorneoServicio {
 	    return lista;
 	}
 
+	
+	/**
+	 * Obtiene las estadísticas de los jugadores en un torneo específico.
+	 *
+	 * @param torneoId ID del torneo.
+	 * @return Lista de JugadorEstadisticaTorneoDto con la información de los jugadores.
+	 */
 	public ArrayList<JugadorEstadisticaTorneoDto> obtenerJugadoresPorTorneo(Long torneoId) {
 	    ArrayList<JugadorEstadisticaTorneoDto> lista = new ArrayList<>();
 	    try {
@@ -156,7 +163,12 @@ public class JugadorEstadisticaTorneoServicio {
         return null;
     }
 
-    
+    /**
+     * Obtiene las estadísticas de torneos de un jugador específico.
+     *
+     * @param jugadorId ID del jugador.
+     * @return Lista de JugadorEstadisticaTorneoDto con la información de los torneos del jugador.
+     */
     public ArrayList<JugadorEstadisticaTorneoDto> obtenerJugadorEstadisticasTorneoPorJugadorId(Long jugadorId) {
     	ArrayList<JugadorEstadisticaTorneoDto> lista = new ArrayList<>();
     	try {

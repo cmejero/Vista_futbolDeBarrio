@@ -637,9 +637,26 @@ if (esPremium == null)
                 const misClubes = data.misClubes || [];
 
                 if (misClubes.length === 0) {
-                    container.innerHTML = '<p>No perteneces a ningún club aún.</p>';
+                    container.innerHTML = `
+                        <div style="
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            background-color: #f8d7da;
+                            color: #721c24;
+                            border: 1px solid #f5c6cb;
+                            border-radius: 10px;
+                            padding: 20px;
+                            margin: 8vw 0;
+                            font-size: 1.1rem;
+                        ">
+                            <span style="font-size: 2rem; margin-right: 10px;">⚠️</span>
+                            <span>No perteneces a ningún club todavía. ¡Únete a uno para empezar a jugar y disfrutar!</span>
+                        </div>
+                    `;
                     return;
                 }
+
 
                 for (let i = 0; i < misClubes.length; i++) {
                     const club = misClubes[i].club;

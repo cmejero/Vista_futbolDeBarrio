@@ -1433,6 +1433,10 @@ button.paginacion {
 	cursor: pointer;
 }
 
+
+
+
+
 .infoPaginacion {
 	font-size: 1.1vw;
 	display: flex;
@@ -1516,23 +1520,45 @@ button.paginacion :hover {
 	border: 1px solid #333333;
 }
 
-.botonMarcadores {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	/* Asegura que la imagen esté arriba y el texto debajo */
-	text-align: center;
-	border: none;
-	background-color: white;
-	box-shadow: 0vw 0.4vw 0.8vw rgba(0, 0, 0, 1), 0vw -0.4vw 0.8vw
-		rgba(0, 0, 0, 0.15);
-	font-weight: bold;
-	font-size: 1.5vw;
+/* Botón Premium con borde dorado y sombra */
+.premium-btn {
+    background: linear-gradient(135deg, #f0d060, #e0b000);
+    color: #fff;
+    font-weight: bold;
+    border: 1px solid black;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0vw 0.4vw 0.8vw rgba(0, 0, 0, 1), 0vw -0.4vw 0.8vw rgba(0, 0, 0, 0.15); /* sombra por defecto */
 }
 
-.botonMarcadores:hover {
-	transform: scale(1.1);
+/* Hover premium: más específico para que no se pise */
+.botonMarcadoresPremium.premium-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #ffb700; /* sombra dorada premium */
+}
+
+/* Estilo común para todos los botones de marcadores */
+.botonMarcadores, .botonMarcadoresPremium {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    border: none;
+    background-color: white;
+    box-shadow: 0vw 0.4vw 0.8vw rgba(0, 0, 0, 1), 0vw -0.4vw 0.8vw rgba(0, 0, 0, 0.15);
+    font-weight: bold;
+    font-size: 1.5vw;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+
+
+/* Hover común (para los botones normales) */
+.botonMarcadores:hover, .botonMarcadoresPremium:not(.premium-btn):hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 12px rgba(0,0,0,0.2); /* sombra sutil */
 }
 
 @media ( max-width : 576px) {

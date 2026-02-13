@@ -922,8 +922,7 @@ h1 {
 
         // Pago aprobado
         onApprove: function(data, actions) {
-            console.log("Pago aprobado por PayPal:", data);
-            console.log("Tipo de usuario:", tipoUsuario);
+           
 
             // Llamar al backend para activar premium
             fetch(contextPath + '/pagoPremium?tipo=' + tipoUsuario, {
@@ -944,7 +943,6 @@ h1 {
 
         // Pago cancelado
         onCancel: function(data) {
-            console.log("Pago cancelado:", data);
             window.location.href = contextPath + '/pagoPremium?mensajePago=cancelado';
         },
 

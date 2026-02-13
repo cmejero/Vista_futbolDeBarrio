@@ -123,6 +123,13 @@ public class MiembroClubServicio {
 	}
 
 	
+	/**
+	 * Obtiene los clubes asociados a un usuario en formato JSON.
+	 *
+	 * @param usuarioId ID del usuario.
+	 * @param clubId ID de un club específico para verificar membresía (opcional).
+	 * @return JSON como String con la lista de clubes y si el usuario es miembro del club indicado.
+	 */
 	public String obtenerMisClubesEnJson(Long usuarioId, Long clubId) {
 
 	    boolean esMiembro = false;
@@ -146,7 +153,12 @@ public class MiembroClubServicio {
 	}
 
 
-	
+	/**
+	 * Obtiene los jugadores de un club en formato JSON.
+	 *
+	 * @param clubId ID del club.
+	 * @return JSON como String con la información de los jugadores y su membresía en el club.
+	 */
 	public String obtenerJugadoresDelClubEnJson(Long clubId) {
 	    List<JugadorEstadisticaGlobalDto> jugadores = listarJugadoresPorClub(clubId);
 	    List<MiembroClubDto> miembros = listarMiembrosClub(clubId);
@@ -165,6 +177,12 @@ public class MiembroClubServicio {
 	}
 
 	
+	/**
+	 * Convierte un objeto MiembroClubDto a un JSONObject.
+	 *
+	 * @param miembro Objeto MiembroClubDto a convertir.
+	 * @return JSONObject con los datos del miembro y del club asociado.
+	 */
 	private JSONObject convertirMiembroClubAJson(MiembroClubDto miembro) {
 	    JSONObject json = new JSONObject();
 	    json.put("idMiembroClub", miembro.getIdMiembroClub());
@@ -179,6 +197,13 @@ public class MiembroClubServicio {
 	    return json;
 	}
 
+	
+	/**
+	 * Convierte un objeto ClubDto a un JSONObject.
+	 *
+	 * @param club Objeto ClubDto a convertir.
+	 * @return JSONObject con los datos del club, incluyendo el logo en Base64 si existe.
+	 */
 	private JSONObject convertirClubAJson(ClubDto club) {
 	    JSONObject jsonClub = new JSONObject();
 	    jsonClub.put("idClub", club.getIdClub());
@@ -194,6 +219,14 @@ public class MiembroClubServicio {
 	    return jsonClub;
 	}
 
+	
+	/**
+	 * Convierte un objeto JugadorEstadisticaGlobalDto a un JSONObject, incluyendo información de membresía en un club si existe.
+	 *
+	 * @param j Objeto JugadorEstadisticaGlobalDto a convertir.
+	 * @param miembro Objeto MiembroClubDto asociado al jugador (opcional).
+	 * @return JSONObject con los datos del jugador y su membresía en el club.
+	 */
 	private JSONObject convertirJugadorAJson(JugadorEstadisticaGlobalDto j, MiembroClubDto miembro) {
 	    JSONObject jsonJugador = new JSONObject();
 	    jsonJugador.put("nombreJugador", j.getNombreJugador());
@@ -391,6 +424,13 @@ public class MiembroClubServicio {
 		}
 	}
 
+	
+	/**
+	 * Lista los clubes a los que pertenece un usuario.
+	 *
+	 * @param usuarioId ID del usuario.
+	 * @return Lista de objetos MiembroClubDto con la información de los clubes y los datos de los miembros.
+	 */
 	public List<MiembroClubDto> listarMisClubesPorUsuario(Long usuarioId) {
 		List<MiembroClubDto> lista = new ArrayList<>();
 
@@ -471,6 +511,13 @@ public class MiembroClubServicio {
 		return lista;
 	}
 
+	
+	/**
+	 * Lista los jugadores asociados a un club.
+	 *
+	 * @param clubId ID del club.
+	 * @return Lista de objetos JugadorEstadisticaGlobalDto con las estadísticas globales de los jugadores.
+	 */
 	public List<JugadorEstadisticaGlobalDto> listarJugadoresPorClub(Long clubId) {
 		List<JugadorEstadisticaGlobalDto> lista = new ArrayList<>();
 

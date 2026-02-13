@@ -885,9 +885,22 @@ function cargarTorneos() {
             tbody.innerHTML = "";
 
             if (!data || !Array.isArray(data) || data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6">No hay torneos disponibles</td></tr>';
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="
+                            text-align: center; 
+                            color: #ff6600; 
+                            font-weight: bold; 
+                            font-style: italic; 
+                            padding: 1em;
+                        ">
+                            ⚠️ No hay torneos disponibles
+                        </td>
+                    </tr>
+                `;
                 return;
             }
+
 
             function inscritosCount(str) {
                 if (!str) return 0;
