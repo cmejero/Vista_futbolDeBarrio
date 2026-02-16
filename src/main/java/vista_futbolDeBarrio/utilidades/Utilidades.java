@@ -159,22 +159,23 @@ public class Utilidades {
 	 *
 	 * @param response Objeto HTTP para agregar las cookies con expiración cero.
 	 */
-	public static void borrarCookies(HttpServletResponse response) {
-		String[] nombres = { "tokenUsuario", "tipoUsuario" };
-		for (String nombre : nombres) {
-			// Cookie normal
-			Cookie c = new Cookie(nombre, "");
-			c.setMaxAge(0);
-			c.setPath("/");
-			response.addCookie(c);
+	public static void borrarCookies(HttpServletResponse response, String contextPath) {
+	    String[] nombres = { "tokenUsuario", "tipoUsuario" };
+	    for (String nombre : nombres) {
+	        // Cookie normal
+	        Cookie c = new Cookie(nombre, "");
+	        c.setMaxAge(0);
+	        c.setPath(contextPath); 
+	        response.addCookie(c);
 
-			// Cookie secure (solo HTTPS)
-			Cookie cSecure = new Cookie(nombre, "");
-			cSecure.setMaxAge(0);
-			cSecure.setPath("/");
-			cSecure.setSecure(true);
-			response.addCookie(cSecure);
-		}
+	        // Cookie secure (solo HTTPS)
+	        Cookie cSecure = new Cookie(nombre, "");
+	        cSecure.setMaxAge(0);
+	        cSecure.setPath(contextPath); 
+	        cSecure.setSecure(true);
+	        response.addCookie(cSecure);
+	    }
 	}
+
 
 }

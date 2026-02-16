@@ -38,7 +38,7 @@ public class CerrarSesionControlador extends HttpServlet {
         try {
             HttpSession session = request.getSession(false);
 
-            // Logging del usuario que cierra sesión
+            // 1️⃣ Invalidar sesión primero
             if (session != null) {
                 String tipoUsuario = (String) session.getAttribute("tipoUsuario");
                 Object datosUsuario = session.getAttribute("datosUsuario");
@@ -55,19 +55,16 @@ public class CerrarSesionControlador extends HttpServlet {
                 } else {
                     Log.ficheroLog("Sesión cerrada para un tipo de usuario desconocido.");
                 }
+
+                session.invalidate();
+                Log.ficheroLog("Sesión invalidada correctamente.");
             } else {
                 Log.ficheroLog("Intento de cierre de sesión sin sesión activa.");
             }
 
-            // 1️⃣ Borrar cookies (Secure y no secure)
-            Utilidades.borrarCookies(response);
+            // 2️⃣ Borrar cookies después
+            Utilidades.borrarCookies(response, request.getContextPath());
             Log.ficheroLog("Cookies borradas correctamente.");
-
-            // 2️⃣ Invalidar sesión
-            if (session != null) {
-                session.invalidate();
-                Log.ficheroLog("Sesión invalidada correctamente.");
-            }
 
             // 3️⃣ Redirigir a login
             response.sendRedirect("login?mensaje=sesion_cerrada");
@@ -79,4 +76,5 @@ public class CerrarSesionControlador extends HttpServlet {
             response.sendRedirect("login?mensaje=error_sesion");
         }
     }
+
 }

@@ -11,23 +11,38 @@
     </welcome-file-list>
 
 
-    <filter>
-        <filter-name>FiltroErrores</filter-name>
-        <filter-class>vista_futbolDeBarrio.filtros.FiltroErrores</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>FiltroErrores</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+<filter>
+    <filter-name>FiltroErrores</filter-name>
+    <filter-class>vista_futbolDeBarrio.filtros.FiltroErrores</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>FiltroErrores</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
 
+<!-- ========================= -->
+<!-- Filtro para recordar sesión -->
+<!-- ========================= -->
+<filter>
+    <filter-name>FiltroRecordarSesion</filter-name>
+    <filter-class>vista_futbolDeBarrio.filtros.FiltroRecordarSesion</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>FiltroRecordarSesion</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
 
-    <filter>
-        <filter-name>FiltroDeAutoridad</filter-name>
-        <filter-class>vista_futbolDeBarrio.filtros.FiltroDeAutoridad</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>FiltroDeAutoridad</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+<!-- ========================= -->
+<!-- Filtro de autoridad -->
+<!-- ========================= -->
+<filter>
+    <filter-name>FiltroDeAutoridad</filter-name>
+    <filter-class>vista_futbolDeBarrio.filtros.FiltroDeAutoridad</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>FiltroDeAutoridad</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+
 
 </web-app>

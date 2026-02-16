@@ -1,17 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-String tipoUsuario = (String) session.getAttribute("tipoUsuario");
-if (tipoUsuario == null)
-	tipoUsuario = "jugador";
+    // Validación de sesión en el servidor
+    Long usuarioId = (Long) session.getAttribute("usuarioId");
+    String tipoUsuario = (String) session.getAttribute("tipoUsuario");
+    String nombreUsuario = (String) session.getAttribute("nombreUsuario");
+    Boolean esPremium = (Boolean) session.getAttribute("esPremium");
 
-Long usuarioId = (Long) session.getAttribute("usuarioId");
-String nombreUsuario = (String) session.getAttribute("nombreUsuario");
-if (nombreUsuario == null)
-	nombreUsuario = "Invitado";
-Boolean esPremium = (Boolean) session.getAttribute("esPremium");
-if (esPremium == null)
-	esPremium = false;
+    if (usuarioId == null || tipoUsuario == null || !tipoUsuario.equals("jugador")) {
+        response.sendRedirect("acceso_denegado.jsp");
+        return; // Detener la ejecución de la JSP
+    }
+
+    if (nombreUsuario == null) nombreUsuario = "Invitado";
+    if (esPremium == null) esPremium = false;
 %>
 
 
@@ -610,83 +612,73 @@ if (esPremium == null)
 
 
 
-	<script>
-    // Guardamos tipoUsuario y usuarioId en sessionStorage
-    sessionStorage.setItem('tipoUsuario', '<%=tipoUsuario%>');
-    sessionStorage.setItem('usuarioId', '<%=usuarioId%>');
 
-
-    // Redirigir si no es jugador
-    if (sessionStorage.getItem('tipoUsuario') !== 'jugador') {
-        window.location.href = 'acceso_denegado.jsp';
-    }
+<script>
+    // Guardamos información en sessionStorage
+    sessionStorage.setItem('tipoUsuario', '<%= tipoUsuario %>');
+    sessionStorage.setItem('usuarioId', '<%= usuarioId %>');
 
     async function cargarDatosUsuario() {
         try {
-        	const res = await fetch('<%=request.getContextPath()%>/jugador?accion=datos');
-            if (!res.ok) throw new Error("Acceso denegado");
+            const res = await fetch('<%= request.getContextPath() %>/jugador?accion=datos', {
+                credentials: 'same-origin'
+            });
+
+            if (!res.ok) {
+                console.error("No se pudo obtener los datos del usuario", res.status);
+                return; // no redirigimos, solo mostramos error en consola
+            }
 
             const data = await res.json();
 
             const usuario = data.usuario;
             const estadisticas = data.estadisticas;
 
-            document.querySelector('.tarjeta-nombre').innerText = usuario.nombreCompletoUsuario;
-            document.querySelector('.tarjeta-alias').innerText = usuario.aliasUsuario;
-            document.querySelector('.tarjeta-estado').innerText = usuario.estadoUsuario;
+            document.querySelector('.tarjeta-nombre').innerText = usuario.nombreCompletoUsuario || '';
+            document.querySelector('.tarjeta-alias').innerText = usuario.aliasUsuario || '';
+            document.querySelector('.tarjeta-estado').innerText = usuario.estadoUsuario || '';
 
             if (usuario.imagenUsuario) {
                 document.querySelector('.tarjeta-imagen').src =
                     "data:image/png;base64," + usuario.imagenUsuario;
             }
 
-            const partidosTotales =
-                (estadisticas.partidosGanadosGlobal || 0) +
-                (estadisticas.partidosPerdidosGlobal || 0);
-
-            const porcentajeVictorias =
-                partidosTotales > 0
-                    ? Math.round((estadisticas.partidosGanadosGlobal * 100) / partidosTotales)
-                    : 0;
-
-            const porcentajeDerrotas =
-                partidosTotales > 0
-                    ? Math.round((estadisticas.partidosPerdidosGlobal * 100) / partidosTotales)
-                    : 0;
+            const partidosTotales = (estadisticas.partidosGanadosGlobal || 0) + (estadisticas.partidosPerdidosGlobal || 0);
+            const porcentajeVictorias = partidosTotales > 0 ? Math.round((estadisticas.partidosGanadosGlobal * 100) / partidosTotales) : 0;
+            const porcentajeDerrotas = partidosTotales > 0 ? Math.round((estadisticas.partidosPerdidosGlobal * 100) / partidosTotales) : 0;
 
             const stats = document.querySelectorAll('.tarjeta-estadistica');
-            stats[0].querySelector('strong').innerText = partidosTotales;
-            stats[1].querySelector('strong').innerText = estadisticas.golesGlobal;
-            stats[2].querySelector('strong').innerText = estadisticas.amarillasGlobal;
-            stats[3].querySelector('strong').innerText = estadisticas.rojasGlobal;
-            stats[4].querySelector('strong').innerText = estadisticas.partidosGanadosGlobal;
-            stats[5].querySelector('strong').innerText = estadisticas.partidosPerdidosGlobal;
-            stats[6].querySelector('strong').innerText = porcentajeVictorias + '%';
-            stats[7].querySelector('strong').innerText = porcentajeDerrotas + '%';
+            if(stats.length >= 8) {
+                stats[0].querySelector('strong').innerText = partidosTotales;
+                stats[1].querySelector('strong').innerText = estadisticas.golesGlobal || 0;
+                stats[2].querySelector('strong').innerText = estadisticas.amarillasGlobal || 0;
+                stats[3].querySelector('strong').innerText = estadisticas.rojasGlobal || 0;
+                stats[4].querySelector('strong').innerText = estadisticas.partidosGanadosGlobal || 0;
+                stats[5].querySelector('strong').innerText = estadisticas.partidosPerdidosGlobal || 0;
+                stats[6].querySelector('strong').innerText = porcentajeVictorias + '%';
+                stats[7].querySelector('strong').innerText = porcentajeDerrotas + '%';
+            }
 
-        } catch (e) {
-            window.location.href = "acceso_denegado.jsp";
+        } catch (error) {
+            console.error("Error al cargar datos de usuario:", error);
         }
     }
 
     window.onload = cargarDatosUsuario;
 
+    function abrirGmail() {
+        const email = "futboldebarrio@gmail.com";
+        const subject = "Titulo del Asunto: ";
+        const body = "Escriba aqui el mensaje....";
 
-		window.onload = cargarDatosUsuario;
-		
-		function abrirGmail() {
-		    const email = "futboldebarrio@gmail.com";
-		    const subject = "Titulo del Asunto: ";
-		    const body = "Escriba aqui el mensaje....";
+        const url = "https://mail.google.com/mail/?view=cm&fs=1&to="
+                    + encodeURIComponent(email)
+                    + "&su=" + encodeURIComponent(subject)
+                    + "&body=" + encodeURIComponent(body);
 
-		    const url = "https://mail.google.com/mail/?view=cm&fs=1&to=" 
-		                + encodeURIComponent(email) 
-		                + "&su=" + encodeURIComponent(subject) 
-		                + "&body=" + encodeURIComponent(body);
-
-		    window.open(url, "_blank");
-		}
-	</script>
+        window.open(url, "_blank");
+    }
+</script>
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

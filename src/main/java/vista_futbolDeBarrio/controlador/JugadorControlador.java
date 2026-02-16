@@ -50,47 +50,50 @@ public class JugadorControlador extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
+        HttpSession session = request.getSession(false);
+
+        // 🔐 Seguridad básica
+        if (session == null || session.getAttribute("token") == null) {
+            Log.ficheroLog("JugadorControlador: intento de acceso sin sesión o token inválido");
+            response.sendRedirect(request.getContextPath() + "/login?error=accesoDenegado");
+            return;
+        }
+
+        if (!"jugador".equals(session.getAttribute("tipoUsuario"))) {
+            Log.ficheroLog("JugadorControlador: Acceso denegado (tipoUsuario no es jugador)");
+            response.sendRedirect(request.getContextPath() + "/login?error=accesoDenegado");
+            return;
+        }
+
+        Long usuarioId = (Long) session.getAttribute("usuarioId");
+        if (usuarioId == null) {
+            Log.ficheroLog("JugadorControlador: Acceso denegado (usuarioId nulo)");
+            response.sendRedirect(request.getContextPath() + "/login?error=accesoDenegado");
+            return;
+        }
+
+        String accion = request.getParameter("accion");
+
         try {
-        	 HttpSession session = request.getSession(false);
-
-             // 🔐 Seguridad básica
-             if (session == null || session.getAttribute("token") == null) {
-                 Log.ficheroLog("EventoJugadorControlador: intento de acceso sin sesión o token inválido");
-                 response.sendRedirect(request.getContextPath() + "/login?error=accesoDenegado");
-                 return;
-             }
-         
-
-            if (!"jugador".equals(session.getAttribute("tipoUsuario"))) {
-                response.sendRedirect("login?error=accesoDenegado");
-                Log.ficheroLog("JugadorControlador: Acceso denegado (tipoUsuario no es jugador)");
-                return;
-            }
-
-            Long usuarioId = (Long) session.getAttribute("usuarioId");
-            if (usuarioId == null) {
-                response.sendRedirect("login?error=accesoDenegado");
-                Log.ficheroLog("JugadorControlador: Acceso denegado (usuarioId nulo)");
-                return;
-            }
-
-            String accion = request.getParameter("accion");
-
-            // ✅ Petición AJAX para obtener datos del jugador
             if ("datos".equals(accion)) {
-                UsuarioDto usuario = usuarioServicio.obtenerUsuario(request, usuarioId);
-                JugadorEstadisticaGlobalDto estadisticas =
-                        estadisticaServicio.obtenerJugadorEstadisticasGlobal(usuarioId);
+                UsuarioDto usuario = null;
+                JugadorEstadisticaGlobalDto estadisticas = null;
 
-                if (usuario == null || estadisticas == null) {
-                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                    Log.ficheroLog("JugadorControlador: Error al obtener datos o estadísticas para usuarioId=" + usuarioId);
-                    return;
+                try {
+                    usuario = usuarioServicio.obtenerUsuario(request, usuarioId);
+                    estadisticas = estadisticaServicio.obtenerJugadorEstadisticasGlobal(usuarioId);
+                } catch (Exception ex) {
+                    Log.ficheroLog("JugadorControlador: Error obteniendo datos para usuarioId=" + usuarioId + " -> " + ex.getMessage());
                 }
 
                 Map<String, Object> resultado = new HashMap<>();
-                resultado.put("usuario", usuario);
-                resultado.put("estadisticas", estadisticas);
+                if (usuario != null) resultado.put("usuario", usuario);
+                if (estadisticas != null) resultado.put("estadisticas", estadisticas);
+
+                if (resultado.isEmpty()) {
+                    resultado.put("error", "No se pudieron cargar los datos del jugador");
+                    response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
+                }
 
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
@@ -99,16 +102,16 @@ public class JugadorControlador extends HttpServlet {
                 return;
             }
 
-            // ✅ Cargar la vista normal si no es AJAX
+            // Cargar vista normal si no es AJAX
             request.getRequestDispatcher("/WEB-INF/Vistas/Jugador.jsp").forward(request, response);
             Log.ficheroLog("JugadorControlador: Cargada vista Jugador.jsp para usuarioId=" + usuarioId);
 
         } catch (Exception e) {
-            // Manejo de errores global
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("{\"error\":\"Error interno del servidor\"}");
-            Log.ficheroLog("JugadorControlador - Error: " + e.getMessage());
+            Log.ficheroLog("JugadorControlador - Error general: " + e.getMessage());
         }
     }
+
 }

@@ -433,7 +433,7 @@ if (esPremium == null)
 								class="botonMarcadoresPremium p-4 premium-btn">
 								
 								<img class="imagenMarcadoresPremium"
-									src="${pageContext.request.contextPath}/Imagenes/jugadorPremium.png"
+									src="${pageContext.request.contextPath}/Imagenes/premium.png"
 									alt="Premium"> ESTADÍSTICAS PREMIUM
 							</button>
 						</div>

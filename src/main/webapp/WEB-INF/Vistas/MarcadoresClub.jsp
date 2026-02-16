@@ -732,7 +732,7 @@ if (tipoUsuario == null) {
     <button id="botonMarcadoresPremium" class="botonMarcadoresPremium p-4 premium-btn">
         <div class="premium-content">
             <img class="imagenMarcadoresPremium"
-                 src="${pageContext.request.contextPath}/Imagenes/clubPremium.png"
+                 src="${pageContext.request.contextPath}/Imagenes/premium.png"
                  alt="Premium">
             ESTADÍSTICAS PREMIUM
         </div>

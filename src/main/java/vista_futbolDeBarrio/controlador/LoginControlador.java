@@ -1,6 +1,7 @@
 package vista_futbolDeBarrio.controlador;
 
 import java.io.IOException;
+import java.util.Map;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -9,9 +10,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import vista_futbolDeBarrio.dtos.ClubDto;
-import vista_futbolDeBarrio.dtos.InstalacionDto;
 import vista_futbolDeBarrio.dtos.LoginGoogleDto;
 import vista_futbolDeBarrio.dtos.RespuestaLoginDto;
 import vista_futbolDeBarrio.dtos.UsuarioDto;
@@ -19,49 +17,81 @@ import vista_futbolDeBarrio.log.Log;
 import vista_futbolDeBarrio.servicios.InicioSesionGoogleServicio;
 import vista_futbolDeBarrio.servicios.LoginServicio;
 
-/**
- * Controlador encargado de manejar el inicio de sesión de los usuarios.
- * Permite login normal (email/password) y login con Google.
- * Administra la sesión, cookies y redirección según tipo de usuario.
- */
 @WebServlet("/login")
 @MultipartConfig
 public class LoginControlador extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    // Servicios principales de login
-    private LoginServicio servicioLogin = new LoginServicio();
-    private InicioSesionGoogleServicio servicioGoogle = new InicioSesionGoogleServicio();
+    private final LoginServicio servicioLogin = new LoginServicio();
+    private final InicioSesionGoogleServicio servicioGoogle = new InicioSesionGoogleServicio();
 
-    /**
-     * GET: Muestra la página de inicio de sesión
-     * @param request HttpServletRequest
-     * @param response HttpServletResponse
-     */
     @Override
+    /**
+     * Maneja GET en la página de login.
+     *
+     * - Intenta login automático si existe cookie de token persistente.
+     * - Si token válido, reconstruye sesión y redirige.
+     * - Si token inválido o ausente, muestra la página de login con mensaje opcional.
+     *
+     * @param request Solicitud HTTP con cookies y parámetros.
+     * @param response Respuesta HTTP para forward a JSP o redirección.
+     * @throws ServletException Error de servlet al forward.
+     * @throws IOException Error de E/S durante forward o redirección.
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        try {
-            String mensaje = request.getParameter("mensaje");
-            if (mensaje != null) request.setAttribute("mensaje", mensaje);
-
-            request.getRequestDispatcher("/WEB-INF/Vistas/InicioSesion.jsp")
-                   .forward(request, response);
-
-        } catch (Exception e) {
-            Log.ficheroLog("Error mostrando la página de login: " + e.getMessage());
-            response.sendRedirect("login?error=servidor");
+        // 🔹 Intento de login automático desde cookie
+        Cookie[] cookies = request.getCookies();
+        String tokenCookie = null;
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if ("tokenUsuario".equals(c.getName())) tokenCookie = c.getValue();
+            }
         }
+
+        if (tokenCookie != null) {
+            Map<String, Object> datos = servicioLogin.validarTokenPersistente(tokenCookie);
+            if (datos != null) {
+                // Reconstruir sesión y redirigir automáticamente
+                servicioLogin.manejarSesion(
+                        request,
+                        response,
+                        datos.get("datosUsuario"),
+                        (String) datos.get("jwt"),
+                        (String) datos.get("tipoUsuario")
+                );
+                return;
+            } else {
+                // Token inválido o expirado
+                servicioLogin.borrarCookies(response, request.getContextPath());
+            }
+        }
+
+        // Mostrar página de login
+        String mensaje = request.getParameter("mensaje");
+        if (mensaje != null) request.setAttribute("mensaje", mensaje);
+        request.getRequestDispatcher("/WEB-INF/Vistas/InicioSesion.jsp").forward(request, response);
     }
 
-    /**
-     * POST: Maneja el login normal o con Google
-     * @param request HttpServletRequest
-     * @param response HttpServletResponse
-     */
+    
+    
     @Override
+    /**
+     * Maneja POST en la página de login.
+     *
+     * - Soporta login con Google usando código OAuth.
+     * - Soporta login normal con email y contraseña.
+     * - Permite recordar sesión mediante token persistente y cookies.
+     * - Reconstruye sesión y redirige según tipo de usuario.
+     * - Redirige a login con mensaje de error si falla.
+     *
+     * @param request Solicitud HTTP con parámetros de login.
+     * @param response Respuesta HTTP para redirección o forward a JSP.
+     * @throws ServletException Error de servlet al forward.
+     * @throws IOException Error de E/S durante redirección o forward.
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -75,14 +105,26 @@ public class LoginControlador extends HttpServlet {
                         codeGoogle, tipoUsuario, request.getServletContext());
 
                 if (loginDto != null) {
-                    Log.ficheroLog("Login exitoso con Google. Usuario: " + loginDto.getNombreCompleto());
-                    manejarSesion(request, response, loginDto);
+                    Log.ficheroLog("Login exitoso con Google: " + loginDto.getNombreCompleto());
+
+                    // 🔹 Convertir LoginGoogleDto a UsuarioDto para manejar sesión unificada
+                    UsuarioDto usuario = new UsuarioDto();
+                    usuario.setIdUsuario(loginDto.getIdTipoUsuario());
+                    usuario.setNombreCompletoUsuario(loginDto.getNombreCompleto());
+                    usuario.setEsPremium(loginDto.isEsPremium());
+
+                    // 🔹 Manejar sesión usando LoginServicio unificado
+                    servicioLogin.manejarSesion(request, response,
+                            usuario,
+                            loginDto.getToken(),
+                            loginDto.getTipoUsuario());
+                    return;
                 } else {
                     Log.ficheroLog("Error login con Google: respuesta nula");
                     request.setAttribute("error", "googleAPI");
                     request.getRequestDispatcher("/WEB-INF/Vistas/InicioSesion.jsp").forward(request, response);
+                    return;
                 }
-                return;
             }
 
             // 🔹 LOGIN NORMAL
@@ -90,162 +132,45 @@ public class LoginControlador extends HttpServlet {
             String password = request.getParameter("password");
             boolean recordarSesion = "on".equals(request.getParameter("recordarSesion"));
 
-            Log.ficheroLog("Intento de login normal. Email: " + email);
+            Log.ficheroLog("Intento login normal: " + email);
 
             RespuestaLoginDto respuestaLogin = servicioLogin.login(email, password, tipoUsuario);
 
             if (respuestaLogin != null && respuestaLogin.getToken() != null) {
-                Log.ficheroLog("Login exitoso. Email: " + email);
-                manejarSesion(request, response, respuestaLogin);
 
+                // 🔹 RECORDAR SESIÓN antes de manejar sesión
                 if (recordarSesion) {
-                    Cookie cookieToken = new Cookie("tokenUsuario", respuestaLogin.getToken());
-                    cookieToken.setMaxAge(60 * 60 * 24 * 30);
-                    cookieToken.setPath(request.getContextPath());
-                    response.addCookie(cookieToken);
-
-                    Cookie cookieTipo = new Cookie("tipoUsuario", respuestaLogin.getTipoUsuario());
-                    cookieTipo.setMaxAge(60 * 60 * 24 * 30);
-                    cookieTipo.setPath(request.getContextPath());
-                    response.addCookie(cookieTipo);
-
-                    Log.ficheroLog("Cookies de sesión agregadas para recordar al usuario: " + email);
+                    String tokenPersistente = servicioLogin.generarTokenPersistente(
+                            respuestaLogin.getDatosUsuario(),
+                            respuestaLogin.getTipoUsuario(),
+                            respuestaLogin.getToken());
+                    if (tokenPersistente != null) {
+                        servicioLogin.agregarTokenYCookies(response, tokenPersistente, respuestaLogin.getTipoUsuario(), request.getContextPath());
+                        Log.ficheroLog("Cookies persistentes agregadas: " + email);
+                    }
+                } else {
+                    servicioLogin.borrarCookies(response, request.getContextPath());
                 }
 
+                // 🔹 Manejar sesión usando LoginServicio unificado
+                servicioLogin.manejarSesion(request, response,
+                        respuestaLogin.getDatosUsuario(),
+                        respuestaLogin.getToken(),
+                        respuestaLogin.getTipoUsuario());
+                return;
+
             } else {
-                Log.ficheroLog("Credenciales incorrectas. Email: " + email);
+                Log.ficheroLog("Credenciales incorrectas: " + email);
                 response.sendRedirect("InicioSesion.jsp?error=credenciales");
+                return;
             }
 
         } catch (Exception e) {
-            Log.ficheroLog("Error en el proceso de login: " + e.getMessage());
+            Log.ficheroLog("Error en login POST: " + e.getMessage());
             e.printStackTrace();
             response.sendRedirect("InicioSesion.jsp?error=servidor");
+            return;
         }
     }
 
-    // ================= MÉTODOS AUXILIARES =================
-
-    /**
-     * Maneja la sesión y redirección para LoginGoogleDto
-     */
-    private void manejarSesion(HttpServletRequest request, HttpServletResponse response, LoginGoogleDto loginDto) throws IOException {
-        HttpSession sesion = crearSesion(request);
-
-        try {
-            sesion.setAttribute("token", loginDto.getToken());
-            sesion.setAttribute("tipoUsuario", loginDto.getTipoUsuario());
-            sesion.setAttribute("esPremium", loginDto.isEsPremium());
-
-            asignarIdYNombreSesion(sesion, loginDto.getTipoUsuario(), loginDto.getIdTipoUsuario(), loginDto.getNombreCompleto());
-
-            redirigirPorTipoUsuario(response, loginDto.getTipoUsuario());
-
-        } catch (Exception e) {
-            Log.ficheroLog("Error manejando sesión LoginGoogleDto: " + e.getMessage());
-            throw e;
-        }
-    }
-
-    /**
-     * Maneja la sesión y redirección para RespuestaLoginDto
-     */
-    private void manejarSesion(HttpServletRequest request, HttpServletResponse response, RespuestaLoginDto respuestaLogin) throws IOException {
-        HttpSession sesion = crearSesion(request);
-
-        try {
-            sesion.setAttribute("token", respuestaLogin.getToken());
-            sesion.setAttribute("tipoUsuario", respuestaLogin.getTipoUsuario());
-            sesion.setAttribute("datosUsuario", respuestaLogin.getDatosUsuario());
-
-            asignarIdUsuarioASesion(sesion, respuestaLogin.getTipoUsuario(), respuestaLogin.getDatosUsuario());
-
-            redirigirPorTipoUsuario(response, respuestaLogin.getTipoUsuario());
-
-        } catch (Exception e) {
-            Log.ficheroLog("Error manejando sesión RespuestaLoginDto: " + e.getMessage());
-            throw e;
-        }
-    }
-
-    /**
-     * Invalida la sesión vieja y crea una nueva
-     */
-    private HttpSession crearSesion(HttpServletRequest request) {
-        HttpSession oldSession = request.getSession(false);
-        if (oldSession != null) {
-            oldSession.invalidate();
-            Log.ficheroLog("Sesión anterior invalidada");
-        }
-        return request.getSession(true);
-    }
-
-    /**
-     * Asigna el ID y nombre de usuario según tipo
-     */
-    private void asignarIdYNombreSesion(HttpSession session, String tipoUsuario, long id, String nombreCompleto) {
-        switch (tipoUsuario.toLowerCase()) {
-            case "jugador":
-                session.setAttribute("usuarioId", id);
-                session.setAttribute("nombreUsuario", nombreCompleto);
-                break;
-            case "club":
-                session.setAttribute("clubId", id);
-                session.setAttribute("nombreClub", nombreCompleto);
-                break;
-            case "instalacion":
-                session.setAttribute("idInstalacion", id);
-                session.setAttribute("nombreInstalacion", nombreCompleto);
-                break;
-            default:
-                session.setAttribute("esPremium", false);
-                Log.ficheroLog("Tipo de usuario desconocido al asignar ID/nombre: " + tipoUsuario);
-        }
-    }
-
-    /**
-     * Asigna el ID de usuario según objeto de datosUsuario
-     */
-    private void asignarIdUsuarioASesion(HttpSession session, String tipoUsuario, Object datosUsuario) {
-        switch (tipoUsuario.toLowerCase()) {
-            case "instalacion":
-                if (datosUsuario instanceof InstalacionDto inst) {
-                    session.setAttribute("idInstalacion", inst.getIdInstalacion());
-                    session.setAttribute("nombreInstalacion", inst.getNombreInstalacion());
-                }
-                break;
-            case "club":
-                if (datosUsuario instanceof ClubDto club) {
-                    session.setAttribute("clubId", club.getIdClub());
-                    session.setAttribute("nombreClub", club.getNombreClub());
-                    session.setAttribute("esPremium", club.isEsPremium());
-                }
-                break;
-            case "jugador":
-                if (datosUsuario instanceof UsuarioDto user) {
-                    session.setAttribute("usuarioId", user.getIdUsuario());
-                    session.setAttribute("nombreUsuario", user.getNombreCompletoUsuario());
-                    session.setAttribute("esPremium", user.isEsPremium());
-                }
-                break;
-            default:
-                session.setAttribute("esPremium", false);
-                Log.ficheroLog("Tipo de usuario desconocido al asignar datosUsuario: " + tipoUsuario);
-        }
-    }
-
-    /**
-     * Redirige al usuario según tipo
-     */
-    private void redirigirPorTipoUsuario(HttpServletResponse response, String tipoUsuario) throws IOException {
-        switch (tipoUsuario.toLowerCase()) {
-            case "administrador": response.sendRedirect("administrador"); break;
-            case "jugador": response.sendRedirect("jugador"); break;
-            case "club": response.sendRedirect("club"); break;
-            case "instalacion": response.sendRedirect("instalacion"); break;
-            default:
-                Log.ficheroLog("Tipo de usuario desconocido al redirigir: " + tipoUsuario);
-                response.sendRedirect("login?error=tipoDesconocido");
-        }
-    }
 }

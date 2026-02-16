@@ -50,6 +50,12 @@ public class InicioSesionGoogleServicio {
 
     // ----------------- MÉTODOS AUXILIARES -----------------
 
+    /**
+     * Intercambia el código de autorización por un token de acceso mediante el servicio OAuth.
+     *
+     * @param codigo Código recibido tras la autenticación del usuario.
+     * @return Respuesta del servidor con el token en formato JSON, o null si ocurre un error.
+     */
     private String obtenerTokenDesdeCodigo(String codigo) {
         try {
             URL url = new URL("https://oauth2.googleapis.com/token");

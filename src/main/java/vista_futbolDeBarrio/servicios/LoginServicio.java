@@ -1,140 +1,362 @@
 package vista_futbolDeBarrio.servicios;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONObject;
 
-import vista_futbolDeBarrio.dtos.*;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import vista_futbolDeBarrio.dtos.ClubDto;
+import vista_futbolDeBarrio.dtos.InstalacionDto;
+import vista_futbolDeBarrio.dtos.RespuestaLoginDto;
+import vista_futbolDeBarrio.dtos.UsuarioDto;
+import vista_futbolDeBarrio.enums.Estado;
+import vista_futbolDeBarrio.log.Log;
 
-/**
- * Servicio encargado de la lógica de autenticación.
- */
 public class LoginServicio {
 
-	/**
-	 * Realiza el login de un usuario en la API interna.
-	 *
-	 * @param email       Correo del usuario.
-	 * @param password    Contraseña del usuario.
-	 * @param tipoUsuario Tipo de usuario que intenta iniciar sesión.
-	 * @return Objeto RespuestaLoginDto con los datos del login, o null si falla la
-	 *         operación.
-	 */
-	public RespuestaLoginDto login(String email, String password, String tipoUsuario) {
-		try {
-			JSONObject json = new JSONObject();
-			json.put("email", email);
-			json.put("password", password);
-			json.put("tipoUsuario", tipoUsuario);
+    private static final String URL_API = "http://localhost:9527/api";
 
-			HttpURLConnection conex = (HttpURLConnection) new URL("http://localhost:9527/api/login").openConnection();
+    /**
+     * Realiza login enviando email, contraseña y tipo de usuario a la API.
+     *
+     * @param email Correo del usuario.
+     * @param password Contraseña del usuario.
+     * @param tipoUsuario Tipo de usuario (jugador, club, instalacion).
+     * @return RespuestaLoginDto con token y datos del usuario si es correcto, null si falla.
+     */
+    public RespuestaLoginDto login(String email, String password, String tipoUsuario) {
+        try {
+            JSONObject json = new JSONObject();
+            json.put("email", email);
+            json.put("password", password);
+            json.put("tipoUsuario", tipoUsuario);
 
-			conex.setRequestMethod("POST");
-			conex.setRequestProperty("Content-Type", "application/json");
-			conex.setDoOutput(true);
+            HttpURLConnection con = (HttpURLConnection) new URL(URL_API + "/login").openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setDoOutput(true);
 
-			try (OutputStream os = conex.getOutputStream()) {
-				os.write(json.toString().getBytes("utf-8"));
-			}
+            try (OutputStream os = con.getOutputStream()) {
+                os.write(json.toString().getBytes("utf-8"));
+            }
 
-			if (conex.getResponseCode() == HttpURLConnection.HTTP_OK) {
-				BufferedReader br = new BufferedReader(new InputStreamReader(conex.getInputStream()));
-				StringBuilder sb = new StringBuilder();
-				String linea;
-				while ((linea = br.readLine()) != null)
-					sb.append(linea);
+            if (con.getResponseCode() == 200) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) sb.append(line);
+                return construirRespuestaLogin(new JSONObject(sb.toString()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-				return construirRespuestaLogin(new JSONObject(sb.toString()));
-			}
+    /**
+     * Genera un token persistente para mantener sesión del usuario.
+     *
+     * @param datosUsuario DTO del usuario.
+     * @param tipoUsuario Tipo de usuario (jugador, club, instalacion).
+     * @param jwt JWT actual del usuario.
+     * @return Token persistente como String o null si falla.
+     */
+    public String generarTokenPersistente(Object datosUsuario, String tipoUsuario, String jwt) {
+        Long idUsuario = extraerId(datosUsuario, tipoUsuario);
+        if (idUsuario == null) return null;
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+        try {
+            JSONObject json = new JSONObject();
+            json.put("idUsuario", idUsuario);
+            json.put("tipoUsuario", tipoUsuario);
 
-	/**
-	 * Obtiene los datos de un usuario a partir de su token de sesión.
-	 *
-	 * @param token       Token JWT del usuario.
-	 * @param tipoUsuario Tipo de usuario.
-	 * @return Objeto con los datos del usuario, o null si ocurre un error.
-	 */
-	public Object obtenerDatosUsuario(String token, String tipoUsuario) {
-		try {
-			HttpURLConnection conex = (HttpURLConnection) new URL("http://localhost:9527/api/usuario/datos")
-					.openConnection();
+            URL url = new URL(URL_API + "/recordar");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json; utf-8");
+            con.setRequestProperty("Accept", "application/json");
+            con.setRequestProperty("Authorization", "Bearer " + jwt);
+            con.setDoOutput(true);
 
-			conex.setRequestMethod("GET");
-			conex.setRequestProperty("Authorization", "Bearer " + token);
+            try (OutputStream os = con.getOutputStream()) {
+                os.write(json.toString().getBytes("utf-8"));
+            }
 
-			if (conex.getResponseCode() == HttpURLConnection.HTTP_OK) {
-				BufferedReader br = new BufferedReader(new InputStreamReader(conex.getInputStream()));
-				StringBuilder sb = new StringBuilder();
-				String linea;
-				while ((linea = br.readLine()) != null)
-					sb.append(linea);
+            int status = con.getResponseCode();
+            if (status == 200) {
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"))) {
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) sb.append(line);
+                    JSONObject resp = new JSONObject(sb.toString());
+                    return resp.getString("token");
+                }
+            } else {
+                System.err.println("Error al generar token persistente. HTTP: " + status);
+            }
 
-				JSONObject datos = new JSONObject(sb.toString()).getJSONObject("datosUsuario");
-				return mapearUsuario(tipoUsuario, datos);
-			}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+    /**
+     * Valida un token persistente mediante la API.
+     *
+     * @param token Token persistente a validar.
+     * @return Mapa con JWT, tipo de usuario y datos del usuario, o null si es inválido.
+     */
+    public Map<String,Object> validarTokenPersistente(String token) {
+        try {
+            URL url = new URL(URL_API + "/validarToken");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json; utf-8");
+            con.setDoOutput(true);
 
-	/**
-	 * Mapea un JSONObject con los datos del usuario al DTO correspondiente según su
-	 * tipo.
-	 *
-	 * @param tipoUsuario Tipo de usuario ("jugador", "administrador", "club" o
-	 *                    "instalacion").
-	 * @param datos       JSONObject con la información del usuario.
-	 * @return Objeto DTO correspondiente al tipo de usuario, o null si el tipo no
-	 *         coincide.
-	 */
-	private Object mapearUsuario(String tipoUsuario, JSONObject datos) {
-		switch (tipoUsuario) {
-		case "jugador":
-		case "administrador":
-			UsuarioDto u = new UsuarioDto();
-			u.setIdUsuario(datos.getLong("idUsuario"));
-			u.setNombreCompletoUsuario(datos.getString("nombreCompletoUsuario"));
-			u.setEmailUsuario(datos.getString("emailUsuario"));
-			u.setEsPremium(datos.getBoolean("esPremium"));
-			return u;
-		case "club":
-			ClubDto c = new ClubDto();
-			c.setIdClub(datos.getLong("idClub"));
-			c.setNombreClub(datos.getString("nombreClub"));
-			c.setEmailClub(datos.getString("emailClub"));
-			c.setEsPremium(datos.getBoolean("esPremium"));
-			return c;
-		case "instalacion":
-			InstalacionDto i = new InstalacionDto();
-			i.setIdInstalacion(datos.getLong("idInstalacion"));
-			i.setNombreInstalacion(datos.getString("nombreInstalacion"));
-			return i;
-		}
-		return null;
-	}
+            JSONObject json = new JSONObject();
+            json.put("token", token);
 
-	
-	/**
-	 * Construye un objeto RespuestaLoginDto a partir de la respuesta JSON de login.
-	 *
-	 * @param json JSONObject con los datos de la respuesta de login.
-	 * @return Objeto RespuestaLoginDto con el token, tipo de usuario y datos del usuario.
-	 */
-	private RespuestaLoginDto construirRespuestaLogin(JSONObject json) {
-		RespuestaLoginDto r = new RespuestaLoginDto();
-		r.setToken(json.getString("token"));
-		r.setTipoUsuario(json.getString("tipoUsuario"));
-		r.setDatosUsuario(mapearUsuario(r.getTipoUsuario(), json.getJSONObject("datosUsuario")));
-		return r;
-	}
+            try (OutputStream os = con.getOutputStream()) {
+                os.write(json.toString().getBytes("utf-8"));
+            }
+
+            if (con.getResponseCode() == 200) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) sb.append(line);
+
+                JSONObject resp = new JSONObject(sb.toString());
+                String tipo = resp.getString("tipoUsuario");
+                JSONObject datosUsuarioJson = resp.getJSONObject("datosUsuario");
+                Object usuario = mapearUsuario(tipo, datosUsuarioJson);
+
+                Map<String,Object> resultado = new HashMap<>();
+                resultado.put("jwt", resp.getString("jwt"));
+                resultado.put("tipoUsuario", tipo);
+                resultado.put("datosUsuario", usuario);
+
+                Log.ficheroLog("validarTokenPersistente -> tipo: " + tipo + ", usuario: " + usuario);
+                return resultado;
+            } else {
+                Log.ficheroLog("Token inválido o expirado: HTTP " + con.getResponseCode());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    
+    
+    /**
+     * Obtiene el ID del usuario según su tipo.
+     *
+     * @param datosUsuario DTO del usuario.
+     * @param tipoUsuario Tipo de usuario ("jugador", "club", "instalacion", "administrador").
+     * @return ID del usuario, o null si el tipo no es válido.
+     */
+    private Long extraerId(Object datosUsuario, String tipoUsuario) {
+        switch (tipoUsuario.toLowerCase()) {
+            case "jugador":
+            case "administrador": return ((UsuarioDto) datosUsuario).getIdUsuario();
+            case "club": return ((ClubDto) datosUsuario).getIdClub();
+            case "instalacion": return ((InstalacionDto) datosUsuario).getIdInstalacion();
+        }
+        return null;
+    }
+
+    /**
+     * Convierte un JSONObject en el DTO correspondiente según el tipo de usuario.
+     *
+     * @param tipoUsuario Tipo de usuario ("jugador", "club", "instalacion", "administrador").
+     * @param datos JSONObject con los datos del usuario.
+     * @return DTO del usuario mapeado, o null si ocurre un error.
+     */
+    private Object mapearUsuario(String tipoUsuario, JSONObject datos) {
+        try {
+            switch (tipoUsuario.toLowerCase()) {
+                case "jugador":
+                case "administrador":
+                    UsuarioDto u = new UsuarioDto();
+                    u.setIdUsuario(datos.getLong("idUsuario"));
+                    u.setNombreCompletoUsuario(datos.getString("nombreCompletoUsuario"));
+                    u.setAliasUsuario(datos.optString("aliasUsuario", "Invitado"));
+                    String estadoStr = datos.optString("estadoUsuario", "Activo");
+                    try { u.setEstadoUsuario(Estado.valueOf(estadoStr)); }
+                    catch (IllegalArgumentException e) { u.setEstadoUsuario(Estado.Activo); }
+                    u.setEmailUsuario(datos.getString("emailUsuario"));
+                    String img = datos.optString("imagenUsuario", null);
+                    if(img != null) u.setImagenUsuario(Base64.getDecoder().decode(img));
+                    u.setEsPremium(datos.optBoolean("esPremium", false));
+                    return u;
+
+                case "club":
+                    ClubDto c = new ClubDto();
+                    c.setIdClub(datos.getLong("idClub"));
+                    c.setNombreClub(datos.getString("nombreClub"));
+                    c.setEmailClub(datos.getString("emailClub"));
+                    c.setEsPremium(datos.optBoolean("esPremium", false));
+                    return c;
+
+                case "instalacion":
+                    InstalacionDto i = new InstalacionDto();
+                    i.setIdInstalacion(datos.getLong("idInstalacion"));
+                    i.setNombreInstalacion(datos.getString("nombreInstalacion"));
+                    return i;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Construye un DTO de respuesta de login a partir del JSON recibido de la API.
+     *
+     * @param json JSONObject con token, tipoUsuario y datosUsuario.
+     * @return RespuestaLoginDto con la información mapeada del usuario.
+     */
+    private RespuestaLoginDto construirRespuestaLogin(JSONObject json) {
+        RespuestaLoginDto r = new RespuestaLoginDto();
+        r.setToken(json.getString("token"));
+        r.setTipoUsuario(json.getString("tipoUsuario"));
+        r.setDatosUsuario(mapearUsuario(r.getTipoUsuario(), json.getJSONObject("datosUsuario")));
+        return r;
+    }
+    
+    
+    /**
+     * Crea una nueva sesión HTTP, invalidando la anterior si existe.
+     *
+     * @param request Objeto de la solicitud HTTP.
+     * @return Nueva HttpSession activa.
+     */
+    public HttpSession crearSesion(HttpServletRequest request) {
+        HttpSession oldSession = request.getSession(false);
+        if (oldSession != null) oldSession.invalidate();
+        return request.getSession(true);
+    }
+
+    
+    /**
+     * Asigna atributos del usuario a la sesión según su tipo.
+     *
+     * @param session Sesión HTTP donde se guardarán los datos.
+     * @param tipoUsuario Tipo de usuario ("jugador", "club", "instalacion").
+     * @param datosUsuario DTO del usuario con la información a guardar.
+     */
+    public void asignarDatosUsuarioASesion(HttpSession session, String tipoUsuario, Object datosUsuario) {
+        switch (tipoUsuario.toLowerCase()) {
+            case "jugador" -> {
+                UsuarioDto u = (UsuarioDto) datosUsuario;
+                session.setAttribute("usuarioId", u.getIdUsuario());
+                session.setAttribute("nombreUsuario", u.getNombreCompletoUsuario());
+                session.setAttribute("esPremium", u.isEsPremium());
+            }
+            case "club" -> {
+                ClubDto c = (ClubDto) datosUsuario;
+                session.setAttribute("clubId", c.getIdClub());
+                session.setAttribute("nombreClub", c.getNombreClub());
+                session.setAttribute("esPremium", c.isEsPremium());
+            }
+            case "instalacion" -> {
+                InstalacionDto i = (InstalacionDto) datosUsuario;
+                session.setAttribute("idInstalacion", i.getIdInstalacion());
+                session.setAttribute("nombreInstalacion", i.getNombreInstalacion());
+            }
+            default -> session.setAttribute("esPremium", false);
+        }
+    }
+
+    
+    /**
+     * Agrega cookies persistentes con el token y tipo de usuario.
+     *
+     * @param response Objeto de respuesta HTTP donde se añaden las cookies.
+     * @param token Token persistente del usuario.
+     * @param tipoUsuario Tipo de usuario ("jugador", "club", "instalacion", etc.).
+     * @param contextPath Contexto de la aplicación para asignar a las cookies.
+     */
+    public void agregarTokenYCookies(HttpServletResponse response, String token, String tipoUsuario, String contextPath) {
+        Cookie cookieToken = new Cookie("tokenUsuario", token);
+        cookieToken.setMaxAge(60 * 60 * 24 * 30);
+        cookieToken.setPath(contextPath);
+        response.addCookie(cookieToken);
+
+        Cookie cookieTipo = new Cookie("tipoUsuario", tipoUsuario);
+        cookieTipo.setMaxAge(60 * 60 * 24 * 30);
+        cookieTipo.setPath(contextPath);
+        response.addCookie(cookieTipo);
+    }
+
+    
+    
+    /**
+     * Elimina las cookies de sesión persistente del usuario.
+     *
+     * @param response Objeto de respuesta HTTP donde se eliminan las cookies.
+     * @param contextPath Contexto de la aplicación para asignar a las cookies.
+     */
+    public void borrarCookies(HttpServletResponse response, String contextPath) {
+        Cookie cookieToken = new Cookie("tokenUsuario", "");
+        cookieToken.setMaxAge(0); cookieToken.setPath(contextPath);
+        response.addCookie(cookieToken);
+
+        Cookie cookieTipo = new Cookie("tipoUsuario", "");
+        cookieTipo.setMaxAge(0); cookieTipo.setPath(contextPath);
+        response.addCookie(cookieTipo);
+    }
+
+    
+    /**
+     * Redirige al usuario según su tipo tras el login.
+     *
+     * @param response Objeto de respuesta HTTP para enviar la redirección.
+     * @param tipoUsuario Tipo de usuario (administrador, jugador, club, instalacion).
+     * @throws IOException Si ocurre un error al enviar la redirección.
+     */
+    public void redirigirPorTipoUsuario(HttpServletResponse response, String tipoUsuario) throws IOException {
+        switch (tipoUsuario.toLowerCase()) {
+            case "administrador" -> response.sendRedirect("administrador");
+            case "jugador" -> response.sendRedirect("jugador");
+            case "club" -> response.sendRedirect("club");
+            case "instalacion" -> response.sendRedirect("instalacion");
+            default -> response.sendRedirect("login?error=tipoDesconocido");
+        }
+    }
+
+    
+    /**
+     * Crea y configura la sesión del usuario tras el login.
+     *
+     * @param request Objeto de solicitud HTTP.
+     * @param response Objeto de respuesta HTTP para redirección.
+     * @param datosUsuario DTO del usuario autenticado.
+     * @param token JWT o token de sesión.
+     * @param tipoUsuario Tipo de usuario (jugador, club, instalacion, administrador).
+     * @throws IOException Si ocurre un error al redirigir.
+     */
+    public void manejarSesion(HttpServletRequest request, HttpServletResponse response, Object datosUsuario, String token, String tipoUsuario) throws IOException {
+        HttpSession session = crearSesion(request);
+        session.setAttribute("token", token);
+        session.setAttribute("tipoUsuario", tipoUsuario);
+        session.setAttribute("datosUsuario", datosUsuario);
+        asignarDatosUsuarioASesion(session, tipoUsuario, datosUsuario);
+        redirigirPorTipoUsuario(response, tipoUsuario);
+    }
 }
