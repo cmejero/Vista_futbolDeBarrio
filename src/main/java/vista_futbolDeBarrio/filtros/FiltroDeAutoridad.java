@@ -107,7 +107,7 @@ public class FiltroDeAutoridad implements Filter {
         return switch (tipoUsuario) {
             case "jugador" -> path.startsWith("/jugador") || path.startsWith("/logout") || path.startsWith("/pagoPremium");
             case "club" -> path.startsWith("/club") || path.startsWith("/logout") || path.startsWith("/pagoPremium");
-            case "instalacion" -> path.startsWith("/instalacion") || path.startsWith("/logout");
+            case "instalacion" -> path.startsWith("/instalacion")  || path.startsWith("/torneo") ||  path.startsWith("/logout");
             case "administrador" -> path.startsWith("/administrador") || path.startsWith("/logout");
             default -> false;
         };

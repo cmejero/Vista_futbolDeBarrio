@@ -101,28 +101,28 @@ public class LoginControlador extends HttpServlet {
 
             // 🔹 LOGIN CON GOOGLE
             if (codeGoogle != null && !codeGoogle.isEmpty()) {
+
                 LoginGoogleDto loginDto = servicioGoogle.loginConGoogle(
                         codeGoogle, tipoUsuario, request.getServletContext());
 
                 if (loginDto != null) {
-                    Log.ficheroLog("Login exitoso con Google: " + loginDto.getNombreCompleto());
+                    Log.ficheroLog("Login exitoso con Google: " + loginDto.getEmail());
 
-                    // 🔹 Convertir LoginGoogleDto a UsuarioDto para manejar sesión unificada
-                    UsuarioDto usuario = new UsuarioDto();
-                    usuario.setIdUsuario(loginDto.getIdTipoUsuario());
-                    usuario.setNombreCompletoUsuario(loginDto.getNombreCompleto());
-                    usuario.setEsPremium(loginDto.isEsPremium());
+                    Object datosUsuario = servicioLogin.construirDtoSegunTipo(loginDto);
 
-                    // 🔹 Manejar sesión usando LoginServicio unificado
-                    servicioLogin.manejarSesion(request, response,
-                            usuario,
+                    // Crear sesión y redirigir según tipo de usuario
+                    servicioLogin.manejarSesion(
+                            request,
+                            response,
+                            datosUsuario,
                             loginDto.getToken(),
-                            loginDto.getTipoUsuario());
+                            loginDto.getTipoUsuario()
+                    );
                     return;
+
                 } else {
-                    Log.ficheroLog("Error login con Google: respuesta nula");
-                    request.setAttribute("error", "googleAPI");
-                    request.getRequestDispatcher("/WEB-INF/Vistas/InicioSesion.jsp").forward(request, response);
+                    // Redirigir al servlet login con error
+                    response.sendRedirect("login?error=googleAPI");
                     return;
                 }
             }
@@ -132,44 +132,50 @@ public class LoginControlador extends HttpServlet {
             String password = request.getParameter("password");
             boolean recordarSesion = "on".equals(request.getParameter("recordarSesion"));
 
-            Log.ficheroLog("Intento login normal: " + email);
-
-            RespuestaLoginDto respuestaLogin = servicioLogin.login(email, password, tipoUsuario);
+            RespuestaLoginDto respuestaLogin =
+                    servicioLogin.login(email, password, tipoUsuario);
 
             if (respuestaLogin != null && respuestaLogin.getToken() != null) {
 
-                // 🔹 RECORDAR SESIÓN antes de manejar sesión
+                // Manejar token persistente si se desea "recordar sesión"
                 if (recordarSesion) {
-                    String tokenPersistente = servicioLogin.generarTokenPersistente(
-                            respuestaLogin.getDatosUsuario(),
-                            respuestaLogin.getTipoUsuario(),
-                            respuestaLogin.getToken());
+                    String tokenPersistente =
+                            servicioLogin.generarTokenPersistente(
+                                    respuestaLogin.getDatosUsuario(),
+                                    respuestaLogin.getTipoUsuario(),
+                                    respuestaLogin.getToken());
+
                     if (tokenPersistente != null) {
-                        servicioLogin.agregarTokenYCookies(response, tokenPersistente, respuestaLogin.getTipoUsuario(), request.getContextPath());
-                        Log.ficheroLog("Cookies persistentes agregadas: " + email);
+                        servicioLogin.agregarTokenYCookies(
+                                response,
+                                tokenPersistente,
+                                respuestaLogin.getTipoUsuario(),
+                                request.getContextPath());
                     }
                 } else {
                     servicioLogin.borrarCookies(response, request.getContextPath());
                 }
 
-                // 🔹 Manejar sesión usando LoginServicio unificado
-                servicioLogin.manejarSesion(request, response,
+                // Crear sesión y redirigir según tipo de usuario
+                servicioLogin.manejarSesion(
+                        request,
+                        response,
                         respuestaLogin.getDatosUsuario(),
                         respuestaLogin.getToken(),
-                        respuestaLogin.getTipoUsuario());
+                        respuestaLogin.getTipoUsuario()
+                );
                 return;
 
             } else {
-                Log.ficheroLog("Credenciales incorrectas: " + email);
-                response.sendRedirect("InicioSesion.jsp?error=credenciales");
+                // Credenciales incorrectas → redirigir al servlet login con parámetro error
+                response.sendRedirect("login?error=credenciales");
                 return;
             }
 
         } catch (Exception e) {
             Log.ficheroLog("Error en login POST: " + e.getMessage());
-            e.printStackTrace();
-            response.sendRedirect("InicioSesion.jsp?error=servidor");
-            return;
+            // Error de servidor → redirigir al servlet login con parámetro error
+            response.sendRedirect("login?error=servidor");
         }
     }
 

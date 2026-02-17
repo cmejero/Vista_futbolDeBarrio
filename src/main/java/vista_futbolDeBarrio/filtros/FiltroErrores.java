@@ -66,10 +66,9 @@ public class FiltroErrores implements Filter {
      */
     @Override
     public void init(FilterConfig filterConfig) {}
-
     /**
      * Destruye el filtro, liberando recursos si fuera necesario.
      */
     @Override
-    public void destroy() {}
+    public void destroy() {} 
 }

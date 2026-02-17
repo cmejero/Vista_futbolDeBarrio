@@ -115,7 +115,7 @@ public class ClubServicio {
 					}
 					String error = responseText.toString();
 					if (error.contains("ya está en uso")) {
-						return "club_existente";
+						return "usuario_existente";
 					} else if (error.toLowerCase().contains("email")) {
 						return "email_invalido";
 					} else {

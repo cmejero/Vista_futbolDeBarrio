@@ -161,7 +161,7 @@ public class InstalacionServicio {
 	            return "ok";
 	        } else if (responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
 	            if (responseMessage.contains("ya está en uso")) {
-	                return "instalacion_existente";
+	                return "usuario_existente";
 	            } else if (responseMessage.toLowerCase().contains("email")) {
 	                return "email_invalido";
 	            } else {

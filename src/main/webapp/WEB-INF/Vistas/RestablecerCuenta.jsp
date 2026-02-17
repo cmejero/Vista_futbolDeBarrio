@@ -540,9 +540,8 @@ function abrirGmail() {
 			+ encodeURIComponent(body);
 
 	window.open(url, "_blank");
-	
-	
-}</script>
+}
+</script>
 
 
 	

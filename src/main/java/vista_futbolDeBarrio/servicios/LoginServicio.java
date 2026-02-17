@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import vista_futbolDeBarrio.dtos.ClubDto;
 import vista_futbolDeBarrio.dtos.InstalacionDto;
+import vista_futbolDeBarrio.dtos.LoginGoogleDto;
 import vista_futbolDeBarrio.dtos.RespuestaLoginDto;
 import vista_futbolDeBarrio.dtos.UsuarioDto;
 import vista_futbolDeBarrio.enums.Estado;
@@ -282,6 +283,42 @@ public class LoginServicio {
             default -> session.setAttribute("esPremium", false);
         }
     }
+    
+    
+    public Object construirDtoSegunTipo(LoginGoogleDto loginDto) {
+
+        switch (loginDto.getTipoUsuario().toLowerCase()) {
+
+            case "jugador" -> {
+                UsuarioDto u = new UsuarioDto();
+                u.setIdUsuario(loginDto.getIdTipoUsuario());
+                u.setNombreCompletoUsuario(loginDto.getNombreCompleto());
+                u.setEmailUsuario(loginDto.getEmail());
+                u.setEsPremium(loginDto.isEsPremium());
+                return u;
+            }
+
+            case "club" -> {
+                ClubDto c = new ClubDto();
+                c.setIdClub(loginDto.getIdTipoUsuario());
+                c.setNombreClub(loginDto.getNombreCompleto());
+                c.setEmailClub(loginDto.getEmail());
+                c.setEsPremium(loginDto.isEsPremium());
+                return c;
+            }
+
+            case "instalacion" -> {
+                InstalacionDto i = new InstalacionDto();
+                i.setIdInstalacion(loginDto.getIdTipoUsuario());
+                i.setNombreInstalacion(loginDto.getNombreCompleto());
+                i.setEmailInstalacion(loginDto.getEmail());
+                return i;
+            }
+
+            default -> throw new IllegalArgumentException("Tipo de usuario no válido");
+        }
+    }
+
 
     
     /**

@@ -803,71 +803,122 @@ window.eliminarEvento = function(boton) {
     // -------------------------
     // Función para guardar acta
     // -------------------------
- window.guardarActa = function()  {
-        const clubGanadorSelect = document.getElementById("clubGanador");
-        const clubGanadorId = clubGanadorSelect.value ? parseInt(clubGanadorSelect.value) : null;
+window.guardarActa = function()  {
+    const clubGanadorSelect = document.getElementById("clubGanador");
+    let clubGanadorId = clubGanadorSelect.value ? parseInt(clubGanadorSelect.value) : null;
 
-        const acta = {
-            partidoTorneoId: parseInt(document.getElementById("partidoId").value),
-            torneoId: <%=partido.getTorneoId()%>,
-            instalacionId: <%=partido.getInstalacionId()%>,
-            clubLocalId: <%=partido.getClubLocalId()%>,
-            clubVisitanteId: <%=partido.getClubVisitanteId()%>,
-            equipoLocalId: <%=partido.getEquipoLocalId()%>,
-            equipoVisitanteId: <%=partido.getEquipoVisitanteId()%>,
-            golesLocal: parseInt(document.getElementById("golesLocal").value || 0),
-            golesVisitante: parseInt(document.getElementById("golesVisitante").value || 0),
-            golesPenaltisLocal: parseInt(document.getElementById("penalesLocal")?.value || 0),
-            golesPenaltisVisitante: parseInt(document.getElementById("penalesVisitante")?.value || 0),
-            clubGanadorId: clubGanadorId,
-            fechaPartido: new Date().toISOString(),
-            observaciones: document.getElementById("observaciones").value || "",
-            cerrado: true,
-            eventos: []
-        };
+    const golesLocal = parseInt(document.getElementById("golesLocal").value || 0);
+    const golesVisitante = parseInt(document.getElementById("golesVisitante").value || 0);
+    const penalesLocal = parseInt(document.getElementById("penalesLocal")?.value || 0);
+    const penalesVisitante = parseInt(document.getElementById("penalesVisitante")?.value || 0);
 
-        // Recolectar eventos de la tabla
-        const filas = document.querySelectorAll("#tablaEventos tbody tr");
-        filas.forEach(fila => {
-            const evento = {
-                jugadorId: parseInt(fila.querySelector(".jugadorEvento").value || 0),
-                clubId: parseInt(fila.querySelector(".clubEvento").value || 0),
-                equipoTorneoId: parseInt(
-                    fila.querySelector(".clubEvento").value == "<%=partido.getClubLocalId()%>" 
-                    ? <%=partido.getEquipoLocalId()%> 
-                    : <%=partido.getEquipoVisitanteId()%>
-                ),
-                tipoEvento: fila.querySelector(".tipoEvento").value,
-                minuto: parseInt(fila.querySelector(".minutoEvento").value || 0)
-            };
-            acta.eventos.push(evento);
-        });
+    // --------------------------
+    // Determinar ganador automáticamente
+    // --------------------------
+    const hayPenales = document.getElementById("penales").value === "si";
 
-
-        // Enviar al backend
-        fetch("<%=request.getContextPath()%>/instalacion/actaPartido", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(acta)
-        })
-        .then(res => {
-            if (!res.ok) throw new Error("Error al guardar el acta");
-            return res.text();
-        })
-        .then(msg => {
-            alert("✅ Acta guardada correctamente.");
-        })
-        .catch(err => {
-            console.error(err);
-            alert("❌ Hubo un error al guardar el acta.");
-        });
+    if (hayPenales) {
+        if (penalesLocal > penalesVisitante) {
+            clubGanadorId = <%=partido.getClubLocalId()%>;
+        } else if (penalesVisitante > penalesLocal) {
+            clubGanadorId = <%=partido.getClubVisitanteId()%>;
+        } else {
+            alert("Error: empate en penales, no se puede definir ganador");
+            return; // no se envía el acta
+        }
+    } else {
+        // Ganador normal por goles
+        if (golesLocal > golesVisitante) {
+            clubGanadorId = <%=partido.getClubLocalId()%>;
+        } else if (golesVisitante > golesLocal) {
+            clubGanadorId = <%=partido.getClubVisitanteId()%>;
+        } else {
+            alert("Empate en tiempo normal, marcar ganador o indicar penales");
+            return;
+        }
     }
+
+    // --------------------------
+    // Crear objeto acta
+    // --------------------------
+    const acta = {
+        partidoTorneoId: parseInt(document.getElementById("partidoId").value),
+        torneoId: <%=partido.getTorneoId()%>,
+        instalacionId: <%=partido.getInstalacionId()%>,
+        clubLocalId: <%=partido.getClubLocalId()%>,
+        clubVisitanteId: <%=partido.getClubVisitanteId()%>,
+        equipoLocalId: <%=partido.getEquipoLocalId()%>,
+        equipoVisitanteId: <%=partido.getEquipoVisitanteId()%>,
+        golesLocal: golesLocal,
+        golesVisitante: golesVisitante,
+        golesPenaltisLocal: penalesLocal,
+        golesPenaltisVisitante: penalesVisitante,
+        clubGanadorId: clubGanadorId,
+        fechaPartido: new Date().toISOString(),
+        observaciones: document.getElementById("observaciones").value || "",
+        cerrado: true, // ✅ siempre cerrado si hay ganador definido
+        eventos: []
+    };
+
+    // --------------------------
+    // Recolectar eventos
+    // --------------------------
+    const filas = document.querySelectorAll("#tablaEventos tbody tr");
+    filas.forEach(fila => {
+        const evento = {
+            jugadorId: parseInt(fila.querySelector(".jugadorEvento").value || 0),
+            clubId: parseInt(fila.querySelector(".clubEvento").value || 0),
+            equipoTorneoId: parseInt(
+                fila.querySelector(".clubEvento").value == "<%=partido.getClubLocalId()%>" 
+                ? <%=partido.getEquipoLocalId()%> 
+                : <%=partido.getEquipoVisitanteId()%>
+            ),
+            tipoEvento: fila.querySelector(".tipoEvento").value,
+            minuto: parseInt(fila.querySelector(".minutoEvento").value || 0)
+        };
+        acta.eventos.push(evento);
+    });
+
+    // --------------------------
+    // Enviar acta al backend
+    // --------------------------
+    fetch("<%=request.getContextPath()%>/instalacion/actaPartido", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(acta)
+    })
+    .then(res => {
+        if (!res.ok) throw new Error("Error al guardar el acta");
+        return res.text();
+    })
+    .then(msg => {
+        alert("✅ Acta guardada correctamente.");
+    })
+    .catch(err => {
+        console.error(err);
+        alert("❌ Hubo un error al guardar el acta.");
+    });
+}
+
 
     document.getElementById("actaForm").addEventListener("submit", e => e.preventDefault());
 
     
 
 });
+
+function abrirGmail() {
+	const email = "futboldebarriosevilla@gmail.com";
+	const subject = "Titulo del Asunto: ";
+	const body = "Escriba aqui el mensaje....";
+
+	const url = "https://mail.google.com/mail/?view=cm&fs=1&to="
+			+ encodeURIComponent(email) + "&su="
+			+ encodeURIComponent(subject) + "&body="
+			+ encodeURIComponent(body);
+
+	window.open(url, "_blank");
+}
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

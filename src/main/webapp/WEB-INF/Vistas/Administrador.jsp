@@ -1036,7 +1036,7 @@
 	<script>
 	
 	function abrirGmail() {
-		const email = "futboldebarrio@gmail.com";
+		const email = "futboldebarriosevilla@gmail.com";
 		const subject = "Titulo del Asunto: ";
 		const body = "Escriba aqui el mensaje....";
 

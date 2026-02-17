@@ -543,18 +543,18 @@
 	</footer>
 
 	<script>
-		function abrirGmail() {
-			const email = "futboldebarriosevilla@gmail.com";
-			const subject = "Titulo del Asunto: ";
-			const body = "Escriba aqui el mensaje....";
+	function abrirGmail() {
+		const email = "futboldebarriosevilla@gmail.com";
+		const subject = "Titulo del Asunto: ";
+		const body = "Escriba aqui el mensaje....";
 
-			const url = "https://mail.google.com/mail/?view=cm&fs=1&to="
-					+ encodeURIComponent(email) + "&su="
-					+ encodeURIComponent(subject) + "&body="
-					+ encodeURIComponent(body);
+		const url = "https://mail.google.com/mail/?view=cm&fs=1&to="
+				+ encodeURIComponent(email) + "&su="
+				+ encodeURIComponent(subject) + "&body="
+				+ encodeURIComponent(body);
 
-			window.open(url, "_blank");
-		}
+		window.open(url, "_blank");
+	}
 		
 		  setTimeout(() => {
 		        const mensajes = document.querySelectorAll(".alert");

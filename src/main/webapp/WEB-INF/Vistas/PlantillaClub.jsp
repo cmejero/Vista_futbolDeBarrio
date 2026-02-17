@@ -732,8 +732,8 @@
         filtrarTabla("buscarAliasJugador", 2);
     });
     
-    function abrirGmail() {
-		const email = "futboldebarrio@gmail.com";
+	function abrirGmail() {
+		const email = "futboldebarriosevilla@gmail.com";
 		const subject = "Titulo del Asunto: ";
 		const body = "Escriba aqui el mensaje....";
 
