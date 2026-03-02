@@ -5,6 +5,81 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#ffffff">
+
+<title>Fútbol de Barrio Sevilla – Conecta jugadores y reserva campos</title>
+<meta name="description" content="Somos una plataforma innovadora para conectar jugadores, organizar torneos y reservar campos de fútbol. Únete a nuestra comunidad deportiva y vive la pasión por el fútbol de barrio.">
+
+<!-- Datos estructurados JSON-LD para logo y organización -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Fútbol de Barrio Sevilla",
+  "url": "https://futboldebarriosevilla.es",
+  "logo": "https://futboldebarriosevilla.es/Imagenes/LOGOWEB.PNG",
+  "sameAs": [
+    "https://www.instagram.com/futboldebarriosevilla/",
+    "https://x.com/FDB_Sevilla",
+    "https://www.youtube.com/channel/UCfzHaUblCQl7lzp4CHXR9ug",
+    "https://www.tiktok.com/@fdb_sevilla"
+  ]
+}
+</script>
+
+<!-- Datos estructurados para enlaces directos importantes (sitelinks) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "url": "https://futboldebarriosevilla.es/registrar",
+      "name": "Registrarse como jugador"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "url": "https://futboldebarriosevilla.es/eventos",
+      "name": "Echa un vistazo a todos eventos"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "url": "https://futboldebarriosevilla.es/login",
+      "name": "Iniciar sesión"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "url": "https://futboldebarriosevilla.es/quienesSomos",
+      "name": "Conócenos"
+    }
+  ]
+}
+</script>
+
+<!-- Datos estructurados para Search Box (opcional) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "https://futboldebarriosevilla.es",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://futboldebarriosevilla.es/{search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
 <!-- Estilos CSS -->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/Css/Estilo.css">
@@ -36,7 +111,6 @@
 <!-- Chart.js (Solo si lo necesitas) -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<title>INICIO</title>
 </head>
 <body>
 	<header class="fixed-top">
@@ -749,6 +823,8 @@
 			window.open(url, "_blank");
 		}
 	</script>
+	
+	
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

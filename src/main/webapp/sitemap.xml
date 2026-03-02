@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    <!-- Página principal -->
+    <url>
+        <loc>https://futboldebarriosevilla.es/inicio</loc>
+        <priority>1.0</priority>
+    </url>
+
+    <!-- Registro -->
+    <url>
+        <loc>https://futboldebarriosevilla.es/registrar</loc>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Login / Iniciar sesión -->
+    <url>
+        <loc>https://futboldebarriosevilla.es/login</loc>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Quienes somos -->
+    <url>
+        <loc>https://futboldebarriosevilla.es/quienesSomos</loc>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Marcadores -->
+    <url>
+        <loc>https://futboldebarriosevilla.es/marcadores</loc>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Eventos -->
+    <url>
+        <loc>https://futboldebarriosevilla.es/eventos</loc>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Torneos -->
+    <url>
+        <loc>https://futboldebarriosevilla.es/torneo</loc>
+        <priority>0.7</priority>
+    </url>
+
+</urlset>

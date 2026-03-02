@@ -108,6 +108,7 @@
 											
 											
 											
+											
 											</a> <a href="https://www.tiktok.com/@fdb_sevilla"> <svg
 													xmlns="http://www.w3.org/2000/svg" width="1.4vw"
 													height="1.2vw" fill="currentColor"
@@ -359,7 +360,7 @@
 					<button type="button" class=" botonSeleccion p-2 pt-3 pb-3"
 						id="mostrarUsuarioBtn"
 						style="box-shadow: 3.5px 3.5px 0px red, 3.5px 3.5px 8px rgba(255, 0, 0, 0.5);">REGISTRARSE
-						COMO USUARIO</button>
+						COMO JUGADOR</button>
 
 					<button type="button" class=" botonSeleccion p-2 pt-3 pb-3"
 						id="mostrarInstalacionBtn"
@@ -386,7 +387,7 @@
 					<button type="button" class="botonSeleccionX p-2"
 						id="mostrarUsuarioX"
 						style="box-shadow: 3.5px 3.5px 0px red, 3.5px 3.5px 8px rgba(255, 0, 0, 0.5);">REGISTRARSE
-						COMO USUARIO</button>
+						COMO JUGADOR</button>
 					<button type="button" class="botonSeleccionX p-2"
 						id="mostrarInstalacionBtnX"
 						style="box-shadow: 3.5px 3.5px 0px green, 3.5px 3.5px 8px rgba(0, 128, 0, 0.5);">REGISTRARSE
@@ -448,7 +449,7 @@
 					style="background-color: #dfead5; border-radius: 12px">
 					<h2 class="text-center mt-4 mb-5 pt-4"
 						style="font-size: 3.5vw; text-decoration: underline;">
-						<i>Formulario de Registro: Usuario</i>
+						<i>Formulario de Registro: Jugador</i>
 					</h2>
 					<div class="registrarFormulario">
 						<form action="registrar" method="POST"
@@ -501,13 +502,13 @@
 											name="telefonoUsuario" pattern="[0-9]{9}"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											title="Debe tener exactamente 9 dígitos" required></td>
-										<td><label for="rolUsuario" class="formularioLabel">Rol
-												usuario</label> <select class="form-select" id="rolUsuario"
-											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-											name="rolUsuario" required>
-												<option value="Jugador">Jugador</option>
 
-										</select></td>
+										<td><label for="descripcionUsuario"
+											class="formularioLabel">Descripción</label> <textarea
+												style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
+												class="form-control" id="descripcionUsuario"
+												name="descripcionUsuario" rows="3"></textarea></td>
+
 									</tr>
 									<tr>
 										<td><label for="passwordUsuario" class="formularioLabel">Contraseña</label>
@@ -526,11 +527,7 @@
 												del Usuario</label> <input type="file" class="form-control"
 											style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
 											id="imagenUsuario" name="imagenUsuario"></td>
-										<td><label for="descripcionUsuario"
-											class="formularioLabel">Descripción</label> <textarea
-												style="font-size: 1vw; border: 1px solid #818181; height: 2.5vw;"
-												class="form-control" id="descripcionUsuario"
-												name="descripcionUsuario" rows="3"></textarea></td>
+
 									</tr>
 								</tbody>
 							</table>

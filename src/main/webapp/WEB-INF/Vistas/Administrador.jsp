@@ -1,7 +1,9 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%
+String nombreUsuario = (String) session.getAttribute("nombreUsuario");
+%>
 
 <!DOCTYPE html>
 <html>
@@ -114,6 +116,7 @@
 	  <path
 														d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z" />																						
 											
+											
 											</a> <a href="https://www.tiktok.com/@fdb_sevilla"> <svg
 													xmlns="http://www.w3.org/2000/svg" width="1.4vw"
 													height="1.2vw" fill="currentColor"
@@ -139,7 +142,9 @@
 										<div class="col-sm-2 col-md-2 cabeceraMedio"></div>
 										<div class="col-sm-4 col-md-4 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="" class="letraCabeceraMedio">BIENVENIDO: Carlos</a>
+											<a href="" class="letraCabeceraMedio"
+												id="nombreUsuarioCabecera"> <i
+												class="fa-regular fa-circle-user iconoUsuario"></i> <%=nombreUsuario%></a>
 										</div>
 
 									</div>
@@ -239,7 +244,9 @@
 										</div>
 										<div class="d-sm-none d-md-none col-4 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="" class="letraCabeceraMedio">BIENVENIDO: Carlos</a>
+											<a href="" class="letraCabeceraMedio"
+												id="nombreUsuarioCabecera"> <i
+												class="fa-regular fa-circle-user iconoUsuario"></i> <%=nombreUsuario%></a>
 										</div>
 
 									</div>
@@ -1131,20 +1138,20 @@
     // ===========================
    let modalEditarUsuarioBootstrap;
 
-document.addEventListener("DOMContentLoaded", function() {
-    cargarUsuarios();
-});
 
 
 function cargarUsuarios() {
-	fetch("administrador?entidad=usuario", {
-	    headers: {
-	        "X-Requested-With": "XMLHttpRequest"
-	    }
-	})
-        .then(function(res) { return res.json(); })
-        .then(function(data) { mostrarUsuarios(data); })
-        .catch(function(err) { console.error("Error cargando usuarios:", err); });
+    fetch("administrador?entidad=usuario", {
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+    })
+    .then(res => res.json())
+    .then(data => {
+        mostrarUsuarios(data);
+
+        // 🔥 aquí actualizas el contador
+        document.getElementById("totalUsuariosInicio").textContent = data.length;
+    })
+    .catch(err => console.error("Error cargando usuarios:", err));
 }
 
 function mostrarUsuarios(usuarios) {
@@ -1271,10 +1278,16 @@ var modalEditarInstalacionBootstrap;
 
 // Cargar instalaciones
 function cargarInstalaciones() {
-	fetch("administrador?entidad=instalacion", { headers: { "X-Requested-With": "XMLHttpRequest" } })
-    .then(function(res) { return res.json(); })
-    .then(function(data) { mostrarInstalaciones(data); })
-    .catch(function(err) { console.error("Error al cargar instalaciones:", err); });
+    fetch("administrador?entidad=instalacion", {
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+    })
+    .then(res => res.json())
+    .then(data => {
+        mostrarInstalaciones(data);
+
+        document.getElementById("totalInstalacionesInicio").textContent = data.length;
+    })
+    .catch(err => console.error("Error al cargar instalaciones:", err));
 }
 
 // Mostrar instalaciones en tabla
@@ -1394,63 +1407,23 @@ function eliminarInstalacion(id) {
 
 
 
-// ===========================
-// Delegación de eventos
-// ===========================
-document.getElementById("tablaCuerpoUsuario").addEventListener("click", (e) => {
-    const btn = e.target.closest(".btnEliminarInstalacion, .btnEditarInstalacion");
-    if (!btn) return;
-
-    if (btn.classList.contains("btnEliminarInstalacion")) {
-        eliminarUsuario(btn.dataset.id);
-    }
-
-    if (btn.classList.contains("btnEditarInstalacion")) {
-        const usuario = JSON.parse(btn.dataset.usuario);
-        document.getElementById("modalEditarUsuario").classList.add("show");
-        document.getElementById("idUsuario").value = usuario.idUsuario;
-        document.getElementById("nombreCompletoUsuario").value = usuario.nombreCompletoUsuario;
-        document.getElementById("aliasUsuario").value = usuario.aliasUsuario;
-        document.getElementById("emailUsuario").value = usuario.emailUsuario;
-        document.getElementById("fechaNacimientoUsuario").value = usuario.fechaNacimientoUsuario;
-        document.getElementById("telefonoUsuario").value = usuario.telefonoUsuario;
-        document.getElementById("passwordUsuario").value = usuario.passwordUsuario;
-        document.getElementById("rolUsuario").value = usuario.rolUsuario;
-        document.getElementById("estadoUsuario").value = usuario.estadoUsuario;
-        document.getElementById("descripcionUsuario").value = usuario.descripcionUsuario;
-        document.getElementById("imagenUsuarioModal").src = "data:image/jpeg;base64," + usuario.imagenUsuario;
-    }
-});
-
-// Inicializar carga al inicio
-document.addEventListener("DOMContentLoaded", function() {
-    cargarInstalaciones();
-});
 
 let modalEditarClubBootstrap;
 
-// Mostrar/ocultar filtros
-function toggleFiltros(botonId, filtrosId) {
-    const boton = document.getElementById(botonId);
-    const filtros = document.getElementById(filtrosId);
-    boton.addEventListener("click", () => {
-        if (filtros.style.display === "none") {
-            filtros.style.display = "flex";
-            boton.textContent = "Ocultar Filtros";
-        } else {
-            filtros.style.display = "none";
-            boton.textContent = "Mostrar Filtros";
-        }
-    });
-}
 
 
 // Cargar clubes
 function cargarClubes() {
-fetch("administrador?entidad=club", { headers: { "X-Requested-With": "XMLHttpRequest" } })
-        .then(function(res) { return res.json(); })
-        .then(function(data) { mostrarClubes(data); })
-        .catch(function(err) { console.error("Error al cargar clubes:", err); });
+    fetch("administrador?entidad=club", {
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+    })
+    .then(res => res.json())
+    .then(data => {
+        mostrarClubes(data);
+
+        document.getElementById("totalClubesInicio").textContent = data.length;
+    })
+    .catch(err => console.error("Error al cargar clubes:", err));
 }
 
 // Mostrar clubes en tabla
@@ -1762,42 +1735,20 @@ function fetchAdmin(url) {
     });
 }
 
-function cargarResumenInicio() {
 
-    fetchAdmin("administrador?entidad=usuario")
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("totalUsuariosInicio").textContent = data.length;
-        })
-        .catch(err => console.error("Error usuarios:", err));
 
-    fetchAdmin("administrador?entidad=club")
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("totalClubesInicio").textContent = data.length;
-        })
-        .catch(err => console.error("Error clubes:", err));
 
-    fetchAdmin("administrador?entidad=instalacion")
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("totalInstalacionesInicio").textContent = data.length;
-        })
-        .catch(err => console.error("Error instalaciones:", err));
-
-    fetchAdmin("administrador?entidad=torneo")
-        .then(res => res.json())
-        .then(data => {
-            const activos = data.filter(t => t.estaActivo === true);
-            document.getElementById("totalTorneosActivos").textContent = activos.length;
-        })
-        .catch(err => console.error("Error torneos:", err));
+function cargarResumenTorneos() {
+    fetch("administrador?entidad=torneo", {
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+    })
+    .then(res => res.json())
+    .then(data => {
+        const activos = data.filter(t => t.estaActivo === true);
+        document.getElementById("totalTorneosActivos").textContent = activos.length;
+    })
+    .catch(err => console.error("Error torneos:", err));
 }
-
-
-
-// Llamar al cargar inicio
-cargarResumenInicio();
 
 
 
@@ -1809,6 +1760,7 @@ cargarResumenInicio();
     cargarUsuarios();
     cargarInstalaciones();
     cargarClubes();
+    cargarResumenTorneos();
 });
 
 	</script>

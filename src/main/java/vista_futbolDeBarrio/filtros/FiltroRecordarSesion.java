@@ -92,13 +92,13 @@ public class FiltroRecordarSesion implements Filter {
                                 UsuarioDto u = (UsuarioDto) usuario;
                                 session.setAttribute("usuarioId", u.getIdUsuario());
                                 session.setAttribute("nombreUsuario", u.getNombreCompletoUsuario());
-                                session.setAttribute("esPremium", u.isEsPremium());
+                                session.setAttribute("esPremium", u.getEsPremium());
                             }
                             case "club" -> {
                                 ClubDto c = (ClubDto) usuario;
                                 session.setAttribute("clubId", c.getIdClub());
                                 session.setAttribute("nombreClub", c.getNombreClub());
-                                session.setAttribute("esPremium", c.isEsPremium());
+                                session.setAttribute("esPremium", c.getEsPremium());
                             }
                             case "instalacion" -> {
                                 InstalacionDto i = (InstalacionDto) usuario;
@@ -113,7 +113,7 @@ public class FiltroRecordarSesion implements Filter {
                     } else {
                         // Token inválido o expirado
                         Utilidades.borrarCookies(res, http.getContextPath());
-                        res.sendRedirect(http.getContextPath() + "/login?mensaje=sessionExpirada");
+                        res.sendRedirect("https://" + http.getServerName() + http.getContextPath() + "/login?mensaje=sessionExpirada");
                         return;
                     }
                 }
@@ -125,7 +125,7 @@ public class FiltroRecordarSesion implements Filter {
         } catch (Exception e) {
             e.printStackTrace();
             Utilidades.borrarCookies(res, http.getContextPath());
-            http.getRequestDispatcher("/WEB-INF/Vistas/InicioSesion.jsp").forward(request, response);
+            res.sendRedirect("https://" + http.getServerName() + http.getContextPath() + "/login?error=servidor");
         }
     }
 

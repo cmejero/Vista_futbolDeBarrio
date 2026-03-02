@@ -50,14 +50,14 @@ public class FiltroDeAutoridad implements Filter {
 
         // 🔹 Redirigir raíz "/" según sesión válida
         if ((path.equals("/") || path.equals("")) && tipoUsuario != null) {
-            res.sendRedirect(ctx + "/" + servletSegunTipoUsuario(tipoUsuario));
+            res.sendRedirect("https://" + http.getServerName() + ctx + "/" + servletSegunTipoUsuario(tipoUsuario));
             return;
         }
 
         // 🔹 Control de permisos
         if (!tienePermisoSegunTipoUsuario(path, tipoUsuario)) {
             if (!path.startsWith("/login") && !path.startsWith("/logout")) {
-                res.sendRedirect(ctx + "/login?error=accesoDenegado");
+                res.sendRedirect("https://" + http.getServerName() + ctx + "/login?error=accesoDenegado");
                 return;
             }
         }
@@ -79,7 +79,10 @@ public class FiltroDeAutoridad implements Filter {
     private boolean esRutaPublica(String path, String metodo) {
         // Incluye logout como ruta pública
         if ("/logout".equals(path)) return true;
-
+        
+        if (path.equals("/googlea8a65d679cdc05ec.html")) return true;
+        if (path.equals("/sitemap.xml")) return true;
+        if (path.equals("/robots.txt")) return true;
         if ("POST".equalsIgnoreCase(metodo)
                 && (path.equals("/usuario") || path.equals("/club") || path.equals("/instalacion"))) return true;
 

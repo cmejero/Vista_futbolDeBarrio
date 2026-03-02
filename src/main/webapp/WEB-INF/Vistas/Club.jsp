@@ -177,8 +177,9 @@ if (esPremium == null)
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="" class="letraCabeceraMedio"
-												id="nombreUsuarioCabecera"> BIENVENIDO: <%=nombreUsuario%>
+												<a href="" class="letraCabeceraMedio"
+												id="nombreUsuarioCabecera"> <i
+												class="fa-regular fa-circle-user iconoUsuario"></i> <%=nombreUsuario%>
 											</a>
 										</div>
 

@@ -267,18 +267,23 @@ public class LoginServicio {
                 UsuarioDto u = (UsuarioDto) datosUsuario;
                 session.setAttribute("usuarioId", u.getIdUsuario());
                 session.setAttribute("nombreUsuario", u.getNombreCompletoUsuario());
-                session.setAttribute("esPremium", u.isEsPremium());
+                session.setAttribute("esPremium", u.getEsPremium());
             }
             case "club" -> {
                 ClubDto c = (ClubDto) datosUsuario;
                 session.setAttribute("clubId", c.getIdClub());
                 session.setAttribute("nombreClub", c.getNombreClub());
-                session.setAttribute("esPremium", c.isEsPremium());
+                session.setAttribute("esPremium", c.getEsPremium());
             }
             case "instalacion" -> {
                 InstalacionDto i = (InstalacionDto) datosUsuario;
                 session.setAttribute("idInstalacion", i.getIdInstalacion());
                 session.setAttribute("nombreInstalacion", i.getNombreInstalacion());
+            }
+            case "administrador" -> {
+                UsuarioDto u = (UsuarioDto) datosUsuario;
+                session.setAttribute("nombreUsuario", u.getNombreCompletoUsuario());
+
             }
             default -> session.setAttribute("esPremium", false);
         }

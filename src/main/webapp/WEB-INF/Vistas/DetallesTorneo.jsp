@@ -198,8 +198,9 @@ if ("jugador".equals(tipoUsuario)) {
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraMedio"
 											style="text-decoration: underline;">
-											<a href="" class="letraCabeceraMedio"
-												id="nombreUsuarioCabecera"> BIENVENIDO: <%=nombreUsuario%>
+												<a href="" class="letraCabeceraMedio"
+												id="nombreUsuarioCabecera"> <i
+												class="fa-regular fa-circle-user iconoUsuario"></i> <%="jugador".equals(tipoUsuario) ? nombreUsuario : ("club".equals(tipoUsuario) ? nombreClub : "Invitado")%>
 											</a>
 										</div>
 

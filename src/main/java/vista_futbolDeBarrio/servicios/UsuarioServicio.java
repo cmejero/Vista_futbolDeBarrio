@@ -192,7 +192,6 @@ public class UsuarioServicio {
 	        String telefono = request.getParameter("telefonoUsuario");
 	        String password = request.getParameter("passwordUsuario");
 	        String password2 = request.getParameter("passwordUsuario2");
-	        String rolString = request.getParameter("rolUsuario");
 	        String descripcion = request.getParameter("descripcionUsuario");
 
 	        if (!password.equals(password2)) {
@@ -207,7 +206,7 @@ public class UsuarioServicio {
 	        usuario.setEmailUsuario(email);
 	        usuario.setTelefonoUsuario(telefono);
 	        usuario.setPasswordUsuario(password);
-	        usuario.setRolUsuario(RolUsuario.valueOf(rolString.trim()));
+	        usuario.setRolUsuario(RolUsuario.valueOf("Jugador"));
 	        usuario.setDescripcionUsuario(descripcion);
 
 	        Part imagenPart = request.getPart("imagenUsuario");
@@ -333,7 +332,7 @@ public class UsuarioServicio {
 			}
 
 			json.put("estadoUsuario", usuario.getEstadoUsuario());
-			json.put("esPremium", usuario.isEsPremium());
+			json.put("esPremium", usuario.getEsPremium());
 
 			// 3️⃣ Llamar a la API con token en Authorization
 			String urlApi = "http://localhost:9527/api/modificarUsuario/" + idUsuario;

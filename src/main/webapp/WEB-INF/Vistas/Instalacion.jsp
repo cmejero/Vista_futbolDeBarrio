@@ -22,7 +22,8 @@ if (nombreInstalacion == null)
 <head>
 <meta charset="UTF-8">
 <!-- Estilos CSS -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/Css/Estilo.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/Css/Estilo.css">
 
 <!-- Bootstrap CSS -->
 <link
@@ -121,6 +122,7 @@ if (nombreInstalacion == null)
 													class="bi bi-youtube" viewBox="0 0 16 16">
 	  <path
 														d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z" />																						
+											
 											</a> <a href="https://www.tiktok.com/@fdb_sevilla"> <svg
 													xmlns="http://www.w3.org/2000/svg" width="1.4vw"
 													height="1.2vw" fill="currentColor"
@@ -148,8 +150,8 @@ if (nombreInstalacion == null)
 										<div class="col-sm-4 col-md-4 cabeceraMedio"
 											style="text-decoration: underline;">
 											<a href="" class="letraCabeceraMedio"
-												id="nombreUsuarioCabecera"> BIENVENIDO: <%=nombreInstalacion%>
-											</a>
+												id="nombreUsuarioCabecera"> <i
+												class="fa-regular fa-circle-user iconoUsuario"></i> <%=nombreInstalacion%></a>
 										</div>
 
 									</div>
@@ -165,7 +167,8 @@ if (nombreInstalacion == null)
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="${pageContext.request.contextPath}/instalacion" class="letraCabeceraAbajo"style="color: #d4af37;">INICIO</a>
+											<a href="${pageContext.request.contextPath}/instalacion"
+												class="letraCabeceraAbajo" style="color: #d4af37;">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
 											<a href="#" class="letraCabeceraAbajo seccion-bloqueada">
@@ -175,7 +178,9 @@ if (nombreInstalacion == null)
 
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="${pageContext.request.contextPath}/instalacion/eventos" class="letraCabeceraAbajo">EVENTOS</a>
+											<a
+												href="${pageContext.request.contextPath}/instalacion/eventos"
+												class="letraCabeceraAbajo">EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -220,21 +225,22 @@ if (nombreInstalacion == null)
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
 													<li><a class="dropdown-item seccion-bloqueada"
-														href="#">Idioma<span
-															class="tooltip-text">Sección en desarrollo</span>
+														href="#">Idioma<span class="tooltip-text">Sección
+																en desarrollo</span>
 													</a></li>
 													<li><a class="dropdown-item seccion-bloqueada"
-														href="#">Ayuda <span
-															class="tooltip-text">Sección en desarrollo</span></a></li>
+														href="#">Ayuda <span class="tooltip-text">Sección
+																en desarrollo</span></a></li>
 													<li><a class="dropdown-item seccion-bloqueada"
-														href="#">Configuración <span
-															class="tooltip-text">Sección en desarrollo</span>
+														href="#">Configuración <span class="tooltip-text">Sección
+																en desarrollo</span>
 													</a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
 													</li>
-													<li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout"
+													<li><a class="dropdown-item"
+														href="${pageContext.request.contextPath}/logout"
 														style="color: white;">Cerrar sesión</a></li>
 												</ul>
 											</div>
@@ -254,7 +260,8 @@ if (nombreInstalacion == null)
 						<!-- columna logo -->
 						<div class="d-sm-none d-md-none col-2 d-block logo  "
 							style="background-color: white; border: 2px solid black; border-top: none">
-							<img src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
+							<img
+								src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -288,16 +295,19 @@ if (nombreInstalacion == null)
 								<!-- columna izquierda: INICIO -->
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
-									<a href="${pageContext.request.contextPath}/instalacion" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw;color: #d4af37;">INICIO</a>
+									<a href="${pageContext.request.contextPath}/instalacion"
+										class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">INICIO</a>
 								</div>
 
 								<!-- columna medio: -->
 
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
-									<a href="${pageContext.request.contextPath}/instalacion/eventos" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">EVENTOS</a>
+									<a
+										href="${pageContext.request.contextPath}/instalacion/eventos"
+										class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw;">EVENTOS</a>
 								</div>
 
 
@@ -356,7 +366,8 @@ if (nombreInstalacion == null)
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout"
+											<li><a class="dropdown-item"
+												href="${pageContext.request.contextPath}/logout"
 												style="color: white;">Cerrar sesión</a></li>
 											<li>
 										</ul>
@@ -401,7 +412,7 @@ if (nombreInstalacion == null)
 
 			<!-- Estadísticas -->
 			<div class="tarjeta-estadisticas-instalacion">
-				
+
 				<div class="tarjeta-estadistica">
 					<strong>✖</strong>FUTBOL 5
 				</div>
@@ -431,9 +442,9 @@ if (nombreInstalacion == null)
 
 	</main>
 
-	
 
-<footer>
+
+	<footer>
 
 		<div class="container-fluid ">
 			<div class="row">
@@ -454,15 +465,18 @@ if (nombreInstalacion == null)
 								ÚTILES</p>
 							<pre
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.05vw">
-<a href="${pageContext.request.contextPath}/instalacion" style="color: white">Inicio</a>
-<a href="${pageContext.request.contextPath}/instalacion/eventos" style="color: white">Eventos</a></pre>
+<a href="${pageContext.request.contextPath}/instalacion"
+									style="color: white">Inicio</a>
+<a href="${pageContext.request.contextPath}/instalacion/eventos"
+									style="color: white">Eventos</a>
+							</pre>
 						</div>
 						<div class="col-md-3 col-sm-3 g-2 pieDePagina p-3 pb-1">
 							<p style="text-decoration: underline; font-size: 1.5vw">CONTACTO</p>
 							<pre
 								style="font-family: 'Open Sans', sans-serif; font-size: 1.05vw">futboldebarriosevilla@gmail.com
 </pre>
-						</div>	
+						</div>
 						<div class="col-md-2 col-sm-2 g-2 pieDePagina p-3 pb-1">
 							<p
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.5vw">
@@ -512,8 +526,11 @@ if (nombreInstalacion == null)
 								ÚTILES</p>
 							<pre
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.6vw">
-<a href="${pageContext.request.contextPath}/instalacion" style="color: white">Inicio</a>
-<a href="${pageContext.request.contextPath}/instalacion/eventos" style="color: white">Eventos</a></pre>
+<a href="${pageContext.request.contextPath}/instalacion"
+									style="color: white">Inicio</a>
+<a href="${pageContext.request.contextPath}/instalacion/eventos"
+									style="color: white">Eventos</a>
+							</pre>
 						</div>
 						<div
 							class="col-4 d-block d-md-none d-sm-none g-2 pieDePagina p-2 ">
@@ -580,7 +597,7 @@ async function cargarDatosInstalacion() {
     }
 
     try {
-    	const res = await fetch('<%=request.getContextPath()%>/instalacion?accion=datos&idInstalacion=' + instalacionId);
+    	const res = await fetch('<%=request.getContextPath()%>/instalacion?accion=datos&idInstalacion='+ instalacionId);
 
 				if (!res.ok)
 					throw new Error('Error al cargar datos de la instalación');
@@ -620,7 +637,6 @@ async function cargarDatosInstalacion() {
 				const estadisticasDivs = document
 						.querySelectorAll('.tarjeta-estadistica');
 				if (estadisticasDivs.length >= 4) {
-				
 
 					// Tipos de campo
 					const campos = [ 'Futbol5', 'Futbol7', 'Futbol11' ];
@@ -652,7 +668,7 @@ async function cargarDatosInstalacion() {
 		}
 
 		document.addEventListener('DOMContentLoaded', cargarDatosInstalacion);
-		
+
 		function abrirGmail() {
 			const email = "futboldebarriosevilla@gmail.com";
 			const subject = "Titulo del Asunto: ";

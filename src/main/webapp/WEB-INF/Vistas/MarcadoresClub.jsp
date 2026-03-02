@@ -62,7 +62,7 @@ if (tipoUsuario == null) {
 	<%
 	if ("club".equals(tipoUsuario)) {
 	%>
-		<header class="fixed-top">
+	<header class="fixed-top">
 		<!-- Contenedor principal de -->
 		<div class="container-fluid ">
 			<div class="row ">
@@ -129,6 +129,7 @@ if (tipoUsuario == null) {
 													class="bi bi-youtube" viewBox="0 0 16 16">
 	  <path
 														d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z" />																						
+											
 											</a> <a href="https://www.tiktok.com/@fdb_sevilla"> <svg
 													xmlns="http://www.w3.org/2000/svg" width="1.4vw"
 													height="1.2vw" fill="currentColor"
@@ -181,8 +182,8 @@ if (tipoUsuario == null) {
 										<div class="col-sm-3 col-md-3 cabeceraMedio"
 											style="text-decoration: underline;">
 											<a href="" class="letraCabeceraMedio"
-												id="nombreUsuarioCabecera"> BIENVENIDO: <%=nombreUsuario%>
-											</a>
+												id="nombreUsuarioCabecera"> <i
+												class="fa-regular fa-circle-user iconoUsuario"></i> <%=nombreUsuario%></a>
 										</div>
 
 									</div>
@@ -198,8 +199,8 @@ if (tipoUsuario == null) {
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="${pageContext.request.contextPath}/club" class="letraCabeceraAbajo"
-												>INICIO</a>
+											<a href="${pageContext.request.contextPath}/club"
+												class="letraCabeceraAbajo">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES
@@ -207,7 +208,8 @@ if (tipoUsuario == null) {
 											</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="${pageContext.request.contextPath}/club/eventos" class="letraCabeceraAbajo">EVENTOS</a>
+											<a href="${pageContext.request.contextPath}/club/eventos"
+												class="letraCabeceraAbajo">EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -220,10 +222,12 @@ if (tipoUsuario == null) {
 									<div class="row">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="${pageContext.request.contextPath}/club/plantilla" class="letraCabeceraAbajo">PLANTILLA</a>
+											<a href="${pageContext.request.contextPath}/club/plantilla"
+												class="letraCabeceraAbajo">PLANTILLA</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="${pageContext.request.contextPath}/marcadores" class="letraCabeceraAbajo" style="color: #d4af37;">MARCADORES</a>
+											<a href="${pageContext.request.contextPath}/marcadores"
+												class="letraCabeceraAbajo" style="color: #d4af37;">MARCADORES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS
@@ -258,7 +262,8 @@ if (tipoUsuario == null) {
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
 													</li>
-													<li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout"
+													<li><a class="dropdown-item"
+														href="${pageContext.request.contextPath}/logout"
 														style="color: white;">Cerrar sesión</a></li>
 												</ul>
 											</div>
@@ -333,18 +338,21 @@ if (tipoUsuario == null) {
 								<!-- columna izquierda: INICIO -->
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
-									<a href="${pageContext.request.contextPath}/club" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">INICIO</a>
+									<a href="${pageContext.request.contextPath}/club"
+										class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
 								</div>
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-2 ">
-									<a href="${pageContext.request.contextPath}/marcadores" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;	">MARCADORES</a>
+									<a href="${pageContext.request.contextPath}/marcadores"
+										class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">MARCADORES</a>
 								</div>
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-2 ">
-									<a href="${pageContext.request.contextPath}/club/plantilla" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">PLANTILLA</a>
+									<a href="${pageContext.request.contextPath}/club/plantilla"
+										class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw;">PLANTILLA</a>
 								</div>
 
 
@@ -368,13 +376,14 @@ if (tipoUsuario == null) {
 
 
 											<li><a class="dropdown-item seccion-bloqueada"
-												href="Jugador.jsp">Alquileres <span
-													class="tooltip-text">Sección en desarrollo</span></a></li>
-											<li><a class="dropdown-item " href="${pageContext.request.contextPath}/club/eventos"
+												href="Jugador.jsp">Alquileres <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
+											<li><a class="dropdown-item "
+												href="${pageContext.request.contextPath}/club/eventos"
 												style="color: white;">Eventos </a></li>
 											<li><a class="dropdown-item seccion-bloqueada"
-												href="Jugador.jsp">Desafios <span
-													class="tooltip-text">Sección en desarrollo</span></a></li>
+												href="Jugador.jsp">Desafios <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
 
 
 											<li>
@@ -393,7 +402,8 @@ if (tipoUsuario == null) {
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout"
+											<li><a class="dropdown-item"
+												href="${pageContext.request.contextPath}/logout"
 												style="color: white;">Cerrar sesión</a></li>
 
 										</ul>
@@ -478,6 +488,7 @@ if (tipoUsuario == null) {
 													class="bi bi-youtube" viewBox="0 0 16 16">
 	  <path
 														d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z" />																						
+											
 											</a> <a href="https://www.tiktok.com/@fdb_sevilla"> <svg
 													xmlns="http://www.w3.org/2000/svg" width="1.4vw"
 													height="1.2vw" fill="currentColor"
@@ -518,7 +529,7 @@ if (tipoUsuario == null) {
 								</div>
 							</div>
 						</div>
-						
+
 						<!-- fila de abajo -->
 						<div class="col-sm-12 col-md-12  "
 							style="border: solid 2px black; background-color: #004000; box-shadow: 0px 4px 8px -4px rgba(0, 0, 0, 0.45);">
@@ -528,7 +539,8 @@ if (tipoUsuario == null) {
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-11 col-md-11 cabeceraAbajo ">
-											<a href="${pageContext.request.contextPath}/inicio" class="letraCabeceraAbajo" >INICIO</a>
+											<a href="${pageContext.request.contextPath}/inicio"
+												class="letraCabeceraAbajo">INICIO</a>
 										</div>
 									</div>
 								</div>
@@ -639,7 +651,7 @@ if (tipoUsuario == null) {
 									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
 									<a href="${pageContext.request.contextPath}/inicio"
 										class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">INICIO</a>
+										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
 								</div>
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-3 ">
@@ -728,23 +740,25 @@ if (tipoUsuario == null) {
 					<div class="row justify-content-center" style="gap: 5vw;">
 						<!-- Botón Premium (solo si el jugador es premium) -->
 
-					<div class="col-md-3 col-sm-3 col-3 mx-auto my-5 d-flex justify-content-center">
-    <button id="botonMarcadoresPremium" class="botonMarcadoresPremium p-4 premium-btn">
-        <div class="premium-content">
-            <img class="imagenMarcadoresPremium"
-                 src="${pageContext.request.contextPath}/Imagenes/premium.png"
-                 alt="Premium">
-            ESTADÍSTICAS PREMIUM
-        </div>
-    </button>
-</div>
+						<div
+							class="col-md-3 col-sm-3 col-3 mx-auto my-5 d-flex justify-content-center">
+							<button id="botonMarcadoresPremium"
+								class="botonMarcadoresPremium p-4 premium-btn">
+								<div class="premium-content">
+									<img class="imagenMarcadoresPremium"
+										src="${pageContext.request.contextPath}/Imagenes/premium.png"
+										alt="Premium"> ESTADÍSTICAS PREMIUM
+								</div>
+							</button>
+						</div>
 
 						<!-- Botón Clubes -->
 						<div
 							class="col-md-3 col-sm-3 col-3 mx-auto my-5 d-flex justify-content-center">
 							<button id="botonMarcadoresClubes"
 								class="botonMarcadoresPremium p-4">
-								<img class="imagenMarcadoresPremium" src="${pageContext.request.contextPath}/Imagenes/clubes.PNG"
+								<img class="imagenMarcadoresPremium"
+									src="${pageContext.request.contextPath}/Imagenes/clubes.PNG"
 									alt="Clubes"> MARCADORES CLUBES
 							</button>
 						</div>
@@ -755,8 +769,8 @@ if (tipoUsuario == null) {
 							<button id="botonMarcadoresJugadores"
 								class="botonMarcadoresPremium p-4">
 								<img class="imagenMarcadoresPremium"
-									src="${pageContext.request.contextPath}/Imagenes/futbolista.PNG" alt="Jugadores"> MARCADORES
-								JUGADORES
+									src="${pageContext.request.contextPath}/Imagenes/futbolista.PNG"
+									alt="Jugadores"> MARCADORES JUGADORES
 							</button>
 						</div>
 
@@ -780,7 +794,8 @@ if (tipoUsuario == null) {
 						<div class="col-md-3 col-sm-3 col-3 mx-auto "
 							style="margin-bottom: 16vh; margin-top: 4vh; display: flex; justify-content: flex-end; align-items: center;">
 							<button id="botonMarcadoresClubes" class="botonMarcadores p-4">
-								<img class="imagenMarcadores" src="${pageContext.request.contextPath}/Imagenes/clubes.PNG"
+								<img class="imagenMarcadores"
+									src="${pageContext.request.contextPath}/Imagenes/clubes.PNG"
 									alt="Clubes"> MARCADORES CLUBES
 							</button>
 						</div>
@@ -792,7 +807,8 @@ if (tipoUsuario == null) {
 						<div class="col-md-3 col-sm-3 col-3"
 							style="margin-bottom: 16vh; margin-top: 4vh; display: flex; justify-content: flex-start; align-items: center;">
 							<button class="botonMarcadores p-4" id="botonMarcadoresJugadores">
-								<img class="imagenMarcadores" src="${pageContext.request.contextPath}/Imagenes/futbolista.PNG"
+								<img class="imagenMarcadores"
+									src="${pageContext.request.contextPath}/Imagenes/futbolista.PNG"
 									alt="Jugadores"> MARCADORES JUGADORES
 							</button>
 						</div>
@@ -997,7 +1013,7 @@ if (tipoUsuario == null) {
 	</main>
 
 
-<footer>
+	<footer>
 
 		<div class="container-fluid ">
 			<div class="row">
@@ -1013,8 +1029,8 @@ if (tipoUsuario == null) {
 								el fútbol.</p>
 						</div>
 						<%
-							if ("Invitado".equals(tipoUsuario)) {
-							%>
+						if ("Invitado".equals(tipoUsuario)) {
+						%>
 						<div class="col-md-3 col-sm-3 g-2 pieDePagina p-3 pb-1 ">
 							<p
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.5vw">ENLACES
@@ -1032,32 +1048,33 @@ if (tipoUsuario == null) {
 									style="color: white">Marcadores</a>
 <a href="${pageContext.request.contextPath}/login" style="color: white">Iniciar Sesion</a> </pre>
 						</div>
-						
-						
+
+
 						<%
-							} else if ("club".equals(tipoUsuario)) {
-							%>
-							
-							<div class="col-md-3 col-sm-3 g-2 pieDePagina p-3 pb-1 ">
+						} else if ("club".equals(tipoUsuario)) {
+						%>
+
+						<div class="col-md-3 col-sm-3 g-2 pieDePagina p-3 pb-1 ">
 							<p
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.5vw">ENLACES
 								ÚTILES</p>
 							<pre
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.05vw">
-<a href="${pageContext.request.contextPath}/pagoPremium" style="color: white">Hazte Premium</a>
-<a href="${pageContext.request.contextPath}/club"
-									style="color: white">Inicio</a>
+<a href="${pageContext.request.contextPath}/pagoPremium"
+									style="color: white">Hazte Premium</a>
+<a href="${pageContext.request.contextPath}/club" style="color: white">Inicio</a>
 <a href="${pageContext.request.contextPath}/club/plantilla"
 									style="color: white">Plantilla</a>
 <a href="${pageContext.request.contextPath}/marcadores"
 									style="color: white">Marcadores</a>
 <a href="${pageContext.request.contextPath}/club/eventos"
-									style="color: white">Eventos</a></pre>
+									style="color: white">Eventos</a>
+							</pre>
 						</div>
-						
+
 						<%
-							}
-							%>
+						}
+						%>
 						<div class="col-md-3 col-sm-3 g-2 pieDePagina p-3 pb-1">
 							<p style="text-decoration: underline; font-size: 1.5vw">CONTACTO</p>
 							<pre
@@ -1107,9 +1124,10 @@ if (tipoUsuario == null) {
 					<div class="row">
 
 						<%
-							if ("Invitado".equals(tipoUsuario)) {
-							%>
-						<div class="col-4 d-block d-md-none d-sm-none g-2 pieDePagina p-2 ">
+						if ("Invitado".equals(tipoUsuario)) {
+						%>
+						<div
+							class="col-4 d-block d-md-none d-sm-none g-2 pieDePagina p-2 ">
 							<p
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 2vw">ENLACES
 								ÚTILES</p>
@@ -1126,33 +1144,35 @@ if (tipoUsuario == null) {
 									style="color: white">Marcadores</a>
 <a href="${pageContext.request.contextPath}/login" style="color: white">Iniciar Sesion</a> </pre>
 						</div>
-						
-						
+
+
 						<%
-							} else if ("club".equals(tipoUsuario)) {
-							%>
-							
-							<div class="col-4 d-block d-md-none d-sm-none g-2 pieDePagina p-2 ">
+						} else if ("club".equals(tipoUsuario)) {
+						%>
+
+						<div
+							class="col-4 d-block d-md-none d-sm-none g-2 pieDePagina p-2 ">
 							<p
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 2vw">ENLACES
 								ÚTILES</p>
 							<pre
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.6vw">
-<a href="${pageContext.request.contextPath}/pagoPremium" style="color: white">Hazte Premium</a>
-<a href="${pageContext.request.contextPath}/club"
-									style="color: white">Inicio</a>
+<a href="${pageContext.request.contextPath}/pagoPremium"
+									style="color: white">Hazte Premium</a>
+<a href="${pageContext.request.contextPath}/club" style="color: white">Inicio</a>
 <a href="${pageContext.request.contextPath}/club/plantilla"
 									style="color: white">Plantilla</a>
 <a href="${pageContext.request.contextPath}/marcadores"
 									style="color: white">Marcadores</a>
 <a href="${pageContext.request.contextPath}/club/eventos"
-									style="color: white">Eventos</a></pre>
+									style="color: white">Eventos</a>
+							</pre>
 						</div>
-						
+
 						<%
-							}
-							%>
-						
+						}
+						%>
+
 						<div
 							class="col-4 d-block d-md-none d-sm-none g-2 pieDePagina p-2 ">
 							<p style="text-decoration: underline; font-size: 2vw">CONTACTO</p>

@@ -89,7 +89,7 @@ public class ClubServicio {
 				json.put("logoClub", JSONObject.NULL);
 			}
 
-			json.put("esPremium", club.isEsPremium());
+			json.put("esPremium", club.getEsPremium());
 
 			String urlApi = "http://localhost:9527/api/guardarClub";
 			URL url = new URL(urlApi);
@@ -316,7 +316,7 @@ public class ClubServicio {
 				json.put("logoClub", JSONObject.NULL);
 			}
 
-			json.put("esPremium", club.isEsPremium());
+			json.put("esPremium", club.getEsPremium());
 
 			// 3️⃣ Conexión a la API
 			String urlApi = "http://localhost:9527/api/modificarClub/" + idClub;

@@ -53,7 +53,7 @@ public class FiltroErrores implements Filter {
             }
 
             String mensaje = "servidor"; 
-            String loginUrl = req.getContextPath() + "/login?error=" + mensaje;
+            String loginUrl =  "https://" + req.getServerName() + req.getContextPath() + "/login?error=" + mensaje;
 
             resp.sendRedirect(loginUrl);
         }

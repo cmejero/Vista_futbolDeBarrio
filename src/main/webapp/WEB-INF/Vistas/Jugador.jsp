@@ -171,7 +171,8 @@
 										<div class="col-sm-3 col-md-3 cabeceraMedio"
 											style="text-decoration: underline;">
 											<a href="" class="letraCabeceraMedio"
-												id="nombreUsuarioCabecera"> BIENVENIDO: <%=nombreUsuario%>
+												id="nombreUsuarioCabecera"> <i
+												class="fa-regular fa-circle-user iconoUsuario"></i> <%=nombreUsuario%>
 											</a>
 										</div>
 
@@ -413,7 +414,7 @@
 					<p class="tarjeta-alias">"Cargando..."</p>
 				</div>
 				<img src="${pageContext.request.contextPath}/Imagenes/usuarioPorDefecto.jpg" alt="Foto"
-					class="tarjeta-imagen">
+					class="tarjeta-imagen ">
 				<p class="tarjeta-estado activo">Cargando...</p>
 			</div>
 

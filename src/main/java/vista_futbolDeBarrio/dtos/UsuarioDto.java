@@ -20,7 +20,7 @@ public class UsuarioDto {
 	String descripcionUsuario ="aaaaaa";
 	byte[] imagenUsuario;
 	Estado estadoUsuario;
-	boolean esPremium = false;
+	Boolean esPremium = false;
 	
 	
 	
@@ -118,12 +118,12 @@ public class UsuarioDto {
 
 	
 
-	public boolean isEsPremium() {
+	public Boolean getEsPremium() {
 		return esPremium;
 	}
 
 
-	public void setEsPremium(boolean esPremium) {
+	public void setEsPremium(Boolean esPremium) {
 		this.esPremium = esPremium;
 	}
 

@@ -121,6 +121,7 @@ if (esPremium == null)
 	  <path
 														d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z" />																						
 											
+											
 											</a> <a href="https://www.tiktok.com/@fdb_sevilla"> <svg
 													xmlns="http://www.w3.org/2000/svg" width="1.4vw"
 													height="1.2vw" fill="currentColor"
@@ -171,9 +172,10 @@ if (esPremium == null)
 										<div class="col-sm-3 col-md-3 cabeceraMedio"
 											style="text-decoration: underline;">
 											<a href="" class="letraCabeceraMedio"
-												id="nombreUsuarioCabecera"> BIENVENIDO: <%=nombreUsuario%>
-											</a>
+												id="nombreUsuarioCabecera"> <i
+												class="fa-regular fa-circle-user iconoUsuario"></i> <%=nombreUsuario%></a>
 										</div>
+										
 
 									</div>
 								</div>
@@ -239,16 +241,16 @@ if (esPremium == null)
 												<ul class="dropdown-menu dropdown-menu-dark"
 													style="min-width: 12vw; font-size: 1.2vw; background-color: #003300; border-radius: 5px;">
 													<li><a class="dropdown-item seccion-bloqueada "
-														href="#">Idioma<span
-															class="tooltip-text">Sección en desarrollo</span>
+														href="#">Idioma<span class="tooltip-text">Sección
+																en desarrollo</span>
 													</a></li>
 													<li><a class="dropdown-item seccion-bloqueada"
-														href="#"">Ayuda<span
-															class="tooltip-text">Sección en desarrollo</span>
+														href="#"">Ayuda<span class="tooltip-text">Sección
+																en desarrollo</span>
 													</a></li>
 													<li><a class="dropdown-item seccion-bloqueada"
-														href="#"">Configuración <span
-															class="tooltip-text">Sección en desarrollo</span></a></li>
+														href="#"">Configuración <span class="tooltip-text">Sección
+																en desarrollo</span></a></li>
 													<li>
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
@@ -431,7 +433,7 @@ if (esPremium == null)
 							class="col-md-3 col-sm-3 col-3 mx-auto my-5 d-flex justify-content-center">
 							<button id="botonMarcadoresPremium"
 								class="botonMarcadoresPremium p-4 premium-btn">
-								
+
 								<img class="imagenMarcadoresPremium"
 									src="${pageContext.request.contextPath}/Imagenes/premium.png"
 									alt="Premium"> ESTADÍSTICAS PREMIUM
@@ -591,8 +593,8 @@ if (esPremium == null)
 							placeholder="Buscar por Nombre">
 					</div>
 
-					<input type="text" id="buscarLocalidadJugador" class="inputFiltrar"
-						placeholder="Buscar por Localidad">
+					<input type="text" id="buscarAliasJugador" class="inputFiltrar"
+						placeholder="Buscar por Alias">
 				</div>
 
 				<!-- Tabla de jugadores -->
@@ -641,8 +643,8 @@ if (esPremium == null)
 						<th style="width: 16%">Evento</th>
 						<th style="width: 8%">PJ</th>
 						<th style="width: 8%">G</th>
-						<th style="width: 8%">A</th>
-						<th style="width: 8%">R</th>
+						<th style="width: 8%">TA</th>
+						<th style="width: 8%">TR</th>
 						<th style="width: 8%">V</th>
 						<th style="width: 8%">D</th>
 						<th style="width: 8%">G/P</th>
@@ -682,8 +684,8 @@ if (esPremium == null)
 						<th style="width: 20%">Nombre Evento</th>
 						<th style="width: 5%">PJ</th>
 						<th style="width: 5%">G</th>
-						<th style="width: 5%">A</th>
-						<th style="width: 5%">R</th>
+						<th style="width: 5%">TA</th>
+						<th style="width: 5%">TR</th>
 						<th style="width: 5%">V</th>
 						<th style="width: 5%">D</th>
 						<th style="width: 6%">G/P</th>
@@ -939,10 +941,10 @@ if (esPremium == null)
     }
 
     if (volverAContenidoP) {
-      volverAContenidoP.addEventListener('click', function() {
-        toggleSection(marcadorContainer, estadisticasPremiumContainer);
-      });
-    }
+    	  volverAContenidoP.addEventListener('click', function() {
+    	    if (estadisticasContainer) toggleSection(marcadorContainer, estadisticasContainer);
+    	  });
+    	}
 
     // ===============================
     // FILTROS
@@ -965,36 +967,41 @@ if (esPremium == null)
 
     const mostrarFiltrosPremiumBtn = document.getElementById("mostrarFiltrosPremium");
     if (mostrarFiltrosPremiumBtn) {
-      mostrarFiltrosPremiumBtn.addEventListener("click", function() {
-        const filtros = document.getElementById("filtrosPremium");
-        toggleFiltros(filtros, this);
-      });
-    }
+    	  mostrarFiltrosPremiumBtn.addEventListener("click", function() {
+    	    const filtros = document.getElementById("filtrosPremium");
+    	    toggleFiltros(filtros, this);
+    	  });
+    	}
 
     // ===============================
     // FILTROS DINÁMICOS
     // ===============================
-    function aplicarFiltros(tablaBodyId, columnasInput) {
-      columnasInput.forEach(({inputId, colIndex}) => {
-        const input = document.getElementById(inputId);
-        input.addEventListener('input', function() {
-          const filtros = columnasInput.map(({inputId}) => document.getElementById(inputId).value.toLowerCase());
-          const tbody = document.getElementById(tablaBodyId);
-          const filas = Array.from(tbody.querySelectorAll('tr'));
-
-          filas.forEach(fila => {
-            const celdas = Array.from(fila.children);
-            const mostrar = columnasInput.every(({colIndex}, i) => {
-              const texto = celdas[colIndex]?.textContent.toLowerCase() || '';
-              return texto.includes(filtros[i]);
-            });
-            fila.style.display = mostrar ? '' : 'none';
-          });
-
-          paginarTabla(tablaBodyId, 15); // Actualiza paginación
-        });
+function aplicarFiltros(tablaBodyId, columnasInput) {
+  columnasInput.forEach(({inputId, colIndex}) => {
+    const input = document.getElementById(inputId);
+    if (!input) return;  // <-- evita el error si el input no existe
+    input.addEventListener('input', function() {
+      const filtros = columnasInput.map(({inputId}) => {
+        const i = document.getElementById(inputId);
+        return i ? i.value.toLowerCase() : '';
       });
-    }
+      const tbody = document.getElementById(tablaBodyId);
+      if (!tbody) return;
+      const filas = Array.from(tbody.querySelectorAll('tr'));
+
+      filas.forEach(fila => {
+        const celdas = Array.from(fila.children);
+        const mostrar = columnasInput.every(({colIndex}, i) => {
+          const texto = celdas[colIndex]?.textContent.toLowerCase() || '';
+          return texto.includes(filtros[i]);
+        });
+        fila.style.display = mostrar ? '' : 'none';
+      });
+
+      paginarTabla(tablaBodyId, 15); // Actualiza paginación
+    });
+  });
+}
 
     // ===============================
     // PAGINACIÓN
@@ -1058,7 +1065,7 @@ if (esPremium == null)
       aplicarFiltros('tablaCuerpoJugador', [
         {inputId: 'buscarPosicionJugador', colIndex: 0},
         {inputId: 'buscarNombreJugador', colIndex: 1},
-        {inputId: 'buscarLocalidadJugador', colIndex: 2}
+        {inputId: 'buscarAliasJugador', colIndex: 2}
       ]);
     }
 
@@ -1233,10 +1240,9 @@ window.onload = function() {
 
 if (botonEstadisticas) {
   botonEstadisticas.addEventListener("click", function() {
-    // Mostrar contenedor
-    estadisticasContainer.style.display = "block";
 
-    // Limpiar tablas antes de pintar
+    if (estadisticasContainer) estadisticasContainer.style.display = "block";
+
     if (tablaEstadisticasGlobal) tablaEstadisticasGlobal.innerHTML = "";
     if (tablaEstadisticasTorneo) tablaEstadisticasTorneo.innerHTML = "";
 
@@ -1247,20 +1253,18 @@ if (botonEstadisticas) {
         return response.json();
       })
       .then(function(data) {
-        if (!data) return;
+        if (!data || !tablaEstadisticasGlobal) return;
 
-        if (tablaEstadisticasGlobal) {
-          const fila = crearFilaEstadisticasGlobalPremium(
-            "Global",
-            data.partidosJugadosGlobal || 0,
-            data.golesGlobal || 0,
-            data.amarillasGlobal || 0,
-            data.rojasGlobal || 0,
-            data.partidosGanadosGlobal || 0,
-            data.partidosPerdidosGlobal || 0
-          );
-          tablaEstadisticasGlobal.appendChild(fila);
-        }
+        const fila = crearFilaEstadisticasGlobalPremium(
+          "Global",
+          data.partidosJugadosGlobal || 0,
+          data.golesGlobal || 0,
+          data.amarillasGlobal || 0,
+          data.rojasGlobal || 0,
+          data.partidosGanadosGlobal || 0,
+          data.partidosPerdidosGlobal || 0
+        );
+        tablaEstadisticasGlobal.appendChild(fila);
       })
       .catch(function(error) {
         console.error("❌ Error cargando estadísticas globales:", error);
@@ -1274,35 +1278,24 @@ if (botonEstadisticas) {
       })
       .then(function(data) {
         if (!tablaEstadisticasTorneo) return;
-
-        // Si data no es array, lo convertimos en vacío
         const torneos = Array.isArray(data) ? data : [];
-
-        // Pintar la tabla usando la función que maneja el mensaje de "sin torneos"
         pintarTablaEstadisticasTorneos(torneos);
-
-        // Aplicar filtros y paginación
         filtrosPremium();
         paginarTabla('tablaEstadisticasTorneoPremium', 15);
       })
       .catch(function(error) {
         console.error("❌ Error cargando estadísticas de torneo:", error);
-
-        // Mostrar mensaje de error en la tabla
         if (tablaEstadisticasTorneo) {
           tablaEstadisticasTorneo.innerHTML = `<tr>
-            <td colspan="12" style="
-              text-align: center;
-              color: red;
-              font-weight: bold;
-              padding: 1em;
-              font-style: italic;
-            ">
+            <td colspan="12" style="text-align:center;color:red;font-weight:bold;padding:1em;font-style:italic;">
               ❌ Error al cargar los torneos.
             </td>
           </tr>`;
         }
       });
+
+    filtrosPremium();
+    paginarTabla('tablaEstadisticasTorneoPremium', 15);
   });
 }
 

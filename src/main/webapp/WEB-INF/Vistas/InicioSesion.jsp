@@ -515,7 +515,7 @@
 					</div>
 
 					<div class="enlaceRegistroGoogle text-center mt-2">
-						¿No tienes una cuenta? <a href="Registrar.jsp">Regístrate aquí</a>
+						¿No tienes una cuenta? <a href="${pageContext.request.contextPath}/registrar">Regístrate aquí</a>
 					</div>
 				</form>
 			</div>
@@ -733,18 +733,23 @@ botonGoogle.addEventListener('click', function() {
     }
 
     const clientId = '551749312175-m2oo1bpm59bqti0o58lls3jcju911j2q.apps.googleusercontent.com';
-    const redirectUri = 'http://localhost:8080/vista_futbolDeBarrio/login';
+    
+    // Detectar si estamos en local o producción
+    const redirectUri = window.location.hostname === 'localhost'
+        ? 'http://localhost:8080/vista_futbolDeBarrio/login'
+        : window.location.origin + '/login';
+
     const scope = 'openid email profile';
     const responseType = 'code';
+    const state = encodeURIComponent(tipo);
 
-    const state = encodeURIComponent(tipo); // tipoUsuario
     const googleUrl =
         'https://accounts.google.com/o/oauth2/v2/auth?' +
         'client_id=' + encodeURIComponent(clientId) +
         '&redirect_uri=' + encodeURIComponent(redirectUri) +
         '&response_type=' + encodeURIComponent(responseType) +
         '&scope=' + encodeURIComponent(scope) +
-        '&state=' + state; 
+        '&state=' + state;
 
     window.location.href = googleUrl;
 });

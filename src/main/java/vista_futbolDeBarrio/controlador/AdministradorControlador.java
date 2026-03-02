@@ -153,6 +153,7 @@ public class AdministradorControlador extends HttpServlet {
                 usuario.setAliasUsuario(request.getParameter("aliasUsuarioEditar"));
                 usuario.setEmailUsuario(request.getParameter("emailUsuarioEditar"));
                 usuario.setTelefonoUsuario(request.getParameter("telefonoUsuarioEditar"));
+                usuario.setFechaNacimientoUsuario(request.getParameter("fechaNacimientoUsuarioEditar"));
                 String estado = request.getParameter("estadoUsuarioEditar");
                 if (estado != null) usuario.setEstadoUsuario(Estado.valueOf(estado));
                 usuario.setDescripcionUsuario(request.getParameter("descripcionUsuarioEditar"));

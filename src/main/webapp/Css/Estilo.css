@@ -1694,7 +1694,7 @@ button.paginacion :hover {
 }
 
 .tarjeta-nombre {
-	font-size: 2vw;
+	font-size: 1.6vw;
 	font-weight: bold;
 	color: #ffffff;
 	margin: 0;
@@ -1702,7 +1702,7 @@ button.paginacion :hover {
 }
 
 .tarjeta-alias {
-	font-size: 1.8vw;
+	font-size: 1.4vw;
 	color: #a0a0a0;
 	font-style: italic;
 	margin: 0;
@@ -1719,6 +1719,7 @@ button.paginacion :hover {
 	align-items: center;
 	justify-content: center;
 	background-color: #fff;
+	margin-top:1.6vw;
 }
 
 .tarjeta-imagen img {

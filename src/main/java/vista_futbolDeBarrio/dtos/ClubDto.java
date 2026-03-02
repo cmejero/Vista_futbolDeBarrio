@@ -17,7 +17,7 @@ public class ClubDto {
 	private String emailClub = "";
 	private String passwordClub; 
 	private String telefonoClub = "";
-	private boolean esPremium = false;
+	private Boolean esPremium = false;
 
 
 	// Getters y Setters
@@ -117,11 +117,11 @@ public class ClubDto {
 		this.telefonoClub = telefonoClub;
 	}
 
-	public boolean isEsPremium() {
+	public Boolean getEsPremium() {
 		return esPremium;
 	}
 
-	public void setEsPremium(boolean esPremium) {
+	public void setEsPremium(Boolean esPremium) {
 		this.esPremium = esPremium;
 	}
 	

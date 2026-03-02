@@ -1,22 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 
 <%
-    
-    String tipoUsuario = ((String) session.getAttribute("tipoUsuario"));
-    
-    
-    if (tipoUsuario == null || !"club".equals(tipoUsuario)) {
-        response.sendRedirect("acceso_denegado.jsp");
-        return; // Detener el renderizado de la página
-    }
+String tipoUsuario = ((String) session.getAttribute("tipoUsuario"));
 
-    Long clubId = (Long) session.getAttribute("clubId");
-    String nombreUsuario = (String) session.getAttribute("nombreClub");
-    if (nombreUsuario == null) nombreUsuario = "Invitado";
+if (tipoUsuario == null || !"club".equals(tipoUsuario)) {
+	response.sendRedirect("acceso_denegado.jsp");
+	return; // Detener el renderizado de la página
+}
 
-    Boolean esPremium = (Boolean) session.getAttribute("esPremium");
-    if (esPremium == null) esPremium = false;
+Long clubId = (Long) session.getAttribute("clubId");
+String nombreUsuario = (String) session.getAttribute("nombreClub");
+if (nombreUsuario == null)
+	nombreUsuario = "Invitado";
+
+Boolean esPremium = (Boolean) session.getAttribute("esPremium");
+if (esPremium == null)
+	esPremium = false;
 %>
 
 
@@ -26,14 +26,16 @@
 <head>
 <meta charset="UTF-8">
 <!-- Estilos CSS -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/Css/Estilo.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/Css/Estilo.css">
 
 <!-- Bootstrap CSS -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
- 
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
 	rel="stylesheet">
@@ -126,6 +128,7 @@
 													class="bi bi-youtube" viewBox="0 0 16 16">
 	  <path
 														d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z" />																						
+											
 											</a> <a href="https://www.tiktok.com/@fdb_sevilla"> <svg
 													xmlns="http://www.w3.org/2000/svg" width="1.4vw"
 													height="1.2vw" fill="currentColor"
@@ -178,8 +181,8 @@
 										<div class="col-sm-3 col-md-3 cabeceraMedio"
 											style="text-decoration: underline;">
 											<a href="" class="letraCabeceraMedio"
-												id="nombreUsuarioCabecera"> BIENVENIDO: <%=nombreUsuario%>
-											</a>
+												id="nombreUsuarioCabecera"> <i
+												class="fa-regular fa-circle-user iconoUsuario"></i> <%=nombreUsuario%></a>
 										</div>
 
 									</div>
@@ -195,8 +198,8 @@
 									<div class="row  ">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo  "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="${pageContext.request.contextPath}/club" class="letraCabeceraAbajo"
-												>INICIO</a>
+											<a href="${pageContext.request.contextPath}/club"
+												class="letraCabeceraAbajo">INICIO</a>
 										</div>
 										<div class="col-sm-4 col-md-4 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo seccion-bloqueada">ALQUILERES
@@ -204,7 +207,8 @@
 											</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="${pageContext.request.contextPath}/club/eventos" class="letraCabeceraAbajo">EVENTOS</a>
+											<a href="${pageContext.request.contextPath}/club/eventos"
+												class="letraCabeceraAbajo">EVENTOS</a>
 										</div>
 										<div class="col-sm-1 col-md-1 cabeceraAbajo"></div>
 
@@ -217,10 +221,12 @@
 									<div class="row">
 										<div class="col-sm-1 col-md-1 cabeceraAbajo "></div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="${pageContext.request.contextPath}/club/plantilla" class="letraCabeceraAbajo" style="color: #d4af37;">PLANTILLA</a>
+											<a href="${pageContext.request.contextPath}/club/plantilla"
+												class="letraCabeceraAbajo" style="color: #d4af37;">PLANTILLA</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
-											<a href="${pageContext.request.contextPath}/marcadores" class="letraCabeceraAbajo">MARCADORES</a>
+											<a href="${pageContext.request.contextPath}/marcadores"
+												class="letraCabeceraAbajo">MARCADORES</a>
 										</div>
 										<div class="col-sm-3 col-md-3 cabeceraAbajo ">
 											<a href="" class="letraCabeceraAbajo seccion-bloqueada">DESAFIOS
@@ -255,7 +261,8 @@
 														<hr class="dropdown-divider"
 															style="border-color: #006600;">
 													</li>
-													<li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout"
+													<li><a class="dropdown-item"
+														href="${pageContext.request.contextPath}/logout"
 														style="color: white;">Cerrar sesión</a></li>
 												</ul>
 											</div>
@@ -275,7 +282,8 @@
 						<!-- columna logo -->
 						<div class="d-sm-none d-md-none col-2 d-block logo  "
 							style="background-color: white; border: 2px solid black; border-top: none">
-							<img src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
+							<img
+								src="${pageContext.request.contextPath}/Imagenes/LOGOWEB.PNG"></img>
 						</div>
 
 						<!-- Columna derecha que se divide en 2 filas -->
@@ -330,17 +338,20 @@
 								<!-- columna izquierda: INICIO -->
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-4 ">
-									<a href="${pageContext.request.contextPath}/club" class="letraCabeceraAbajo "
-										style="text-decoration: none; font-size: 2.5vw; ">INICIO</a>
+									<a href="${pageContext.request.contextPath}/club"
+										class="letraCabeceraAbajo "
+										style="text-decoration: none; font-size: 2.5vw;">INICIO</a>
 								</div>
 								<div
 									class="col-4 d-flex justify-content-start align-items-center ps-2 ">
-									<a href="${pageContext.request.contextPath}/marcadores" class="letraCabeceraAbajo "
+									<a href="${pageContext.request.contextPath}/marcadores"
+										class="letraCabeceraAbajo "
 										style="text-decoration: none; font-size: 2.5vw;">MARCADORES</a>
 								</div>
 								<div
 									class="col-3 d-flex justify-content-start align-items-center ps-2 ">
-									<a href="${pageContext.request.contextPath}/club/plantilla" class="letraCabeceraAbajo "
+									<a href="${pageContext.request.contextPath}/club/plantilla"
+										class="letraCabeceraAbajo "
 										style="text-decoration: none; font-size: 2.5vw; color: #d4af37;">PLANTILLA</a>
 								</div>
 
@@ -365,13 +376,14 @@
 
 
 											<li><a class="dropdown-item seccion-bloqueada"
-												href="Jugador.jsp">Alquileres <span
-													class="tooltip-text">Sección en desarrollo</span></a></li>
-											<li><a class="dropdown-item " href="${pageContext.request.contextPath}/club/eventos"
+												href="Jugador.jsp">Alquileres <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
+											<li><a class="dropdown-item "
+												href="${pageContext.request.contextPath}/club/eventos"
 												style="color: white;">Eventos </a></li>
 											<li><a class="dropdown-item seccion-bloqueada"
-												href="Jugador.jsp">Desafios <span
-													class="tooltip-text">Sección en desarrollo</span></a></li>
+												href="Jugador.jsp">Desafios <span class="tooltip-text">Sección
+														en desarrollo</span></a></li>
 
 
 											<li>
@@ -390,7 +402,8 @@
 											<li>
 												<hr class="dropdown-divider" style="border-color: #006600;">
 											</li>
-											<li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout"
+											<li><a class="dropdown-item"
+												href="${pageContext.request.contextPath}/logout"
 												style="color: white;">Cerrar sesión</a></li>
 
 										</ul>
@@ -406,58 +419,57 @@
 	</header>
 
 
-<main style="background-color: rgba(223, 234, 213, 0.5);">
+	<main style="background-color: rgba(223, 234, 213, 0.5);">
 
-    <div class="container-fluid" id="jugadorContainer">
-        <div class="row">
-            <!-- Contenedor para los botones -->
-            <div class="col-md-12 col-sm-12 col-12 mx-auto pt-1 m-1"
-                 style="display: flex; align-items: center; gap: 10px;">
-                <button id="mostrarFiltrosJugadores"
-                        class="mb-2 mr-auto botonFiltrar" style="background-color: black">
-                    Mostrar Filtros
-                </button>
-            </div>
+		<div class="container-fluid" id="jugadorContainer">
+			<div class="row">
+				<!-- Contenedor para los botones -->
+				<div class="col-md-12 col-sm-12 col-12 mx-auto pt-1 m-1"
+					style="display: flex; align-items: center; gap: 10px;">
+					<button id="mostrarFiltrosJugadores"
+						class="mb-2 mr-auto botonFiltrar" style="background-color: black">
+						Mostrar Filtros</button>
+				</div>
 
-            <!-- Filtros -->
-            <div id="filtrosJugadores" class="filaFiltrar"
-                 style="background-color: black; display: none;">
+				<!-- Filtros -->
+				<div id="filtrosJugadores" class="filaFiltrar"
+					style="background-color: black; display: none;">
 
-                <div class="filtroItem">
-                    <input type="text" id="buscarPosicionJugador" class="inputFiltrar"
-                           placeholder="Buscar por posición">
-                </div>
-                <div class="filtroItem">
-                    <input type="text" id="buscarNombreJugador" class="inputFiltrar"
-                           placeholder="Buscar por Nombre">
-                </div>
-                <div class="filtroItem">
-                    <input type="text" id="buscarAliasJugador" class="inputFiltrar"
-                           placeholder="Buscar por Alias">
-                </div>
-            </div>
+					<div class="filtroItem">
+						<input type="text" id="buscarPosicionJugador" class="inputFiltrar"
+							placeholder="Buscar por posición">
+					</div>
+					<div class="filtroItem">
+						<input type="text" id="buscarNombreJugador" class="inputFiltrar"
+							placeholder="Buscar por Nombre">
+					</div>
+					<div class="filtroItem">
+						<input type="text" id="buscarAliasJugador" class="inputFiltrar"
+							placeholder="Buscar por Alias">
+					</div>
+				</div>
 
-            <!-- Tabla -->
-            <table class="tablaDatosListaMarcadores mb-4">
-                <thead style="background-color: black;">
-                <tr>
-                    <th style="border: 1.5px solid red; width: 7.5%">POS</th>
-                    <th style="border: 1.5px solid red; width: 37%">JUGADOR</th>
-                    <th style="border: 1.5px solid red; width: 25.5%">ALIAS</th>
-                    <th style="border: 1.5px solid red; width: 5%">PJ</th>
-                    <th style="border: 1.5px solid red; width: 5%">G</th>
-                    <th style="border: 1.5px solid red; width: 5%">V</th>
-                    <th style="border: 1.5px solid red; width: 5%">D</th>
-                    <th style="border: 1.5px solid red; width: 10%">ELIMINAR</th>
-                </tr>
-                </thead>
-                <tbody id="tablaCuerpoJugador"></tbody>
-            </table>
-        </div>
-    </div>
-</main>
+				<!-- Tabla -->
+				<table class="tablaDatosListaMarcadores mb-4">
+					<thead style="background-color: black;">
+						<tr>
+							<th style="border: 1.5px solid red; width: 7.5%">POS</th>
+							<th style="border: 1.5px solid red; width: 37%">JUGADOR</th>
+							<th style="border: 1.5px solid red; width: 25.5%">ALIAS</th>
+							<th style="border: 1.5px solid red; width: 5%">PJ</th>
+							<th style="border: 1.5px solid red; width: 5%">G</th>
+							<th style="border: 1.5px solid red; width: 5%">V</th>
+							<th style="border: 1.5px solid red; width: 5%">D</th>
+							<th style="border: 1.5px solid red; width: 10%">ELIMINAR</th>
+						</tr>
+					</thead>
+					<tbody id="tablaCuerpoJugador"></tbody>
+				</table>
+			</div>
+		</div>
+	</main>
 
-<footer>
+	<footer>
 
 		<div class="container-fluid ">
 			<div class="row">
@@ -478,22 +490,23 @@
 								ÚTILES</p>
 							<pre
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.05vw">
-<a href="${pageContext.request.contextPath}/pagoPremium" style="color: white">Hazte Premium</a>
-<a href="${pageContext.request.contextPath}/club"
-									style="color: white">Inicio</a>
+<a href="${pageContext.request.contextPath}/pagoPremium"
+									style="color: white">Hazte Premium</a>
+<a href="${pageContext.request.contextPath}/club" style="color: white">Inicio</a>
 <a href="${pageContext.request.contextPath}/club/plantilla"
 									style="color: white">Plantilla</a>
 <a href="${pageContext.request.contextPath}/marcadores"
 									style="color: white">Marcadores</a>
 <a href="${pageContext.request.contextPath}/club/eventos"
-									style="color: white">Eventos</a></pre>
+									style="color: white">Eventos</a>
+							</pre>
 						</div>
 						<div class="col-md-3 col-sm-3 g-2 pieDePagina p-3 pb-1">
 							<p style="text-decoration: underline; font-size: 1.5vw">CONTACTO</p>
 							<pre
 								style="font-family: 'Open Sans', sans-serif; font-size: 1.05vw">futboldebarriosevilla@gmail.com
 </pre>
-						</div>	
+						</div>
 						<div class="col-md-2 col-sm-2 g-2 pieDePagina p-3 pb-1">
 							<p
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.5vw">
@@ -543,15 +556,16 @@
 								ÚTILES</p>
 							<pre
 								style="text-decoration: underline; font-family: 'Open Sans', sans-serif; font-size: 1.6vw">
-<a href="${pageContext.request.contextPath}/pagoPremium" style="color: white">Hazte Premium</a>
-<a href="${pageContext.request.contextPath}/club"
-									style="color: white">Inicio</a>
+<a href="${pageContext.request.contextPath}/pagoPremium"
+									style="color: white">Hazte Premium</a>
+<a href="${pageContext.request.contextPath}/club" style="color: white">Inicio</a>
 <a href="${pageContext.request.contextPath}/club/plantilla"
 									style="color: white">Plantilla</a>
 <a href="${pageContext.request.contextPath}/marcadores"
 									style="color: white">Marcadores</a>
 <a href="${pageContext.request.contextPath}/club/eventos"
-									style="color: white">Eventos</a></pre>
+									style="color: white">Eventos</a>
+							</pre>
 						</div>
 						<div
 							class="col-4 d-block d-md-none d-sm-none g-2 pieDePagina p-2 ">
@@ -607,7 +621,7 @@
 
 
 
-<script>
+	<script>
     // Guardar tipo y clubId en sessionStorage
     sessionStorage.setItem('tipoUsuario', '<%=tipoUsuario%>');
     sessionStorage.setItem('clubId', '<%=clubId%>');
@@ -639,7 +653,7 @@
    function cargarJugadoresClub() {
     const clubId = sessionStorage.getItem("clubId");
 
-    fetch("<%= request.getContextPath() %>/club/plantilla?clubId=" + clubId + "&tipo=jugadores", {
+    fetch("<%=request.getContextPath()%>/club/plantilla?clubId=" + clubId + "&tipo=jugadores", {
         credentials: 'include'
     })
     .then(response => response.json())
@@ -656,7 +670,7 @@
            return;
        }
 
-       fetch("<%= request.getContextPath() %>/club/plantilla?idMiembroClub=" + idMiembroClub, { 
+       fetch("<%=request.getContextPath()%>/club/plantilla?idMiembroClub=" + idMiembroClub, { 
     	    method: "DELETE", 
     	    credentials: 'include' // mantener la sesión
     	})
@@ -748,8 +762,8 @@
 </script>
 
 
-	
-		
+
+
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 	<script
@@ -758,6 +772,6 @@
 		crossorigin="anonymous"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-		
+
 </body>
 </html>

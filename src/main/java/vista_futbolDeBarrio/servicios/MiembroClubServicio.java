@@ -214,7 +214,7 @@ public class MiembroClubServicio {
 	    jsonClub.put("paisClub", club.getPaisClub());
 	    jsonClub.put("emailClub", club.getEmailClub());
 	    jsonClub.put("telefonoClub", club.getTelefonoClub());
-	    jsonClub.put("esPremium", club.isEsPremium());
+	    jsonClub.put("esPremium", club.getEsPremium());
 	    jsonClub.put("logoBase64", club.getLogoClub() != null ? Base64.getEncoder().encodeToString(club.getLogoClub()) : JSONObject.NULL);
 	    return jsonClub;
 	}
