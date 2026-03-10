@@ -134,9 +134,7 @@ public class MiembroClubServicio {
 
 	    boolean esMiembro = false;
 
-	    if (clubId != null) {
-	        esMiembro = esMiembroDelClub(clubId, usuarioId);
-	    }
+	    
 
 	    List<MiembroClubDto> misClubes = listarMisClubesPorUsuario(usuarioId);
 
@@ -387,42 +385,7 @@ public class MiembroClubServicio {
 		}
 	}
 
-	/**
-	 * Verifica si un usuario es miembro de un club específico.
-	 * 
-	 * @param clubId    El ID del club a verificar.
-	 * @param usuarioId El ID del usuario a verificar.
-	 * @return `true` si el usuario es miembro del club, `false` en caso contrario.
-	 */
-	public boolean esMiembroDelClub(long clubId, long usuarioId) {
-		try {
-			String urlApi = "http://localhost:9527/api/miembroClub/porUsuarioYClub/" + clubId + "/" + usuarioId;
-			URL url = new URL(urlApi);
-			HttpURLConnection conex = (HttpURLConnection) url.openConnection();
-			conex.setRequestMethod("GET");
-			conex.setRequestProperty("Accept", "application/json");
-
-			int responseCode = conex.getResponseCode();
-			if (responseCode == HttpURLConnection.HTTP_OK) {
-				BufferedReader in = new BufferedReader(new InputStreamReader(conex.getInputStream()));
-				StringBuilder response = new StringBuilder();
-				String inputLine;
-
-				while ((inputLine = in.readLine()) != null) {
-					response.append(inputLine);
-				}
-				in.close();
-
-				return !response.toString().isEmpty();
-			} else {
-				// System.out.println("Error al verificar si es miembro: " + responseCode);
-				return false;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
+	
 
 	
 	/**

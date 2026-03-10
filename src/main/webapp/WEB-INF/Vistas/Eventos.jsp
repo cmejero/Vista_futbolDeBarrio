@@ -619,7 +619,7 @@ function cargarTodosLosTorneos() {
 	fetch("eventos?tipo=json")
         .then(response => response.json())
         .then(torneos => {
-            torneosJugador = torneos;   // ✅ ESTO ES LO QUE FALTABA
+            torneosJugador = torneos;  
             pintarTablaTorneos(torneos);
         })
         .catch(e => {

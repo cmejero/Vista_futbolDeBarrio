@@ -194,14 +194,5 @@ public class ActaPartidoServicio {
      * @param idPartido ID del partido cuyo acta se desea cerrar.
      * @return true si el acta fue cerrada correctamente, false en caso contrario.
      */
-    public boolean cerrarActa(Long idPartido) {
-        try {
-            String urlApi = "http://localhost:9527/api/cerrarActa/" + idPartido;
-            HttpURLConnection conex = crearConexion(urlApi, "PUT");
-            return conex.getResponseCode() == HttpURLConnection.HTTP_OK;
-        } catch (Exception e) {
-            Log.ficheroLog("Error cerrando acta del partido: " + e.getMessage());
-            return false;
-        }
-    }
+
 }
